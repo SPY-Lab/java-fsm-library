@@ -13,7 +13,13 @@ import it.univr.fsm.machine.*;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println(Automaton.makeAutomaton("'ciao'"));
+		
+		
+		Automaton first = Automaton.makeAutomaton("'hello'");
+		Automaton second = Automaton.makeAutomaton("'world'");
+		
+		
+		System.out.println(Automaton.union(first,second));
 	}
 
 }

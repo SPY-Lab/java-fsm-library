@@ -989,7 +989,6 @@ public class Automaton {
 		return result;
 	}
 
-
 	public HashSet<String> getMaximalPrefixNumber(State s, Vector<State> visited) {
 		HashSet<String> result = new HashSet<String>();
 
@@ -1016,7 +1015,7 @@ public class Automaton {
 	}
 
 	/**
-	 * Performs the set of strings of size at most n recognized from the state s.
+	 * Retrives the set of strings of size at most n recognized from the state s.
 	 * 
 	 * @param s state
 	 * @param n string size
@@ -1148,7 +1147,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.automatonPrint();
+		return this.prettyPrint();
 	}
 
 	@Override
