@@ -1,23 +1,17 @@
-package it.univr.machine;
+package it.univr.fsm.machine;
 
 import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
-import it.univr.equations.Comp;
-import it.univr.equations.Equation;
-import it.univr.equations.GroundCoeff;
-import it.univr.equations.RegularExpression;
-import it.univr.equations.Or;
-import it.univr.equations.Var;
+import it.univr.fsm.equations.Comp;
+import it.univr.fsm.equations.Equation;
+import it.univr.fsm.equations.GroundCoeff;
+import it.univr.fsm.equations.Or;
+import it.univr.fsm.equations.RegularExpression;
+import it.univr.fsm.equations.Var;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Finite-state automaton class.

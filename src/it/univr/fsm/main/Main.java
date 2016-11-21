@@ -1,7 +1,7 @@
-package it.univr.main;
+package it.univr.fsm.main;
 
-import it.univr.equations.*;
-import it.univr.machine.*;
+import it.univr.fsm.equations.*;
+import it.univr.fsm.machine.*;
 
 /**
  * Main class.

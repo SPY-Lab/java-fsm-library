@@ -1,4 +1,4 @@
-package it.univr.machine;
+package it.univr.fsm.machine;
 
 import java.util.HashSet;
 

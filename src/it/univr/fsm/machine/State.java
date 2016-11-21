@@ -1,4 +1,4 @@
-package it.univr.machine;
+package it.univr.fsm.machine;
 
 /**
  * Automaton state class.

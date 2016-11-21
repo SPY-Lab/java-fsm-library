@@ -1,9 +1,9 @@
-package it.univr.equations;
+package it.univr.fsm.equations;
 
 import java.util.Vector;
 
-import it.univr.config.Config;
-import it.univr.machine.State;
+import it.univr.fsm.config.Config;
+import it.univr.fsm.machine.State;
 
 public class Star extends RegularExpression {
 	private RegularExpression op;

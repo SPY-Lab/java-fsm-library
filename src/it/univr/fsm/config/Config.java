@@ -1,4 +1,4 @@
-package it.univr.config;
+package it.univr.fsm.config;
 
 public class Config {
 
