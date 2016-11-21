@@ -170,50 +170,6 @@ public class Transducer {
 		//automaton.setGamma(newGamma);
 
 	}
-
-
-
-
-
-	/*
-	public static Transducer compose(Transducer t1, Transducer t2) {
-		State initialState = new State(t1.initialState.getState(), true, false);
-
-		HashSet<State> states = new HashSet<State>();
-		HashSet<Transition> gamma = new HashSet<Transition>();
-		State mid = null, initial = null;
-
-		for (State s: t2.states) {
-			State newState = new State (s.getState(), false, s.isFinalState());
-			states.add(newState);		
-
-			if (s.isInitialState())
-				mid = newState;
-		}
-
-		for (State s: t1.states) {
-			State newState = new State (s.getState(), s.isInitialState(), false);
-			states.add(newState);		
-
-			//if (s.isInitialState())
-				//initial = newState;
-
-			if (s.isFinalState())
-				gamma.add(new Transition(newState, mid, "", ""));
-		}
-
-		Transducer result = new Transducer(initial, null, states);
-
-		for (Transition t: t1.gamma)
-			gamma.add(new Transition(result.getState(t.getFrom().getState()), result.getState(t.getTo().getState()), t.getInput(), t.getOutput())); 
-
-		for (Transition t: t2.gamma)
-			gamma.add(new Transition(result.getState(t.getFrom().getState()), result.getState(t.getTo().getState()), t.getInput(), t.getOutput())); 
-
-		result.setGamma(gamma);
-		return result;
-	}
-	 */
 	
 	/**
 	 * Transduction operation of two composed transducers.

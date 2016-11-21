@@ -22,20 +22,23 @@ import java.util.*;
  */
 public class Automaton {
 	
+	/**
+	 * Starting symbol to name the states.
+	 */
 	public static char initChar = 'a';
 	
 	/**
-	 * Initial state
+	 * Initial state.
 	 */
 	private State initialState;
 
 	/**
-	 * Set of transitions between states
+	 * Set of transitions between states.
 	 */
 	private HashSet<Transition> delta;
 
 	/**
-	 * Set of states
+	 * Set of states.
 	 */
 	private HashSet<State> states;
 
@@ -203,8 +206,6 @@ public class Automaton {
 				return s;
 		return null;
 	}
-
-
 
 	/**
 	 * Builds an automaton from a given string.
@@ -994,10 +995,9 @@ public class Automaton {
 		HashSet<String> result = new HashSet<String>();
 
 
-		if (visited.contains(s)) {
+		if (visited.contains(s)) 
 			return result;
-		}
-
+		
 		visited.add(s);
 
 		for (Transition t : this.getOutgoingTransitionsFrom(s)) {
@@ -1131,7 +1131,10 @@ public class Automaton {
 		this.states = states;
 	}
 
-	public String automataPrint() {
+	/**
+	 * Returns a string representing the automaton.
+	 */
+	public String automatonPrint() {
 		String result = "";
 
 		for (State st: this.getStates()) {
@@ -1147,7 +1150,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.automataPrint();
+		return this.automatonPrint();
 	}
 
 	@Override
@@ -1172,8 +1175,14 @@ public class Automaton {
 		return new Automaton(newInitialState, newDelta, newStates);
 
 	}
-
-	@Override // this is an approximation
+	
+	/**
+	 * Equal operator between automata.
+	 * 
+	 * TODO: this is an approximation: here we have to
+	 * implement the graphs isomorphism algorithm.
+	 */
+	@Override 
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) 
 			return (this.getDelta().size() == ((Automaton) other).getDelta().size() && this.getStates().size() == ((Automaton) other).getStates().size());
@@ -1231,7 +1240,7 @@ public class Automaton {
 	/**
 	 * Checks if this automaton contains a cycle starting from init state.
 	 * 
-	 * @param init init state.
+	 * @param init initial state.
 	 * @param visited states already visited.
 	 * @return true if this automaton contains a cycle starting from init state, false otherwise.
 	 */
