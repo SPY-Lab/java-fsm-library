@@ -949,7 +949,6 @@ public class Automaton {
 		}
 
 		return distance;
-
 	}
 
 	/**
@@ -1037,7 +1036,6 @@ public class Automaton {
 			else
 				for (String next : getStringsAtMost(t.getTo(), n - 1))
 					result.add(partial + next);
-
 		}
 
 		return result;

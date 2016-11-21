@@ -7,8 +7,6 @@ public class Config {
 	public static int gen = 0;
 
 
-
-
 	public static void potd() {
 		System.out.println("   _____ ______             _____ _______    _______ _____ _____            _   _          _  __     ______________ _____");  
 		System.out.println("  / ____|  ____|   /\\      / ____|__   __|/\\|__   __|_   _/ ____|     /\\   | \\ | |   /\\   | | \\ \\   / /___  /  ____|  __ \\"); 
