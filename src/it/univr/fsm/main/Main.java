@@ -13,7 +13,7 @@ import it.univr.fsm.machine.*;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println(Automaton.makeAutomaton("'helloworld'"));
+		System.out.println(Automaton.makeAutomaton("'ciao'"));
 	}
 
 }
