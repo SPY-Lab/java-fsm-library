@@ -17,10 +17,19 @@ public class Main {
 		
 		Automaton first = Automaton.makeAutomaton("'hello'");
 		Automaton second = Automaton.makeAutomaton("'world'");
+		Automaton third =Automaton.makeAutomaton("good");
+		Automaton fourth =Automaton.makeAutomaton("string");
+		Automaton fifth=Automaton.makeAutomaton(" concat");
+		Automaton epsilon=Automaton.makeAutomaton("");
 		
 		
 		//System.out.println(Automaton.union(first,second));
 		System.out.println(Automaton.concat(first, second));
+		System.out.println(Automaton.concat(first, third));
+		System.out.println(Automaton.concat(second, fourth));
+		System.out.println(Automaton.concat(first, first));
+		System.out.println(Automaton.concat(third, fifth));
+		System.out.println(Automaton.concat(third, epsilon));
 	}
 
 }
