@@ -58,71 +58,59 @@ public class Automaton {
 	/**
 	 * Concats two Automatons
 	 * 
-	 * @param other the Automaton to merge with
+	 * @param second the Automaton to merge with
 	 */
 	
-	public static Automaton concat(Automaton first, Automaton other){
-		HashMap<State, State> mappingFirst= new HashMap<State,State>();
-		HashMap<State, State> mappingSecond=new HashMap<State, State>();
-	
-		HashSet<Transition> new_delta= new HashSet<Transition>();
-		HashSet<State> new_states=new HashSet<State>();
+	public static Automaton concat(Automaton first, Automaton second){
+		HashMap<State, State> mappingFirst = new HashMap<State,State>();
+		HashMap<State, State> mappingSecond = new HashMap<State, State>();
+		HashSet<Transition> newDelta = new HashSet<Transition>();
+		HashSet<State> newStates = new HashSet<State>();
 		
-		State first_initState=first.getInitialState();
-		HashSet<State> first_finalStates=first.getFinalStates();
+		State firstInitialState = first.getInitialState(), partial;
 		
-		State other_initState=other.getInitialState();
+		HashSet<State> firstFinalState = first.getFinalStates();
+		State secondInitialState = second.getInitialState();
 		
-		int c=0;
+		int c = 0;
 		
-		mappingFirst.put(first_initState, new State("q" + c++,true,false));
-		new_states.add(first_initState);
+		mappingFirst.put(firstInitialState, new State("q" + c++, true, false));
+		newStates.add(firstInitialState);
 		
-		for(State s: first.states){
-			State partial;
+		// Add all the first automaton states
+		for (State s: first.states) {
 			
-			if(!s.isInitialState()){
-				mappingFirst.put(s, partial=new State("q" + c++,false,false));
-				new_states.add(partial);
-			}
-			
-		}
-		
-		mappingSecond.put(other_initState, new State("q" + c++,false,false));
-		new_states.add(mappingSecond.get(other_initState));
-		
-		for(State s: other.states){
-			State partial;
-			
-			if(!s.isInitialState()){
-				mappingSecond.put(s, partial=new State("q" + c++,false,s.isFinalState()));
-				new_states.add(partial);
+			// The first automaton states are not final
+			if (!s.isInitialState()) {
+				mappingFirst.put(s, partial = new State("q" + c++, false, false));
+				newStates.add(partial);
 			}
 		}
 		
-		for(Transition t: first.delta)
-			new_delta.add(new Transition(mappingFirst.get(t.getFrom()), 
-					mappingFirst.get(t.getTo()), 
-					t.getInput(),
-					t.getOutput()));
-		System.out.println(new_delta);
+		mappingSecond.put(secondInitialState, new State("q" + c++,false,false));
+		newStates.add(mappingSecond.get(secondInitialState));
 		
-		for(State f: first_finalStates)
-			new_delta.add(new Transition(f,mappingSecond.get(other_initState),"",""));
-		System.out.println(new_delta);
+		// Add all the second automaton states
+		for (State s: second.states) {
+			if (!s.isInitialState()) {
+				mappingSecond.put(s, partial = new State("q" + c++, false, s.isFinalState()));
+				newStates.add(partial);
+			}
+		}
 		
-		for(Transition t: other.delta)
-			new_delta.add(new Transition(mappingSecond.get(t.getFrom()), 
-					mappingSecond.get(t.getTo()), 
-					t.getInput(),
-					t.getOutput()));
-		System.out.println(new_delta);
+		// Add all the first automaton transitions
+		for (Transition t: first.delta)
+			newDelta.add(new Transition(mappingFirst.get(t.getFrom()), mappingFirst.get(t.getTo()), t.getInput(), ""));
+
+		// Add all the second automaton transitions
+		for (Transition t: second.delta)
+			newDelta.add(new Transition(mappingSecond.get(t.getFrom()), mappingSecond.get(t.getTo()), t.getInput(), ""));
 	
-		
-		return new Automaton(first_initState, new_delta, new_states);
-		//
-		
-		
+		// Add the links between the first automaton final states and the second automaton initial state
+		for (State f: firstFinalState)
+			newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(secondInitialState), "", ""));
+
+		return new Automaton(firstInitialState, newDelta, newStates);
 	}
 	
 
@@ -1219,7 +1207,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.automatonPrint();
+		return this.prettyPrint();
 	}
 
 	@Override
