@@ -120,6 +120,7 @@ public class Automaton {
 	
 		
 		return new Automaton(first_initState, new_delta, new_states);
+		//
 		
 		
 	}
