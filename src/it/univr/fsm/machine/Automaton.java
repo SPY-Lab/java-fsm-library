@@ -54,6 +54,76 @@ public class Automaton {
 		this.delta = delta;
 		this.states = states;
 	}
+	
+	/**
+	 * Concats two Automatons
+	 * 
+	 * @param other the Automaton to merge with
+	 */
+	
+	public static Automaton concat(Automaton first, Automaton other){
+		HashMap<State, State> mappingFirst= new HashMap<State,State>();
+		HashMap<State, State> mappingSecond=new HashMap<State, State>();
+	
+		HashSet<Transition> new_delta= new HashSet<Transition>();
+		HashSet<State> new_states=new HashSet<State>();
+		
+		State first_initState=first.getInitialState();
+		HashSet<State> first_finalStates=first.getFinalStates();
+		
+		State other_initState=other.getInitialState();
+		
+		int c=0;
+		
+		mappingFirst.put(first_initState, new State("q" + c++,true,false));
+		new_states.add(first_initState);
+		
+		for(State s: first.states){
+			State partial;
+			
+			if(!s.isInitialState()){
+				mappingFirst.put(s, partial=new State("q" + c++,false,false));
+				new_states.add(partial);
+			}
+			
+		}
+		
+		mappingSecond.put(other_initState, new State("q" + c++,false,false));
+		new_states.add(mappingSecond.get(other_initState));
+		
+		for(State s: other.states){
+			State partial;
+			
+			if(!s.isInitialState()){
+				mappingSecond.put(s, partial=new State("q" + c++,false,s.isFinalState()));
+				new_states.add(partial);
+			}
+		}
+		
+		for(Transition t: first.delta)
+			new_delta.add(new Transition(mappingFirst.get(t.getFrom()), 
+					mappingFirst.get(t.getTo()), 
+					t.getInput(),
+					t.getOutput()));
+		System.out.println(new_delta);
+		
+		for(State f: first_finalStates)
+			new_delta.add(new Transition(f,mappingSecond.get(other_initState),"",""));
+		System.out.println(new_delta);
+		
+		for(Transition t: other.delta)
+			new_delta.add(new Transition(mappingSecond.get(t.getFrom()), 
+					mappingSecond.get(t.getTo()), 
+					t.getInput(),
+					t.getOutput()));
+		System.out.println(new_delta);
+	
+		
+		return new Automaton(first_initState, new_delta, new_states);
+		
+		
+	}
+	
 
 	/**
 	 * Runs a string on the automaton.
@@ -989,6 +1059,7 @@ public class Automaton {
 		return result;
 	}
 
+
 	public HashSet<String> getMaximalPrefixNumber(State s, Vector<State> visited) {
 		HashSet<String> result = new HashSet<String>();
 
@@ -1015,7 +1086,7 @@ public class Automaton {
 	}
 
 	/**
-	 * Retrives the set of strings of size at most n recognized from the state s.
+	 * Performs the set of strings of size at most n recognized from the state s.
 	 * 
 	 * @param s state
 	 * @param n string size
@@ -1147,7 +1218,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.prettyPrint();
+		return this.automatonPrint();
 	}
 
 	@Override
@@ -1257,4 +1328,5 @@ public class Automaton {
 
 		return false;
 	}
+	
 }

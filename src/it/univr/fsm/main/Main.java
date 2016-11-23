@@ -19,7 +19,8 @@ public class Main {
 		Automaton second = Automaton.makeAutomaton("'world'");
 		
 		
-		System.out.println(Automaton.union(first,second));
+		//System.out.println(Automaton.union(first,second));
+		System.out.println(Automaton.concat(first, second));
 	}
 
 }
