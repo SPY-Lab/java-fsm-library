@@ -154,7 +154,7 @@ public class Automaton {
 		State autNewInitialState=aut.getInitialState();
 		State partial;
 		
-		
+		// add states to map, replacing accept states to reject
 		for(State s: aut.states){
 		
 			mappingAut.put(s, partial=new State(s.getState(), s.isInitialState(), !s.isFinalState()));
@@ -162,6 +162,7 @@ public class Automaton {
 			newStates.add(partial);
 		}
 		
+		// copying delta set
 		for (Transition t: aut.delta)
 			newDelta.add(new Transition(mappingAut.get(t.getFrom()), mappingAut.get(t.getTo()), t.getInput(), ""));
 		
@@ -173,6 +174,8 @@ public class Automaton {
 
 	
 	public static Automaton intersection(Automaton first, Automaton second){
+		
+		// not(not(first) u not(second))
 		return Automaton.complement(
 				Automaton.union(Automaton.complement(first), Automaton.complement(second))
 				);
