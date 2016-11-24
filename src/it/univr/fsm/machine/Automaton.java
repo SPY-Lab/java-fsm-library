@@ -4,12 +4,14 @@ import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
+
 import it.univr.fsm.equations.Comp;
 import it.univr.fsm.equations.Equation;
 import it.univr.fsm.equations.GroundCoeff;
 import it.univr.fsm.equations.Or;
 import it.univr.fsm.equations.RegularExpression;
 import it.univr.fsm.equations.Var;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -144,34 +146,33 @@ public class Automaton {
 	}
 	
 	
-	/**Does the automata complement operation
+	/**
+	 * Performs the automata complement operation
 	 * 
-	 * @param aut the automata input
+	 * @param  automaton the automata input
 	 * @return the complement of the automata
 	 */
-	public static Automaton complement(Automaton aut){
-		HashMap<State, State> mappingAut = new HashMap<State,State>();
+	public static Automaton complement(Automaton automaton) {
+		HashMap<State, State> mapping = new HashMap<State,State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 		
-		State autNewInitialState=aut.getInitialState();
+		State autNewInitialState = new State(automaton.getInitialState().getState(), automaton.getInitialState().isInitialState(), !automaton.getInitialState().isFinalState());
+		mapping.put(automaton.getInitialState(), autNewInitialState);
+		newStates.add(autNewInitialState);
+		
 		State partial;
 		
-		// add states to map, replacing accept states to reject
-		for(State s: aut.states){
-		
-			mappingAut.put(s, partial=new State(s.getState(), s.isInitialState(), !s.isFinalState()));
-
+		// Add states to the mapping, replacing accept states to reject
+		for(State s: automaton.states) {
+			mapping.put(s, partial = new State(s.getState(), s.isInitialState(), !s.isFinalState()));
 			newStates.add(partial);
 		}
 		
-		// copying delta set
-		for (Transition t: aut.delta)
-			newDelta.add(new Transition(mappingAut.get(t.getFrom()), mappingAut.get(t.getTo()), t.getInput(), ""));
-		
-		
-		
-		
+		// Copying delta set
+		for (Transition t:  automaton.delta)
+			newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput(), ""));
+
 		return new Automaton(autNewInitialState,newDelta,newStates);
 	}
 
@@ -182,13 +183,23 @@ public class Automaton {
 	 * @param second the first automata
 	 * @return a new automata, the intersection of the first and the second
 	 */
-	public static Automaton intersection(Automaton first, Automaton second){
+	
+	public static Automaton intersection(Automaton first, Automaton second) {
+
+		// !(!(first) u !(second))
+		Automaton notFirst = Automaton.complement(first);
+		notFirst.minimize();
+		Automaton notSecond = Automaton.complement(second);
+		notSecond.minimize();
 		
-		// not(not(first) u not(second))
-		return Automaton.complement(
-				Automaton.union(Automaton.complement(first), Automaton.complement(second))
-				);
+		Automaton union = Automaton.union(notFirst, notSecond);
+		union.minimize();
+		
+		Automaton result = Automaton.complement(union);
+		result.minimize();
+		return result;
 	}
+
 	
 	public static Automaton readAutomataFromFile(String path){
 		/*	
@@ -1428,18 +1439,31 @@ public class Automaton {
 		return new Automaton(newInitialState, newDelta, newStates);
 
 	}
-	
-	/**
-	 * Equal operator between automata.
-	 * 
-	 * TODO: this is an approximation: here we have to
-	 * implement the graphs isomorphism algorithm.
-	 */
-	@Override 
-	public boolean equals(Object other) {
+
+	public boolean approEquals(Object other) {
 		if (other instanceof Automaton) 
 			return (this.getDelta().size() == ((Automaton) other).getDelta().size() && this.getStates().size() == ((Automaton) other).getStates().size());
 
+		return false;
+	}
+	
+	/**
+	 * Equal operator between automata.
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Automaton) {
+
+			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
+			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+			first.minimize();
+			second.minimize();
+			
+			Automaton c = Automaton.union(first, second);
+			c.minimize();
+			return c.automatonPrint().equals(""); // TOFIX: better emptiness checking
+		}
+		
 		return false;
 	}
 
