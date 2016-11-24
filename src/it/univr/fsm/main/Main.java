@@ -20,16 +20,23 @@ public class Main {
 		Automaton third =Automaton.makeAutomaton("good");
 		Automaton fourth =Automaton.makeAutomaton("string");
 		Automaton fifth=Automaton.makeAutomaton(" concat");
+		Automaton autchar=Automaton.makeAutomaton("'a");
 		Automaton epsilon=Automaton.makeAutomaton("");
 		
 		
-		//System.out.println(Automaton.union(first,second));
-		System.out.println(Automaton.concat(first, second));
-		System.out.println(Automaton.concat(first, third));
+		
+		System.out.println(epsilon);
+		//System.out.println(Automaton.concat(autchar, autchar));
+		/*System.out.println(Automaton.concat(first, third));
 		System.out.println(Automaton.concat(second, fourth));
 		System.out.println(Automaton.concat(first, first));
 		System.out.println(Automaton.concat(third, fifth));
 		System.out.println(Automaton.concat(third, epsilon));
+		*/
+		
+		//System.out.println(Automaton.complement(autchar));
+		
+		
 	}
 
 }

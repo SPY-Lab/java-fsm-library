@@ -31,6 +31,8 @@ public class Automaton {
 	 * Initial state.
 	 */
 	private State initialState;
+	
+	private HashSet<State> initialStates;
 
 	/**
 	 * Set of transitions between states.
@@ -49,6 +51,7 @@ public class Automaton {
 	 * @param delta the set of transitions
 	 * @param states the set of states
 	 */
+	@Deprecated
 	public Automaton(State initialState, HashSet<Transition> delta, HashSet<State> states)  {
 		this.initialState = initialState;
 		this.delta = delta;
@@ -56,9 +59,25 @@ public class Automaton {
 	}
 	
 	/**
+	 * Constructs a new automaton.
+	 * 
+	 * @param initialStates the set of initial states
+	 * @param delta the set of transitions
+	 * @param states the set of states
+	 */
+	public Automaton(HashSet<State> initialStates, HashSet<Transition> delta, HashSet<State> states)  {
+		this.initialStates = initialStates;
+		this.delta = delta;
+		this.states = states;
+	}
+	
+	/**
 	 * Concats two Automatons
 	 * 
-	 * @param second the Automaton to merge with
+	 * @param first the first automaton to merge
+	 * @param second the second automaton to merge
+	 * @return a new automaton, in which first is chained to second
+	 * 
 	 */
 	
 	public static Automaton concat(Automaton first, Automaton second){
@@ -67,15 +86,19 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 		
-		State firstInitialState = first.getInitialState(), partial;
+		State firstInitialStates = first.getInitialState();
+				
+		State partial;
 		
-		HashSet<State> firstFinalState = first.getFinalStates();
-		State secondInitialState = second.getInitialState();
+		HashSet<State> firstFinalStates = first.getFinalStates();
+		State secondInitialStates = second.getInitialState();
 		
 		int c = 0;
 		
-		mappingFirst.put(firstInitialState, new State("q" + c++, true, false));
-		newStates.add(firstInitialState);
+		
+		mappingFirst.put(firstInitialStates, new State("q" + c++, true, false));
+		newStates.add(firstInitialStates);
+		
 		
 		// Add all the first automaton states
 		for (State s: first.states) {
@@ -87,8 +110,10 @@ public class Automaton {
 			}
 		}
 		
-		mappingSecond.put(secondInitialState, new State("q" + c++,false,false));
-		newStates.add(mappingSecond.get(secondInitialState));
+		
+		mappingSecond.put(secondInitialStates, new State("q" + c++,false,false));
+		newStates.add(mappingSecond.get(secondInitialStates));
+		
 		
 		// Add all the second automaton states
 		for (State s: second.states) {
@@ -97,6 +122,7 @@ public class Automaton {
 				newStates.add(partial);
 			}
 		}
+		
 		
 		// Add all the first automaton transitions
 		for (Transition t: first.delta)
@@ -107,13 +133,51 @@ public class Automaton {
 			newDelta.add(new Transition(mappingSecond.get(t.getFrom()), mappingSecond.get(t.getTo()), t.getInput(), ""));
 	
 		// Add the links between the first automaton final states and the second automaton initial state
-		for (State f: firstFinalState)
-			newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(secondInitialState), "", ""));
+		
+		for (State f: firstFinalStates)
+			newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(secondInitialStates), "", ""));
 
-		return new Automaton(firstInitialState, newDelta, newStates);
+		return new Automaton(firstInitialStates, newDelta, newStates);
 	}
 	
+	
+	/**Does the automata complement operation
+	 * 
+	 * @param aut the automata input
+	 * @return the complement of the automata
+	 */
+	public static Automaton complement(Automaton aut){
+		HashMap<State, State> mappingAut = new HashMap<State,State>();
+		HashSet<Transition> newDelta = new HashSet<Transition>();
+		HashSet<State> newStates = new HashSet<State>();
+		
+		State autNewInitialState=aut.getInitialState();
+		State partial;
+		
+		
+		for(State s: aut.states){
+		
+			mappingAut.put(s, partial=new State(s.getState(), s.isInitialState(), !s.isFinalState()));
 
+			newStates.add(partial);
+		}
+		
+		for (Transition t: aut.delta)
+			newDelta.add(new Transition(mappingAut.get(t.getFrom()), mappingAut.get(t.getTo()), t.getInput(), ""));
+		
+		
+		
+		
+		return new Automaton(autNewInitialState,newDelta,newStates);
+	}
+
+	
+	public static Automaton intersection(Automaton first, Automaton second){
+		return Automaton.complement(
+				Automaton.union(Automaton.complement(first), Automaton.complement(second))
+				);
+	}
+	
 	/**
 	 * Runs a string on the automaton.
 	 * 
@@ -1163,8 +1227,21 @@ public class Automaton {
 	/**
 	 * Returns the initial state.
 	 */
+	@Deprecated
 	public State getInitialState() {
 		return initialState;
+	}
+	
+	public HashSet<State> getInitialStates(){
+		HashSet<State> initialStates=new HashSet<State>();
+		
+		for(State s: this.states){
+			if(s.isInitialState()){
+				initialStates.add(s);
+			}
+		}
+		return initialStates;
+		
 	}
 
 	/**
@@ -1207,7 +1284,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.prettyPrint();
+		return this.automatonPrint();
 	}
 
 	@Override
