@@ -11,6 +11,9 @@ import it.univr.fsm.equations.Or;
 import it.univr.fsm.equations.RegularExpression;
 import it.univr.fsm.equations.Var;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -172,13 +175,125 @@ public class Automaton {
 		return new Automaton(autNewInitialState,newDelta,newStates);
 	}
 
-	
+	/**
+	 * Does the automata intersection
+	 * 
+	 * @param first the first automata
+	 * @param second the first automata
+	 * @return a new automata, the intersection of the first and the second
+	 */
 	public static Automaton intersection(Automaton first, Automaton second){
 		
 		// not(not(first) u not(second))
 		return Automaton.complement(
 				Automaton.union(Automaton.complement(first), Automaton.complement(second))
 				);
+	}
+	
+	public static Automaton readAutomataFromFile(String path){
+		/*	
+		 * This method follows this pattern in the file
+		 * 	q0 q1 a
+		 * 	q1 q2 b
+		 * 	q2 q3 c 
+		 */
+		
+		BufferedReader br = null;
+		HashSet<Transition> delta = new HashSet<Transition>();
+		HashSet<State> states = new HashSet<State>();
+		State currentState;
+		State initialState=null;
+		String file = new String("");
+		int lineNum = 0;
+		
+		
+		try{
+			String currentLine;			
+			br = new BufferedReader(new FileReader(path) );
+			
+			// iterates along the file
+			while( (currentLine = br.readLine()) != null ){
+				// the line doesn't follow the required pattern
+				if(!currentLine.contains(" "))
+					throw new MalformedInputException();
+				
+				file += currentLine + "\n";
+
+			}
+			
+			// lines in file
+			String lines[] = file.split("\n");
+			
+			for(String line : lines){
+				// contains state and transition
+				String lineSplitted[] = line.split(" ");
+				
+				for( int i = 0 ; i < lineSplitted.length; i++){
+					HashSet<State> intermedialStates= new HashSet<State>();
+					
+					if(lineNum == 0){
+						if(i==0){
+							// initial state
+							states.add(initialState = new State(lineSplitted[i],true,lineNum == lines.length-1));
+							states.add(initialState);
+							
+						}else if(i == lineSplitted.length - 1){
+							// create transaction
+							for(State iS: intermedialStates)
+								delta.add(new Transition(initialState, iS, lineSplitted[i],""));
+							
+						}else{
+							//intermedial states
+							states.add(currentState = new State(lineSplitted[i], false, false));
+							intermedialStates.add(currentState);
+							
+						}
+						
+					}else if(lineNum == lines.length - 1){
+						if(i != 0 && i != lineSplitted.length - 1){
+							// final states
+							states.add(initialState = new State(lineSplitted[i],false,true));
+						}else if(i == lineSplitted.length - 1){
+							// create transaction
+							for(State iS: intermedialStates)
+								delta.add(new Transition(initialState, iS, lineSplitted[i],""));
+						}else{
+							// intermedial state
+							states.add(currentState = new State(lineSplitted[i], false, false));
+							intermedialStates.add(currentState);
+						}
+					}else{
+						if(i == lineSplitted.length -1){
+							 //create transaction
+							for(State iS: intermedialStates)
+								delta.add(new Transition(initialState, iS, lineSplitted[i],""));
+						}else{
+							// intermedial state
+							states.add(currentState = new State(lineSplitted[i], false, false));
+							intermedialStates.add(currentState);
+						}
+					}
+					
+
+				}
+				
+				lineNum++;
+			}
+				
+			
+		}catch(IOException e){
+			return null;
+		}catch(MalformedInputException m){
+			return null;
+		}finally{
+			try{
+				br.close();
+			}catch(IOException c){
+				System.err.println("Failed to close BufferedReader stream in readAutomataFromFile: " + c.getMessage() );
+			}
+		}
+		
+		return new Automaton(initialState,delta,states);
 	}
 	
 	/**
@@ -190,6 +305,7 @@ public class Automaton {
 	public boolean run(String s) {
 		return run(s, initialState);
 	}
+	
 
 	/**
 	 * Runs a string on the automaton starting from a given state.
