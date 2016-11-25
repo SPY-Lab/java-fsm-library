@@ -4,7 +4,9 @@ import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
+
 import it.univr.fsm.config.Config;
+
 import it.univr.fsm.equations.Comp;
 import it.univr.fsm.equations.Equation;
 import it.univr.fsm.equations.GroundCoeff;
@@ -12,8 +14,10 @@ import it.univr.fsm.equations.Or;
 import it.univr.fsm.equations.RegularExpression;
 import it.univr.fsm.equations.Var;
 
+
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -75,6 +79,7 @@ public class Automaton {
 		this.delta = delta;
 		this.states = states;
 	}
+	
 	
 	/**
 	 * Performs an intersection between multiple automatons
@@ -311,6 +316,14 @@ public class Automaton {
 	}
 
 
+	/**
+	 * Does the automata intersection
+	 * 
+	 * @param first the first automata
+	 * @param second the first automata
+	 * @return a new automata, the intersection of the first and the second
+	 */
+	
 	public static Automaton intersection(Automaton first, Automaton second) {
 
 		// !(!(first) u !(second))
@@ -328,6 +341,99 @@ public class Automaton {
 	}
 
 
+	
+	public static Automaton loadAutomata(String path){
+		/*	
+		 * This method follows this pattern in the file
+		 * 	q0 q1 a
+		 * 	q1 q2 b
+		 * 	q2 q3 c 
+		 */
+		
+		BufferedReader br = null;
+		
+		HashMap<String, State> mapStates = new HashMap<String, State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+		HashSet<State> states = new HashSet<State>();
+		HashSet<State> initialStates = new HashSet<State>();
+		
+		State currentState;
+		int lineNum;
+		
+		
+		try{
+			String currentLine;			
+			br = new BufferedReader(new FileReader(path) );
+			
+			
+			for(lineNum = 0; (currentLine = br.readLine()) != null ; lineNum++){
+				String[] pieces;
+				
+				pieces=currentLine.split(" ");
+				
+				switch(lineNum){
+					// here i will find all the states
+					case 0:
+						for(String s: pieces){
+							mapStates.put(s, currentState = new State(s,false,false));
+							states.add(mapStates.get(s));
+						}
+						break;
+						
+					// initial states
+					case 1:
+						for(String s: pieces){
+							currentState = mapStates.get(s);
+							
+							if(currentState==null) throw new MalformedInputException();
+							
+							currentState.setInitialState(true);
+							initialStates.add(currentState);
+						}
+						break;
+						
+					// final states
+					case 2:
+						for(String s: pieces){
+							currentState=mapStates.get(new State(s,false,false));
+							
+							if(currentState==null) throw new MalformedInputException();
+							
+							currentState.setFinalState(true);
+						}
+						break;
+						
+					// transitions
+					default:
+						if(pieces.length!=3) throw new MalformedInputException();
+						
+						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
+						
+						break;
+						
+				}
+				
+			}
+
+			
+		}catch(IOException e){
+			return null;
+		}catch(MalformedInputException m){
+			return null;
+		}finally{
+			try{
+				br.close();
+			}catch(IOException c){
+				System.err.println("Failed to close BufferedReader stream in readAutomataFromFile: " + c.getMessage() );
+			}
+		}
+		
+		Automaton a= new Automaton(initialStates,delta,states);
+		a.minimize();
+		return a;
+	}
+	
+
 	/**
 	 * Runs a string on the automaton.
 	 * 
@@ -337,6 +443,7 @@ public class Automaton {
 	public boolean run(String s) {
 		return run(s, initialState);
 	}
+	
 
 	/**
 	 * Runs a string on the automaton starting from a given state.
