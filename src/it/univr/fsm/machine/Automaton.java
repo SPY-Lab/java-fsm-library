@@ -77,7 +77,7 @@ public class Automaton {
 	}
 	
 	public static Automaton minus(Automaton first, Automaton second){
-		
+		return null;
 	}
 	
 	/**
