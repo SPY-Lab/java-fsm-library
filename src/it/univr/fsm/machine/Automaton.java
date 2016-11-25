@@ -12,6 +12,10 @@ import it.univr.fsm.equations.Or;
 import it.univr.fsm.equations.RegularExpression;
 import it.univr.fsm.equations.Var;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -70,6 +74,140 @@ public class Automaton {
 		this.initialStates = initialStates;
 		this.delta = delta;
 		this.states = states;
+	}
+	
+	/**
+	 * Performs an intersection between multiple automatons
+	 * 
+	 * @param collection a collection of automatons
+	 * @return the intersection
+	 */
+	
+	public static Automaton intersectionMultiple(Collection<Automaton> collection){
+		Automaton a=null;
+		Automaton prev=null;
+		
+		for(Automaton aut: collection){
+			if(prev != null)
+				a = (a == null) ? Automaton.intersection(prev, aut) : Automaton.intersection(a, aut);
+			
+			prev=aut;
+		}
+		
+		
+		a.minimize();
+		return a;
+	}
+	
+	/**
+	 * Performs the difference between two automatons
+	 * 
+	 * @param first the first automaton
+	 * @param second the second automaton
+	 * @return the difference
+	 */
+	
+	public static Automaton minus(Automaton first, Automaton second){
+		// first \ second = first intersect !second
+		
+		Automaton a = Automaton.intersection(first, Automaton.complement(second));
+		a.minimize();
+		
+		return a;
+	}
+	
+	/**
+	 * Performs an automaton creation from a file
+	 * 
+	 * @param path the path of the file
+	 * @return a new automaton
+	 */
+	
+	public static Automaton loadAutomaton(String path){
+		
+		BufferedReader br = null;
+		
+		HashMap<String, State> mapStates = new HashMap<String, State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+		HashSet<State> states = new HashSet<State>();
+		HashSet<State> initialStates = new HashSet<State>();
+		
+		State currentState;
+		int lineNum;
+		
+		
+		try{
+			String currentLine;			
+			br = new BufferedReader(new FileReader(path) );
+			
+			
+			for(lineNum = 0; (currentLine = br.readLine()) != null ; lineNum++){
+				String[] pieces;
+				
+				pieces=currentLine.split(" ");
+				
+				switch(lineNum){
+					// here i will find all the states
+					case 0:
+						for(String s: pieces){
+							mapStates.put(s, currentState = new State(s,false,false));
+							states.add(mapStates.get(s));
+						}
+						break;
+						
+					// initial states
+					case 1:
+						for(String s: pieces){
+							currentState = mapStates.get(s);
+							
+							if(currentState==null) throw new MalformedInputException();
+							
+							currentState.setInitialState(true);
+							initialStates.add(currentState);
+						}
+						break;
+						
+					// final states
+					case 2:
+						for(String s: pieces){
+							currentState=mapStates.get(s);
+							
+							if(currentState==null) throw new MalformedInputException();
+							
+							currentState.setFinalState(true);
+						}
+						break;
+						
+					// transitions
+					default:
+						if(pieces.length!=3) throw new MalformedInputException();
+						
+						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
+						
+						break;
+						
+				}
+				
+			}
+
+			
+		}catch(IOException e){
+			e.printStackTrace();
+			return null;
+		}catch(MalformedInputException m){
+			return null;
+		}finally{
+			try{
+				if(br != null)
+					br.close();
+			}catch(Exception c){
+				c.printStackTrace();
+			}
+		}
+		
+		Automaton a= new Automaton(initialStates,delta,states);
+		a.minimize();
+		return a;
 	}
 
 	/**
