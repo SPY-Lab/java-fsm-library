@@ -2,10 +2,10 @@ package it.univr.fsm.config;
 
 public class Config {
 
-	public static int widening = 3;
-	public static String dir = "benchmark";
-	public static int gen = 0;
-
+	public static int WIDENING = 3;
+	public static int GEN = 0;
+	public static boolean PRETTY_PRINT = false;
+	public static boolean AUTOMATON_PRINT = true;
 
 	public static void potd() {
 		System.out.println("   _____ ______             _____ _______    _______ _____ _____            _   _          _  __     ______________ _____");  

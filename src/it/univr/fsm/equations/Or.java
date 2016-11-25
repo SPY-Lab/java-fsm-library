@@ -86,10 +86,10 @@ public class Or extends RegularExpression {
 
 	@Override
 	public String getProgram() {
-		int curr = Config.gen;
-		Config.gen++;
+		int curr = Config.GEN;
+		Config.GEN++;
 		String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + "= 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
-		Config.gen++;
+		Config.GEN++;
 		return result;
 	}
 }

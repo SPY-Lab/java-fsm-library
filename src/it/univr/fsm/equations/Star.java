@@ -67,10 +67,10 @@ public class Star extends RegularExpression {
 	}
 	@Override
 	public String getProgram() {
-		int curr = Config.gen;
-		Config.gen++;
+		int curr = Config.GEN;
+		Config.GEN++;
 		String result = "g" + curr + ":=rand(); while g" + curr  + " = 1 {" + this.op.getProgram() + " g" + curr + ":=rand(); };";
-		Config.gen++;
+		Config.GEN++;
 		return result;
 	}
 }

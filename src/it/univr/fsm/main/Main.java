@@ -22,9 +22,7 @@ public class Main {
 		Automaton fifth=Automaton.makeAutomaton(" concat");
 		Automaton autchar=Automaton.makeAutomaton("'a");
 		Automaton epsilon=Automaton.makeAutomaton("");
-		
-		
-		
+				
 		System.out.println(epsilon);
 		//System.out.println(Automaton.concat(autchar, autchar));
 		/*System.out.println(Automaton.concat(first, third));
