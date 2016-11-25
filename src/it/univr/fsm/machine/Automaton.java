@@ -76,6 +76,10 @@ public class Automaton {
 		this.states = states;
 	}
 	
+	public static Automaton minus(Automaton first, Automaton second){
+		
+	}
+	
 	/**
 	 * Concats two Automatons
 	 * 
@@ -201,7 +205,7 @@ public class Automaton {
 	}
 
 	
-	public static Automaton readAutomataFromFile(String path){
+	public static Automaton loadAutomata(String path){
 		/*	
 		 * This method follows this pattern in the file
 		 * 	q0 q1 a
@@ -210,87 +214,70 @@ public class Automaton {
 		 */
 		
 		BufferedReader br = null;
+		
+		HashMap<String, State> mapStates = new HashMap<String, State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
+		HashSet<State> initialStates = new HashSet<State>();
+		
 		State currentState;
-		State initialState=null;
-		String file = new String("");
-		int lineNum = 0;
+		int lineNum;
 		
 		
 		try{
 			String currentLine;			
 			br = new BufferedReader(new FileReader(path) );
 			
-			// iterates along the file
-			while( (currentLine = br.readLine()) != null ){
-				// the line doesn't follow the required pattern
-				if(!currentLine.contains(" "))
-					throw new MalformedInputException();
-				
-				file += currentLine + "\n";
-
-			}
 			
-			// lines in file
-			String lines[] = file.split("\n");
-			
-			for(String line : lines){
-				// contains state and transition
-				String lineSplitted[] = line.split(" ");
+			for(lineNum = 0; (currentLine = br.readLine()) != null ; lineNum++){
+				String[] pieces;
 				
-				for( int i = 0 ; i < lineSplitted.length; i++){
-					HashSet<State> intermedialStates= new HashSet<State>();
-					
-					if(lineNum == 0){
-						if(i==0){
-							// initial state
-							states.add(initialState = new State(lineSplitted[i],true,lineNum == lines.length-1));
-							states.add(initialState);
-							
-						}else if(i == lineSplitted.length - 1){
-							// create transaction
-							for(State iS: intermedialStates)
-								delta.add(new Transition(initialState, iS, lineSplitted[i],""));
-							
-						}else{
-							//intermedial states
-							states.add(currentState = new State(lineSplitted[i], false, false));
-							intermedialStates.add(currentState);
-							
+				pieces=currentLine.split(" ");
+				
+				switch(lineNum){
+					// here i will find all the states
+					case 0:
+						for(String s: pieces){
+							mapStates.put(s, currentState = new State(s,false,false));
+							states.add(mapStates.get(s));
 						}
+						break;
 						
-					}else if(lineNum == lines.length - 1){
-						if(i != 0 && i != lineSplitted.length - 1){
-							// final states
-							states.add(initialState = new State(lineSplitted[i],false,true));
-						}else if(i == lineSplitted.length - 1){
-							// create transaction
-							for(State iS: intermedialStates)
-								delta.add(new Transition(initialState, iS, lineSplitted[i],""));
-						}else{
-							// intermedial state
-							states.add(currentState = new State(lineSplitted[i], false, false));
-							intermedialStates.add(currentState);
+					// initial states
+					case 1:
+						for(String s: pieces){
+							currentState = mapStates.get(s);
+							
+							if(currentState==null) throw new MalformedInputException();
+							
+							currentState.setInitialState(true);
+							initialStates.add(currentState);
 						}
-					}else{
-						if(i == lineSplitted.length -1){
-							 //create transaction
-							for(State iS: intermedialStates)
-								delta.add(new Transition(initialState, iS, lineSplitted[i],""));
-						}else{
-							// intermedial state
-							states.add(currentState = new State(lineSplitted[i], false, false));
-							intermedialStates.add(currentState);
+						break;
+						
+					// final states
+					case 2:
+						for(String s: pieces){
+							currentState=mapStates.get(new State(s,false,false));
+							
+							if(currentState==null) throw new MalformedInputException();
+							
+							currentState.setFinalState(true);
 						}
-					}
-					
-
+						break;
+						
+					// transitions
+					default:
+						if(pieces.length!=3) throw new MalformedInputException();
+						
+						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
+						
+						break;
+						
 				}
 				
-				lineNum++;
 			}
-				
+
 			
 		}catch(IOException e){
 			return null;
@@ -304,7 +291,9 @@ public class Automaton {
 			}
 		}
 		
-		return new Automaton(initialState,delta,states);
+		Automaton a= new Automaton(initialStates,delta,states);
+		a.minimize();
+		return a;
 	}
 	
 	/**
