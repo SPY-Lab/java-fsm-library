@@ -185,7 +185,7 @@ public class Automaton {
 						
 					// transitions
 					default:
-						if(pieces.length!=3) throw new MalformedInputException();
+						if(pieces.length!=3 || mapStates.get(pieces[0]) == null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
 						
 						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
 						
@@ -200,6 +200,7 @@ public class Automaton {
 			e.printStackTrace();
 			return null;
 		}catch(MalformedInputException m){
+			m.printStackTrace();
 			return null;
 		}finally{
 			try{
@@ -395,7 +396,7 @@ public class Automaton {
 					// final states
 					case 2:
 						for(String s: pieces){
-							currentState=mapStates.get(new State(s,false,false));
+							currentState=mapStates.get(s);
 							
 							if(currentState==null) throw new MalformedInputException();
 							
@@ -407,6 +408,8 @@ public class Automaton {
 					default:
 						if(pieces.length!=3) throw new MalformedInputException();
 						
+						if(mapStates.get(pieces[0])==null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
+						
 						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
 						
 						break;
@@ -417,8 +420,10 @@ public class Automaton {
 
 			
 		}catch(IOException e){
+			e.printStackTrace();
 			return null;
 		}catch(MalformedInputException m){
+			m.printStackTrace();
 			return null;
 		}finally{
 			try{
