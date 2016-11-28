@@ -79,55 +79,52 @@ public class Automaton {
 		this.delta = delta;
 		this.states = states;
 	}
-	
-	
+
+
 	/**
 	 * Performs an intersection between multiple automatons
 	 * 
 	 * @param collection a collection of automatons
 	 * @return the intersection
 	 */
-	
+
 	public static Automaton intersection(Collection<Automaton> collection){
 		Automaton a=null;
-		
+
 		for(Automaton aut: collection){
-				a = (a == null) ? aut : Automaton.intersection(a, aut);
-			
+			a = (a == null) ? aut : Automaton.intersection(a, aut);
+
 		}
-		
+
 		if(a!=null)
 			a.minimize();
 		return a;
 	}
-	
+
 	public static Automaton concat(Collection <Automaton> collection){
-		Automaton a=null;
+		Automaton result = null;
+
+		for (Automaton aut: collection) 
+			result = (result == null) ? aut : Automaton.concat(result, aut);
 		
-		for(Automaton aut: collection){
-			a = (a == null) ? aut : Automaton.concat(a, aut);
-			
-		}
-			
-	
-		return a;
+		return result;
 	}
-	
-	
+
+
 	public static Automaton minus(Collection<Automaton> collection){
 		Automaton a=null;
-		
+
 		for(Automaton aut: collection){
-				a = (a == null) ? aut : Automaton.minus(a, aut);
+			a = (a == null) ? aut : Automaton.minus(a, aut);
 		}
-		
+
 		if(a!=null)
 			a.minimize();
 		return a;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Performs the difference between two automatons
 	 * 
@@ -135,91 +132,91 @@ public class Automaton {
 	 * @param second the second automaton
 	 * @return the difference
 	 */
-	
+
 	public static Automaton minus(Automaton first, Automaton second){
 		// first \ second = first intersect !second
-		
+
 		Automaton a = Automaton.intersection(first, Automaton.complement(second));
 		a.minimize();
-		
+
 		return a;
 	}
-	
+
 	/**
 	 * Performs an automaton creation from a file
 	 * 
 	 * @param path the path of the file
 	 * @return a new automaton
 	 */
-	
+
 	public static Automaton loadAutomaton(String path){
-		
+
 		BufferedReader br = null;
-		
+
 		HashMap<String, State> mapStates = new HashMap<String, State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
 		HashSet<State> initialStates = new HashSet<State>();
-		
+
 		State currentState;
 		int lineNum;
-		
-		
+
+
 		try{
 			String currentLine;			
 			br = new BufferedReader(new FileReader(path) );
-			
-			
+
+
 			for(lineNum = 0; (currentLine = br.readLine()) != null ; lineNum++){
 				String[] pieces;
-				
+
 				pieces=currentLine.split(" ");
-				
+
 				switch(lineNum){
-					// here i will find all the states
-					case 0:
-						for(String s: pieces){
-							mapStates.put(s, currentState = new State(s,false,false));
-							states.add(mapStates.get(s));
-						}
-						break;
-						
+				// here i will find all the states
+				case 0:
+					for(String s: pieces){
+						mapStates.put(s, currentState = new State(s,false,false));
+						states.add(mapStates.get(s));
+					}
+					break;
+
 					// initial states
-					case 1:
-						for(String s: pieces){
-							currentState = mapStates.get(s);
-							
-							if(currentState==null) throw new MalformedInputException();
-							
-							currentState.setInitialState(true);
-							initialStates.add(currentState);
-						}
-						break;
-						
+				case 1:
+					for(String s: pieces){
+						currentState = mapStates.get(s);
+
+						if(currentState==null) throw new MalformedInputException();
+
+						currentState.setInitialState(true);
+						initialStates.add(currentState);
+					}
+					break;
+
 					// final states
-					case 2:
-						for(String s: pieces){
-							currentState=mapStates.get(s);
-							
-							if(currentState==null) throw new MalformedInputException();
-							
-							currentState.setFinalState(true);
-						}
-						break;
-						
+				case 2:
+					for(String s: pieces){
+						currentState=mapStates.get(s);
+
+						if(currentState==null) throw new MalformedInputException();
+
+						currentState.setFinalState(true);
+					}
+					break;
+
 					// transitions
-					default:
-						if(pieces.length!=3 || mapStates.get(pieces[0]) == null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
-						
-						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
-						
-						break;
-						
+				default:
+					if(pieces.length!=3 || mapStates.get(pieces[0]) == null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
+
+					delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
+
+					break;
+
 				}
-				
+
 			}
 
-			
+
 		}catch(IOException e){
 			e.printStackTrace();
 			return null;
@@ -234,7 +231,7 @@ public class Automaton {
 				c.printStackTrace();
 			}
 		}
-		
+
 		Automaton a= new Automaton(initialStates,delta,states);
 		a.minimize();
 		return a;
@@ -250,6 +247,7 @@ public class Automaton {
 	 */
 
 	public static Automaton concat(Automaton first, Automaton second){
+		
 		HashMap<State, State> mappingFirst = new HashMap<State,State>();
 		HashMap<State, State> mappingSecond = new HashMap<State, State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
@@ -266,7 +264,7 @@ public class Automaton {
 
 
 		mappingFirst.put(firstInitialStates, new State("q" + c++, true, false));
-		newStates.add(firstInitialStates);
+		newStates.add(mappingFirst.get(firstInitialStates));
 
 
 		// Add all the first automaton states
@@ -279,7 +277,6 @@ public class Automaton {
 			}
 		}
 
-
 		mappingSecond.put(secondInitialStates, new State("q" + c++,false,false));
 		newStates.add(mappingSecond.get(secondInitialStates));
 
@@ -291,7 +288,6 @@ public class Automaton {
 				newStates.add(partial);
 			}
 		}
-
 
 		// Add all the first automaton transitions
 		for (Transition t: first.delta)
@@ -350,7 +346,7 @@ public class Automaton {
 	 * @param second the first automata
 	 * @return a new automata, the intersection of the first and the second
 	 */
-	
+
 	public static Automaton intersection(Automaton first, Automaton second) {
 
 		// !(!(first) u !(second))
@@ -368,7 +364,7 @@ public class Automaton {
 	}
 
 
-	
+
 	public static Automaton loadAutomata(String path){
 		/*	
 		 * This method follows this pattern in the file
@@ -376,75 +372,75 @@ public class Automaton {
 		 * 	q1 q2 b
 		 * 	q2 q3 c 
 		 */
-		
+
 		BufferedReader br = null;
-		
+
 		HashMap<String, State> mapStates = new HashMap<String, State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
 		HashSet<State> initialStates = new HashSet<State>();
-		
+
 		State currentState;
 		int lineNum;
-		
-		
+
+
 		try{
 			String currentLine;			
 			br = new BufferedReader(new FileReader(path) );
-			
-			
+
+
 			for(lineNum = 0; (currentLine = br.readLine()) != null ; lineNum++){
 				String[] pieces;
-				
+
 				pieces=currentLine.split(" ");
-				
+
 				switch(lineNum){
-					// here i will find all the states
-					case 0:
-						for(String s: pieces){
-							mapStates.put(s, currentState = new State(s,false,false));
-							states.add(mapStates.get(s));
-						}
-						break;
-						
+				// here i will find all the states
+				case 0:
+					for(String s: pieces){
+						mapStates.put(s, currentState = new State(s,false,false));
+						states.add(mapStates.get(s));
+					}
+					break;
+
 					// initial states
-					case 1:
-						for(String s: pieces){
-							currentState = mapStates.get(s);
-							
-							if(currentState==null) throw new MalformedInputException();
-							
-							currentState.setInitialState(true);
-							initialStates.add(currentState);
-						}
-						break;
-						
+				case 1:
+					for(String s: pieces){
+						currentState = mapStates.get(s);
+
+						if(currentState==null) throw new MalformedInputException();
+
+						currentState.setInitialState(true);
+						initialStates.add(currentState);
+					}
+					break;
+
 					// final states
-					case 2:
-						for(String s: pieces){
-							currentState=mapStates.get(s);
-							
-							if(currentState==null) throw new MalformedInputException();
-							
-							currentState.setFinalState(true);
-						}
-						break;
-						
+				case 2:
+					for(String s: pieces){
+						currentState=mapStates.get(s);
+
+						if(currentState==null) throw new MalformedInputException();
+
+						currentState.setFinalState(true);
+					}
+					break;
+
 					// transitions
-					default:
-						if(pieces.length!=3) throw new MalformedInputException();
-						
-						if(mapStates.get(pieces[0])==null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
-						
-						delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
-						
-						break;
-						
+				default:
+					if(pieces.length!=3) throw new MalformedInputException();
+
+					if(mapStates.get(pieces[0])==null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
+
+					delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
+
+					break;
+
 				}
-				
+
 			}
 
-			
+
 		}catch(IOException e){
 			e.printStackTrace();
 			return null;
@@ -458,12 +454,12 @@ public class Automaton {
 				System.err.println("Failed to close BufferedReader stream in readAutomataFromFile: " + c.getMessage() );
 			}
 		}
-		
+
 		Automaton a= new Automaton(initialStates,delta,states);
 		a.minimize();
 		return a;
 	}
-	
+
 
 	/**
 	 * Runs a string on the automaton.
@@ -474,7 +470,7 @@ public class Automaton {
 	public boolean run(String s) {
 		return run(s, initialState);
 	}
-	
+
 
 	/**
 	 * Runs a string on the automaton starting from a given state.
@@ -625,7 +621,7 @@ public class Automaton {
 	 * @return a new automaton recognize the given string.
 	 */
 	public static Automaton makeAutomaton(String s) {
-				
+
 
 		HashSet<State> states = new HashSet<State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
@@ -637,10 +633,10 @@ public class Automaton {
 			initialState.setFinalState(true);
 			return new Automaton(initialState, delta, states);
 		}
-		
+
 		State state = initialState;
-		
-		
+
+
 		ArrayList<String> input = (ArrayList<String>) toList(s);
 
 		for (int i = 0; i < input.size(); ++i) {
@@ -933,8 +929,8 @@ public class Automaton {
 
 		if (!states.isEmpty()) {
 
-			for (State s : states)
-				result += s.getState() + "x"; 
+			for (State s : states) 				
+				result += s.getState() + "x";
 
 			result = result.substring(0, result.length() -1);
 		}
@@ -1055,6 +1051,7 @@ public class Automaton {
 		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
+		deMerge(++initChar);
 	}
 
 	/**
@@ -1063,10 +1060,10 @@ public class Automaton {
 	public void reverse() {
 
 		HashSet<State> newStates = new HashSet<State>();
-		HashSet<Transition> newGamma = new HashSet<Transition>();
-		HashMap<String, State> map = new HashMap<String, State>();
+		HashSet<Transition> newDelta = new HashSet<Transition>();
+		HashMap<State, State> mapping = new HashMap<State, State>();
+		
 		State newInitialState = new State("init", true, false);
-
 		newStates.add(newInitialState);
 
 		for (State s : this.states) {
@@ -1075,20 +1072,21 @@ public class Automaton {
 			if (s.isFinalState()) {
 				newState.setFinalState(false);
 				newState.setInitialState(false);
-				newGamma.add(new Transition(newInitialState, newState, "", ""));
+				newDelta.add(new Transition(newInitialState, newState, "", ""));
 			}
 
 			if (s.isInitialState()) 
 				newState.setFinalState(true);
 
 			newStates.add(newState);
-			map.put(s.getState(), newState);
+			mapping.put(s, newState);
 		}
 
-		for (Transition t : this.delta) 
-			newGamma.add(new Transition(map.get(t.getTo().getState()) , map.get(t.getFrom().getState()), t.getInput(), t.getOutput()));
-
-		this.delta = newGamma;
+		for (Transition t : this.delta) {
+			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
+		}
+		
+		this.delta = newDelta;
 		this.initialState = newInitialState;
 		this.states = newStates;
 	}
@@ -1581,10 +1579,10 @@ public class Automaton {
 	public String toString() {
 		if (Config.AUTOMATON_PRINT)
 			return this.automatonPrint();
-		
+
 		if (Config.PRETTY_PRINT)
 			return this.prettyPrint();
-		
+
 		return this.automatonPrint();
 	}
 
@@ -1626,7 +1624,10 @@ public class Automaton {
 		if (other instanceof Automaton) {
 
 			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
+			first.deMerge(++initChar);
 			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+			second.deMerge(++initChar);
+			
 			first.minimize();
 			second.minimize();
 
