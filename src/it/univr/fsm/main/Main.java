@@ -39,15 +39,21 @@ public class Main {
 		Automaton a1= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" );
 		Automaton a2= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002" );
 		
-		System.out.println(Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" ));
-		
 		Collection<Automaton> coll= new HashSet<Automaton>(2);
 		coll.add(a1);
 		coll.add(a2);
 		
-		System.out.println(Automaton.intersectionMultiple(coll));
+		System.out.println("Intersection: " + Automaton.intersection(coll));
+		System.out.println(Automaton.intersection(coll).equals(Automaton.intersection(a1, a2)));
 		
-		System.out.println(Automaton.intersectionMultiple(coll).equals(Automaton.intersection(a1, a2)));
+		System.out.println("Minus: " + Automaton.minus(coll));
+		System.out.println(Automaton.minus(coll).equals(Automaton.minus(a1, a2)));
+		
+		
+		Automaton b= Automaton.concat(a1, a2);
+		Automaton a= Automaton.concat(coll);
+		System.out.println("Concat: " + a);
+		System.out.println(a.equals(b));
 		
 	}
 

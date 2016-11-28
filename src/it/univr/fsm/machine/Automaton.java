@@ -88,21 +88,45 @@ public class Automaton {
 	 * @return the intersection
 	 */
 	
-	public static Automaton intersectionMultiple(Collection<Automaton> collection){
+	public static Automaton intersection(Collection<Automaton> collection){
 		Automaton a=null;
-		Automaton prev=null;
 		
 		for(Automaton aut: collection){
-			if(prev != null)
-				a = (a == null) ? Automaton.intersection(prev, aut) : Automaton.intersection(a, aut);
+				a = (a == null) ? aut : Automaton.intersection(a, aut);
 			
-			prev=aut;
 		}
 		
-		
-		a.minimize();
+		if(a!=null)
+			a.minimize();
 		return a;
 	}
+	
+	public static Automaton concat(Collection <Automaton> collection){
+		Automaton a=null;
+		
+		for(Automaton aut: collection){
+			a = (a == null) ? aut : Automaton.concat(a, aut);
+			
+		}
+			
+	
+		return a;
+	}
+	
+	
+	public static Automaton minus(Collection<Automaton> collection){
+		Automaton a=null;
+		
+		for(Automaton aut: collection){
+				a = (a == null) ? aut : Automaton.minus(a, aut);
+		}
+		
+		if(a!=null)
+			a.minimize();
+		return a;
+	}
+	
+	
 	
 	/**
 	 * Performs the difference between two automatons
@@ -282,7 +306,9 @@ public class Automaton {
 		for (State f: firstFinalStates)
 			newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(secondInitialStates), "", ""));
 
-		return new Automaton(firstInitialStates, newDelta, newStates);
+		Automaton a= new Automaton(firstInitialStates, newDelta, newStates);
+		//a.minimize();
+		return a;
 	}
 
 
@@ -699,6 +725,7 @@ public class Automaton {
 		newGamma.add(new Transition(newInitialState, initialA2, "", ""));
 
 		Automaton a =  new Automaton(newInitialState, newGamma, newStates);
+		a.minimize();
 		return a;
 	}
 
