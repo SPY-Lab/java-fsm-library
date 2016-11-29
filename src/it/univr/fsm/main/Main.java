@@ -39,7 +39,7 @@ public class Main {
 		Automaton a1= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" );
 		Automaton a2= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002" );
 		
-		Collection<Automaton> coll= new HashSet<Automaton>(2);
+		Collection<Automaton> coll = new HashSet<Automaton>(2);
 		coll.add(a1);
 		coll.add(a2);
 		
@@ -50,8 +50,8 @@ public class Main {
 		System.out.println(Automaton.minus(coll).equals(Automaton.minus(a1, a2)));
 		
 		
-		Automaton b= Automaton.concat(a1, a2);
-		Automaton a= Automaton.concat(coll);
+		Automaton b = Automaton.concat(a1, a2);
+		Automaton a = Automaton.concat(coll);
 		System.out.println("Concat: " + a);
 		System.out.println(a.equals(b));
 		

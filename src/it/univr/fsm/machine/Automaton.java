@@ -52,6 +52,11 @@ public class Automaton {
 	 * Set of states.
 	 */
 	private HashSet<State> states;
+	
+	/**
+	 * Adjacency list
+	 */
+	private HashMap<State, HashSet<Transition>> adjacencyList;
 
 	/**
 	 * Constructs a new automaton.
@@ -65,6 +70,20 @@ public class Automaton {
 		this.initialState = initialState;
 		this.delta = delta;
 		this.states = states;
+		this.adjacencyList = this.computeAdjacencyList();
+	}
+	
+	private HashMap<State, HashSet<Transition>> computeAdjacencyList() {	
+		HashMap<State, HashSet<Transition>> result = new HashMap<State, HashSet<Transition>>();
+
+		for (State s : this.getStates()) 
+			result.put(s, this.recomputeOutgoingTransitionsFrom(s));
+
+		return result;
+	}
+	
+	public void updateAdjacencyList(State s) {
+		this.adjacencyList.put(s, this.recomputeOutgoingTransitionsFrom(s));
 	}
 
 	/**
@@ -305,6 +324,7 @@ public class Automaton {
 		Automaton a= new Automaton(firstInitialStates, newDelta, newStates);
 		//a.minimize();
 		return a;
+
 	}
 
 
@@ -660,7 +680,7 @@ public class Automaton {
 	 * @param s the state
 	 * @return an HashSet of transitions outgoing from the given state.
 	 */
-	public HashSet<Transition> getOutgoingTransitionsFrom(State s) {
+	public HashSet<Transition> recomputeOutgoingTransitionsFrom(State s) {
 		HashSet<Transition> result = new HashSet<Transition>();
 
 		for (Transition t : this.delta)
@@ -668,6 +688,10 @@ public class Automaton {
 				result.add(t);
 
 		return result;
+	}
+	
+	public HashSet<Transition> getOutgoingTransitionsFrom(State s) {
+		return this.adjacencyList.get(s);
 	}
 
 	/**
@@ -1051,8 +1075,23 @@ public class Automaton {
 		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
-		deMerge(++initChar);
+		this.adjacencyList = this.computeAdjacencyList();
 	}
+	
+	/**
+	 * Gets the adjacency list of the automaton.
+	 */
+	public HashMap<State, HashSet<Transition>> getAdjacencyList() {
+		return adjacencyList;
+	}
+
+	/**
+	 * Sets the adjacency list of the automaton.
+	 */
+	public void setAdjacencyList(HashMap<State, HashSet<Transition>> adjacencyList) {
+		this.adjacencyList = adjacencyList;
+	}
+	
 
 	/**
 	 * Reverse automata operation.
@@ -1089,6 +1128,7 @@ public class Automaton {
 		this.delta = newDelta;
 		this.initialState = newInitialState;
 		this.states = newStates;
+		this.adjacencyList = this.computeAdjacencyList();
 	}
 
 	/**
@@ -1622,7 +1662,10 @@ public class Automaton {
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) {
-
+			
+			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
+				return false;
+				
 			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
 			first.deMerge(++initChar);
 			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
