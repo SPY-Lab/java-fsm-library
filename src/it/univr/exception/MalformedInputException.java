@@ -1,4 +1,4 @@
-package it.univr.fsm.machine;
+package it.univr.exception;
 
 
 public class MalformedInputException extends RuntimeException {
