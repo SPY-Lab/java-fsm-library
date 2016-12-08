@@ -86,6 +86,8 @@ public class Automaton {
 		this.adjacencyList.put(s, this.recomputeOutgoingTransitionsFrom(s));
 	}
 
+	
+	
 	/**
 	 * Constructs a new automaton.
 	 * 
@@ -99,14 +101,87 @@ public class Automaton {
 		this.states = states;
 	}
 
+	
+	
+	/**
+	 * Check whether an automaton is deterministic
+	 * 
+	 * @param a the automaton
+	 * @return a boolean
+	 */
+	public static boolean isDeterministic(Automaton a){
+		for(State s: a.states){
+			HashSet<Transition> outgoingTranisitions = a.getOutgoingTransitionsFrom(s);
+			for(Transition t: outgoingTranisitions){
+				for(Transition t2: outgoingTranisitions)
+					if(!t.getTo().equals(t2.getTo()) && t.getInput().equals(t2.getInput())) return false; 
+			}
+		}
+		return true;
+	}
+	
+	
 
+	/**
+	 * Check whether an automaton is contained in another
+	 * 
+	 * @param first the first automaton
+	 * @param second the second automaton
+	 * @return a boolean
+	 * 
+	 */
+	public static boolean isContained(Automaton first, Automaton second){
+		// first is contained in second if (first intersect !second) accepts empty language
+		
+		return Automaton.isEmptyLanguageAccepted(Automaton.intersection(first, Automaton.complement(second)));
+	}
+	
+
+	
+	/**
+	 * Check whether a state is reachable from initial state
+	 * 
+	 * @param f the state
+	 * @param a the automaton
+	 * @return a boolean
+	 */
+	public static boolean isReachable(State f, Automaton a){
+		HashSet<Transition> transitionSet;
+
+		if(f.isInitialState()){
+			return true;
+		}else{
+			for(State s: a.states){
+				transitionSet = a.getTransitionFrom(s, f);
+				
+				if( transitionSet != null)
+					for(Transition t: transitionSet)
+						if(isReachable(t.getFrom(),a)) return true;
+			}
+			
+			return false;
+		}
+	}
+	
+	
+	
+	/**
+	 * Check whether an automaton accepts the empty language or not
+	 * 
+	 * @param automaton the automaton
+	 * @return a boolean
+	 */
+	public static boolean isEmptyLanguageAccepted(Automaton automaton){
+		return !automaton.getFinalStates().isEmpty() && !automaton.states.isEmpty();
+	}
+	
+	
 	/**
 	 * Performs an intersection between multiple automatons
 	 * 
 	 * @param collection a collection of automatons
 	 * @return the intersection
 	 */
-
 	public static Automaton intersection(Collection<Automaton> collection){
 		Automaton a=null;
 
@@ -119,7 +194,18 @@ public class Automaton {
 			a.minimize();
 		return a;
 	}
-
+	
+	
+	
+	/**
+	 * Performs a concatenation between multiple automatons
+	 * 
+	 * @param collection a collection of automatons
+	 * @return the concatenation
+	 * 
+	 * Warning: the collection should consider the order between the automatons since the concatenation is not commutative
+	 * 
+	 */
 	public static Automaton concat(Collection <Automaton> collection){
 		Automaton result = null;
 
@@ -129,7 +215,15 @@ public class Automaton {
 		return result;
 	}
 
-
+	
+	
+	/**
+	 * Performs a subtraction between multiple automatons
+	 * 
+	 * @param collection a collection of automatons
+	 * @return the subtraction
+	 * 
+	 */
 	public static Automaton minus(Collection<Automaton> collection){
 		Automaton a=null;
 
@@ -161,13 +255,14 @@ public class Automaton {
 		return a;
 	}
 
+	
+	
 	/**
 	 * Performs an automaton creation from a file
 	 * 
 	 * @param path the path of the file
 	 * @return a new automaton
 	 */
-
 	public static Automaton loadAutomaton(String path){
 
 		BufferedReader br = null;
@@ -176,6 +271,7 @@ public class Automaton {
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
 		HashSet<State> initialStates = new HashSet<State>();
+		State initialState = null;
 
 		State currentState;
 		int lineNum;
@@ -209,6 +305,8 @@ public class Automaton {
 
 						currentState.setInitialState(true);
 						initialStates.add(currentState);
+						initialState = currentState;
+						
 					}
 					break;
 
@@ -251,11 +349,13 @@ public class Automaton {
 			}
 		}
 
-		Automaton a= new Automaton(initialStates,delta,states);
-		a.minimize();
+		Automaton a= new Automaton(initialState,delta,states);
+	
 		return a;
 	}
 
+	
+	
 	/**
 	 * Concats two Automatons
 	 * 
@@ -265,6 +365,8 @@ public class Automaton {
 	 * 
 	 */
 
+	
+	
 	public static Automaton concat(Automaton first, Automaton second){
 		
 		HashMap<State, State> mappingFirst = new HashMap<State,State>();
@@ -384,6 +486,21 @@ public class Automaton {
 	}
 
 
+	/**
+	 * 
+	 * @param path the path containing the automaton
+	 * @return the automaton descripted in file
+	 * @throws MalformedInputException whenever the file doesn't complain with the default pattern
+	 * 
+	 * Read and returns an Automaton from file. It must be formatted in the following way:
+	 * 1st line: all the states
+	 * 2nd line: initial states
+	 * 3rd line: final states
+	 * Transitions: From To Sym
+	 *
+	 * 
+	 * 
+	 */
 
 	public static Automaton loadAutomata(String path){
 		/*	
@@ -1076,6 +1193,157 @@ public class Automaton {
 		this.delta = a.delta;
 		this.states = a.states;
 		this.adjacencyList = this.computeAdjacencyList();
+	}
+	
+	public static HashSet<String> getAlphabet(Automaton a){
+		HashSet<String> alphabet = new HashSet<String>();
+		
+		for(Transition t : a.delta){
+			if(!alphabet.contains(t.getInput()))
+				alphabet.add(t.getInput());
+		}
+		
+		return alphabet;
+	}
+	
+	private State getOutgoingStatefromTransitionSymbol(HashSet<Transition> transitions, String symbol){
+		for(Transition t : transitions){
+			if(t.getInput().equals(symbol)){
+				return t.getTo();
+			}
+		}
+		return null;
+	}
+	
+	public void hopcroftremoveUnreachableStates(){
+		HashSet<State> unreachableStates = new HashSet<>();
+		HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
+		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();
+		HashSet<State> temp;
+		
+		
+		do{
+			temp = new HashSet<>(Collections.<State>emptySet());
+			for(State s : newStates){
+				for(String a : getAlphabet(this)){
+					HashSet<Transition> transition =  this.getOutgoingTransitionsFrom(s);
+					State to = getOutgoingStatefromTransitionSymbol(transition, a);
+					if(to != null) temp.add(to);
+				}
+			}
+			
+			newStates = new HashSet<>();
+			newStates.addAll(temp);
+			newStates.removeAll(reachableStates);
+			reachableStates.addAll(newStates);
+			
+		}while(!newStates.equals(Collections.<State>emptySet()));
+		
+		unreachableStates.addAll((HashSet<State>) states.clone());
+		unreachableStates.removeAll(reachableStates);
+		
+		states.removeAll(unreachableStates);
+		
+	}
+	
+	private HashSet<State> getXSet(HashSet<State> A, String symbol){
+		HashSet<State> s = new HashSet<State>();
+		for(Transition t: delta){
+			if(A.contains(t.getTo()) && t.getInput().equals(symbol)){
+				s.add(t.getTo());
+			}
+		}
+		return s;
+	}
+	
+	
+	private Set<State> setIntersection(HashSet<State> first, HashSet<State> second){
+		HashSet<State> intersection = new HashSet<State>();
+		for(State s1: first)
+			for(State s2: second){
+				if(first.contains(s2) && second.contains(s1)){
+					intersection.add(s1);
+					intersection.add(s2);
+				}
+			}
+		return intersection;
+	}
+	
+	private Set<State> setSubtraction(HashSet<State> first, HashSet<State> second){
+		HashSet<State> firstCopy = (HashSet<State>) first.clone();
+		
+		for(State s: second){
+			firstCopy.remove(s);
+		}
+		return firstCopy;
+		
+	}
+	
+	public void hopcroftMinimize(){
+		this.hopcroftremoveUnreachableStates();
+		HashSet<State> P = (HashSet<State>) states.clone();
+		HashSet<State> W = this.getFinalStates();
+		HashSet<State> A = new HashSet<>();
+		HashSet<State> X;
+		HashSet<State> Y = new HashSet<>();
+		Random r=new Random();
+		
+		while(!W.isEmpty()){
+			//choose and remove a random set A from W
+			for(State s : W){
+				int insert=r.nextInt(2);
+				if(insert > 0){
+					A.add(s);
+					W.remove(s);
+				}
+			}
+			
+			for(String c : getAlphabet(this)){
+				X = getXSet(A,c);
+				
+				while(!setIntersection(X,Y).isEmpty() && !setSubtraction(Y,X).isEmpty()){
+					for(State s : X ){
+						int insert=r.nextInt(2);
+						if(insert > 0 && !X.equals(Y)){
+							Y.add(s);
+						}
+					}
+					
+					if(!setIntersection(X,Y).isEmpty() && !setSubtraction(Y,X).isEmpty()){
+						HashSet<State> Z = new HashSet<>();
+						Z.addAll(setIntersection(X,Y));
+						Z.addAll(setSubtraction(Y,X));
+						
+						for(State s: P){
+							if(Y.contains(s)){
+								P.remove(s);
+								P.addAll(Z);
+							}
+						}
+						
+						if(W.contains(Y)){
+							for(State s: W){
+								if(Y.contains(s)){
+									W.remove(s);
+									W.addAll(Z);
+								}
+							}
+							
+						}else{
+							if(setIntersection(X,Y).size() <= setSubtraction(Y,X).size()){
+								W.addAll(setIntersection(X,Y));
+							}else
+								W.addAll(setSubtraction(Y,X));
+						}
+					}
+
+					
+				}
+				
+			}
+		}
+		
+		
 	}
 	
 	/**

@@ -26,16 +26,7 @@ public class Main {
 		Automaton autchar=Automaton.makeAutomaton("'a");
 		Automaton epsilon=Automaton.makeAutomaton("");
 				
-		//System.out.println(epsilon);
-		//System.out.println(Automaton.concat(autchar, autchar));
-		/*System.out.println(Automaton.concat(first, third));
-		System.out.println(Automaton.concat(second, fourth));
-		System.out.println(Automaton.concat(first, first));
-		System.out.println(Automaton.concat(third, fifth));
-		System.out.println(Automaton.concat(third, epsilon));
-		*/
-		
-		//System.out.println(Automaton.complement(autchar));
+	
 		Automaton a1= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" );
 		Automaton a2= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002" );
 		
@@ -54,6 +45,30 @@ public class Main {
 		Automaton a = Automaton.concat(coll);
 		System.out.println("Concat: " + a);
 		System.out.println(a.equals(b));
+		
+		System.out.println("a1 isEmptyLanguage accepted: " + Automaton.isEmptyLanguageAccepted(a1));
+		System.out.println("a2 isEmptyLanguage accepted: " + Automaton.isEmptyLanguageAccepted(a2));
+		
+		System.out.println(Automaton.intersection(a1, Automaton.complement(a2)));
+		System.out.println("(a1 intersect !a2) isEmptyLanguage accepted: " + Automaton.isEmptyLanguageAccepted(Automaton.intersection(a1, Automaton.complement(a2))));
+		System.out.println("isContained: " + Automaton.isContained(a1, a2));
+		
+		System.out.println(Automaton.intersection(first, Automaton.complement(second)));
+		System.out.println("(first intersect !second) isEmptyLanguage accepted: " + Automaton.isEmptyLanguageAccepted(Automaton.intersection(first, Automaton.complement(second))));
+		System.out.println("isContained: " + Automaton.isContained(first, second));
+		
+		System.out.println("a1 is deterministic? " + Automaton.isDeterministic(a1));
+		System.out.println("a2 is deterministic? " + Automaton.isDeterministic(a2));
+		
+		System.out.println("a2:");
+		System.out.println(a2);
+		a2.hopcroftMinimize();
+		System.out.println(a2);
+		
+		System.out.println("a:");
+		System.out.println(a);
+		a.hopcroftMinimize();
+		System.out.println(a);
 		
 	}
 
