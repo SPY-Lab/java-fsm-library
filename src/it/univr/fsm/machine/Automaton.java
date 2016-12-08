@@ -1617,12 +1617,6 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		if (Config.AUTOMATON_PRINT)
-			return this.automatonPrint();
-
-		if (Config.PRETTY_PRINT)
-			return this.prettyPrint();
-
 		return this.automatonPrint();
 	}
 
