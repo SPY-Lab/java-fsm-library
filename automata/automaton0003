@@ -1,0 +1,19 @@
+qA qB qC qD qE qF qG qH
+qA
+qC
+qA qB 0
+qA qF 1
+qB qC 1
+qB qG 0
+qC qC 1
+qC qA 0
+qD qC 0
+qD qG 1
+qE qF 1
+qE qH 0
+qF qC 0
+qF qG 1
+qG qG 0
+qG qE 1
+qH qC 1
+qH qG 0

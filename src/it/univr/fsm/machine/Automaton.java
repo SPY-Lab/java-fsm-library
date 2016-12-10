@@ -593,7 +593,7 @@ public class Automaton {
 		}
 
 		Automaton a= new Automaton(initialStates,delta,states);
-		a.minimize();
+		a.hopcroftMinimize();
 		return a;
 	}
 
@@ -1206,9 +1206,9 @@ public class Automaton {
 		return alphabet;
 	}
 	
-	private State getOutgoingStatefromTransitionSymbol(HashSet<Transition> transitions, String symbol){
-		for(Transition t : transitions){
-			if(t.getInput().equals(symbol)){
+	private State getOutgoingStatefromTransitionSymbol(State s, String symbol){
+		for(Transition t : delta){
+			if(t.getInput().equals(symbol) && t.getFrom().equals(s)){
 				return t.getTo();
 			}
 		}
@@ -1219,6 +1219,7 @@ public class Automaton {
 		HashSet<State> unreachableStates = new HashSet<>();
 		HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
 		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();
+		HashSet<Transition> transitionstoRemove = new HashSet<>(); 
 		HashSet<State> temp;
 		
 		
@@ -1226,8 +1227,7 @@ public class Automaton {
 			temp = new HashSet<>(Collections.<State>emptySet());
 			for(State s : newStates){
 				for(String a : getAlphabet(this)){
-					HashSet<Transition> transition =  this.getOutgoingTransitionsFrom(s);
-					State to = getOutgoingStatefromTransitionSymbol(transition, a);
+					State to = getOutgoingStatefromTransitionSymbol(s, a);
 					if(to != null) temp.add(to);
 				}
 			}
@@ -1244,32 +1244,64 @@ public class Automaton {
 		
 		states.removeAll(unreachableStates);
 		
+		for(Transition t: delta)
+			if(!states.contains(t.getFrom()))
+				transitionstoRemove.add(t);
+		
+		delta.removeAll(transitionstoRemove);
+		
+			
+		this.adjacencyList = this.computeAdjacencyList();
+		
 	}
 	
-	private HashSet<State> getXSet(HashSet<State> A, String symbol){
+	private HashSet<State> getXSet(HashSet<State> A, String c){
 		HashSet<State> s = new HashSet<State>();
 		for(Transition t: delta){
-			if(A.contains(t.getTo()) && t.getInput().equals(symbol)){
-				s.add(t.getTo());
+			if(A.contains(t.getTo()) && t.getInput().equals(c)){
+				s.add(t.getFrom());
 			}
 		}
 		return s;
 	}
 	
 	
-	private Set<State> setIntersection(HashSet<State> first, HashSet<State> second){
+	
+	private LinkedList<HashSet<State>> getYList(HashSet<HashSet<State>> P, HashSet<State> X){
+		LinkedList<HashSet<State>> Ys = new LinkedList<>();
+		HashSet<State> Ytemp ;
+			
+		for(HashSet<State> s : P){
+			
+			//try to select a set, see if condition is respected
+			Ytemp = s;
+			
+			if(!setIntersection(X,Ytemp).isEmpty() && !setSubtraction(Ytemp,X).isEmpty()){
+				Ys.add(Ytemp);
+			}
+			
+		}
+			
+			
+		
+		return Ys;
+		
+	}
+	
+	
+	private HashSet<State> setIntersection(HashSet<State> first, HashSet<State> second){
 		HashSet<State> intersection = new HashSet<State>();
 		for(State s1: first)
 			for(State s2: second){
 				if(first.contains(s2) && second.contains(s1)){
-					intersection.add(s1);
-					intersection.add(s2);
+					intersection.add(s1.clone());
+					intersection.add(s2.clone());
 				}
 			}
 		return intersection;
 	}
 	
-	private Set<State> setSubtraction(HashSet<State> first, HashSet<State> second){
+	private HashSet<State> setSubtraction(HashSet<State> first, HashSet<State> second){
 		HashSet<State> firstCopy = (HashSet<State>) first.clone();
 		
 		for(State s: second){
@@ -1281,69 +1313,108 @@ public class Automaton {
 	
 	public void hopcroftMinimize(){
 		this.hopcroftremoveUnreachableStates();
-		HashSet<State> P = (HashSet<State>) states.clone();
-		HashSet<State> W = this.getFinalStates();
+		
+		// the partition P
+		HashSet<HashSet<State>> P = new HashSet<>();
+		P.add(this.getFinalStates());
+		P.add(setSubtraction(this.states, this.getFinalStates()) );
+
+		//the partition W
+		HashSet<HashSet<State>> W = new HashSet<>();
+		W.add(this.getFinalStates());
+		
 		HashSet<State> A = new HashSet<>();
 		HashSet<State> X;
-		HashSet<State> Y = new HashSet<>();
+		LinkedList<HashSet<State>> listYs;
 		Random r=new Random();
 		
 		while(!W.isEmpty()){
-			//choose and remove a random set A from W
-			for(State s : W){
-				int insert=r.nextInt(2);
-				if(insert > 0){
-					A.add(s);
-					W.remove(s);
+			//choose and remove a set A from W
+			do{
+				for(HashSet<State> s : W){
+					int insert=r.nextInt(2);
+					if(insert > 0)
+						A = s;
+					else break;
 				}
-			}
+				W.remove(A);
+			}while(A.isEmpty());
 			
 			for(String c : getAlphabet(this)){
+				// select a X set for which a transition in c leads to a state in A
 				X = getXSet(A,c);
 				
-				while(!setIntersection(X,Y).isEmpty() && !setSubtraction(Y,X).isEmpty()){
-					for(State s : X ){
-						int insert=r.nextInt(2);
-						if(insert > 0 && !X.equals(Y)){
-							Y.add(s);
-						}
-					}
-					
-					if(!setIntersection(X,Y).isEmpty() && !setSubtraction(Y,X).isEmpty()){
-						HashSet<State> Z = new HashSet<>();
-						Z.addAll(setIntersection(X,Y));
-						Z.addAll(setSubtraction(Y,X));
-						
-						for(State s: P){
-							if(Y.contains(s)){
-								P.remove(s);
-								P.addAll(Z);
-							}
-						}
-						
-						if(W.contains(Y)){
-							for(State s: W){
-								if(Y.contains(s)){
-									W.remove(s);
-									W.addAll(Z);
-								}
-							}
-							
-						}else{
-							if(setIntersection(X,Y).size() <= setSubtraction(Y,X).size()){
-								W.addAll(setIntersection(X,Y));
-							}else
-								W.addAll(setSubtraction(Y,X));
-						}
-					}
-
-					
-				}
+				// list of set Y in P such that X intersect Y != empty and Y \ X != empty
+				listYs = getYList(P, X);
 				
+				for(HashSet<State> Y : listYs){
+					HashSet<State> xyintersection = setIntersection(X,Y);
+					HashSet<State> yxsubtraction = setSubtraction(Y,X);
+					
+					P.remove(Y);
+					P.add(xyintersection);
+					P.add(yxsubtraction);
+					
+					if(W.contains(Y)){
+						W.remove(Y);
+						W.add(xyintersection);
+						W.add(yxsubtraction);
+						
+					}else{
+						if(xyintersection.size() <= yxsubtraction.size()){
+							W.add(xyintersection);
+						}else
+							W.add(yxsubtraction);
+					}
+				}
+		
 			}
 		}
 		
+		// construct the minimum automata
+		constructMinimumAutomatonFromPartition(P);
 		
+		
+		
+		
+	}
+	
+	private void constructMinimumAutomatonFromPartition(HashSet<HashSet<State>> P) {
+		HashMap<State, State> automatonStateBinding = new HashMap<>();
+		
+		for(HashSet<State> macroState : P){
+			String macroStatename = new String("");
+			boolean isInitialState = false;
+			boolean isFinalState = false;
+			
+			// get the name and the properties of the states and merge it
+			for(State s : macroState){
+				macroStatename += s.getState();
+				isInitialState = isInitialState || s.isInitialState();
+				isFinalState = isFinalState || s.isFinalState();
+			}
+			
+			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
+			
+			for(State s : macroState)
+				automatonStateBinding.put(s, mergedMacroState);
+			
+		}
+		
+		HashSet<Transition> newDelta = new HashSet<>();
+		
+		for(Transition t : this.delta){
+			Transition tcopy = t.clone();
+			tcopy.setFrom(automatonStateBinding.get(t.getFrom()));
+			tcopy.setTo(automatonStateBinding.get(t.getTo()));
+			newDelta.add(tcopy);
+			
+		}
+
+		this.states = new HashSet<State>(automatonStateBinding.values());
+		this.delta = newDelta;
+		
+		this.adjacencyList = this.computeAdjacencyList();
 	}
 	
 	/**

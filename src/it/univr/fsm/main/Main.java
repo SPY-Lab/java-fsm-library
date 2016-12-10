@@ -27,6 +27,7 @@ public class Main {
 		Automaton epsilon=Automaton.makeAutomaton("");
 				
 	
+		/*
 		Automaton a1= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" );
 		Automaton a2= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002" );
 		
@@ -69,6 +70,23 @@ public class Main {
 		System.out.println(a);
 		a.hopcroftMinimize();
 		System.out.println(a);
+		*/
+		
+		Automaton a3 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0003");
+		System.out.println("a3:");
+		System.out.println(a3);
+		
+		Automaton a4 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0004");
+		System.out.println("a4:");
+		System.out.println(a4);
+		
+		Automaton a2 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002");
+		System.out.println("a2:");
+		System.out.println(a2);
+		
+		Automaton a1 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001");
+		System.out.println("a1:");
+		System.out.println(a1);
 		
 	}
 
