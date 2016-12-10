@@ -88,6 +88,19 @@ public class Main {
 		System.out.println("a1:");
 		System.out.println(a1);
 		
+		
+		Automaton a5 = Automaton.makeAutomaton("'y:=1;$'");
+		System.out.println("a5:");
+		System.out.println(a5);
+		a5.hopcroftMinimize();
+		System.out.println(a5);
+		
+		Automaton a5bis = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0005");
+		System.out.println("a5bis:");
+		System.out.println(a5bis);
+		
+		
+		
 	}
 
 }

@@ -374,18 +374,28 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
-		State firstInitialStates = first.getInitialState();
+		State firstInitialState = first.getInitialState();
+		HashSet<State> firstInitialStates = first.getInitialStates();
 
 		State partial;
 
 		HashSet<State> firstFinalStates = first.getFinalStates();
-		State secondInitialStates = second.getInitialState();
+		State secondInitialState = second.getInitialState();
+		HashSet<State> secondInitialStates = second.getInitialStates();
 
 		int c = 0;
 
 
-		mappingFirst.put(firstInitialStates, new State("q" + c++, true, false));
-		newStates.add(mappingFirst.get(firstInitialStates));
+		mappingFirst.put(firstInitialState, new State("q" + c++, true, false));
+		newStates.add(mappingFirst.get(firstInitialState));
+		
+		/*for(State s : firstInitialStates){
+			mappingFirst.put(s, new State("q" + c++, true, false));
+			newStates.add(mappingFirst.get(s));
+		}*/
+		
+		
+			
 
 
 		// Add all the first automaton states
@@ -398,8 +408,14 @@ public class Automaton {
 			}
 		}
 
-		mappingSecond.put(secondInitialStates, new State("q" + c++,false,false));
-		newStates.add(mappingSecond.get(secondInitialStates));
+		mappingSecond.put(secondInitialState, new State("q" + c++,false,false));
+		newStates.add(mappingSecond.get(secondInitialState));
+		
+		/*for(State s : secondInitialStates){
+			mappingSecond.put(s, new State("q" + c++,false,false));
+			newStates.add(mappingSecond.get(s));
+		}*/
+		
 
 
 		// Add all the second automaton states
@@ -421,10 +437,12 @@ public class Automaton {
 		// Add the links between the first automaton final states and the second automaton initial state
 
 		for (State f: firstFinalStates)
-			newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(secondInitialStates), "", ""));
+			for(State s : secondInitialStates)
+				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
 
-		Automaton a= new Automaton(firstInitialStates, newDelta, newStates);
-		//a.minimize();
+		Automaton a = new Automaton(firstInitialStates, newDelta, newStates);
+		a.hopcroftMinimize();
+		
 		return a;
 
 	}
@@ -516,6 +534,7 @@ public class Automaton {
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
 		HashSet<State> initialStates = new HashSet<State>();
+		State initialstate = null;
 
 		State currentState;
 		int lineNum;
@@ -548,6 +567,7 @@ public class Automaton {
 						if(currentState==null) throw new MalformedInputException();
 
 						currentState.setInitialState(true);
+						initialstate = currentState;
 						initialStates.add(currentState);
 					}
 					break;
@@ -592,7 +612,7 @@ public class Automaton {
 			}
 		}
 
-		Automaton a= new Automaton(initialStates,delta,states);
+		Automaton a= new Automaton(initialstate,delta,states);
 		a.hopcroftMinimize();
 		return a;
 	}
@@ -1312,6 +1332,7 @@ public class Automaton {
 	}
 	
 	public void hopcroftMinimize(){
+		this.determinize();
 		this.hopcroftremoveUnreachableStates();
 		
 		// the partition P
@@ -1392,9 +1413,14 @@ public class Automaton {
 				macroStatename += s.getState();
 				isInitialState = isInitialState || s.isInitialState();
 				isFinalState = isFinalState || s.isFinalState();
+				
+				
 			}
 			
 			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
+			
+			if(isInitialState)
+				this.initialState = mergedMacroState;
 			
 			for(State s : macroState)
 				automatonStateBinding.put(s, mergedMacroState);
