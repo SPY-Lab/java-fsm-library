@@ -69,8 +69,8 @@ public class Main {
 		System.out.println("a:");
 		System.out.println(a);
 		a.hopcroftMinimize();
-		System.out.println(a);
-		*/
+		System.out.println(a);*/
+		
 		
 		Automaton a3 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0003");
 		System.out.println("a3:");

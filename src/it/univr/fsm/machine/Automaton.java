@@ -1241,10 +1241,11 @@ public class Automaton {
 		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();
 		HashSet<Transition> transitionstoRemove = new HashSet<>(); 
 		HashSet<State> temp;
+		final HashSet<State> emptySet = new HashSet<>(Collections.<State>emptySet());
 		
 		
 		do{
-			temp = new HashSet<>(Collections.<State>emptySet());
+			temp = (HashSet<State>) emptySet.clone();
 			for(State s : newStates){
 				for(String a : getAlphabet(this)){
 					State to = getOutgoingStatefromTransitionSymbol(s, a);
@@ -1346,20 +1347,18 @@ public class Automaton {
 		
 		HashSet<State> A = new HashSet<>();
 		HashSet<State> X;
-		LinkedList<HashSet<State>> listYs;
-		Random r=new Random();
+		List<HashSet<State>> listYs;
+		Random r = new Random();
 		
 		while(!W.isEmpty()){
 			//choose and remove a set A from W
-			do{
-				for(HashSet<State> s : W){
-					int insert=r.nextInt(2);
-					if(insert > 0)
-						A = s;
-					else break;
-				}
-				W.remove(A);
-			}while(A.isEmpty());
+
+			for(HashSet<State> s : W){
+				A = s;
+				if(r.nextInt(2) == 0)
+					break;
+			}
+			W.remove(A);
 			
 			for(String c : getAlphabet(this)){
 				// select a X set for which a transition in c leads to a state in A
@@ -1414,7 +1413,6 @@ public class Automaton {
 				isInitialState = isInitialState || s.isInitialState();
 				isFinalState = isFinalState || s.isFinalState();
 				
-				
 			}
 			
 			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
@@ -1440,7 +1438,9 @@ public class Automaton {
 		this.states = new HashSet<State>(automatonStateBinding.values());
 		this.delta = newDelta;
 		
-		this.adjacencyList = this.computeAdjacencyList();
+		for(State s : states){
+			updateAdjacencyList(s);
+		}
 	}
 	
 	/**
