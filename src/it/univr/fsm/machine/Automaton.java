@@ -979,10 +979,10 @@ public class Automaton {
 		HashSet<Transition> dGamma = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
-		dStates.put(epsilonClosure(initialState), false);
+		dStates.put(epsilonClosure(this.getInitialState()), false);
 		HashSet<State> T;
 
-		State newInitialState = new State(createName(epsilonClosure(initialState)), true, isPartitionFinalState(epsilonClosure(initialState)));
+		State newInitialState = new State(createName(epsilonClosure(this.getInitialState())), true, isPartitionFinalState(epsilonClosure(this.getInitialState())));
 
 		newStates.add(newInitialState);
 
@@ -1202,7 +1202,7 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		this.reverse();
+		/*this.reverse();
 		Automaton a = this.determinize();
 		a = a.removeUnreachableStates();
 		a.reverse();
@@ -1212,6 +1212,13 @@ public class Automaton {
 		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
+		this.adjacencyList = this.computeAdjacencyList();*/
+		this.hopcroftMinimize();
+		
+		Automaton a = this.deMerge(++initChar);
+		this.initialState = a.initialState;
+		this.states = a.states;
+		this.delta = a.delta;
 		this.adjacencyList = this.computeAdjacencyList();
 	}
 	
@@ -1333,7 +1340,13 @@ public class Automaton {
 	}
 	
 	public void hopcroftMinimize(){
-		this.determinize();
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.initialState = a.initialState;
+			this.delta = a.delta;
+			this.states = a.states;
+		}
+		
 		this.hopcroftremoveUnreachableStates();
 		
 		// the partition P
