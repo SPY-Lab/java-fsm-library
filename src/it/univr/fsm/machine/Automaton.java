@@ -1286,12 +1286,35 @@ public class Automaton {
 
 	}
 
+	private HashSet<Transition> getIncomingTransitionsTo(State state){
+		HashSet<Transition> transitionsIncoming = new HashSet<>();
+
+		for(State s :  this.states){
+			Transition t = hasTransitionFrom(s, state);
+
+			if(t != null)  transitionsIncoming.add(t);
+
+		}
+
+		return transitionsIncoming;
+	}
+
 	private HashSet<State> getXSet(HashSet<State> A, String c){
 		HashSet<State> xSet = new HashSet<State>();
-		for(Transition t: delta){
+		/*for(Transition t: delta){
 			if(A.contains(t.getTo()) && t.getInput().equals(c)){
 				xSet.add(t.getFrom());
 			}
+		}*/
+
+		for(State s : A){
+			HashSet<Transition> transitionsIncoming = getIncomingTransitionsTo(s);
+
+			for(Transition t : transitionsIncoming){
+				if(t.getInput().equals(c))
+					xSet.add(t.getFrom());
+			}
+
 		}
 
 
@@ -1405,6 +1428,8 @@ public class Automaton {
 		constructMinimumAutomatonFromPartition(P);
 
 	}
+
+
 
 	private void constructMinimumAutomatonFromPartition(HashSet<HashSet<State>> P) {
 		HashMap<State, State> automatonStateBinding = new HashMap<>();

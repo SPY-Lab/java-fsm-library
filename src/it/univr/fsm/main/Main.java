@@ -98,8 +98,14 @@ public class Main {
 		Automaton a5bis = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0005");
 		System.out.println("a5bis:");
 		System.out.println(a5bis);
-		
-		
+
+		Automaton a6 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0006");
+		System.out.println("a6: ");
+		System.out.println(a6);
+
+		Automaton a7 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0007");
+		System.out.println("a7: ");
+		System.out.println(a7);
 		
 	}
 
