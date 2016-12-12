@@ -1282,7 +1282,6 @@ public class Automaton {
 
 		delta.removeAll(transitionstoRemove);
 
-
 		this.adjacencyList = this.computeAdjacencyList();
 
 	}
@@ -1315,13 +1314,10 @@ public class Automaton {
 			}
 
 		}
-
-
-
+		
 		return Ys;
 
 	}
-
 
 	private HashSet<State> setIntersection(HashSet<State> first, HashSet<State> second){
 		HashSet<State> intersection = (HashSet<State>) first.clone();
@@ -1335,6 +1331,7 @@ public class Automaton {
 		for(State s: second){
 			firstCopy.remove(s);
 		}
+		
 		return firstCopy;
 
 	}
@@ -1407,13 +1404,11 @@ public class Automaton {
 		// construct the minimum automata
 		constructMinimumAutomatonFromPartition(P);
 
-
-
-
 	}
 
 	private void constructMinimumAutomatonFromPartition(HashSet<HashSet<State>> P) {
 		HashMap<State, State> automatonStateBinding = new HashMap<>();
+
 		int num = 1;
 
 		for(HashSet<State> macroState : P){
@@ -1421,27 +1416,31 @@ public class Automaton {
 			boolean isFinalState = isPartitionFinalState(macroState);
 			String macroStatename = (isInitialState) ? "c0" : "c" + num++;
 			
-			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
 
+			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
+			// Opt
+			this.states.add(mergedMacroState);
+			
 			if(isInitialState)
 				this.initialState = mergedMacroState;
 
 			for(State s : macroState)
 				automatonStateBinding.put(s, mergedMacroState);
-
 		}
 
 		HashSet<Transition> newDelta = new HashSet<>();
 
 		for(Transition t : this.delta){
-			Transition tcopy = t.clone();
-			tcopy.setFrom(automatonStateBinding.get(t.getFrom()));
-			tcopy.setTo(automatonStateBinding.get(t.getTo()));
-			newDelta.add(tcopy);
-
+			
+			// Opt
+			
+			//Transition tcopy = t.clone();
+			//tcopy.setFrom(automatonStateBinding.get(t.getFrom()));
+			//tcopy.setTo(automatonStateBinding.get(t.getTo()));
+			newDelta.add(new Transition(automatonStateBinding.get(t.getFrom()), automatonStateBinding.get(t.getTo()), t.getInput(), ""));
 		}
 
-		this.states = new HashSet<State>(automatonStateBinding.values());
+		//this.states = new HashSet<State>(automatonStateBinding.values());
 		this.delta = newDelta;
 
 		for(State s : states){
