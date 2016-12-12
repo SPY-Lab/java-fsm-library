@@ -1288,13 +1288,15 @@ public class Automaton {
 	}
 
 	private HashSet<State> getXSet(HashSet<State> A, String c){
-		HashSet<State> s = new HashSet<State>();
+		HashSet<State> xSet = new HashSet<State>();
 		for(Transition t: delta){
 			if(A.contains(t.getTo()) && t.getInput().equals(c)){
-				s.add(t.getFrom());
+				xSet.add(t.getFrom());
 			}
 		}
-		return s;
+		
+		
+		return xSet;
 	}
 
 
@@ -1412,20 +1414,13 @@ public class Automaton {
 
 	private void constructMinimumAutomatonFromPartition(HashSet<HashSet<State>> P) {
 		HashMap<State, State> automatonStateBinding = new HashMap<>();
+		int num = 1;
 
 		for(HashSet<State> macroState : P){
-			String macroStatename = new String("");
-			boolean isInitialState = false;
-			boolean isFinalState = false;
-
-			// get the name and the properties of the states and merge it
-			for(State s : macroState){
-				macroStatename += s.getState();
-				isInitialState = isInitialState || s.isInitialState();
-				isFinalState = isFinalState || s.isFinalState();
-
-			}
-
+			boolean isInitialState = isPartitionInitialState(macroState);
+			boolean isFinalState = isPartitionFinalState(macroState);
+			String macroStatename = (isInitialState) ? "c0" : "c" + num++;
+			
 			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
 
 			if(isInitialState)
