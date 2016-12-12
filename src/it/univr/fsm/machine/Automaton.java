@@ -1219,11 +1219,11 @@ public class Automaton {
 		this.adjacencyList = this.computeAdjacencyList();*/
 		this.hopcroftMinimize();
 
-		Automaton a = this.deMerge(++initChar);
+		Automaton a = this.deMerge(++initChar); 
 		this.initialState = a.initialState;
 		this.states = a.states;
 		this.delta = a.delta;
-		this.adjacencyList = this.computeAdjacencyList();
+		this.adjacencyList = a.getAdjacencyList();
 	}
 
 	public static HashSet<String> getAlphabet(Automaton a){
@@ -1293,8 +1293,8 @@ public class Automaton {
 				xSet.add(t.getFrom());
 			}
 		}
-		
-		
+
+
 		return xSet;
 	}
 
@@ -1314,15 +1314,15 @@ public class Automaton {
 			}
 
 		}
-		
+
 		return Ys;
 
 	}
 
 	private HashSet<State> setIntersection(HashSet<State> first, HashSet<State> second){
 		HashSet<State> intersection = (HashSet<State>) first.clone();
-		 intersection.retainAll(second);
-		 return intersection;
+		intersection.retainAll(second);
+		return intersection;
 	}
 
 	private HashSet<State> setSubtraction(HashSet<State> first, HashSet<State> second){
@@ -1331,7 +1331,7 @@ public class Automaton {
 		for(State s: second){
 			firstCopy.remove(s);
 		}
-		
+
 		return firstCopy;
 
 	}
@@ -1358,15 +1358,15 @@ public class Automaton {
 		HashSet<State> A = new HashSet<>();
 		HashSet<State> X;
 		List<HashSet<State>> listYs;
-		Random r = new Random();
+		//Random r = new Random();
 
 		while(!W.isEmpty()){
 			//choose and remove a set A from W
 
 			for(HashSet<State> s : W){
 				A = s;
-				if(r.nextInt(2) == 0)
-					break;
+				//	if(r.nextInt(2) == 0)
+				break;
 			}
 			W.remove(A);
 
@@ -1409,18 +1409,22 @@ public class Automaton {
 	private void constructMinimumAutomatonFromPartition(HashSet<HashSet<State>> P) {
 		HashMap<State, State> automatonStateBinding = new HashMap<>();
 
-		int num = 1;
+		int num = 0;
+		initChar++;
+
+		this.states = new HashSet<State>();
 
 		for(HashSet<State> macroState : P){
 			boolean isInitialState = isPartitionInitialState(macroState);
 			boolean isFinalState = isPartitionFinalState(macroState);
-			String macroStatename = (isInitialState) ? "c0" : "c" + num++;
-			
+
+			String macroStatename = (initChar) + String.valueOf(num++);
+
 
 			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
-			
+
 			this.states.add(mergedMacroState);
-			
+
 			if(isInitialState)
 				this.initialState = mergedMacroState;
 
@@ -1431,7 +1435,7 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<>();
 
 		for(Transition t : this.delta){
-			
+
 			newDelta.add(new Transition(automatonStateBinding.get(t.getFrom()), automatonStateBinding.get(t.getTo()), t.getInput(), ""));
 		}
 
@@ -2024,13 +2028,12 @@ public class Automaton {
 			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
 				return false;
 
-			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
-			first.deMerge(++initChar);
-			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-			second.deMerge(++initChar);
 
-			first.minimize();
-			second.minimize();
+			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
+			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+
+			//			first.minimize();
+			//			second.minimize();
 
 			Automaton c = Automaton.union(first, second);
 			c.minimize();
