@@ -1311,15 +1311,9 @@ public class Automaton {
 	
 	
 	private HashSet<State> setIntersection(HashSet<State> first, HashSet<State> second){
-		HashSet<State> intersection = new HashSet<State>();
-		for(State s1: first)
-			for(State s2: second){
-				if(first.contains(s2) && second.contains(s1)){
-					intersection.add(s1.clone());
-					intersection.add(s2.clone());
-				}
-			}
-		return intersection;
+		HashSet<State> intersection = (HashSet<State>) first.clone();
+		 intersection.retainAll(second);
+		 return intersection;
 	}
 	
 	private HashSet<State> setSubtraction(HashSet<State> first, HashSet<State> second){
