@@ -1418,7 +1418,7 @@ public class Automaton {
 			
 
 			State mergedMacroState = new State(macroStatename, isInitialState, isFinalState);
-			// Opt
+			
 			this.states.add(mergedMacroState);
 			
 			if(isInitialState)
@@ -1432,15 +1432,9 @@ public class Automaton {
 
 		for(Transition t : this.delta){
 			
-			// Opt
-			
-			//Transition tcopy = t.clone();
-			//tcopy.setFrom(automatonStateBinding.get(t.getFrom()));
-			//tcopy.setTo(automatonStateBinding.get(t.getTo()));
 			newDelta.add(new Transition(automatonStateBinding.get(t.getFrom()), automatonStateBinding.get(t.getTo()), t.getInput(), ""));
 		}
 
-		//this.states = new HashSet<State>(automatonStateBinding.values());
 		this.delta = newDelta;
 
 		for(State s : states){
