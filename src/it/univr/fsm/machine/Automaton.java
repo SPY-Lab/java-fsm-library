@@ -101,6 +101,19 @@ public class Automaton {
 		this.states = states;
 	}
 
+	private void selectMinimizationAlgorithm (int choice){
+		switch (choice){
+			case 0:
+				this.hopcroftMinimize();
+				break;
+			case 1:
+				this.minimize();
+				break;
+			default:
+				this.hopcroftMinimize();
+				break;
+		}
+	}
 
 
 	/**
@@ -1248,15 +1261,18 @@ public class Automaton {
 
 	public void hopcroftremoveUnreachableStates(){
 		HashSet<State> unreachableStates = new HashSet<>();
-		HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
-		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();
+	/*	HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
+		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();*/
+
+		// Opt
+		HashSet<State> reachableStates = this.getInitialStates();
+		HashSet<State> newStates = this.getInitialStates();
 		HashSet<Transition> transitionstoRemove = new HashSet<>(); 
 		HashSet<State> temp;
-		final HashSet<State> emptySet = new HashSet<>(Collections.<State>emptySet());
 
 
 		do{
-			temp = (HashSet<State>) emptySet.clone();
+			temp = new HashSet<>(Collections.<State>emptySet());
 			for(State s : newStates){
 				for(String a : getAlphabet(this)){
 					State to = getOutgoingStatefromTransitionSymbol(s, a);
@@ -1271,7 +1287,8 @@ public class Automaton {
 
 		}while(!newStates.equals(Collections.<State>emptySet()));
 
-		unreachableStates.addAll((HashSet<State>) states.clone());
+		// Opt
+		unreachableStates.addAll(states);
 		unreachableStates.removeAll(reachableStates);
 
 		states.removeAll(unreachableStates);
@@ -1282,7 +1299,8 @@ public class Automaton {
 
 		delta.removeAll(transitionstoRemove);
 
-		this.adjacencyList = this.computeAdjacencyList();
+		// Opt
+		//this.adjacencyList = this.computeAdjacencyList();
 
 	}
 
