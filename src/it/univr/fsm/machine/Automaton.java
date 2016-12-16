@@ -1,11 +1,9 @@
 package it.univr.fsm.machine;
 
-import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
 import it.univr.exception.*;
-import it.univr.fsm.config.Config;
 
 import it.univr.fsm.equations.Comp;
 import it.univr.fsm.equations.Equation;
@@ -104,13 +102,13 @@ public class Automaton {
 	private void selectMinimizationAlgorithm (int choice){
 		switch (choice){
 			case 0:
-				this.hopcroftMinimize();
+				this.minimizeHopcroft();
 				break;
 			case 1:
 				this.minimize();
 				break;
 			default:
-				this.hopcroftMinimize();
+				this.minimizeHopcroft();
 				break;
 		}
 	}
@@ -274,102 +272,6 @@ public class Automaton {
 
 
 
-	/**
-	 * Performs an automaton creation from a file
-	 * 
-	 * @param path the path of the file
-	 * @return a new automaton
-	 */
-	public static Automaton loadAutomaton(String path){
-
-		BufferedReader br = null;
-
-		HashMap<String, State> mapStates = new HashMap<String, State>();
-		HashSet<Transition> delta = new HashSet<Transition>();
-		HashSet<State> states = new HashSet<State>();
-		HashSet<State> initialStates = new HashSet<State>();
-		State initialState = null;
-
-		State currentState;
-		int lineNum;
-
-
-		try{
-			String currentLine;			
-			br = new BufferedReader(new FileReader(path) );
-
-
-			for(lineNum = 0; (currentLine = br.readLine()) != null ; lineNum++){
-				String[] pieces;
-
-				pieces=currentLine.split(" ");
-
-				switch(lineNum){
-				// here i will find all the states
-				case 0:
-					for(String s: pieces){
-						mapStates.put(s, currentState = new State(s,false,false));
-						states.add(mapStates.get(s));
-					}
-					break;
-
-					// initial states
-				case 1:
-					for(String s: pieces){
-						currentState = mapStates.get(s);
-
-						if(currentState==null) throw new MalformedInputException();
-
-						currentState.setInitialState(true);
-						initialStates.add(currentState);
-						initialState = currentState;
-
-					}
-					break;
-
-					// final states
-				case 2:
-					for(String s: pieces){
-						currentState=mapStates.get(s);
-
-						if(currentState==null) throw new MalformedInputException();
-
-						currentState.setFinalState(true);
-					}
-					break;
-
-					// transitions
-				default:
-					if(pieces.length!=3 || mapStates.get(pieces[0]) == null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
-
-					delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
-
-					break;
-
-				}
-
-			}
-
-
-		}catch(IOException e){
-			e.printStackTrace();
-			return null;
-		}catch(MalformedInputException m){
-			m.printStackTrace();
-			return null;
-		}finally{
-			try{
-				if(br != null)
-					br.close();
-			}catch(Exception c){
-				c.printStackTrace();
-			}
-		}
-
-		Automaton a= new Automaton(initialState,delta,states);
-
-		return a;
-	}
 
 
 
@@ -458,7 +360,7 @@ public class Automaton {
 				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
 
 		Automaton a = new Automaton(firstInitialStates, newDelta, newStates);
-		a.hopcroftMinimize();
+		a.minimizeHopcroft();
 
 		return a;
 
@@ -624,13 +526,13 @@ public class Automaton {
 		}finally{
 			try{
 				br.close();
-			}catch(IOException c){
+			}catch(Exception c){
 				System.err.println("Failed to close BufferedReader stream in readAutomataFromFile: " + c.getMessage() );
 			}
 		}
 
 		Automaton a= new Automaton(initialstate,delta,states);
-		a.hopcroftMinimize();
+		//a.minimizeHopcroft(); //FIXME: impossible to acquire a not deterministic automaton since it determinizes it
 		return a;
 	}
 
@@ -645,6 +547,38 @@ public class Automaton {
 		return run(s, initialState);
 	}
 
+	public boolean run(String s, State state){
+		ArrayList<String> input = (ArrayList<String>) toList(s);
+
+		return _run(input, state);
+
+	}
+
+	private boolean _run(ArrayList<String> s, State state){
+		boolean found = false;
+
+		if(state.isFinalState() && s.isEmpty())
+			return true;
+		else if(!state.isFinalState() && s.isEmpty()) //string is empty and I'm not in a final state
+			return false;
+		else{
+			ArrayList<String> scopy = new ArrayList<>(s);
+			String ch = scopy.get(0);
+			scopy.remove(0);
+
+
+			for(Transition t : getOutgoingTransitionsFrom(state)){
+				if(t.isFirable(state, ch))
+					 found = found || _run(scopy,t.fire(ch));
+				//TODO : add epsilon transition
+
+			}
+
+		}
+
+
+		return found;
+	}
 
 	/**
 	 * Runs a string on the automaton starting from a given state.
@@ -653,7 +587,9 @@ public class Automaton {
 	 * @param state the starting state
 	 * @return true if the string is accepted by the automaton, false otherwise
 	 */
+ 	/*
 	public boolean run(String s, State state) {
+
 		ArrayList<String> input = (ArrayList<String>) toList(s);
 
 		State currentState = state;
@@ -681,7 +617,7 @@ public class Automaton {
 		if (currentState.isFinalState())
 			return true;
 		return false;
-	}
+	} */
 
 	/**
 	 * Returns the set of transitions.
@@ -1230,7 +1166,7 @@ public class Automaton {
 		this.delta = a.delta;
 		this.states = a.states;
 		this.adjacencyList = this.computeAdjacencyList();*/
-		this.hopcroftMinimize();
+		this.minimizeHopcroft();
 
 		Automaton a = this.deMerge(++initChar); 
 		this.initialState = a.initialState;
@@ -1317,6 +1253,21 @@ public class Automaton {
 		return transitionsIncoming;
 	}
 
+	public void mooreReduction(){
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.initialState = a.initialState;
+			this.delta = a.delta;
+			this.states = a.states;
+		}
+
+		this.removeUnreachableStates();
+
+		
+
+	}
+
+
 	private HashSet<State> getXSet(HashSet<State> A, String c){
 		HashSet<State> xSet = new HashSet<State>();
 		/*for(Transition t: delta){
@@ -1377,7 +1328,52 @@ public class Automaton {
 
 	}
 
-	public void hopcroftMinimize(){
+
+	private boolean existSFirst(HashSet<HashSet<State>>  P, String a){
+		boolean found = false;
+		for(State s : states){
+			State nextState = getOutgoingStatefromTransitionSymbol(s, a);
+			for(HashSet<State> set : P){
+				if(set.contains(nextState)) return true;
+			}
+
+
+
+		}
+		return false;
+	}
+
+	public void minimizeMoore(){
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.initialState = a.initialState;
+			this.delta = a.delta;
+			this.states = a.states;
+		}
+
+		this.hopcroftremoveUnreachableStates();
+
+		// the partition P
+		HashSet<HashSet<State>>  P = new HashSet<>();
+		P.add(this.getFinalStates());
+		P.add(setSubtraction(this.states, this.getFinalStates()) );
+
+		// the partition Q represents a temp partition
+		List<HashSet<State>>  Q = new ArrayList<>();
+
+		for(HashSet<State> S : P){
+			for (String a : getAlphabet(this)) {
+
+			}
+
+		}
+
+
+
+	}
+
+
+	public void minimizeHopcroft(){
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
 			this.initialState = a.initialState;

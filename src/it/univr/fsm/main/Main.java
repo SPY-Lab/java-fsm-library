@@ -1,9 +1,5 @@
 package it.univr.fsm.main;
 
-import java.util.Collection;
-import java.util.HashSet;
-
-import it.univr.fsm.equations.*;
 import it.univr.fsm.machine.*;
 
 /**
@@ -63,12 +59,12 @@ public class Main {
 		
 		System.out.println("a2:");
 		System.out.println(a2);
-		a2.hopcroftMinimize();
+		a2.minimizeHopcroft();
 		System.out.println(a2);
 		
 		System.out.println("a:");
 		System.out.println(a);
-		a.hopcroftMinimize();
+		a.minimizeHopcroft();
 		System.out.println(a);*/
 		
 		
@@ -92,7 +88,7 @@ public class Main {
 		Automaton a5 = Automaton.makeAutomaton("'y:=1;$'");
 		System.out.println("a5:");
 		System.out.println(a5);
-		a5.hopcroftMinimize();
+		a5.minimizeHopcroft();
 		System.out.println(a5);
 		
 		Automaton a5bis = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0005");
@@ -106,6 +102,14 @@ public class Main {
 		Automaton a7 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0007");
 		System.out.println("a7: ");
 		System.out.println(a7);
+
+		//System.out.println(a5bis.notDeterministicRun("'y:=1;$'", a5bis.getInitialState()));
+
+		Automaton a8 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0008");
+		System.out.println("a8: \n" + a8.toString());
+		System.out.println("a8 is deterministic? " + Automaton.isDeterministic(a8));
+		System.out.println(a8.notDeterministicRun("00001011",
+				a8.getInitialState()));
 		
 	}
 
