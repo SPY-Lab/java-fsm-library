@@ -1,5 +1,9 @@
 package it.univr.fsm.machine;
 
+import org.apache.commons.collections4.MapIterator;
+import org.apache.commons.collections4.MultiSet;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.map.MultiKeyMap;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
@@ -99,12 +103,24 @@ public class Automaton {
 		this.states = states;
 	}
 
-	private void selectMinimizationAlgorithm (int choice){
+	/**
+	 * Select the minimization algorithm and minimize the automaton
+	 *
+	 * @param choice 0 = Hopcroft,
+	 *                  1 = Moore,
+	 *               	2 = Brzozowsky,
+	 *               default = Hopcroft
+	 *
+	 */
+	public void selectMinimizationAlgorithm (int choice){
 		switch (choice){
 			case 0:
 				this.minimizeHopcroft();
 				break;
 			case 1:
+				this.minimizeMoore();
+				break;
+			case 2:
 				this.minimize();
 				break;
 			default:
@@ -517,17 +533,14 @@ public class Automaton {
 			}
 
 
-		}catch(IOException e){
+		}catch(IOException | MalformedInputException e) {
 			e.printStackTrace();
-			return null;
-		}catch(MalformedInputException m){
-			m.printStackTrace();
 			return null;
 		}finally{
 			try{
 				br.close();
 			}catch(Exception c){
-				System.err.println("Failed to close BufferedReader stream in readAutomataFromFile: " + c.getMessage() );
+				System.err.println("Failed to close BufferedReader stream in loadAutomata: " + c.getMessage() );
 			}
 		}
 
@@ -1253,19 +1266,6 @@ public class Automaton {
 		return transitionsIncoming;
 	}
 
-	public void mooreReduction(){
-		if (!isDeterministic(this)) {
-			Automaton a = this.determinize();
-			this.initialState = a.initialState;
-			this.delta = a.delta;
-			this.states = a.states;
-		}
-
-		this.removeUnreachableStates();
-
-		
-
-	}
 
 
 	private HashSet<State> getXSet(HashSet<State> A, String c){
@@ -1329,19 +1329,38 @@ public class Automaton {
 	}
 
 
-	private boolean existSFirst(HashSet<HashSet<State>>  P, String a){
-		boolean found = false;
-		for(State s : states){
-			State nextState = getOutgoingStatefromTransitionSymbol(s, a);
-			for(HashSet<State> set : P){
-				if(set.contains(nextState)) return true;
+
+	private HashSet<HashSet<State>> moorePartition(HashSet<State> S, String a){
+		// keys are next state
+		HashMap<State, HashSet<State>> to_from = new HashMap<>();
+		HashSet<State> getFromMap;
+
+		for(State s : S){
+			State nextState_s = getOutgoingStatefromTransitionSymbol(s, a);
+
+			if(nextState_s != null) {
+				HashSet<State> set;
+
+				if ((getFromMap = to_from.get(nextState_s)) == null) {
+					set = new HashSet<>();
+					set.add(s);
+
+					to_from.put(nextState_s, set);
+				} else {
+					set = getFromMap;
+					set.add(s);
+
+				}
+
 			}
 
-
-
 		}
-		return false;
+
+		return new HashSet<>(to_from.values());
+
 	}
+
+
 
 	public void minimizeMoore(){
 		if (!isDeterministic(this)) {
@@ -1351,26 +1370,35 @@ public class Automaton {
 			this.states = a.states;
 		}
 
-		this.hopcroftremoveUnreachableStates();
+		this.removeUnreachableStates();
 
-		// the partition P
-		HashSet<HashSet<State>>  P = new HashSet<>();
-		P.add(this.getFinalStates());
-		P.add(setSubtraction(this.states, this.getFinalStates()) );
+		HashSet<HashSet<State>> Pnew = new HashSet<>();
+		Pnew.add(setSubtraction(states, getFinalStates()));
+		Pnew.add(getFinalStates());
 
-		// the partition Q represents a temp partition
-		List<HashSet<State>>  Q = new ArrayList<>();
+		HashSet<HashSet<State>> P ;
 
-		for(HashSet<State> S : P){
-			for (String a : getAlphabet(this)) {
+		do{
+			P = new HashSet<>(Pnew);
+			Pnew = new HashSet<>(Collections.<HashSet<State>>emptySet());
 
+			for(HashSet<State> S : P){
+				for(String a : getAlphabet(this)) {
+					HashSet<HashSet<State>> partition = moorePartition(S, a);
+					Pnew.addAll(partition);
+				}
 			}
 
-		}
+
+		}while(!P.equals(Pnew));
+
+
+		constructMinimumAutomatonFromPartition(P);
 
 
 
 	}
+
 
 
 	public void minimizeHopcroft(){
