@@ -24,8 +24,8 @@ public class Main {
 				
 	
 		/*
-		Automaton a1= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" );
-		Automaton a2= Automaton.loadAutomaton("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002" );
+		Automaton a1= Automaton.loadAutomaton("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0001" );
+		Automaton a2= Automaton.loadAutomaton("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0002" );
 		
 		Collection<Automaton> coll = new HashSet<Automaton>(2);
 		coll.add(a1);
@@ -68,19 +68,19 @@ public class Main {
 		System.out.println(a);*/
 		
 		
-		Automaton a3 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0003");
+		Automaton a3 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0003");
 		System.out.println("a3:");
 		System.out.println(a3);
 		
-		Automaton a4 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0004");
+		Automaton a4 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0004");
 		System.out.println("a4:");
 		System.out.println(a4);
 		
-		Automaton a2 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002");
+		Automaton a2 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0002");
 		System.out.println("a2:");
 		System.out.println(a2);
 		
-		Automaton a1 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001");
+		Automaton a1 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0001");
 		System.out.println("a1:");
 		System.out.println(a1);
 		
@@ -91,25 +91,25 @@ public class Main {
 		a5.minimizeHopcroft();
 		System.out.println(a5);
 		
-		Automaton a5bis = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0005");
+		Automaton a5bis = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0005");
 		System.out.println("a5bis:");
 		System.out.println(a5bis);
 
-		Automaton a6 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0006");
+		Automaton a6 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0006");
 		System.out.println("a6: ");
 		System.out.println(a6);
 
-		Automaton a7 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0007");
+		Automaton a7 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0007");
 		System.out.println("a7: ");
 		System.out.println(a7);
 
 		//System.out.println(a5bis.notDeterministicRun("'y:=1;$'", a5bis.getInitialState()));
 
-		Automaton a8 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0008");
+		Automaton a8 = Automaton.loadAutomata("/Users/Vinci/Desktop/SPY/java-fsm-library/automata/" + "automaton0008");
 		System.out.println("a8: \n" + a8.toString());
 		System.out.println("a8 is deterministic? " + Automaton.isDeterministic(a8));
-		System.out.println(a8.notDeterministicRun("00001011",
-				a8.getInitialState()));
+		a8.minimize();
+		System.out.println(a8);
 		
 	}
 
