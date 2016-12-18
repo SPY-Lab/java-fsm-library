@@ -56,9 +56,14 @@ public class Automaton {
 	private HashSet<State> states;
 
 	/**
-	 * Adjacency list
+	 * Adjacency list Outgoing
 	 */
-	private HashMap<State, HashSet<Transition>> adjacencyList;
+	private HashMap<State, HashSet<Transition>> adjacencyListOutgoing;
+
+	/**
+	 * Adjacency list Incoming
+	 */
+	private HashMap<State, HashSet<Transition>> adjacencyListIncoming;
 
 	/**
 	 * Constructs a new automaton.
@@ -72,22 +77,35 @@ public class Automaton {
 		this.initialState = initialState;
 		this.delta = delta;
 		this.states = states;
-		this.adjacencyList = this.computeAdjacencyList();
+		this.computeAdjacencyList();
 	}
 
-	private HashMap<State, HashSet<Transition>> computeAdjacencyList() {	
-		HashMap<State, HashSet<Transition>> result = new HashMap<State, HashSet<Transition>>();
+	private void computeAdjacencyList() {	
+		HashMap<State, HashSet<Transition>> resultOutgoing = new HashMap<State, HashSet<Transition>>();
+		HashMap<State, HashSet<Transition>> resultIncoming = new HashMap<State, HashSet<Transition>>();
 
-		for (State s : this.getStates()) 
-			result.put(s, this.recomputeOutgoingTransitionsFrom(s));
+		for (State s : this.getStates()) {
+			resultIncoming.put(s, new HashSet<Transition>());
+			resultOutgoing.put(s, new HashSet<Transition>());
 
-		return result;
+			for (Transition t : this.getDelta()) {
+				if (t.getFrom().equals(s)) {
+					HashSet<Transition> temp = resultOutgoing.get(s);
+					temp.add(t);
+					resultOutgoing.put(s, temp);
+				} 
+
+				if (t.getTo().equals(s)) {
+					HashSet<Transition> temp = resultIncoming.get(s);
+					temp.add(t);
+					resultIncoming.put(s, temp);
+				}
+			}
+		}
+
+		this.adjacencyListIncoming = resultIncoming;
+		this.adjacencyListOutgoing = resultOutgoing;
 	}
-
-	public void updateAdjacencyList(State s) {
-		this.adjacencyList.put(s, this.recomputeOutgoingTransitionsFrom(s));
-	}
-
 
 
 	/**
@@ -126,6 +144,7 @@ public class Automaton {
 			default:
 				this.minimizeHopcroft();
 				break;
+
 		}
 	}
 
@@ -163,7 +182,6 @@ public class Automaton {
 	 */
 	public static boolean isContained(Automaton first, Automaton second){
 		// first is contained in second if (first intersect !second) accepts empty language
-
 		return Automaton.isEmptyLanguageAccepted(Automaton.intersection(first, Automaton.complement(second)));
 	}
 
@@ -410,7 +428,9 @@ public class Automaton {
 		for (Transition t:  automaton.delta)
 			newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput(), ""));
 
-		return new Automaton(autNewInitialState,newDelta,newStates);
+		Automaton a = new Automaton(autNewInitialState,newDelta,newStates);
+		a.minimize();
+		return a;
 	}
 
 
@@ -426,9 +446,7 @@ public class Automaton {
 
 		// !(!(first) u !(second))
 		Automaton notFirst = Automaton.complement(first);
-		notFirst.minimize();
 		Automaton notSecond = Automaton.complement(second);
-		notSecond.minimize();
 
 		Automaton union = Automaton.union(notFirst, notSecond);
 		union.minimize();
@@ -582,7 +600,7 @@ public class Automaton {
 
 			for(Transition t : getOutgoingTransitionsFrom(state)){
 				if(t.isFirable(state, ch))
-					 found = found || _run(scopy,t.fire(ch));
+					found = found || _run(scopy,t.fire(ch));
 				//TODO : add epsilon transition
 
 			}
@@ -600,7 +618,7 @@ public class Automaton {
 	 * @param state the starting state
 	 * @return true if the string is accepted by the automaton, false otherwise
 	 */
- 	/*
+	/*
 	public boolean run(String s, State state) {
 
 		ArrayList<String> input = (ArrayList<String>) toList(s);
@@ -777,26 +795,22 @@ public class Automaton {
 		return new Automaton(initialState, delta, states);
 	}
 
-	/**
-	 * Returns the transitions outgoing from a given state.
-	 * 
-	 * @param s the state
-	 * @return an HashSet of transitions outgoing from the given state.
-	 */
-	public HashSet<Transition> recomputeOutgoingTransitionsFrom(State s) {
-		HashSet<Transition> result = new HashSet<Transition>();
-
-		for (Transition t : this.delta)
-			if (t.getFrom().equals(s))
-				result.add(t);
-
-		return result;
-	}
-
 	public HashSet<Transition> getOutgoingTransitionsFrom(State s) {
-		return this.adjacencyList.get(s);
+		return this.adjacencyListOutgoing.get(s);
+	}
+	
+	public HashSet<Transition> getIncomingTransitionsFrom(State s) {
+		return this.adjacencyListIncoming.get(s);
 	}
 
+	public void setAdjacencyListOutgoing(HashMap<State, HashSet<Transition>> adjacencyListOutgoing) {
+		this.adjacencyListOutgoing = adjacencyListOutgoing;
+	}
+
+	public void setAdjacencyListIncoming(HashMap<State, HashSet<Transition>> adjacencyListIncoming) {
+		this.adjacencyListIncoming = adjacencyListIncoming;
+	}
+	
 	/**
 	 * Union operation between two automata.
 	 * 
@@ -1092,9 +1106,10 @@ public class Automaton {
 
 		HashSet<String> result = new HashSet<String>();
 
-		for (Transition t : this.getOutgoingTransitionsFrom(s)) 
+		for (Transition t : this.getOutgoingTransitionsFrom(s)) {
 			if (!t.getInput().equals(""))
 				result.add(t.getInput());
+		}
 
 		return result;
 
@@ -1105,12 +1120,12 @@ public class Automaton {
 	 * 
 	 * @return a new automaton without unreachable states.
 	 */
-	public Automaton removeUnreachableStates() {
+	public void removeUnreachableStates() {
 		HashSet<State> reachableStates = new HashSet<State>();
-		reachableStates.add(this.initialState);
+		reachableStates.add(this.getInitialState());
 
 		HashSet<State> newStates = new HashSet<State>();
-		newStates.add(this.initialState);		
+		newStates.add(this.getInitialState());		
 
 		do {
 			HashSet<State> temp = new HashSet<State>();
@@ -1140,27 +1155,15 @@ public class Automaton {
 				transitionsToRemove.add(t);
 
 		HashSet<State> states = (HashSet<State>) this.states.clone();
-		HashSet<Transition> gamma = (HashSet<Transition>) this.delta.clone();
+		HashSet<Transition> delta = (HashSet<Transition>) this.delta.clone();
 
 		states.removeAll(statesToRemove);
-		gamma.removeAll(transitionsToRemove);
+		delta.removeAll(transitionsToRemove);
 
-		return new Automaton(this.initialState, gamma, states);
 
-		/*
-		 * 
-		HashSet<State> statesToRemove = new HashSet<State>();
-		HashSet<Transition> transitionsToRemove = new HashSet<Transition>();
-		 for (State s : this.states)
-			if (!reachableStates.contains(s))
-				statesToRemove.add(s);
-
-		for (Transition t : this.gamma)
-			if (statesToRemove.contains(t.getFrom()) || statesToRemove.contains(t.getTo()))
-				transitionsToRemove.add(t);
-
-		this.states.removeAll(statesToRemove);
-		this.gamma.removeAll(transitionsToRemove);*/
+		this.states = states;
+		this.delta = delta;
+		this.computeAdjacencyList();
 	}
 
 	/**
@@ -1185,7 +1188,9 @@ public class Automaton {
 		this.initialState = a.initialState;
 		this.states = a.states;
 		this.delta = a.delta;
-		this.adjacencyList = a.getAdjacencyList();
+		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
 	}
 
 	public static HashSet<String> getAlphabet(Automaton a){
@@ -1208,12 +1213,11 @@ public class Automaton {
 		return null;
 	}
 
-	public void hopcroftremoveUnreachableStates(){
+	/*public void hopcroftremoveUnreachableStates(){
 		HashSet<State> unreachableStates = new HashSet<>();
-	/*	HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
-		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();*/
+			HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
+		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();
 
-		// Opt
 		HashSet<State> reachableStates = this.getInitialStates();
 		HashSet<State> newStates = this.getInitialStates();
 		HashSet<Transition> transitionstoRemove = new HashSet<>(); 
@@ -1251,30 +1255,17 @@ public class Automaton {
 		// Opt
 		//this.adjacencyList = this.computeAdjacencyList();
 
-	}
+	}*/
 
 	private HashSet<Transition> getIncomingTransitionsTo(State state){
-		HashSet<Transition> transitionsIncoming = new HashSet<>();
-
-		for(State s :  this.states){
-			Transition t = hasTransitionFrom(s, state);
-
-			if(t != null)  transitionsIncoming.add(t);
-
-		}
-
-		return transitionsIncoming;
+		return this.adjacencyListIncoming.get(state);
 	}
+
 
 
 
 	private HashSet<State> getXSet(HashSet<State> A, String c){
 		HashSet<State> xSet = new HashSet<State>();
-		/*for(Transition t: delta){
-			if(A.contains(t.getTo()) && t.getInput().equals(c)){
-				xSet.add(t.getFrom());
-			}
-		}*/
 
 		for(State s : A){
 			HashSet<Transition> transitionsIncoming = getIncomingTransitionsTo(s);
@@ -1320,12 +1311,13 @@ public class Automaton {
 	private HashSet<State> setSubtraction(HashSet<State> first, HashSet<State> second){
 		HashSet<State> firstCopy = (HashSet<State>) first.clone();
 
-		for(State s: second){
+		/*for(State s: second){
 			firstCopy.remove(s);
-		}
-
+		}*/
+		
+		firstCopy.removeAll(second);
 		return firstCopy;
-
+		
 	}
 
 
@@ -1407,9 +1399,12 @@ public class Automaton {
 			this.initialState = a.initialState;
 			this.delta = a.delta;
 			this.states = a.states;
+			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		}
 
-		this.hopcroftremoveUnreachableStates();
+		this.removeUnreachableStates();
+
 
 		// the partition P
 		HashSet<HashSet<State>> P = new HashSet<>();
@@ -1507,24 +1502,25 @@ public class Automaton {
 		}
 
 		this.delta = newDelta;
-
-		for(State s : states){
-			updateAdjacencyList(s);
-		}
+		this.computeAdjacencyList();
 	}
 
 	/**
 	 * Gets the adjacency list of the automaton.
 	 */
-	public HashMap<State, HashSet<Transition>> getAdjacencyList() {
-		return adjacencyList;
+	public HashMap<State, HashSet<Transition>> getAdjacencyListOutgoing() {
+		return adjacencyListOutgoing;
+	}
+
+	public HashMap<State, HashSet<Transition>> getAdjacencyListIncoming() {
+		return adjacencyListIncoming;
 	}
 
 	/**
 	 * Sets the adjacency list of the automaton.
 	 */
 	public void setAdjacencyList(HashMap<State, HashSet<Transition>> adjacencyList) {
-		this.adjacencyList = adjacencyList;
+		this.adjacencyListOutgoing = adjacencyList;
 	}
 
 
@@ -1563,7 +1559,7 @@ public class Automaton {
 		this.delta = newDelta;
 		this.initialState = newInitialState;
 		this.states = newStates;
-		this.adjacencyList = this.computeAdjacencyList();
+		this.computeAdjacencyList();
 	}
 
 	/**
@@ -2095,15 +2091,9 @@ public class Automaton {
 			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
 				return false;
 
-
 			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
 			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-
-			//			first.minimize();
-			//			second.minimize();
-
 			Automaton c = Automaton.union(first, second);
-			c.minimize();
 			return c.getFinalStates().isEmpty();
 		}
 
