@@ -1,9 +1,5 @@
 package it.univr.fsm.machine;
 
-import org.apache.commons.collections4.MapIterator;
-import org.apache.commons.collections4.MultiSet;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.map.MultiKeyMap;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
@@ -563,7 +559,7 @@ public class Automaton {
 		}
 
 		Automaton a= new Automaton(initialstate,delta,states);
-		//a.minimizeHopcroft(); //FIXME: impossible to acquire a not deterministic automaton since it determinizes it
+
 		return a;
 	}
 
@@ -802,6 +798,8 @@ public class Automaton {
 	public HashSet<Transition> getIncomingTransitionsFrom(State s) {
 		return this.adjacencyListIncoming.get(s);
 	}
+
+
 
 	public void setAdjacencyListOutgoing(HashMap<State, HashSet<Transition>> adjacencyListOutgoing) {
 		this.adjacencyListOutgoing = adjacencyListOutgoing;
@@ -1321,34 +1319,75 @@ public class Automaton {
 	}
 
 
+	private HashSet<State> getSet(State s1, HashSet<HashSet<State>> P){
+		for(HashSet<State> S : P){
+			if(S.contains(s1) ) return S;
+		}
 
-	private HashSet<HashSet<State>> moorePartition(HashSet<State> S, String a){
-		// keys are next state
-		HashMap<State, HashSet<State>> to_from = new HashMap<>();
-		HashSet<State> getFromMap;
+		return null;
+	}
 
+
+	private HashSet<HashSet<State>> moorePartition( HashSet<HashSet<State>> P, HashSet<State> S){
+		// 2 map nested : State -> (Input symbol -> next Set)
+		HashMap<State,
+				HashMap<String, HashSet<State>>> setMap = new HashMap<>();
+
+		HashSet<HashSet<State>> partitionS = new HashSet<>();
+		boolean found = false;
+
+		// classify states
 		for(State s : S){
-			State nextState_s = getOutgoingStatefromTransitionSymbol(s, a);
+			HashSet<Transition> transitionsOutgoings = getOutgoingTransitionsFrom(s);
 
-			if(nextState_s != null) {
-				HashSet<State> set;
 
-				if ((getFromMap = to_from.get(nextState_s)) == null) {
-					set = new HashSet<>();
-					set.add(s);
-
-					to_from.put(nextState_s, set);
-				} else {
-					set = getFromMap;
-					set.add(s);
-
+			for(Transition t : transitionsOutgoings){
+				if(!setMap.containsKey(s)){
+					HashMap<String, HashSet<State>> inputstoSet = new HashMap<>();
+					inputstoSet.put(t.getInput(),getSet(t.getTo(),P));
+					setMap.put(s, inputstoSet);
+				}else{
+					HashMap<String, HashSet<State>> inputstoSet = setMap.get(s);
+					if(!inputstoSet.containsKey(t.getInput())){
+						inputstoSet.put(t.getInput(),getSet(t.getTo(),P));
+					}
 				}
-
 			}
 
 		}
 
-		return new HashSet<>(to_from.values());
+		// create partition
+		for(State s1 : setMap.keySet()){
+			HashMap<String, HashSet<State>> transitions_s1 = setMap.get(s1);
+			HashSet<State> candidateSet = new HashSet<>();
+			candidateSet.add(s1);
+
+			for(State s2 : setMap.keySet()){
+				if(!s1.equals(s2)){
+					HashMap<String, HashSet<State>> transitions_s2 = setMap.get(s2);
+
+					for(String a : transitions_s1.keySet()){
+						if(transitions_s1.get(a).equals(transitions_s2.get(a))){
+							found = true;
+						}else{
+							found = false;
+							break;
+						}
+
+					}
+
+					if(found)
+						candidateSet.add(s2);
+
+
+				}
+			}
+
+			partitionS.add(candidateSet);
+
+		}
+
+		return partitionS;
 
 	}
 
@@ -1360,6 +1399,8 @@ public class Automaton {
 			this.initialState = a.initialState;
 			this.delta = a.delta;
 			this.states = a.states;
+			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		}
 
 		this.removeUnreachableStates();
@@ -1374,11 +1415,8 @@ public class Automaton {
 			P = new HashSet<>(Pnew);
 			Pnew = new HashSet<>(Collections.<HashSet<State>>emptySet());
 
-			for(HashSet<State> S : P){
-				for(String a : getAlphabet(this)) {
-					HashSet<HashSet<State>> partition = moorePartition(S, a);
-					Pnew.addAll(partition);
-				}
+			for(HashSet<State> S : P) {
+				Pnew.addAll(moorePartition(P, S));
 			}
 
 
@@ -1503,6 +1541,7 @@ public class Automaton {
 
 		this.delta = newDelta;
 		this.computeAdjacencyList();
+
 	}
 
 	/**
