@@ -591,13 +591,14 @@ public class Automaton {
 		else{
 			ArrayList<String> scopy = new ArrayList<>(s);
 			String ch = scopy.get(0);
-			scopy.remove(0);
-
 
 			for(Transition t : getOutgoingTransitionsFrom(state)){
-				if(t.isFirable(state, ch))
-					found = found || _run(scopy,t.fire(ch));
-				//TODO : add epsilon transition
+				if(t.isFirable(state, ch) && !t.getInput().equals("")) {
+					scopy.remove(0);
+					found = found || _run(scopy, t.fire(ch));
+				}else if(t.getInput().equals("")){
+					found = found || _run(scopy, t.fire(ch));
+				}
 
 			}
 
@@ -1334,7 +1335,7 @@ public class Automaton {
 				HashMap<String, HashSet<State>>> setMap = new HashMap<>();
 
 		HashSet<HashSet<State>> partitionS = new HashSet<>();
-		boolean found = false;
+		boolean found = true;
 
 		// classify states
 		for(State s : S){
@@ -1357,27 +1358,34 @@ public class Automaton {
 		}
 
 		// create partition
-		for(State s1 : setMap.keySet()){
+		for(State s1 : S){
 			HashMap<String, HashSet<State>> transitions_s1 = setMap.get(s1);
 			HashSet<State> candidateSet = new HashSet<>();
 			candidateSet.add(s1);
 
-			for(State s2 : setMap.keySet()){
-				if(!s1.equals(s2)){
+			for(State s2 : S){
+				if(!s1.equals(s2) ){
+					if(s1.isFinalState() && s2.isFinalState()){
+						candidateSet.add(s2);
+						continue;
+					}
+
 					HashMap<String, HashSet<State>> transitions_s2 = setMap.get(s2);
 
-					for(String a : transitions_s1.keySet()){
-						if(transitions_s1.get(a).equals(transitions_s2.get(a))){
+
+					for (String a : transitions_s1.keySet()) {
+						if (transitions_s1.get(a).equals(transitions_s2.get(a))) {
 							found = true;
-						}else{
+						} else {
 							found = false;
 							break;
 						}
 
 					}
 
-					if(found)
+					if (found)
 						candidateSet.add(s2);
+
 
 
 				}

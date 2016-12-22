@@ -29,26 +29,19 @@ import org.junit.Test;
 import java.util.HashSet;
 
 /**
- * Created by andreaperazzoli on 18/12/16.
+ * Created by andreaperazzoli on 22/12/16.
  */
-public class Test1 {
-
+public class RunTests {
     @Test
-    public void reductionTest1(){
+    public void runTest1(){
 
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0002");
-        Automaton ahop = a.clone();
-        ahop.minimizeHopcroft();
-        Automaton amoore = a.clone();
-        amoore.minimizeMoore();
-        Automaton abrow = a.clone();
-        abrow.minimize();
+        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001");
+        a.minimizeHopcroft();
 
-
-        assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
-        assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertTrue(a.run("'a'"));
 
     }
+
 
 
 }
