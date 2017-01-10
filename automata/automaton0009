@@ -1,0 +1,11 @@
+qA qB qC qD
+qA
+qD
+qA qB 1
+qA qC 0
+qB qB 1
+qB qC 0
+qC qC 0
+qC qD 1
+qD qD 0
+qD qD 1

@@ -1341,7 +1341,7 @@ public class Automaton {
 		for(State s : S){
 			HashSet<Transition> transitionsOutgoings = getOutgoingTransitionsFrom(s);
 
-
+			// for all the transition, retrieve the next state set and update the map
 			for(Transition t : transitionsOutgoings){
 				if(!setMap.containsKey(s)){
 					HashMap<String, HashSet<State>> inputstoSet = new HashMap<>();
@@ -1363,16 +1363,18 @@ public class Automaton {
 			HashSet<State> candidateSet = new HashSet<>();
 			candidateSet.add(s1);
 
+
 			for(State s2 : S){
 				if(!s1.equals(s2) ){
-					if(s1.isFinalState() && s2.isFinalState()){
+					/*if(s1.isFinalState() && s2.isFinalState()){
 						candidateSet.add(s2);
 						continue;
-					}
+					}*/
 
 					HashMap<String, HashSet<State>> transitions_s2 = setMap.get(s2);
 
 
+					/*
 					for (String a : transitions_s1.keySet()) {
 						if (transitions_s1.get(a).equals(transitions_s2.get(a))) {
 							found = true;
@@ -1385,8 +1387,12 @@ public class Automaton {
 
 					if (found)
 						candidateSet.add(s2);
+					*/
 
+					 if ( (transitions_s1 == null && transitions_s2 == null) || transitions_s1.equals(transitions_s2)) {
 
+						 candidateSet.add(s2);
+					 }
 
 				}
 			}

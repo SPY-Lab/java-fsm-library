@@ -1,4 +1,4 @@
-package it.univr.fsm.main;
+package it.univr.test;
 
 import it.univr.fsm.machine.Automaton;
 import org.junit.Test;
@@ -47,6 +47,8 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
 
     }
 
@@ -64,6 +66,7 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
@@ -81,6 +84,7 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
@@ -98,6 +102,7 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
@@ -115,6 +120,7 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
@@ -132,6 +138,7 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
@@ -149,6 +156,7 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
@@ -166,6 +174,79 @@ public class MinimizationTests {
 
         assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
         assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest9(){
+
+        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0009");
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+        Automaton amoore = a.clone();
+        amoore.minimizeMoore();
+        Automaton abrow = a.clone();
+        abrow.minimize();
+
+
+        assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
+        assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest10(){
+
+        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0010");
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+        Automaton amoore = a.clone();
+        amoore.minimizeMoore();
+        Automaton abrow = a.clone();
+        abrow.minimize();
+
+
+        assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
+        assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest11(){
+
+        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0011");
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+        Automaton amoore = a.clone();
+        amoore.minimizeMoore();
+        Automaton abrow = a.clone();
+        abrow.minimize();
+
+
+        assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
+        assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest12(){
+
+        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0012");
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+        Automaton amoore = a.clone();
+        amoore.minimizeMoore();
+        Automaton abrow = a.clone();
+        abrow.minimize();
+
+
+        assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
+        assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
 
     }
 
