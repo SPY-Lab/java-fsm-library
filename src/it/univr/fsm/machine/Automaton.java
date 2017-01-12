@@ -1747,6 +1747,7 @@ public class Automaton {
 
 			for(int i = 0 ; i < equations.size(); i++){
 				Equation eq = equations.get(i);
+				Equation neq;
 
 				// Synthetize the indipendent equations
 				if (!eq.isIndipendent()) {
@@ -1756,13 +1757,15 @@ public class Automaton {
 
 
 				for(int j = 0 ; j < toSubstitute.size() && !eq.getE().isGround(); j++){
-					Equation neq;
+
 
 					// substitute
-					equations.set(i, (neq=new Equation(eq.getLeftSide(), eq.getE().replace(eq.getLeftSide(), toSubstitute.get(j).getE()))));
+					equations.set(i, (neq=new Equation(eq.getLeftSide(), eq.getE().replace(toSubstitute.get(j).getLeftSide(), toSubstitute.get(j).getE()))));
 
-					if(neq.getE().isGround())
+					if(neq.getE().isGround()) {
 						toSubstitute.add(neq);
+						break;
+					}
 
 
 
