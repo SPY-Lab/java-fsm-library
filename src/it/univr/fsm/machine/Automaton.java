@@ -1755,7 +1755,7 @@ public class Automaton {
 				}
 
 
-				for(int j = 0 ; i < toSubstitute.size() && !eq.getE().isGround(); i++){
+				for(int j = 0 ; j < toSubstitute.size() && !eq.getE().isGround(); j++){
 					Equation neq;
 
 					// substitute
