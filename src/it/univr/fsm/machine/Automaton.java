@@ -1615,10 +1615,13 @@ public class Automaton {
 		this.computeAdjacencyList();
 	}
 
+
 	/**
 	 * Returns the regular expressions associated to this automaton
 	 * using the Brzozowski algebraic method.
 	 */
+
+	/*
 	public RegularExpression toRegex() {
 
 		Vector<Equation> equations = new Vector<Equation>();
@@ -1680,6 +1683,94 @@ public class Automaton {
 					}
 				}
 			}
+		}
+
+		return equations.get(indexOfInitialState).getE().simplify();
+
+	}*/
+
+	/**
+	 * Returns the regular expressions associated to this automaton
+	 * using the Brzozowski algebraic method.
+	 */
+
+	public RegularExpression toRegex() {
+
+		Vector<Equation> equations = new Vector<Equation>();
+
+		Vector<Equation> toSubstitute = new Vector<Equation>();
+
+		for (State s : this.getStates()) {
+			RegularExpression result = null;
+
+			HashSet<Transition> out = this.getOutgoingTransitionsFrom(s);
+
+			if (out.size() > 0) {
+				for (Transition t : out) {
+
+					if (result == null)
+						result = new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo()));
+					else
+						result = new Or(result, new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo())));
+				}
+
+				equations.add(new Equation(s, result));
+			} else
+				equations.add(new Equation(s, new GroundCoeff("")));
+		}
+
+		int indexOfInitialState = 0;
+
+
+		for (int i = 0; i < equations.size(); ++i) {
+			Equation e;
+
+			if (equations.get(i).getLeftSide().isInitialState()) {
+				indexOfInitialState = i;
+				//break;
+			}
+
+
+			equations.set(i, (e = new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify())));
+
+			if (!equations.get(i).isIndipendent()) {
+				equations.set(i, equations.get(i).syntetize());
+				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
+			}
+
+			if(e.getE().isGround()) toSubstitute.add(e);
+		}
+
+
+		// Fix-point
+		while (!equations.get(indexOfInitialState).getE().isGround()) {
+
+			for(int i = 0 ; i < equations.size(); i++){
+				Equation eq = equations.get(i);
+
+				// Synthetize the indipendent equations
+				if (!eq.isIndipendent()) {
+					equations.set(i, eq.syntetize());
+					equations.set(i, new Equation(eq.getLeftSide(), eq.getE().simplify()));
+				}
+
+
+				for(int j = 0 ; i < toSubstitute.size() && !eq.getE().isGround(); i++){
+					Equation neq;
+
+					// substitute
+					equations.set(i, (neq=new Equation(eq.getLeftSide(), eq.getE().replace(eq.getLeftSide(), toSubstitute.get(j).getE()))));
+
+					if(neq.getE().isGround())
+						toSubstitute.add(neq);
+
+
+
+
+				}
+
+			}
+
 		}
 
 		return equations.get(indexOfInitialState).getE().simplify();
