@@ -71,4 +71,6 @@ public class Equation {
 		return getLeftSide().toString() + "=" + e.toString();
 	}
 
+
+
 }

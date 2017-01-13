@@ -452,6 +452,77 @@ public class Automaton {
 		return result;
 	}
 
+	/**
+	 *
+	 * @param path the path containing the automaton
+	 * @return the automaton descripted in file
+	 * @throws MalformedInputException whenever the file doesn't complain with the default pattern
+	 *
+	 * Read and returns an Automaton from file. It must be formatted in the following way:
+	 *[state_name][reject] or [initial]
+	 * <tab>[state_from] Sym -> [state_to]</tab>
+	 *
+	 *
+	 *
+	 *
+	 */
+	private static Automaton loadAutomataWithAlternatePattern(String path){
+		/*
+		 * This method follows this pattern in the file
+		 * 	q0 q1 a
+		 * 	q1 q2 b
+		 * 	q2 q3 c
+		 */
+
+		BufferedReader br = null;
+
+		HashMap<String, State> mapStates = new HashMap<String, State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+		HashSet<State> states = new HashSet<State>();
+		HashSet<State> initialStates = new HashSet<State>();
+		State initialstate = null;
+
+		State currentState;
+		int lineNum;
+
+
+		try{
+			String currentLine;
+			br = new BufferedReader(new FileReader(path) );
+
+
+			while((currentLine = br.readLine()) != null ){
+				// state
+				if(currentLine.charAt(0) != '\t'){
+
+
+
+				}
+				// transition
+				else{
+
+				}
+
+			}
+
+
+		}catch(IOException | MalformedInputException e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			try{
+				br.close();
+			}catch(Exception c){
+				System.err.println("Failed to close BufferedReader stream in loadAutomataWithAlternatePattern: " + c.getMessage() );
+			}
+		}
+
+		Automaton a= new Automaton(initialstate,delta,states);
+
+		return a;
+	}
+
+
 
 	/**
 	 * 
@@ -1733,7 +1804,7 @@ public class Automaton {
 
 			equations.set(i, (e = new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify())));
 
-			if (!equations.get(i).isIndipendent()) {
+			if (equations.get(i).isIndipendent()) {
 				equations.set(i, equations.get(i).syntetize());
 				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
 			}
@@ -1745,29 +1816,52 @@ public class Automaton {
 		// Fix-point
 		while (!equations.get(indexOfInitialState).getE().isGround()) {
 
+			for(int i = 0; i < equations.size(); i++){
+				int k;
+
+				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
+
+				if (equations.get(i).isIndipendent()) {
+					equations.set(i, equations.get(i).syntetize());
+					equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
+
+					for(k = 0; k < toSubstitute.size() && equations.get(i).getE().isGround(); k++){
+						if(toSubstitute.get(k).getLeftSide().equals(equations.get(i).getLeftSide())){
+							toSubstitute.set(k, equations.get(i));
+							break;
+						}
+					}
+
+					if(k == toSubstitute.size() && equations.get(i).getE().isGround()){
+						toSubstitute.add(equations.get(i));
+					}
+
+				}
+
+			}
+
 			for(int i = 0 ; i < equations.size(); i++){
-				Equation eq = equations.get(i);
+
 				Equation neq;
 
 				// Synthetize the indipendent equations
-				if (!eq.isIndipendent()) {
-					equations.set(i, eq.syntetize());
-					equations.set(i, new Equation(eq.getLeftSide(), eq.getE().simplify()));
+				if (!equations.get(i).isIndipendent()) {
+					equations.set(i, equations.get(i).syntetize());
+					equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
 				}
 
 
-				for(int j = 0 ; j < toSubstitute.size() && !eq.getE().isGround(); j++){
+				for(int j = 0 ; j < toSubstitute.size() && !equations.get(i).getE().isGround(); j++){
 
 
 					// substitute
-					equations.set(i, (neq=new Equation(eq.getLeftSide(), eq.getE().replace(toSubstitute.get(j).getLeftSide(), toSubstitute.get(j).getE()))));
+					equations.set(i, (neq=new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().replace(toSubstitute.get(j).getLeftSide(), toSubstitute.get(j).getE()))));
+
 
 					if(neq.getE().isGround()) {
 						toSubstitute.add(neq);
 						break;
 					}
-
-
 
 
 				}
