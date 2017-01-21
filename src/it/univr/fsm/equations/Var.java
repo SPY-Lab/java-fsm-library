@@ -35,6 +35,10 @@ public class Var extends RegularExpression {
 		return this;
 	}
 
+	@Override
+	public RegularExpression syntetize(State s) {
+		return this;
+	}
 
 	@Override
 	public boolean containsOnly(State s) {

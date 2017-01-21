@@ -32,6 +32,12 @@ public class Or extends RegularExpression {
 		return new Or(first.replace(s, e), second.replace(s, e));
 	}
 
+
+	@Override
+	public RegularExpression syntetize(State s) {
+		return new Or(first.syntetize(s), second.syntetize(s));
+	}
+
 	@Override
 	public boolean containsOnly(State s) {
 		return first.containsOnly(s) && second.containsOnly(s);
@@ -39,7 +45,7 @@ public class Or extends RegularExpression {
 
 	@Override
 	public boolean contains(State s) {
-		return first.containsOnly(s) || second.containsOnly(s);
+		return first.contains(s) || second.contains(s);
 	}
 
 	@Override

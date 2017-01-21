@@ -12,11 +12,20 @@ import it.univr.fsm.machine.*;
 public class Main {
 
 	public static void main(String[] args) {
-		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0011");
+
+		final long startTime = System.currentTimeMillis();
+
+
+		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0010");
+		a.determinize();
 		a.minimize();
 
 		System.out.println(a.toRegex());
 
+
+		final long endTime = System.currentTimeMillis();
+
+		System.out.println("Total execution time: " + ((endTime - startTime)/1000) );
 
 
 		

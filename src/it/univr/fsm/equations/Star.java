@@ -37,6 +37,11 @@ public class Star extends RegularExpression {
 	}
 
 	@Override
+	public RegularExpression syntetize(State s) {
+		return this;
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return op.containsOnly(s);
 	}

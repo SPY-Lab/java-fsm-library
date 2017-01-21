@@ -33,13 +33,24 @@ public class Comp extends RegularExpression {
 	}
 
 	@Override
+	public RegularExpression syntetize(State s) {
+		if(first instanceof Var && first.containsOnly(s)){
+			return new Star(second);
+		}
+		else if(second instanceof Var && second.containsOnly(s))
+			return new Star(first);
+		else
+			return new Comp(first.syntetize(s), second.syntetize(s));
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return  first.containsOnly(s) && second.containsOnly(s);
 	}
 
 	@Override
 	public boolean contains(State s) {
-		return  first.containsOnly(s) || second.containsOnly(s);
+		return  first.contains(s) || second.contains(s);
 	}
 
 	@Override

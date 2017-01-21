@@ -23,13 +23,18 @@ public class GroundCoeff extends RegularExpression {
 	}
 
 	@Override
+	public RegularExpression syntetize(State s) {
+		return this;
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return true;
 	}
 
 	@Override
 	public boolean contains(State s) {
-		return true;
+		return false;
 	}
 
 	@Override

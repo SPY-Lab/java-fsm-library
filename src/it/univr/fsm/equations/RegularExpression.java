@@ -24,4 +24,5 @@ public abstract class RegularExpression {
 	public abstract String getProgram();
 
 	public abstract Vector<RegularExpression> inBlockPart();
+	public abstract RegularExpression syntetize(State s);
 }
