@@ -43,6 +43,10 @@ public class Var extends RegularExpression {
 		return false;
 	}
 
+	@Override
+	public boolean contains(State s) {
+		return containsOnly(s);
+	}
 
 	@Override
 	public Vector<RegularExpression> getTermsWithState(State s) {
@@ -74,6 +78,11 @@ public class Var extends RegularExpression {
 		return v;
 	}
 
+
+	@Override
+	public Vector<RegularExpression> inBlockPart(){
+		return inSinglePart();
+	}
 
 	@Override
 	public RegularExpression simplify() {

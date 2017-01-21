@@ -12,8 +12,8 @@ import it.univr.fsm.machine.*;
 public class Main {
 
 	public static void main(String[] args) {
-		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0010");
-		a.determinize();
+		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0011");
+		a.minimize();
 
 		System.out.println(a.toRegex());
 

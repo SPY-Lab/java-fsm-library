@@ -30,12 +30,20 @@ public class Star extends RegularExpression {
 
 	@Override
 	public RegularExpression replace(State s, RegularExpression e) {
-		return op.replace(s, e);
+		if(!op.isGround())
+			return op.replace(s, e);
+		else
+			return this;
 	}
 
 	@Override
 	public boolean containsOnly(State s) {
 		return op.containsOnly(s);
+	}
+
+	@Override
+	public boolean contains(State s) {
+		return op.contains(s);
 	}
 
 	@Override
@@ -59,8 +67,16 @@ public class Star extends RegularExpression {
 	}
 	@Override
 	public Vector<RegularExpression> inSinglePart() {
-		return null;
+		return inBlockPart();
 	}
+
+	@Override
+	public Vector<RegularExpression> inBlockPart() {
+		Vector<RegularExpression> v = new Vector<RegularExpression>();
+		v.add(this);
+		return v;
+	}
+
 	@Override
 	public RegularExpression simplify() {
 		return new Star(this.op.simplify());

@@ -28,6 +28,11 @@ public class GroundCoeff extends RegularExpression {
 	}
 
 	@Override
+	public boolean contains(State s) {
+		return true;
+	}
+
+	@Override
 	public Vector<RegularExpression> getTermsWithState(State s) {
 		return new Vector<RegularExpression>();
 	}
@@ -49,6 +54,11 @@ public class GroundCoeff extends RegularExpression {
 		Vector<RegularExpression> v = new Vector<RegularExpression>();
 		v.add(this);
 		return v;
+	}
+
+	@Override
+	public Vector<RegularExpression> inBlockPart() {
+		return inSinglePart();
 	}
 
 	@Override

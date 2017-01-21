@@ -14,6 +14,14 @@ public class Comp extends RegularExpression {
 		this.second = second;
 	}
 
+	public RegularExpression getFirst() {
+		return first;
+	}
+
+	public RegularExpression getSecond() {
+		return second;
+	}
+
 	@Override
 	public String toString() {
 		return first.toString() + second.toString();
@@ -28,7 +36,12 @@ public class Comp extends RegularExpression {
 	public boolean containsOnly(State s) {
 		return  first.containsOnly(s) && second.containsOnly(s);
 	}
-	
+
+	@Override
+	public boolean contains(State s) {
+		return  first.containsOnly(s) || second.containsOnly(s);
+	}
+
 	@Override
 	public Vector<RegularExpression> getTermsWithState(State s) {
 		Vector<RegularExpression> v = new Vector<RegularExpression>();
@@ -64,7 +77,15 @@ public class Comp extends RegularExpression {
 		
 		return v;
 	}
-	
+
+	@Override
+	public Vector<RegularExpression> inBlockPart() {
+		Vector<RegularExpression> v = new Vector<>();
+		v.add(first);
+		v.add(second);
+		return v;
+	}
+
 	@Override
 	public RegularExpression simplify() {
 		if (this.second.simplify() instanceof Or) {

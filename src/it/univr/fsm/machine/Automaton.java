@@ -476,14 +476,12 @@ public class Automaton {
 
 		BufferedReader br = null;
 
-		HashMap<String, State> mapStates = new HashMap<String, State>();
+
+		HashMap<String, State> mapStates = new HashMap<>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
-		HashSet<State> initialStates = new HashSet<State>();
 		State initialstate = null;
 
-		State currentState;
-		int lineNum;
 
 
 		try{
@@ -492,16 +490,96 @@ public class Automaton {
 
 
 			while((currentLine = br.readLine()) != null ){
+				State current = null;
+				State next = null;
+				String sym = "";
+				String stateName = "";
+
 				// state
 				if(currentLine.charAt(0) != '\t'){
+					String[] pieces = currentLine.split(" ");
 
+					// sanity check
+					if(pieces.length < 2) throw new MalformedInputException();
+
+					for(int i = 0; i < pieces.length; i++){
+
+						if(pieces[i].startsWith("[") && pieces[i].endsWith("]") && i == 0){
+							stateName = pieces[i].substring(1, pieces[i].length()-1);
+							// found state
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+							}else{
+								mapStates.put(pieces[i], (current=new State(pieces[i],false,false)));
+							}
+
+						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
+								&& pieces[i].substring(1, pieces[i].length()-1).equals("reject")){
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+								current.setInitialState(true);
+								initialstate = current;
+							}else{
+								throw new MalformedInputException();
+							}
+
+						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
+								&& pieces[i].substring(1, pieces[i].length()-1).equals("accept")){
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+								current.setFinalState(true);
+							}else{
+								throw new MalformedInputException();
+							}
+
+						}
+					}
+
+					if(current == null) throw new MalformedInputException();
+
+					states.add(current);
 
 
 				}
 				// transition
 				else{
+					String line = currentLine.substring(1, currentLine.length());
+					String[] pieces = line.split(" ");
 
+					// sanity check
+					if (pieces.length > 3 || pieces.length <= 2) throw new MalformedInputException();
+
+
+					for(int i = 0; i < pieces.length; i++){
+						if(pieces[i].startsWith("[") && pieces[i].endsWith("]") && i == 0){
+							// state from
+							stateName = pieces[i].substring(1, pieces[i].length()-1);
+							if(!current.getState().equals(stateName)) throw new MalformedInputException();
+
+							//FIXME: insert into map? into states?
+
+						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")){
+							// next state
+							stateName = pieces[i].substring(1, pieces[i].length()-1);
+							if(mapStates.containsKey(stateName)){
+								next = mapStates.get(stateName);
+								states.add(next);
+							}else{
+								mapStates.put(pieces[i], (next = new State(pieces[i],false,false)));
+							}
+
+						}else if(!pieces[i].equals("->")){
+							// transition symbol
+							sym = pieces[i];
+
+						}
+					}
+
+					delta.add(new Transition(current,next,sym,""));
+					
 				}
+
+
 
 			}
 
@@ -1760,6 +1838,18 @@ public class Automaton {
 
 	}*/
 
+	private boolean resolveUndeterminedEquationSet(Vector<Equation> equationVector){
+		for(Equation e1 : equationVector){
+			for(Equation e2: equationVector){
+
+			}
+
+		}
+
+
+	return false;
+	}
+
 	/**
 	 * Returns the regular expressions associated to this automaton
 	 * using the Brzozowski algebraic method.
@@ -1769,7 +1859,8 @@ public class Automaton {
 
 		Vector<Equation> equations = new Vector<Equation>();
 
-		Vector<Equation> toSubstitute = new Vector<Equation>();
+		HashMap<State, Equation> toSubstitute = new HashMap<>();
+		boolean equationReplaced = true;
 
 		for (State s : this.getStates()) {
 			RegularExpression result = null;
@@ -1793,6 +1884,7 @@ public class Automaton {
 		int indexOfInitialState = 0;
 
 
+		// search for initial state index and minimize equations first, then add ground formulas
 		for (int i = 0; i < equations.size(); ++i) {
 			Equation e;
 
@@ -1809,12 +1901,14 @@ public class Automaton {
 				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
 			}
 
-			if(e.getE().isGround()) toSubstitute.add(e);
+			if(e.getE().isGround()) toSubstitute.put(e.getLeftSide(),e);
 		}
 
 
 		// Fix-point
 		while (!equations.get(indexOfInitialState).getE().isGround()) {
+
+
 
 			for(int i = 0; i < equations.size(); i++){
 				int k;
@@ -1825,20 +1919,28 @@ public class Automaton {
 					equations.set(i, equations.get(i).syntetize());
 					equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
 
-					for(k = 0; k < toSubstitute.size() && equations.get(i).getE().isGround(); k++){
-						if(toSubstitute.get(k).getLeftSide().equals(equations.get(i).getLeftSide())){
-							toSubstitute.set(k, equations.get(i));
-							break;
-						}
-					}
 
-					if(k == toSubstitute.size() && equations.get(i).getE().isGround()){
-						toSubstitute.add(equations.get(i));
+
+					// replacing in toSubstitute
+					if( equations.get(i).getE().isGround()){
+						toSubstitute.put(equations.get(i).getLeftSide(), equations.get(i));
 					}
 
 				}
 
 			}
+
+			if(!equationReplaced){
+				for(int l = 0 ; l < equations.size(); l++){
+					if(l != indexOfInitialState && !toSubstitute.containsKey(equations.get(l).getLeftSide())){
+						toSubstitute.put(equations.get(l).getLeftSide(), equations.get(l));
+						break;
+					}
+				}
+			}
+
+
+			equationReplaced = false;
 
 			for(int i = 0 ; i < equations.size(); i++){
 
@@ -1851,19 +1953,27 @@ public class Automaton {
 				}
 
 
-				for(int j = 0 ; j < toSubstitute.size() && !equations.get(i).getE().isGround(); j++){
+				// search for equations to replace
+				if(!equations.get(i).getE().isGround()) {
+					Vector<RegularExpression> expressions = equations.get(i).getE().inSinglePart();
 
+					for (RegularExpression piece : expressions) {
+						if(piece instanceof Var && toSubstitute.containsKey(( (Var) piece).getVariable())) {
+							State var = ((Var) piece).getVariable();
+							Equation getFromSubstituteMap = toSubstitute.get( var );
 
-					// substitute
-					equations.set(i, (neq=new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().replace(toSubstitute.get(j).getLeftSide(), toSubstitute.get(j).getE()))));
+							// substitute
+							equations.set(i, (neq = new Equation(equations.get(i).getLeftSide(),
+									equations.get(i).getE().replace(var, getFromSubstituteMap.getE() ))));
+							equationReplaced = true;
 
+							if (neq.getE().isGround() || toSubstitute.containsKey(neq.getLeftSide())) {
+								toSubstitute.put(neq.getLeftSide(), neq);
+								break;
+							}
+						}
 
-					if(neq.getE().isGround()) {
-						toSubstitute.add(neq);
-						break;
 					}
-
-
 				}
 
 			}

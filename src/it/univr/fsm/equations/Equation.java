@@ -30,6 +30,7 @@ public class Equation {
 	}
 
 
+	/*
 	public Equation syntetize() {
 		if (this.isIndipendent() && !this.getE().isGround()) {
 			Vector<RegularExpression> st = this.getE().getTermsWithState(this.getLeftSide());
@@ -59,12 +60,74 @@ public class Equation {
 		}
 		return this;
 	}
+	*/
 
+	public Equation syntetize(){
+		if (this.isIndipendent() && !this.getE().isGround()) {
+			this.getE().simplify();
+			Vector<RegularExpression> parts = getE().inBlockPart();
+
+			if(this.e.contains(this.getLeftSide())){
+				RegularExpression result = null;
+				for(int i=0 ; i < parts.size(); i++){
+					RegularExpression part = parts.get(i);
+					if(result == null) {
+						if(part instanceof Or) {
+							Equation e1 = new Equation(this.getLeftSide(), ((Or) part).getFirst());
+							Equation e2 = new Equation(this.getLeftSide(), ((Or) part).getSecond());
+							result = new Or(e1.syntetize().getE(), e2.syntetize().getE());
+						}else if(part instanceof Comp){
+
+						}else
+							result = part;
+					}else {
+						if (part instanceof Comp ) {
+							RegularExpression groundTerm = null;
+							if (((Comp) part).getFirst().isGround()) {
+								groundTerm = ((Comp) part).getFirst();
+							}else {
+								groundTerm = ((Comp) part).getSecond();
+
+							}
+							result = new Or(result, new Comp(groundTerm,new Star(groundTerm)));
+
+						} else if (part instanceof Or) {
+							Equation e = new Equation(this.getLeftSide(), part);
+							result = new Or(result, e.syntetize().getE());
+
+						} else if (part instanceof GroundCoeff || part instanceof Var || part instanceof Star) {
+							result = new Or(result, part);
+
+						}
+
+					}
+				}
+
+
+				return new Equation(this.getLeftSide(),result);
+			}
+
+		}
+
+		return this;
+	}
+
+
+	/*
 	public boolean isIndipendent() {
 		if (this.getE().containsOnly(this.getLeftSide()))
 			return true;
 		return false;
 	}
+	*/
+
+	public boolean isIndipendent() {
+		if (this.getE().contains(this.getLeftSide()))
+			return true;
+		return false;
+	}
+
+
 
 	@Override
 	public String toString() {

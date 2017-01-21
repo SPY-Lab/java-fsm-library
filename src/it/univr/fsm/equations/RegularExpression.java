@@ -14,10 +14,14 @@ import it.univr.fsm.machine.State;
 public abstract class RegularExpression {
 	public abstract RegularExpression replace(State s, RegularExpression e);
 	public abstract boolean containsOnly(State s);
+	public abstract boolean contains(State s);
 	public abstract Vector<RegularExpression> getTermsWithState(State s);
 	public abstract Vector<RegularExpression> getGroundTerms();
 	public abstract boolean isGround();
 	public abstract Vector<RegularExpression> inSinglePart();
+
 	public abstract RegularExpression simplify();
 	public abstract String getProgram();
+
+	public abstract Vector<RegularExpression> inBlockPart();
 }

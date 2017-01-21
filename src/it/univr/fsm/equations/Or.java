@@ -13,7 +13,15 @@ public class Or extends RegularExpression {
 		this.first = first;
 		this.second = second;
 	}
-	
+
+	public RegularExpression getSecond() {
+		return second;
+	}
+
+	public RegularExpression getFirst() {
+		return first;
+	}
+
 	@Override
 	public String toString() {
 		return "(" + first.toString() + " + " + second.toString() + ")";
@@ -27,6 +35,11 @@ public class Or extends RegularExpression {
 	@Override
 	public boolean containsOnly(State s) {
 		return first.containsOnly(s) && second.containsOnly(s);
+	}
+
+	@Override
+	public boolean contains(State s) {
+		return first.containsOnly(s) || second.containsOnly(s);
 	}
 
 	@Override
@@ -76,6 +89,14 @@ public class Or extends RegularExpression {
 		for (int i = 0; i < second.inSinglePart().size(); ++i)
 			v.add(second.inSinglePart().get(i));
 		
+		return v;
+	}
+
+	@Override
+	public Vector<RegularExpression> inBlockPart(){
+		Vector<RegularExpression> v = new Vector<>();
+		v.add(first);
+		v.add(second);
 		return v;
 	}
 
