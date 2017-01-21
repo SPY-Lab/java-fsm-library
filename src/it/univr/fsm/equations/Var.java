@@ -69,6 +69,7 @@ public class Var extends RegularExpression {
 	}
 
 
+
 	@Override
 	public boolean isGround() {
 		return false;
