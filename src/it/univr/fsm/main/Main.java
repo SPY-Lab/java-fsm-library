@@ -16,8 +16,7 @@ public class Main {
 		final long startTime = System.currentTimeMillis();
 
 
-		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0010");
-		a.determinize();
+		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0008");
 		a.minimize();
 
 		System.out.println(a.toRegex());
@@ -25,7 +24,7 @@ public class Main {
 
 		final long endTime = System.currentTimeMillis();
 
-		System.out.println("Total execution time: " + ((endTime - startTime)/1000) );
+		System.out.println("Total execution time: " + (endTime - startTime) + " ms");
 
 
 		

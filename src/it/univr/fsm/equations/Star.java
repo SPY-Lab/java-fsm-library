@@ -30,9 +30,6 @@ public class Star extends RegularExpression {
 
 	@Override
 	public RegularExpression replace(State s, RegularExpression e) {
-		if(!op.isGround())
-			return op.replace(s, e);
-		else
 			return this;
 	}
 

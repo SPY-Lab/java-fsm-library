@@ -1838,17 +1838,6 @@ public class Automaton {
 
 	}*/
 
-	private boolean resolveUndeterminedEquationSet(Vector<Equation> equationVector){
-		for(Equation e1 : equationVector){
-			for(Equation e2: equationVector){
-
-			}
-
-		}
-
-
-	return false;
-	}
 
 	/**
 	 * Returns the regular expressions associated to this automaton
@@ -1861,6 +1850,7 @@ public class Automaton {
 
 		HashMap<State, Equation> toSubstitute = new HashMap<>();
 		boolean equationReplaced = true;
+		boolean toSubstituteUpdated = false;
 
 		for (State s : this.getStates()) {
 			RegularExpression result = null;
@@ -1912,13 +1902,15 @@ public class Automaton {
 			// syntetize all the equations
 			for(int i = 0; i < equations.size(); i++){
 
-				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
+				//System.out.println("Simplifying 1" + equations.get(i).getLeftSide());
+				equations.set(i, new Equation(equations.get(i).getLeftSide(),
+						equations.get(i).getE().simplify()));
 
 				if (equations.get(i).isIndipendent()) {
 					equations.set(i, equations.get(i).syntetize());
 					equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
 
-					System.out.println("Syntethized 1" + equations.get(i).getLeftSide());
+					//System.out.println("Syntetized 1" + equations.get(i).getLeftSide());
 
 					// replacing in toSubstitute
 					if( toSubstitute.containsKey(equations.get(i).getLeftSide())){
@@ -1946,52 +1938,52 @@ public class Automaton {
 
 
 			equationReplaced = false;
+			toSubstituteUpdated = false;
 
-			for(int i = 0 ; i < equations.size(); i++){
-
-				Equation neq;
-
-				// Synthetize the indipendent equations
-				if (!equations.get(i).isIndipendent()) {
-					equations.set(i, equations.get(i).syntetize());
-					equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
-
-					System.out.println("Syntethized 2" + equations.get(i).getLeftSide());
-
-					// replacing in toSubstitute
-					if( toSubstitute.containsKey(equations.get(i).getLeftSide())){
-						toSubstitute.replace(equations.get(i).getLeftSide(), equations.get(i));
-					}else {
-						// add to toSubstitute if the formula is ground
-						if (equations.get(i).getE().isGround()) {
-							toSubstitute.put(equations.get(i).getLeftSide(), equations.get(i));
-						}
-					}
-
-				}
-
+			for (State s : toSubstitute.keySet()) {
 
 				// search for equations to replace
-				if(!equations.get(i).getE().isGround()) {
+				for(int i = 0 ; i < equations.size(); i++){
 
-					for (State s : toSubstitute.keySet()) {
+					// Synthetize the indipendent equations
+					if (!equations.get(i).isIndipendent()) {
+
+						equations.set(i, equations.get(i).syntetize());
+						//System.out.println("Simplifying 2" + equations.get(i).getLeftSide());
+						equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
+
+						//System.out.println("Syntetized 2" + equations.get(i).getLeftSide());
+
+						// replacing in toSubstitute
+						if( toSubstitute.containsKey(equations.get(i).getLeftSide())){
+							toSubstitute.replace(equations.get(i).getLeftSide(), equations.get(i));
+						}else {
+							// add to toSubstitute if the formula is ground
+							if (equations.get(i).getE().isGround()) {
+								toSubstitute.put(equations.get(i).getLeftSide(), equations.get(i));
+							}
+						}
+
+					}
+					if(!equations.get(i).getE().isGround()) {
 						if(equations.get(i).getE().contains(s)) {
 							Equation getFromSubstituteMap = toSubstitute.get( s );
 
 							// substitute
-							equations.set(i, (neq = new Equation(equations.get(i).getLeftSide(),
-									equations.get(i).getE().replace(s, getFromSubstituteMap.getE() ))));
+							equations.set(i, new Equation(equations.get(i).getLeftSide(),
+									equations.get(i).getE().replace(s, getFromSubstituteMap.getE() )));
 							equationReplaced = true;
-							System.out.println("Replaced: " + equations.get(i).getLeftSide());
-							System.out.println(i);
+							//System.out.println("Replaced: " + equations.get(i).getLeftSide());
 
 							// replacing in toSubstitute
 							if( toSubstitute.containsKey(equations.get(i).getLeftSide())){
 								toSubstitute.replace(equations.get(i).getLeftSide(), equations.get(i));
+								break;
 							}else {
 								// add to toSubstitute if the formula is ground
 								if (equations.get(i).getE().isGround()) {
 									toSubstitute.put(equations.get(i).getLeftSide(), equations.get(i));
+									toSubstituteUpdated = true;
 									break;
 								}
 							}
@@ -2002,6 +1994,7 @@ public class Automaton {
 
 					}
 				}
+				if(toSubstituteUpdated) break;
 
 			}
 

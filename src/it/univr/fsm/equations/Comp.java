@@ -99,9 +99,10 @@ public class Comp extends RegularExpression {
 
 	@Override
 	public RegularExpression simplify() {
-		if (this.second.simplify() instanceof Or) {
+		if (this.second instanceof Or) {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
 		}
+
 		return this;
 	}
 
