@@ -466,13 +466,8 @@ public class Automaton {
 	 *
 	 *
 	 */
-	private static Automaton loadAutomataWithAlternatePattern(String path){
-		/*
-		 * This method follows this pattern in the file
-		 * 	q0 q1 a
-		 * 	q1 q2 b
-		 * 	q2 q3 c
-		 */
+	public static Automaton loadAutomataWithAlternatePattern(String path){
+
 
 		BufferedReader br = null;
 
@@ -497,7 +492,7 @@ public class Automaton {
 
 				// state
 				if(currentLine.charAt(0) != '\t'){
-					String[] pieces = currentLine.split(" ");
+					String[] pieces = currentLine.trim().split(" ");
 
 					// sanity check
 					if(pieces.length < 2) throw new MalformedInputException();
@@ -510,21 +505,11 @@ public class Automaton {
 							if(mapStates.containsKey(stateName)){
 								current = mapStates.get(stateName);
 							}else{
-								mapStates.put(pieces[i], (current=new State(pieces[i],false,false)));
+								mapStates.put(stateName, (current=new State(stateName,false,false)));
 							}
 
 						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
-								&& pieces[i].substring(1, pieces[i].length()-1).equals("reject")){
-							if(mapStates.containsKey(stateName)){
-								current = mapStates.get(stateName);
-								current.setInitialState(true);
-								initialstate = current;
-							}else{
-								throw new MalformedInputException();
-							}
-
-						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
-								&& pieces[i].substring(1, pieces[i].length()-1).equals("accept")){
+								&& pieces[i].contains("accept")){
 							if(mapStates.containsKey(stateName)){
 								current = mapStates.get(stateName);
 								current.setFinalState(true);
@@ -532,31 +517,48 @@ public class Automaton {
 								throw new MalformedInputException();
 							}
 
+						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
+								&& pieces[i].contains("initial")){
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+								initialstate = current;
+								current.setInitialState(true);
+							}else{
+								throw new MalformedInputException();
+							}
 						}
 					}
 
 					if(current == null) throw new MalformedInputException();
 
-					states.add(current);
+					if(!states.contains(current))
+						states.add(current);
+					else {
+						states.remove(current);
+						states.add(current);
+					}
 
 
 				}
 				// transition
 				else{
-					String line = currentLine.substring(1, currentLine.length());
+					String line = currentLine.substring(1, currentLine.length()).trim();
 					String[] pieces = line.split(" ");
 
 					// sanity check
-					if (pieces.length > 3 || pieces.length <= 2) throw new MalformedInputException();
+					if (pieces.length > 4 || pieces.length < 3) throw new MalformedInputException();
 
 
 					for(int i = 0; i < pieces.length; i++){
 						if(pieces[i].startsWith("[") && pieces[i].endsWith("]") && i == 0){
 							// state from
 							stateName = pieces[i].substring(1, pieces[i].length()-1);
-							if(!current.getState().equals(stateName)) throw new MalformedInputException();
 
-							//FIXME: insert into map? into states?
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+							}else{
+								throw new MalformedInputException();
+							}
 
 						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")){
 							// next state
@@ -565,7 +567,7 @@ public class Automaton {
 								next = mapStates.get(stateName);
 								states.add(next);
 							}else{
-								mapStates.put(pieces[i], (next = new State(pieces[i],false,false)));
+								mapStates.put(stateName, (next = new State(stateName,false,false)));
 							}
 
 						}else if(!pieces[i].equals("->")){

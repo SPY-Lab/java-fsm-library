@@ -16,10 +16,10 @@ public class Main {
 		final long startTime = System.currentTimeMillis();
 
 
-		Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0008");
-		a.minimize();
+		Automaton a = Automaton.loadAutomataWithAlternatePattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0013");
 
-		System.out.println(a.toRegex());
+
+
 
 
 		final long endTime = System.currentTimeMillis();

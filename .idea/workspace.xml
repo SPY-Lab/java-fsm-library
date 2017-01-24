@@ -7,11 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="644a0ed2-d80f-4aab-ab79-228277580b87" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/automata/automaton0013" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/main/Main.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/main/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" afterPath="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" />
     </list>
     <ignored path="java-fsm-library.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,129 +46,15 @@
       <file leaf-file-name="Automaton.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-75">
-              <caret line="1975" column="30" lean-forward="false" selection-start-line="1975" selection-start-column="30" selection-end-line="1975" selection-end-column="30" />
+            <state relative-caret-position="175">
+              <caret line="461" column="6" lean-forward="true" selection-start-line="461" selection-start-column="6" selection-end-line="462" selection-end-column="48" />
               <folding>
-                <element signature="e#1734#1762#0" expanded="true" />
-                <element signature="e#1832#1860#0" expanded="true" />
-                <element signature="e#7148#7161#0" expanded="true" />
-                <element signature="e#7216#7230#0" expanded="true" />
-                <element signature="e#7278#7290#0" expanded="true" />
-                <element signature="e#7334#7341#0" expanded="true" />
-                <element signature="e#9729#9742#0" expanded="true" />
-                <element signature="e#9790#9802#0" expanded="true" />
-                <element signature="e#9846#9853#0" expanded="true" />
-                <element signature="e#11920#11932#0" expanded="true" />
-                <element signature="e#11973#11980#0" expanded="true" />
-                <element signature="e#15815#15830#0" expanded="true" />
-                <element signature="e#15875#15887#0" expanded="true" />
-                <element signature="e#15928#15935#0" expanded="true" />
-                <element signature="e#15983#15990#0" expanded="true" />
-                <element signature="e#19986#19994#0" expanded="true" />
-                <element signature="e#20319#20326#0" expanded="true" />
-                <element signature="e#20371#20383#0" expanded="true" />
-                <element signature="e#21214#21221#0" expanded="true" />
-                <element signature="e#21269#21281#0" expanded="true" />
-                <element signature="e#21331#21346#0" expanded="true" />
-                <element signature="e#22438#22445#0" expanded="true" />
-                <element signature="e#22490#22502#0" expanded="true" />
-                <element signature="e#24066#24078#0" expanded="true" />
-                <element signature="e#24122#24129#0" expanded="true" />
-                <element signature="e#24194#24208#0" expanded="true" />
-                <element signature="e#24260#24274#0" expanded="true" />
-                <element signature="e#25472#25479#0" expanded="true" />
-                <element signature="e#25527#25539#0" expanded="true" />
-                <element signature="e#26016#26023#0" expanded="true" />
-                <element signature="e#26071#26083#0" expanded="true" />
-                <element signature="e#26557#26564#0" expanded="true" />
-                <element signature="e#26612#26624#0" expanded="true" />
-                <element signature="e#27235#27242#0" expanded="true" />
-                <element signature="e#27285#27292#0" expanded="true" />
-                <element signature="e#27862#27887#0" expanded="true" />
-                <element signature="e#27933#27945#0" expanded="true" />
-                <element signature="e#27989#27996#0" expanded="true" />
-                <element signature="e#28466#28473#0" expanded="true" />
-                <element signature="e#28738#28754#0" expanded="true" />
-                <element signature="e#28901#28908#0" expanded="true" />
-                <element signature="e#31102#31110#0" expanded="true" />
-                <element signature="e#31497#31505#0" expanded="true" />
-                <element signature="e#31870#31877#0" expanded="true" />
-                <element signature="e#31969#31976#0" expanded="true" />
-                <element signature="e#32067#32074#0" expanded="true" />
-                <element signature="e#32506#32513#0" expanded="true" />
-                <element signature="e#32667#32679#0" expanded="true" />
-                <element signature="e#33897#33905#0" expanded="true" />
-                <element signature="e#35726#35733#0" expanded="true" />
-                <element signature="e#39442#39458#0" expanded="true" />
-                <element signature="e#42934#42941#0" expanded="true" />
-                <element signature="e#42989#43001#0" expanded="true" />
-                <element signature="e#43050#43064#0" expanded="true" />
-                <element signature="e#46244#46254#0" expanded="true" />
-                <element signature="e#51881#51893#0" expanded="true" />
-                <element signature="e#52135#52150#0" expanded="true" />
-                <element signature="e#53375#53382#0" expanded="true" />
-                <element signature="e#53481#53488#0" expanded="true" />
-                <element signature="e#53537#53544#0" expanded="true" />
-                <element signature="e#53705#53717#0" expanded="true" />
-                <element signature="e#53759#53766#0" expanded="true" />
-                <element signature="e#54313#54320#0" expanded="true" />
-                <element signature="e#54839#54854#0" expanded="true" />
-                <element signature="e#54898#54912#0" expanded="true" />
-                <element signature="e#54954#54961#0" expanded="true" />
-                <element signature="e#55261#55268#0" expanded="true" />
-                <element signature="e#55774#55789#0" expanded="true" />
-                <element signature="e#55837#55851#0" expanded="true" />
-                <element signature="e#55983#55990#0" expanded="true" />
-                <element signature="e#56570#56577#0" expanded="true" />
-                <element signature="e#56881#56896#0" expanded="true" />
-                <element signature="e#57086#57094#0" expanded="true" />
-                <element signature="e#57451#57459#0" expanded="true" />
-                <element signature="e#58274#58282#0" expanded="true" />
-                <element signature="e#58714#58738#0" expanded="true" />
-                <element signature="e#58825#58841#0" expanded="true" />
-                <element signature="e#59400#59407#0" expanded="true" />
-                <element signature="e#59561#59568#0" expanded="true" />
-                <element signature="e#59626#59649#0" expanded="true" />
-                <element signature="e#59944#59956#0" expanded="true" />
-                <element signature="e#60623#60630#0" expanded="true" />
-                <element signature="e#61876#61883#0" expanded="true" />
-                <element signature="e#61931#61943#0" expanded="true" />
-                <element signature="e#62030#62045#0" expanded="true" />
-                <element signature="e#63704#63719#0" expanded="true" />
-                <element signature="e#63810#63817#0" expanded="true" />
-                <element signature="e#63987#63994#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Var.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Var.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Comp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="104" column="0" lean-forward="true" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegularExpression.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#11817#11829#0" expanded="true" />
+                <element signature="e#11870#11877#0" expanded="true" />
+                <element signature="e#31851#31858#0" expanded="true" />
+                <element signature="e#31950#31957#0" expanded="true" />
+                <element signature="e#32048#32055#0" expanded="true" />
+                <element signature="e#32487#32494#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -180,65 +66,61 @@
             <state relative-caret-position="315">
               <caret line="30" column="41" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
               <folding>
-                <element signature="e#2592#2593#0" expanded="true" />
-                <element signature="e#2659#2660#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#394#395#0" expanded="false" />
+                <element signature="e#414#415#0" expanded="false" />
+                <element signature="e#454#455#0" expanded="false" />
+                <element signature="e#473#474#0" expanded="false" />
+                <element signature="e#513#514#0" expanded="false" />
+                <element signature="e#583#584#0" expanded="false" />
+                <element signature="e#784#785#0" expanded="false" />
+                <element signature="e#845#846#0" expanded="false" />
+                <element signature="e#897#898#0" expanded="false" />
+                <element signature="e#958#959#0" expanded="false" />
+                <element signature="e#1006#1007#0" expanded="false" />
+                <element signature="e#1059#1060#0" expanded="false" />
+                <element signature="e#1989#1990#0" expanded="false" />
+                <element signature="e#2040#2041#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Equation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Equation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-120">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding>
-                <element signature="e#453#454#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GroundCoeff.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="716">
-              <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-              <folding>
-                <element signature="e#1301#1302#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Star.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-              <folding>
-                <element signature="e#688#689#0" expanded="true" />
-                <element signature="e#707#708#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="18" column="125" lean-forward="false" selection-start-line="18" selection-start-column="125" selection-end-line="18" selection-end-column="125" />
+            <state relative-caret-position="285">
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="automaton0010" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/automata/automaton0010">
+      <file leaf-file-name="MinimizationTests.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="162">
+              <caret line="264" column="47" lean-forward="false" selection-start-line="264" selection-start-column="47" selection-end-line="264" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="automaton0008" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/automata/automaton0008">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="automaton0005" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/automata/automaton0005">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="7" lean-forward="false" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -260,6 +142,9 @@
       <find>regex</find>
       <find>32(1)*</find>
       <find>132(1)*</find>
+      <find>k1</find>
+      <find>k4</find>
+      <find>k5</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -300,7 +185,6 @@
         <option value="$PROJECT_DIR$/automata/automaton0011" />
         <option value="$PROJECT_DIR$/automata/automaton0012" />
         <option value="$PROJECT_DIR$/src/it/univr/test/RunTests.java" />
-        <option value="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Equation.java" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java" />
@@ -308,8 +192,10 @@
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Var.java" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java" />
-        <option value="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
+        <option value="$PROJECT_DIR$/automata/automaton0013" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/main/Main.java" />
+        <option value="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
+        <option value="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" />
       </list>
     </option>
   </component>
@@ -333,9 +219,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -387,6 +272,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="univr" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -528,6 +417,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -536,33 +426,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration default="false" name="RunTests.runTest12" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="it.univr.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="java-fsm-library" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="it.univr.test" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.test.RunTests" />
-      <option name="METHOD_NAME" value="runTest12" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.MinimizationTests.reductionTest13">
     <configuration default="false" name="MinimizationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -659,6 +523,32 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="java-fsm-library" />
       <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="MinimizationTests.reductionTest13" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="it.univr.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="java-fsm-library" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="it.univr.test" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.test.MinimizationTests" />
+      <option name="METHOD_NAME" value="reductionTest13" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -868,19 +758,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.RunTests.runTest12" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.MinimizationTests" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest10" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest6" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.MinimizationTests" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest10" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest6" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest13" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.MinimizationTests" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest6" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest10" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.RunTests.runTest12" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest13" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.MinimizationTests" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest6" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest10" />
       </list>
     </recent_temporary>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -925,35 +815,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MinimizationTests - 2017.01.10 at 19h 01m 51s.xml">
-      <configuration name="MinimizationTests" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 01h 59m 09s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests - 2017.01.10 at 19h 04m 15s.xml">
-      <configuration name="MinimizationTests" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 01h 59m 49s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests - 2017.01.10 at 19h 04m 23s.xml">
-      <configuration name="MinimizationTests" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 01m 52s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests - 2017.01.10 at 19h 04m 36s.xml">
-      <configuration name="MinimizationTests" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 08m 04s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests - 2017.01.10 at 22h 43m 07s.xml">
-      <configuration name="MinimizationTests" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 09m 11s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests_reductionTest6 - 2017.01.10 at 17h 53m 33s.xml">
-      <configuration name="MinimizationTests.reductionTest6" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 10m 15s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests_reductionTest6 - 2017.01.10 at 17h 53m 37s.xml">
-      <configuration name="MinimizationTests.reductionTest6" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 24m 10s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests_reductionTest6 - 2017.01.10 at 18h 10m 24s.xml">
-      <configuration name="MinimizationTests.reductionTest6" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 36m 57s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests_reductionTest6 - 2017.01.10 at 18h 13m 18s.xml">
-      <configuration name="MinimizationTests.reductionTest6" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 37m 04s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MinimizationTests_reductionTest6 - 2017.01.10 at 18h 56m 28s.xml">
-      <configuration name="MinimizationTests.reductionTest6" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest13 - 2017.01.24 at 02h 43m 48s.xml">
+      <configuration name="MinimizationTests.reductionTest13" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -978,18 +868,18 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3902439" sideWeight="0.50429183" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40650406" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35636857" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32384825" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3387534" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2539342" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30615166" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26824033" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30615166" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5081301" sideWeight="0.49570817" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39295393" sideWeight="0.49570817" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1063,35 +953,59 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
-          <line>2002</line>
+          <line>2004</line>
           <properties />
           <option name="timeStamp" value="146" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
-          <line>1972</line>
+          <line>1974</line>
           <properties />
           <option name="timeStamp" value="153" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
-          <line>1898</line>
+          <line>1900</line>
           <properties />
           <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
-          <line>1906</line>
+          <line>1908</line>
           <properties />
           <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java</url>
+          <line>255</line>
+          <properties />
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1273</line>
+          <properties />
+          <option name="timeStamp" value="164" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1296</line>
+          <properties />
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1288</line>
+          <properties />
+          <option name="timeStamp" value="168" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="158" />
+      <option name="time" value="169" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1100,99 +1014,31 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1515">
+          <caret line="105" column="27" lean-forward="false" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/automata/automaton0007">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="7" lean-forward="false" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1734#1762#0" expanded="true" />
-            <element signature="e#1832#1860#0" expanded="true" />
-            <element signature="e#7148#7161#0" expanded="true" />
-            <element signature="e#7216#7230#0" expanded="true" />
-            <element signature="e#7278#7290#0" expanded="true" />
-            <element signature="e#7334#7341#0" expanded="true" />
-            <element signature="e#9729#9742#0" expanded="true" />
-            <element signature="e#9790#9802#0" expanded="true" />
-            <element signature="e#9846#9853#0" expanded="true" />
-            <element signature="e#11920#11932#0" expanded="true" />
-            <element signature="e#11973#11980#0" expanded="true" />
-            <element signature="e#15815#15830#0" expanded="true" />
-            <element signature="e#15875#15887#0" expanded="true" />
-            <element signature="e#15928#15935#0" expanded="true" />
-            <element signature="e#15983#15990#0" expanded="true" />
-            <element signature="e#19986#19994#0" expanded="true" />
-            <element signature="e#20319#20326#0" expanded="true" />
-            <element signature="e#20371#20383#0" expanded="true" />
-            <element signature="e#21214#21221#0" expanded="true" />
-            <element signature="e#21269#21281#0" expanded="true" />
-            <element signature="e#21331#21346#0" expanded="true" />
-            <element signature="e#22438#22445#0" expanded="true" />
-            <element signature="e#22490#22502#0" expanded="true" />
-            <element signature="e#24066#24078#0" expanded="true" />
-            <element signature="e#24122#24129#0" expanded="true" />
-            <element signature="e#24194#24208#0" expanded="true" />
-            <element signature="e#24260#24274#0" expanded="true" />
-            <element signature="e#25472#25479#0" expanded="true" />
-            <element signature="e#25527#25539#0" expanded="true" />
-            <element signature="e#26016#26023#0" expanded="true" />
-            <element signature="e#26071#26083#0" expanded="true" />
-            <element signature="e#26557#26564#0" expanded="true" />
-            <element signature="e#26612#26624#0" expanded="true" />
-            <element signature="e#27235#27242#0" expanded="true" />
-            <element signature="e#27285#27292#0" expanded="true" />
-            <element signature="e#27862#27887#0" expanded="true" />
-            <element signature="e#27933#27945#0" expanded="true" />
-            <element signature="e#27989#27996#0" expanded="true" />
-            <element signature="e#28466#28473#0" expanded="true" />
-            <element signature="e#28738#28754#0" expanded="true" />
-            <element signature="e#28901#28908#0" expanded="true" />
-            <element signature="e#31102#31110#0" expanded="true" />
-            <element signature="e#31497#31505#0" expanded="true" />
-            <element signature="e#31870#31877#0" expanded="true" />
-            <element signature="e#31969#31976#0" expanded="true" />
-            <element signature="e#32067#32074#0" expanded="true" />
-            <element signature="e#32506#32513#0" expanded="true" />
-            <element signature="e#32667#32679#0" expanded="true" />
-            <element signature="e#33897#33905#0" expanded="true" />
-            <element signature="e#35726#35733#0" expanded="true" />
-            <element signature="e#39442#39458#0" expanded="true" />
-            <element signature="e#42934#42941#0" expanded="true" />
-            <element signature="e#42989#43001#0" expanded="true" />
-            <element signature="e#43050#43064#0" expanded="true" />
-            <element signature="e#46244#46254#0" expanded="true" />
-            <element signature="e#51881#51893#0" expanded="true" />
-            <element signature="e#52135#52150#0" expanded="true" />
-            <element signature="e#53375#53382#0" expanded="true" />
-            <element signature="e#53481#53488#0" expanded="true" />
-            <element signature="e#53537#53544#0" expanded="true" />
-            <element signature="e#53705#53717#0" expanded="true" />
-            <element signature="e#53759#53766#0" expanded="true" />
-            <element signature="e#54313#54320#0" expanded="true" />
-            <element signature="e#54839#54854#0" expanded="true" />
-            <element signature="e#54898#54912#0" expanded="true" />
-            <element signature="e#54954#54961#0" expanded="true" />
-            <element signature="e#55261#55268#0" expanded="true" />
-            <element signature="e#55774#55789#0" expanded="true" />
-            <element signature="e#55837#55851#0" expanded="true" />
-            <element signature="e#55983#55990#0" expanded="true" />
-            <element signature="e#56570#56577#0" expanded="true" />
-            <element signature="e#56881#56896#0" expanded="true" />
-            <element signature="e#57086#57094#0" expanded="true" />
-            <element signature="e#57451#57459#0" expanded="true" />
-            <element signature="e#58274#58282#0" expanded="true" />
-            <element signature="e#58714#58738#0" expanded="true" />
-            <element signature="e#58825#58841#0" expanded="true" />
-            <element signature="e#59400#59407#0" expanded="true" />
-            <element signature="e#59561#59568#0" expanded="true" />
-            <element signature="e#59626#59649#0" expanded="true" />
-            <element signature="e#59944#59956#0" expanded="true" />
-            <element signature="e#60623#60630#0" expanded="true" />
-            <element signature="e#61876#61883#0" expanded="true" />
-            <element signature="e#61931#61943#0" expanded="true" />
-            <element signature="e#62030#62045#0" expanded="true" />
-            <element signature="e#63704#63719#0" expanded="true" />
-            <element signature="e#63810#63817#0" expanded="true" />
-            <element signature="e#63987#63994#0" expanded="true" />
+            <element signature="e#11817#11829#0" expanded="true" />
+            <element signature="e#11870#11877#0" expanded="true" />
+            <element signature="e#31851#31858#0" expanded="true" />
+            <element signature="e#31950#31957#0" expanded="true" />
+            <element signature="e#32048#32055#0" expanded="true" />
+            <element signature="e#32487#32494#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1223,212 +1069,12 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1734#1762#0" expanded="true" />
-            <element signature="e#1832#1860#0" expanded="true" />
-            <element signature="e#7148#7161#0" expanded="true" />
-            <element signature="e#7216#7230#0" expanded="true" />
-            <element signature="e#7278#7290#0" expanded="true" />
-            <element signature="e#7334#7341#0" expanded="true" />
-            <element signature="e#9729#9742#0" expanded="true" />
-            <element signature="e#9790#9802#0" expanded="true" />
-            <element signature="e#9846#9853#0" expanded="true" />
-            <element signature="e#11920#11932#0" expanded="true" />
-            <element signature="e#11973#11980#0" expanded="true" />
-            <element signature="e#15815#15830#0" expanded="true" />
-            <element signature="e#15875#15887#0" expanded="true" />
-            <element signature="e#15928#15935#0" expanded="true" />
-            <element signature="e#15983#15990#0" expanded="true" />
-            <element signature="e#19986#19994#0" expanded="true" />
-            <element signature="e#20319#20326#0" expanded="true" />
-            <element signature="e#20371#20383#0" expanded="true" />
-            <element signature="e#21214#21221#0" expanded="true" />
-            <element signature="e#21269#21281#0" expanded="true" />
-            <element signature="e#21331#21346#0" expanded="true" />
-            <element signature="e#22438#22445#0" expanded="true" />
-            <element signature="e#22490#22502#0" expanded="true" />
-            <element signature="e#24066#24078#0" expanded="true" />
-            <element signature="e#24122#24129#0" expanded="true" />
-            <element signature="e#24194#24208#0" expanded="true" />
-            <element signature="e#24260#24274#0" expanded="true" />
-            <element signature="e#25472#25479#0" expanded="true" />
-            <element signature="e#25527#25539#0" expanded="true" />
-            <element signature="e#26016#26023#0" expanded="true" />
-            <element signature="e#26071#26083#0" expanded="true" />
-            <element signature="e#26557#26564#0" expanded="true" />
-            <element signature="e#26612#26624#0" expanded="true" />
-            <element signature="e#27235#27242#0" expanded="true" />
-            <element signature="e#27285#27292#0" expanded="true" />
-            <element signature="e#27862#27887#0" expanded="true" />
-            <element signature="e#27933#27945#0" expanded="true" />
-            <element signature="e#27989#27996#0" expanded="true" />
-            <element signature="e#28466#28473#0" expanded="true" />
-            <element signature="e#28738#28754#0" expanded="true" />
-            <element signature="e#28901#28908#0" expanded="true" />
-            <element signature="e#31102#31110#0" expanded="true" />
-            <element signature="e#31497#31505#0" expanded="true" />
-            <element signature="e#31870#31877#0" expanded="true" />
-            <element signature="e#31969#31976#0" expanded="true" />
-            <element signature="e#32067#32074#0" expanded="true" />
-            <element signature="e#32506#32513#0" expanded="true" />
-            <element signature="e#32667#32679#0" expanded="true" />
-            <element signature="e#33897#33905#0" expanded="true" />
-            <element signature="e#35726#35733#0" expanded="true" />
-            <element signature="e#39442#39458#0" expanded="true" />
-            <element signature="e#42934#42941#0" expanded="true" />
-            <element signature="e#42989#43001#0" expanded="true" />
-            <element signature="e#43050#43064#0" expanded="true" />
-            <element signature="e#46244#46254#0" expanded="true" />
-            <element signature="e#51881#51893#0" expanded="true" />
-            <element signature="e#52135#52150#0" expanded="true" />
-            <element signature="e#53375#53382#0" expanded="true" />
-            <element signature="e#53481#53488#0" expanded="true" />
-            <element signature="e#53537#53544#0" expanded="true" />
-            <element signature="e#53705#53717#0" expanded="true" />
-            <element signature="e#53759#53766#0" expanded="true" />
-            <element signature="e#54313#54320#0" expanded="true" />
-            <element signature="e#54839#54854#0" expanded="true" />
-            <element signature="e#54898#54912#0" expanded="true" />
-            <element signature="e#54954#54961#0" expanded="true" />
-            <element signature="e#55261#55268#0" expanded="true" />
-            <element signature="e#55774#55789#0" expanded="true" />
-            <element signature="e#55837#55851#0" expanded="true" />
-            <element signature="e#55983#55990#0" expanded="true" />
-            <element signature="e#56570#56577#0" expanded="true" />
-            <element signature="e#56881#56896#0" expanded="true" />
-            <element signature="e#57086#57094#0" expanded="true" />
-            <element signature="e#57451#57459#0" expanded="true" />
-            <element signature="e#58274#58282#0" expanded="true" />
-            <element signature="e#58714#58738#0" expanded="true" />
-            <element signature="e#58825#58841#0" expanded="true" />
-            <element signature="e#59400#59407#0" expanded="true" />
-            <element signature="e#59561#59568#0" expanded="true" />
-            <element signature="e#59626#59649#0" expanded="true" />
-            <element signature="e#59944#59956#0" expanded="true" />
-            <element signature="e#60623#60630#0" expanded="true" />
-            <element signature="e#61876#61883#0" expanded="true" />
-            <element signature="e#61931#61943#0" expanded="true" />
-            <element signature="e#62030#62045#0" expanded="true" />
-            <element signature="e#63704#63719#0" expanded="true" />
-            <element signature="e#63810#63817#0" expanded="true" />
-            <element signature="e#63987#63994#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0006">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="7" lean-forward="false" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1515">
-          <caret line="105" column="27" lean-forward="false" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0007">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="7" lean-forward="false" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#1734#1762#0" expanded="true" />
-            <element signature="e#1832#1860#0" expanded="true" />
-            <element signature="e#7148#7161#0" expanded="true" />
-            <element signature="e#7216#7230#0" expanded="true" />
-            <element signature="e#7278#7290#0" expanded="true" />
-            <element signature="e#7334#7341#0" expanded="true" />
-            <element signature="e#9729#9742#0" expanded="true" />
-            <element signature="e#9790#9802#0" expanded="true" />
-            <element signature="e#9846#9853#0" expanded="true" />
-            <element signature="e#11920#11932#0" expanded="true" />
-            <element signature="e#11973#11980#0" expanded="true" />
-            <element signature="e#15815#15830#0" expanded="true" />
-            <element signature="e#15875#15887#0" expanded="true" />
-            <element signature="e#15928#15935#0" expanded="true" />
-            <element signature="e#15983#15990#0" expanded="true" />
-            <element signature="e#19986#19994#0" expanded="true" />
-            <element signature="e#20319#20326#0" expanded="true" />
-            <element signature="e#20371#20383#0" expanded="true" />
-            <element signature="e#21214#21221#0" expanded="true" />
-            <element signature="e#21269#21281#0" expanded="true" />
-            <element signature="e#21331#21346#0" expanded="true" />
-            <element signature="e#22438#22445#0" expanded="true" />
-            <element signature="e#22490#22502#0" expanded="true" />
-            <element signature="e#24066#24078#0" expanded="true" />
-            <element signature="e#24122#24129#0" expanded="true" />
-            <element signature="e#24194#24208#0" expanded="true" />
-            <element signature="e#24260#24274#0" expanded="true" />
-            <element signature="e#25472#25479#0" expanded="true" />
-            <element signature="e#25527#25539#0" expanded="true" />
-            <element signature="e#26016#26023#0" expanded="true" />
-            <element signature="e#26071#26083#0" expanded="true" />
-            <element signature="e#26557#26564#0" expanded="true" />
-            <element signature="e#26612#26624#0" expanded="true" />
-            <element signature="e#27235#27242#0" expanded="true" />
-            <element signature="e#27285#27292#0" expanded="true" />
-            <element signature="e#27862#27887#0" expanded="true" />
-            <element signature="e#27933#27945#0" expanded="true" />
-            <element signature="e#27989#27996#0" expanded="true" />
-            <element signature="e#28466#28473#0" expanded="true" />
-            <element signature="e#28738#28754#0" expanded="true" />
-            <element signature="e#28901#28908#0" expanded="true" />
-            <element signature="e#31102#31110#0" expanded="true" />
-            <element signature="e#31497#31505#0" expanded="true" />
-            <element signature="e#31870#31877#0" expanded="true" />
-            <element signature="e#31969#31976#0" expanded="true" />
-            <element signature="e#32067#32074#0" expanded="true" />
-            <element signature="e#32506#32513#0" expanded="true" />
-            <element signature="e#32667#32679#0" expanded="true" />
-            <element signature="e#33897#33905#0" expanded="true" />
-            <element signature="e#35726#35733#0" expanded="true" />
-            <element signature="e#39442#39458#0" expanded="true" />
-            <element signature="e#42934#42941#0" expanded="true" />
-            <element signature="e#42989#43001#0" expanded="true" />
-            <element signature="e#43050#43064#0" expanded="true" />
-            <element signature="e#46244#46254#0" expanded="true" />
-            <element signature="e#51881#51893#0" expanded="true" />
-            <element signature="e#52135#52150#0" expanded="true" />
-            <element signature="e#53375#53382#0" expanded="true" />
-            <element signature="e#53481#53488#0" expanded="true" />
-            <element signature="e#53537#53544#0" expanded="true" />
-            <element signature="e#53705#53717#0" expanded="true" />
-            <element signature="e#53759#53766#0" expanded="true" />
-            <element signature="e#54313#54320#0" expanded="true" />
-            <element signature="e#54839#54854#0" expanded="true" />
-            <element signature="e#54898#54912#0" expanded="true" />
-            <element signature="e#54954#54961#0" expanded="true" />
-            <element signature="e#55261#55268#0" expanded="true" />
-            <element signature="e#55774#55789#0" expanded="true" />
-            <element signature="e#55837#55851#0" expanded="true" />
-            <element signature="e#55983#55990#0" expanded="true" />
-            <element signature="e#56570#56577#0" expanded="true" />
-            <element signature="e#56881#56896#0" expanded="true" />
-            <element signature="e#57086#57094#0" expanded="true" />
-            <element signature="e#57451#57459#0" expanded="true" />
-            <element signature="e#58274#58282#0" expanded="true" />
-            <element signature="e#58714#58738#0" expanded="true" />
-            <element signature="e#58825#58841#0" expanded="true" />
-            <element signature="e#59400#59407#0" expanded="true" />
-            <element signature="e#59561#59568#0" expanded="true" />
-            <element signature="e#59626#59649#0" expanded="true" />
-            <element signature="e#59944#59956#0" expanded="true" />
-            <element signature="e#60623#60630#0" expanded="true" />
-            <element signature="e#61876#61883#0" expanded="true" />
-            <element signature="e#61931#61943#0" expanded="true" />
-            <element signature="e#62030#62045#0" expanded="true" />
-            <element signature="e#63704#63719#0" expanded="true" />
-            <element signature="e#63810#63817#0" expanded="true" />
-            <element signature="e#63987#63994#0" expanded="true" />
+            <element signature="e#11817#11829#0" expanded="true" />
+            <element signature="e#11870#11877#0" expanded="true" />
+            <element signature="e#31851#31858#0" expanded="true" />
+            <element signature="e#31950#31957#0" expanded="true" />
+            <element signature="e#32048#32055#0" expanded="true" />
+            <element signature="e#32487#32494#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1491,13 +1137,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Downloads/junit-4.12.jar!/org/junit/runners/ParentRunner.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -1512,13 +1151,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0008">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Downloads/junit-4.12.jar!/org/junit/Assert.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1530,13 +1162,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1275">
           <caret line="112" column="34" lean-forward="false" selection-start-line="112" selection-start-column="34" selection-end-line="112" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Downloads/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1555,16 +1180,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="38" column="126" lean-forward="false" selection-start-line="38" selection-start-column="45" selection-end-line="38" selection-end-column="126" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/automata/automaton0003">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1576,13 +1191,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0005">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="7" lean-forward="false" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1665,7 +1273,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1673,9 +1280,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1683,54 +1288,91 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="1452" column="0" lean-forward="false" selection-start-line="1452" selection-start-column="0" selection-end-line="1452" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Equation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-120">
+        <state relative-caret-position="270">
           <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
-            <element signature="e#453#454#0" expanded="true" />
+            <element signature="e#453#454#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
+        <state relative-caret-position="795">
           <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
           <folding>
-            <element signature="e#688#689#0" expanded="true" />
-            <element signature="e#707#708#0" expanded="true" />
+            <element signature="e#688#689#0" expanded="false" />
+            <element signature="e#707#708#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="716">
+        <state relative-caret-position="750">
           <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
           <folding>
-            <element signature="e#1301#1302#0" expanded="true" />
+            <element signature="e#1301#1302#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Var.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
+        <state relative-caret-position="825">
           <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#188#189#0" expanded="false" />
+            <element signature="e#212#213#0" expanded="false" />
+            <element signature="e#244#245#0" expanded="false" />
+            <element signature="e#266#267#0" expanded="false" />
+            <element signature="e#311#312#0" expanded="false" />
+            <element signature="e#342#343#0" expanded="false" />
+            <element signature="e#382#383#0" expanded="false" />
+            <element signature="e#420#421#0" expanded="false" />
+            <element signature="e#615#616#0" expanded="false" />
+            <element signature="e#633#634#0" expanded="false" />
+            <element signature="e#821#822#0" expanded="false" />
+            <element signature="e#850#851#0" expanded="false" />
+            <element signature="e#1116#1117#0" expanded="false" />
+            <element signature="e#1161#1162#0" expanded="false" />
+            <element signature="e#1204#1205#0" expanded="false" />
+            <element signature="e#1223#1224#0" expanded="false" />
+            <element signature="e#1444#1445#0" expanded="false" />
+            <element signature="e#1472#1473#0" expanded="false" />
+            <element signature="e#1523#1524#0" expanded="false" />
+            <element signature="e#1541#1542#0" expanded="false" />
+            <element signature="e#1584#1585#0" expanded="false" />
+            <element signature="e#1600#1601#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="104" column="0" lean-forward="true" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1335">
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#399#400#0" expanded="false" />
+            <element signature="e#418#419#0" expanded="false" />
+            <element signature="e#459#460#0" expanded="false" />
+            <element signature="e#479#480#0" expanded="false" />
+            <element signature="e#519#520#0" expanded="false" />
+            <element signature="e#569#570#0" expanded="false" />
+            <element signature="e#1065#1066#0" expanded="false" />
+            <element signature="e#1127#1128#0" expanded="false" />
+            <element signature="e#1175#1176#0" expanded="false" />
+            <element signature="e#1229#1230#0" expanded="false" />
+            <element signature="e#1681#1682#0" expanded="false" />
+            <element signature="e#1732#1733#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1739,113 +1381,100 @@
         <state relative-caret-position="315">
           <caret line="30" column="41" lean-forward="false" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
           <folding>
-            <element signature="e#2592#2593#0" expanded="true" />
-            <element signature="e#2659#2660#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#394#395#0" expanded="false" />
+            <element signature="e#414#415#0" expanded="false" />
+            <element signature="e#454#455#0" expanded="false" />
+            <element signature="e#473#474#0" expanded="false" />
+            <element signature="e#513#514#0" expanded="false" />
+            <element signature="e#583#584#0" expanded="false" />
+            <element signature="e#784#785#0" expanded="false" />
+            <element signature="e#845#846#0" expanded="false" />
+            <element signature="e#897#898#0" expanded="false" />
+            <element signature="e#958#959#0" expanded="false" />
+            <element signature="e#1006#1007#0" expanded="false" />
+            <element signature="e#1059#1060#0" expanded="false" />
+            <element signature="e#1989#1990#0" expanded="false" />
+            <element signature="e#2040#2041#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
+    <entry file="file://$PROJECT_DIR$/automata/automaton0008">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-75">
-          <caret line="1975" column="30" lean-forward="false" selection-start-line="1975" selection-start-column="30" selection-end-line="1975" selection-end-column="30" />
-          <folding>
-            <element signature="e#1734#1762#0" expanded="true" />
-            <element signature="e#1832#1860#0" expanded="true" />
-            <element signature="e#7148#7161#0" expanded="true" />
-            <element signature="e#7216#7230#0" expanded="true" />
-            <element signature="e#7278#7290#0" expanded="true" />
-            <element signature="e#7334#7341#0" expanded="true" />
-            <element signature="e#9729#9742#0" expanded="true" />
-            <element signature="e#9790#9802#0" expanded="true" />
-            <element signature="e#9846#9853#0" expanded="true" />
-            <element signature="e#11920#11932#0" expanded="true" />
-            <element signature="e#11973#11980#0" expanded="true" />
-            <element signature="e#15815#15830#0" expanded="true" />
-            <element signature="e#15875#15887#0" expanded="true" />
-            <element signature="e#15928#15935#0" expanded="true" />
-            <element signature="e#15983#15990#0" expanded="true" />
-            <element signature="e#19986#19994#0" expanded="true" />
-            <element signature="e#20319#20326#0" expanded="true" />
-            <element signature="e#20371#20383#0" expanded="true" />
-            <element signature="e#21214#21221#0" expanded="true" />
-            <element signature="e#21269#21281#0" expanded="true" />
-            <element signature="e#21331#21346#0" expanded="true" />
-            <element signature="e#22438#22445#0" expanded="true" />
-            <element signature="e#22490#22502#0" expanded="true" />
-            <element signature="e#24066#24078#0" expanded="true" />
-            <element signature="e#24122#24129#0" expanded="true" />
-            <element signature="e#24194#24208#0" expanded="true" />
-            <element signature="e#24260#24274#0" expanded="true" />
-            <element signature="e#25472#25479#0" expanded="true" />
-            <element signature="e#25527#25539#0" expanded="true" />
-            <element signature="e#26016#26023#0" expanded="true" />
-            <element signature="e#26071#26083#0" expanded="true" />
-            <element signature="e#26557#26564#0" expanded="true" />
-            <element signature="e#26612#26624#0" expanded="true" />
-            <element signature="e#27235#27242#0" expanded="true" />
-            <element signature="e#27285#27292#0" expanded="true" />
-            <element signature="e#27862#27887#0" expanded="true" />
-            <element signature="e#27933#27945#0" expanded="true" />
-            <element signature="e#27989#27996#0" expanded="true" />
-            <element signature="e#28466#28473#0" expanded="true" />
-            <element signature="e#28738#28754#0" expanded="true" />
-            <element signature="e#28901#28908#0" expanded="true" />
-            <element signature="e#31102#31110#0" expanded="true" />
-            <element signature="e#31497#31505#0" expanded="true" />
-            <element signature="e#31870#31877#0" expanded="true" />
-            <element signature="e#31969#31976#0" expanded="true" />
-            <element signature="e#32067#32074#0" expanded="true" />
-            <element signature="e#32506#32513#0" expanded="true" />
-            <element signature="e#32667#32679#0" expanded="true" />
-            <element signature="e#33897#33905#0" expanded="true" />
-            <element signature="e#35726#35733#0" expanded="true" />
-            <element signature="e#39442#39458#0" expanded="true" />
-            <element signature="e#42934#42941#0" expanded="true" />
-            <element signature="e#42989#43001#0" expanded="true" />
-            <element signature="e#43050#43064#0" expanded="true" />
-            <element signature="e#46244#46254#0" expanded="true" />
-            <element signature="e#51881#51893#0" expanded="true" />
-            <element signature="e#52135#52150#0" expanded="true" />
-            <element signature="e#53375#53382#0" expanded="true" />
-            <element signature="e#53481#53488#0" expanded="true" />
-            <element signature="e#53537#53544#0" expanded="true" />
-            <element signature="e#53705#53717#0" expanded="true" />
-            <element signature="e#53759#53766#0" expanded="true" />
-            <element signature="e#54313#54320#0" expanded="true" />
-            <element signature="e#54839#54854#0" expanded="true" />
-            <element signature="e#54898#54912#0" expanded="true" />
-            <element signature="e#54954#54961#0" expanded="true" />
-            <element signature="e#55261#55268#0" expanded="true" />
-            <element signature="e#55774#55789#0" expanded="true" />
-            <element signature="e#55837#55851#0" expanded="true" />
-            <element signature="e#55983#55990#0" expanded="true" />
-            <element signature="e#56570#56577#0" expanded="true" />
-            <element signature="e#56881#56896#0" expanded="true" />
-            <element signature="e#57086#57094#0" expanded="true" />
-            <element signature="e#57451#57459#0" expanded="true" />
-            <element signature="e#58274#58282#0" expanded="true" />
-            <element signature="e#58714#58738#0" expanded="true" />
-            <element signature="e#58825#58841#0" expanded="true" />
-            <element signature="e#59400#59407#0" expanded="true" />
-            <element signature="e#59561#59568#0" expanded="true" />
-            <element signature="e#59626#59649#0" expanded="true" />
-            <element signature="e#59944#59956#0" expanded="true" />
-            <element signature="e#60623#60630#0" expanded="true" />
-            <element signature="e#61876#61883#0" expanded="true" />
-            <element signature="e#61931#61943#0" expanded="true" />
-            <element signature="e#62030#62045#0" expanded="true" />
-            <element signature="e#63704#63719#0" expanded="true" />
-            <element signature="e#63810#63817#0" expanded="true" />
-            <element signature="e#63987#63994#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/junit-4.12.jar!/org/junit/runners/ParentRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="208" column="0" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/junit-4.12.jar!/org/junit/runners/BlockJUnit4ClassRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="18" column="125" lean-forward="false" selection-start-line="18" selection-start-column="125" selection-end-line="18" selection-end-column="125" />
+        <state relative-caret-position="285">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/automata/automaton0005">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="7" lean-forward="false" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/automata/automaton0013">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2148">
+          <caret line="95" column="3" lean-forward="false" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="461" column="6" lean-forward="true" selection-start-line="461" selection-start-column="6" selection-end-line="462" selection-end-column="48" />
+          <folding>
+            <element signature="e#11817#11829#0" expanded="true" />
+            <element signature="e#11870#11877#0" expanded="true" />
+            <element signature="e#31851#31858#0" expanded="true" />
+            <element signature="e#31950#31957#0" expanded="true" />
+            <element signature="e#32048#32055#0" expanded="true" />
+            <element signature="e#32487#32494#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="264" column="47" lean-forward="false" selection-start-line="264" selection-start-column="47" selection-end-line="264" selection-end-column="47" />
           <folding />
         </state>
       </provider>
