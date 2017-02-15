@@ -13,20 +13,15 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		final long startTime = System.currentTimeMillis();
+		Automaton a14 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0014");
+		Automaton a15 = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0015");
 
+		System.out.println(a14);
+		System.out.println(a15);
 
-		Automaton a = Automaton.loadAutomataWithAlternatePattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0013");
+		Automaton a = Automaton.concat(a14,a15);
 
-
-
-
-
-		final long endTime = System.currentTimeMillis();
-
-		System.out.println("Total execution time: " + (endTime - startTime) + " ms");
-
-
+		System.out.println(a);
 		
 	}
 

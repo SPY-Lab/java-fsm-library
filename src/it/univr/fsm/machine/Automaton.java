@@ -117,32 +117,7 @@ public class Automaton {
 		this.states = states;
 	}
 
-	/**
-	 * Select the minimization algorithm and minimize the automaton
-	 *
-	 * @param choice 0 = Hopcroft,
-	 *                  1 = Moore,
-	 *               	2 = Brzozowsky,
-	 *               default = Hopcroft
-	 *
-	 */
-	public void selectMinimizationAlgorithm (int choice){
-		switch (choice){
-			case 0:
-				this.minimizeHopcroft();
-				break;
-			case 1:
-				this.minimizeMoore();
-				break;
-			case 2:
-				this.minimize();
-				break;
-			default:
-				this.minimizeHopcroft();
-				break;
 
-		}
-	}
 
 
 	/**
@@ -390,7 +365,7 @@ public class Automaton {
 				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
 
 		Automaton a = new Automaton(firstInitialStates, newDelta, newStates);
-		a.minimizeHopcroft();
+		a.minimize();
 
 		return a;
 
@@ -1321,25 +1296,27 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		/*this.reverse();
+		this.reverse();
 		Automaton a = this.determinize();
-		a = a.removeUnreachableStates();
+		a.removeUnreachableStates();
 		a.reverse();
 		a = a.determinize();
-		a = a.removeUnreachableStates();
+		a.removeUnreachableStates();
 
 		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
-		this.adjacencyList = this.computeAdjacencyList();*/
-		this.minimizeHopcroft();
+
+		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		/*this.minimizeHopcroft();
 
 		Automaton a = this.deMerge(++initChar); 
 		this.initialState = a.initialState;
 		this.states = a.states;
 		this.delta = a.delta;
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();*/
 
 	}
 
@@ -2421,7 +2398,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.automatonPrint();
+		return this.prettyPrint();
 	}
 
 	@Override
