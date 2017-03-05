@@ -21,7 +21,9 @@ public class Main {
 
 		Automaton a = Automaton.concat(a14,a15);
 
+
 		System.out.println(a);
+		System.out.println(a.toRegex());
 		
 	}
 

@@ -1,17 +1,10 @@
 package it.univr.fsm.machine;
 
+import it.univr.fsm.equations.*;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 
 import it.univr.exception.*;
-
-import it.univr.fsm.equations.Comp;
-import it.univr.fsm.equations.Equation;
-import it.univr.fsm.equations.GroundCoeff;
-import it.univr.fsm.equations.Or;
-import it.univr.fsm.equations.RegularExpression;
-import it.univr.fsm.equations.Var;
-
 
 
 import java.io.BufferedReader;
@@ -364,7 +357,7 @@ public class Automaton {
 			for(State s : secondInitialStates)
 				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
 
-		Automaton a = new Automaton(firstInitialStates, newDelta, newStates);
+		Automaton a = new Automaton(firstInitialState, newDelta, newStates);
 		a.minimize();
 
 		return a;
@@ -554,6 +547,121 @@ public class Automaton {
 
 					delta.add(new Transition(current,next,sym,""));
 					
+				}
+
+
+
+			}
+
+
+		}catch(IOException | MalformedInputException e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			try{
+				br.close();
+			}catch(Exception c){
+				System.err.println("Failed to close BufferedReader stream in loadAutomataWithAlternatePattern: " + c.getMessage() );
+			}
+		}
+
+		Automaton a= new Automaton(initialstate,delta,states);
+
+		return a;
+	}
+
+	public static Automaton loadAutomataWithFSM2RegexPattern(String path){
+		BufferedReader br = null;
+
+
+		HashMap<String, State> mapStates = new HashMap<>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+		HashSet<State> states = new HashSet<State>();
+		State initialstate = null;
+
+
+
+		try{
+			String currentLine;
+			br = new BufferedReader(new FileReader(path) );
+
+			/**
+			 * 0 : #states
+			 * 1 : #initial
+			 * 2 : #accepting
+			 * 3 : #alphabet
+			 * 4 : #transition
+			 *
+			 */
+			int currentMode = -1;
+
+
+			while((currentLine = br.readLine()) != null ){
+				State current = null;
+				State next = null;
+				String sym = "";
+				String stateName = "";
+
+				switch(currentLine){
+					case "#states":
+						currentMode = 0;
+						continue;
+					case "#initial":
+						currentMode = 1;
+						continue;
+					case "#accepting":
+						currentMode = 2;
+						continue;
+					case "#alphabet":
+						currentMode = 3;
+						continue;
+					case "#transitions":
+						currentMode = 4;
+						continue;
+				}
+
+				switch (currentMode){
+					case 0:
+						states.add((current = new State(currentLine,false,false)));
+						mapStates.put(currentLine,current);
+						break;
+					case 1:
+						if(mapStates.containsKey(currentLine)) {
+							current = mapStates.get(currentLine);
+							current.setInitialState(true);
+							initialstate = current;
+						}else
+							throw new MalformedInputException();
+						break;
+					case 2:
+						if(mapStates.containsKey(currentLine)) {
+							current = mapStates.get(currentLine);
+							current.setFinalState(true);
+						}else
+							throw new MalformedInputException();
+						break;
+					case 3:
+						break;
+					case 4:
+						current = mapStates.get(currentLine.split(">")[0].split(":")[0]);
+						sym = (currentLine.split(">")[0]).split(":")[1];
+						if(sym.equals("$")) sym = "";
+						String[] to = currentLine.split(">")[1].split(",");
+
+						if(current == null || to.length == 0) throw new MalformedInputException();
+
+						for(String toS : to){
+							if(mapStates.containsKey(toS)){
+								delta.add(new Transition(current,mapStates.get(toS),sym,""));
+							}else
+								throw new MalformedInputException();
+						}
+
+
+
+						break;
+					default:
+						throw new MalformedInputException();
 				}
 
 
@@ -1833,16 +1941,32 @@ public class Automaton {
 
 		for (State s : this.getStates()) {
 			RegularExpression result = null;
+			RegularExpression resultToSameState = null;
 
 			HashSet<Transition> out = this.getOutgoingTransitionsFrom(s);
 
 			if (out.size() > 0) {
 				for (Transition t : out) {
+					if(!t.getTo().equals(s))
+						if (result == null)
+							result = new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo()));
+						else
+							result = new Or(result, new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo())));
+					else{
+						if(resultToSameState == null)
+							resultToSameState = new GroundCoeff(t.getInput());
+						else
+							resultToSameState = new Or(resultToSameState, new GroundCoeff(t.getInput()));
 
-					if (result == null)
-						result = new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo()));
-					else
-						result = new Or(result, new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo())));
+					}
+				}
+
+				if(resultToSameState != null && result != null){
+					resultToSameState = new Star(resultToSameState);
+					result = new Comp(resultToSameState, result);
+				}else if(resultToSameState != null){
+					resultToSameState = new Star(resultToSameState);
+					result = resultToSameState;
 				}
 
 				equations.add(new Equation(s, result));
@@ -1973,7 +2097,7 @@ public class Automaton {
 
 					}
 				}
-				if(toSubstituteUpdated) break;
+				if(toSubstituteUpdated) break;  // to avoid ConcurrentModificationException
 
 			}
 
@@ -2398,7 +2522,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.prettyPrint();
+		return this.automatonPrint();
 	}
 
 	@Override

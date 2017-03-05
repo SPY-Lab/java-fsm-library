@@ -41,6 +41,24 @@ public class Var extends RegularExpression {
 	}
 
 	@Override
+	public int hashCode() {
+		return variable.getState().hashCode();
+	}
+
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		return this;
+	}*/
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Var){
+			return variable.getState().equals(((Var) other).variable.getState());
+		}
+		return false;
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		if (this.variable.toString().equals(s.toString()))
 			return true;

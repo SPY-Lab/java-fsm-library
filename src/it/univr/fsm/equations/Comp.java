@@ -44,6 +44,19 @@ public class Comp extends RegularExpression {
 	}
 
 	@Override
+	public int hashCode() {
+		return first.hashCode() * second.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Comp) {
+			return first.equals(((Comp) other).first) && second.equals(((Comp) other).second);
+		}
+		return false;
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return  first.containsOnly(s) && second.containsOnly(s);
 	}
@@ -97,11 +110,25 @@ public class Comp extends RegularExpression {
 		return v;
 	}
 
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		return new Comp(first.replace(e,with),second.replace(e,with));
+	}*/
+
 	@Override
 	public RegularExpression simplify() {
-		if (this.second instanceof Or) {
+		/*if (this.second instanceof Or) {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
+		}*/
+
+
+		first = first.simplify();
+		second = second.simplify();
+
+		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
+			return first;
 		}
+
 
 		return this;
 	}

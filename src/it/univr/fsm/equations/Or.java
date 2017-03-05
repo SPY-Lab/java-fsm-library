@@ -39,6 +39,21 @@ public class Or extends RegularExpression {
 	}
 
 	@Override
+	public int hashCode() {
+		return first.hashCode() + second.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Or) {
+			return (first.equals(((Or) other).first) && second.equals(((Or) other).second))
+					|| (first.equals(((Or) other).second) && second.equals(((Or) other).first));
+		}
+		return false;
+
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return first.containsOnly(s) && second.containsOnly(s);
 	}
@@ -106,9 +121,44 @@ public class Or extends RegularExpression {
 		return v;
 	}
 
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		return new Or(first.replace(e, with), second.replace(e, with));
+	}*/
+
 	@Override
 	public RegularExpression simplify() {
-		return new Or(this.first.simplify(), this.second.simplify());
+		first = first.simplify();
+		second = second.simplify();
+
+	/*	Vector<RegularExpression> first_part = first.inSinglePart();
+		Vector<RegularExpression> second_part = second.inSinglePart();
+		RegularExpression inCommon = new GroundCoeff("");
+		boolean substituted = false;
+
+		for(int i = 0; i < first_part.size(); i++)
+			for(int j = 0; j < second_part.size(); j++){
+				if(first_part.get(i).equals(second_part.get(j))){
+					inCommon = first_part.get(i);
+					substituted = true;
+				}
+			}
+			if(substituted) {
+				first.replace(inCommon, new GroundCoeff(""));
+				second.replace(inCommon, new GroundCoeff(""));
+
+				if(first.equals(new GroundCoeff("")))
+					return second.simplify();
+				else if(second.equals(new GroundCoeff("")))
+					return first.simplify();
+
+				second = new Or(first,second);
+				first = inCommon;
+				return new Comp(first,second);
+
+			}
+		*/
+		return new Or(first, second);
 	}
 
 	@Override
@@ -119,4 +169,5 @@ public class Or extends RegularExpression {
 		Config.GEN++;
 		return result;
 	}
+
 }
