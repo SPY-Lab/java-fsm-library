@@ -2,7 +2,7 @@ package it.univr.fsm.config;
 
 public class Config {
 
-	public static int WIDENING = 3;
+	public static int WIDENING = 5;
 	public static int GEN = 0;
 	public static boolean PRETTY_PRINT = false;
 	public static boolean AUTOMATON_PRINT = true;

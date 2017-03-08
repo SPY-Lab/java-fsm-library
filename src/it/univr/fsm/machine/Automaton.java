@@ -12,10 +12,7 @@ import it.univr.fsm.equations.Or;
 import it.univr.fsm.equations.RegularExpression;
 import it.univr.fsm.equations.Var;
 
-
-
 import java.io.BufferedReader;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -390,7 +387,7 @@ public class Automaton {
 				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
 
 		Automaton a = new Automaton(firstInitialStates, newDelta, newStates);
-		a.minimizeHopcroft();
+		a.minimize();
 
 		return a;
 
@@ -466,13 +463,8 @@ public class Automaton {
 	 *
 	 *
 	 */
-	private static Automaton loadAutomataWithAlternatePattern(String path){
-		/*
-		 * This method follows this pattern in the file
-		 * 	q0 q1 a
-		 * 	q1 q2 b
-		 * 	q2 q3 c
-		 */
+	public static Automaton loadAutomataWithAlternatePattern(String path){
+
 
 		BufferedReader br = null;
 
@@ -497,7 +489,7 @@ public class Automaton {
 
 				// state
 				if(currentLine.charAt(0) != '\t'){
-					String[] pieces = currentLine.split(" ");
+					String[] pieces = currentLine.trim().split(" ");
 
 					// sanity check
 					if(pieces.length < 2) throw new MalformedInputException();
@@ -510,21 +502,11 @@ public class Automaton {
 							if(mapStates.containsKey(stateName)){
 								current = mapStates.get(stateName);
 							}else{
-								mapStates.put(pieces[i], (current=new State(pieces[i],false,false)));
+								mapStates.put(stateName, (current=new State(stateName,false,false)));
 							}
 
 						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
-								&& pieces[i].substring(1, pieces[i].length()-1).equals("reject")){
-							if(mapStates.containsKey(stateName)){
-								current = mapStates.get(stateName);
-								current.setInitialState(true);
-								initialstate = current;
-							}else{
-								throw new MalformedInputException();
-							}
-
-						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
-								&& pieces[i].substring(1, pieces[i].length()-1).equals("accept")){
+								&& pieces[i].contains("accept")){
 							if(mapStates.containsKey(stateName)){
 								current = mapStates.get(stateName);
 								current.setFinalState(true);
@@ -532,31 +514,48 @@ public class Automaton {
 								throw new MalformedInputException();
 							}
 
+						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")
+								&& pieces[i].contains("initial")){
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+								initialstate = current;
+								current.setInitialState(true);
+							}else{
+								throw new MalformedInputException();
+							}
 						}
 					}
 
 					if(current == null) throw new MalformedInputException();
 
-					states.add(current);
+					if(!states.contains(current))
+						states.add(current);
+					else {
+						states.remove(current);
+						states.add(current);
+					}
 
 
 				}
 				// transition
 				else{
-					String line = currentLine.substring(1, currentLine.length());
+					String line = currentLine.substring(1, currentLine.length()).trim();
 					String[] pieces = line.split(" ");
 
 					// sanity check
-					if (pieces.length > 3 || pieces.length <= 2) throw new MalformedInputException();
+					if (pieces.length > 4 || pieces.length < 3) throw new MalformedInputException();
 
 
 					for(int i = 0; i < pieces.length; i++){
 						if(pieces[i].startsWith("[") && pieces[i].endsWith("]") && i == 0){
 							// state from
 							stateName = pieces[i].substring(1, pieces[i].length()-1);
-							if(!current.getState().equals(stateName)) throw new MalformedInputException();
 
-							//FIXME: insert into map? into states?
+							if(mapStates.containsKey(stateName)){
+								current = mapStates.get(stateName);
+							}else{
+								throw new MalformedInputException();
+							}
 
 						}else if(pieces[i].startsWith("[") && pieces[i].endsWith("]")){
 							// next state
@@ -565,7 +564,7 @@ public class Automaton {
 								next = mapStates.get(stateName);
 								states.add(next);
 							}else{
-								mapStates.put(pieces[i], (next = new State(pieces[i],false,false)));
+								mapStates.put(stateName, (next = new State(stateName,false,false)));
 							}
 
 						}else if(!pieces[i].equals("->")){
@@ -766,15 +765,11 @@ public class Automaton {
 	 */
 	/*
 	public boolean run(String s, State state) {
-
 		ArrayList<String> input = (ArrayList<String>) toList(s);
-
 		State currentState = state;
 		boolean found = false;
-
 		while (!input.isEmpty() || found) {
 			found = false;
-
 			for (Transition t: delta) {
 				if (!input.isEmpty() && t.isFirable(currentState, input.get(0))) {
 					currentState = t.fire(input.get(0));
@@ -786,11 +781,9 @@ public class Automaton {
 					break;
 				}
 			}
-
 			if (found)
 				continue;
 		}
-
 		if (currentState.isFinalState())
 			return true;
 		return false;
@@ -1319,17 +1312,19 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		/*this.reverse();
+		this.reverse();
 		Automaton a = this.determinize();
-		a = a.removeUnreachableStates();
+		a.removeUnreachableStates();
 		a.reverse();
 		a = a.determinize();
-		a = a.removeUnreachableStates();
-
+		a.removeUnreachableStates();
 		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
-		this.adjacencyList = this.computeAdjacencyList();*/
+		
+		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		/*
 		this.minimizeHopcroft();
 
 		Automaton a = this.deMerge(++initChar); 
@@ -1337,7 +1332,7 @@ public class Automaton {
 		this.states = a.states;
 		this.delta = a.delta;
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();*/
 
 	}
 
@@ -1365,13 +1360,10 @@ public class Automaton {
 		HashSet<State> unreachableStates = new HashSet<>();
 			HashSet<State> reachableStates = (HashSet<State>) this.getInitialStates().clone();
 		HashSet<State> newStates = (HashSet<State>) this.getInitialStates().clone();
-
 		HashSet<State> reachableStates = this.getInitialStates();
 		HashSet<State> newStates = this.getInitialStates();
 		HashSet<Transition> transitionstoRemove = new HashSet<>(); 
 		HashSet<State> temp;
-
-
 		do{
 			temp = new HashSet<>(Collections.<State>emptySet());
 			for(State s : newStates){
@@ -1380,29 +1372,21 @@ public class Automaton {
 					if(to != null) temp.add(to);
 				}
 			}
-
 			newStates = new HashSet<>();
 			newStates.addAll(temp);
 			newStates.removeAll(reachableStates);
 			reachableStates.addAll(newStates);
-
 		}while(!newStates.equals(Collections.<State>emptySet()));
-
 		// Opt
 		unreachableStates.addAll(states);
 		unreachableStates.removeAll(reachableStates);
-
 		states.removeAll(unreachableStates);
-
 		for(Transition t: delta)
 			if(!states.contains(t.getFrom()))
 				transitionstoRemove.add(t);
-
 		delta.removeAll(transitionstoRemove);
-
 		// Opt
 		//this.adjacencyList = this.computeAdjacencyList();
-
 	}*/
 
 	private HashSet<Transition> getIncomingTransitionsTo(State state){
@@ -1531,9 +1515,7 @@ public class Automaton {
 							found = false;
 							break;
 						}
-
 					}
-
 					if (found)
 						candidateSet.add(s2);
 					*/
@@ -1703,8 +1685,7 @@ public class Automaton {
 		}
 
 		this.delta = newDelta;
-		this.computeAdjacencyList();
-
+		//this.computeAdjacencyList();
 	}
 
 	/**
@@ -1770,62 +1751,47 @@ public class Automaton {
 	 * using the Brzozowski algebraic method.
 	 */
 
-	/*
-	public RegularExpression toRegex() {
-
+	/*public RegularExpression toRegex() {
 		Vector<Equation> equations = new Vector<Equation>();
-
 		for (State s : this.getStates()) {
 			RegularExpression result = null;
-
 			HashSet<Transition> out = this.getOutgoingTransitionsFrom(s);
-
 			if (out.size() > 0) {
 				for (Transition t : out) {
-
 					if (result == null)
 						result = new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo()));
 					else
 						result = new Or(result, new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo())));
 				}
-
 				equations.add(new Equation(s, result));
 			} else
 				equations.add(new Equation(s, new GroundCoeff("")));
 		}
-
 		int indexOfInitialState = 0;
-
 		for (int i = 0; i < equations.size(); ++i) {
 			if (equations.get(i).getLeftSide().isInitialState()) {
 				indexOfInitialState = i;
 				break;
 			}
-
 			equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
-
 			if (!equations.get(i).isIndipendent()) {
 				equations.set(i, equations.get(i).syntetize());
 				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
 			}
 		}
-
 		// Fix-point
 		while (!equations.get(indexOfInitialState).getE().isGround()) {
 			for (int i = 0; i < equations.size(); ++i) {
 				for (int j = 0; j < equations.size(); ++j) {
 					if (i == j)
 						continue;
-
 					// Synthetize the indipendent equations
 					if (!equations.get(j).isIndipendent()) {
 						equations.set(j, equations.get(j).syntetize());
 						equations.set(j, new Equation(equations.get(j).getLeftSide(), equations.get(j).getE().simplify()));
 					}
-
 					for (int k = 0; k < equations.size(); ++k) 
 						equations.set(k, new Equation(equations.get(k).getLeftSide(), equations.get(k).getE().simplify()));
-
 					if (!equations.get(j).getE().isGround()) {
 						equations.set(j, new Equation(equations.get(j).getLeftSide(), equations.get(j).getE().replace(equations.get(i).getLeftSide(), equations.get(i).getE())));
 						equations.set(j, equations.get(j).syntetize());
@@ -1833,9 +1799,7 @@ public class Automaton {
 				}
 			}
 		}
-
 		return equations.get(indexOfInitialState).getE().simplify();
-
 	}*/
 
 
@@ -2110,14 +2074,14 @@ public class Automaton {
 
 	private void stmSyn_tr(State q, HashSet<State> q_first, HashSet<State> f_first, HashSet<Transition> delta, HashSet<State> visited) {
 
-		State next = null;
+		/*State next = null;
 		if (q.isInitialState()) {
 			for (Transition t : this.getOutgoingTransitionsFrom(q))
 				next = t.getTo();
 		} else
-			next = q;
+			next = q;*/
 
-		MultiValueMap<String, State> B = build(next);
+		MultiValueMap<String, State> B = build(q);
 
 		visited.add(q);
 		HashSet<State> W = new HashSet<State>();
@@ -2419,7 +2383,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.automatonPrint();
+		return this.prettyPrint();
 	}
 
 	@Override
