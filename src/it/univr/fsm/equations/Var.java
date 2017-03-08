@@ -51,6 +51,19 @@ public class Var extends RegularExpression {
 	}*/
 
 	@Override
+	public RegularExpression remove(RegularExpression e) {
+		if(this.equals(e)){
+			return new GroundCoeff("");
+		}
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return this.equals(e) ? this : null;
+	}
+
+	@Override
 	public boolean equals(Object other) {
 		if(other instanceof Var){
 			return variable.getState().equals(((Var) other).variable.getState());

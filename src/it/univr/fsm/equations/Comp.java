@@ -2,7 +2,6 @@ package it.univr.fsm.equations;
 
 import java.util.Vector;
 
-import it.univr.fsm.config.Config;
 import it.univr.fsm.machine.State;
 
 public class Comp extends RegularExpression {
@@ -62,6 +61,29 @@ public class Comp extends RegularExpression {
 	}
 
 	@Override
+	public RegularExpression remove(RegularExpression e) {
+		first = first.remove(e);
+		second = second.remove(e);
+
+
+		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
+			return first;
+		}else if(first instanceof GroundCoeff && ((GroundCoeff) first).getString().equals("")){
+			return second;
+		}
+
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return first.factorize(e) != null ? first.factorize(e) :
+				second.factorize(e) != null ? second.factorize(e) :
+						e.factorize(first) != null ? e.factorize(first) :
+								e.factorize(second) != null ? e.factorize(second) : null;
+	}
+
+	@Override
 	public boolean contains(State s) {
 		return  first.contains(s) || second.contains(s);
 	}
@@ -105,8 +127,7 @@ public class Comp extends RegularExpression {
 	@Override
 	public Vector<RegularExpression> inBlockPart() {
 		Vector<RegularExpression> v = new Vector<>();
-		v.add(first);
-		v.add(second);
+		v.add(this);
 		return v;
 	}
 
@@ -122,15 +143,28 @@ public class Comp extends RegularExpression {
 		}*/
 
 
-		first = first.simplify();
-		second = second.simplify();
 
+		// Comp with an only term isn't a Comp, but a GroundCoeff
 		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
-			return first;
+			return first.simplify();
+		}else if (first instanceof GroundCoeff && ((GroundCoeff) first).getString().equals("")){
+			return second.simplify();
+		}
+
+		// (a + b)(a + b)* = (a + b)*
+		if(first instanceof Or && second instanceof Star){
+			if(new Star(first).equals(second)){
+				return second.simplify();
+			}
+		}else if(first instanceof Star && second instanceof Or){
+			if(new Star(second).equals(first)){
+				return first.simplify();
+			}
 		}
 
 
-		return this;
+
+		return new Comp(first.simplify(),second.simplify());
 	}
 
 	@Override

@@ -60,6 +60,7 @@ public class RegexTest {
 
     @Test
     public void Test4(){
+        // (c + (a + dc)(b)*)
         RegularExpression result = new Or(new GroundCoeff("c"),new Comp(new Or(new GroundCoeff("a"),new Comp(new GroundCoeff("d"),new GroundCoeff("c"))),new Star(new GroundCoeff("b"))));
 
         Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0018");
@@ -71,6 +72,51 @@ public class RegexTest {
 
         assertTrue("Expected: " + result.toString() + "\n" + aregex,
                 a.toRegex().equals(result));
+    }
+
+    @Test
+    public void Test5(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0019");
+       a.minimizeHopcroft();
+
+        System.out.println(a.toRegex());
+
+    }
+
+    @Test
+    public void Test6(){
+        // (a+b)*
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0020");
+        a.minimize();
+
+        RegularExpression aRegex = a.toRegex();
+        System.out.println(aRegex);
+
+
+    }
+
+    @Test
+    public void Test7(){
+        // b*a(a+bb*a)*bb*
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0021");
+        a.minimize();
+
+        RegularExpression aRegex = a.toRegex();
+        System.out.println(aRegex);
+
+    }
+
+    @Test
+    public void Test8(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0022");
+        a.minimize();
+
+        RegularExpression aRegex = a.toRegex();
+        System.out.println(aRegex);
+
+
     }
 
 

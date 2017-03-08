@@ -20,6 +20,19 @@ public class GroundCoeff extends RegularExpression {
 		return this;
 	}*/
 
+	@Override
+	public RegularExpression remove(RegularExpression e) {
+		if(this.equals(e)){
+			return new GroundCoeff("");
+		}
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return this.equals(e) ? this : null;
+	}
+
 	public String getString(){
 		return string;
 	}

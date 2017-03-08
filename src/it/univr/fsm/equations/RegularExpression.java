@@ -1,6 +1,5 @@
 package it.univr.fsm.equations;
 
-import java.util.Objects;
 import java.util.Vector;
 
 import it.univr.fsm.machine.State;
@@ -17,6 +16,8 @@ public abstract class RegularExpression extends Object{
 //	public abstract RegularExpression replace(RegularExpression e, RegularExpression with);
 	public abstract boolean containsOnly(State s);
 	public abstract boolean contains(State s);
+	public abstract RegularExpression factorize(RegularExpression e);
+	public abstract RegularExpression remove(RegularExpression e);
 	public abstract Vector<RegularExpression> getTermsWithState(State s);
 	public abstract Vector<RegularExpression> getGroundTerms();
 	public abstract boolean isGround();

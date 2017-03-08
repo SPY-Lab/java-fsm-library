@@ -91,13 +91,27 @@ public class Star extends RegularExpression {
 		v.add(this);
 		return v;
 	}
-/*
-	@Override
-	public RegularExpression replace(RegularExpression e, RegularExpression with) {
 
-		return new Star(op.replace(e,with));
+	@Override
+	public RegularExpression remove(RegularExpression e) {
+		if(this.equals(e)){
+			return new GroundCoeff("");
+		}
+		return this;
 	}
-*/
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return this.equals(e) ? this : null;
+	}
+
+	/*
+        @Override
+        public RegularExpression replace(RegularExpression e, RegularExpression with) {
+
+            return new Star(op.replace(e,with));
+        }
+    */
 	@Override
 	public RegularExpression simplify() {
 		if(op.toString().equals(""))
