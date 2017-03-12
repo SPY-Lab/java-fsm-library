@@ -7,17 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="644a0ed2-d80f-4aab-ab79-228277580b87" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/automata/automaton0019" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/automata/automaton0020" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/automata/automaton0021" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/automata/automaton0022" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/Star.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/equations/Var.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/equations/Var.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/test/RegexTest.java" afterPath="$PROJECT_DIR$/src/it/univr/test/RegexTest.java" />
     </list>
     <ignored path="java-fsm-library.iws" />
@@ -53,100 +44,9 @@
       <file leaf-file-name="Automaton.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="1961" column="17" lean-forward="true" selection-start-line="1961" selection-start-column="17" selection-end-line="1961" selection-end-column="17" />
-              <folding>
-                <element signature="e#1528#1556#0" expanded="true" />
-                <element signature="e#1626#1654#0" expanded="true" />
-                <element signature="e#6448#6461#0" expanded="true" />
-                <element signature="e#6516#6530#0" expanded="true" />
-                <element signature="e#6578#6590#0" expanded="true" />
-                <element signature="e#6634#6641#0" expanded="true" />
-                <element signature="e#9020#9033#0" expanded="true" />
-                <element signature="e#9081#9093#0" expanded="true" />
-                <element signature="e#9137#9144#0" expanded="true" />
-                <element signature="e#11108#11120#0" expanded="true" />
-                <element signature="e#11161#11168#0" expanded="true" />
-                <element signature="e#14619#14631#0" expanded="true" />
-                <element signature="e#14672#14679#0" expanded="true" />
-                <element signature="e#17705#17720#0" expanded="true" />
-                <element signature="e#17765#17777#0" expanded="true" />
-                <element signature="e#17818#17825#0" expanded="true" />
-                <element signature="e#17873#17880#0" expanded="true" />
-                <element signature="e#21876#21884#0" expanded="true" />
-                <element signature="e#22209#22216#0" expanded="true" />
-                <element signature="e#22261#22273#0" expanded="true" />
-                <element signature="e#23104#23111#0" expanded="true" />
-                <element signature="e#23159#23171#0" expanded="true" />
-                <element signature="e#23221#23236#0" expanded="true" />
-                <element signature="e#24328#24335#0" expanded="true" />
-                <element signature="e#24380#24392#0" expanded="true" />
-                <element signature="e#25956#25968#0" expanded="true" />
-                <element signature="e#26012#26019#0" expanded="true" />
-                <element signature="e#26084#26098#0" expanded="true" />
-                <element signature="e#26150#26164#0" expanded="true" />
-                <element signature="e#27362#27369#0" expanded="true" />
-                <element signature="e#27417#27429#0" expanded="true" />
-                <element signature="e#27906#27913#0" expanded="true" />
-                <element signature="e#27961#27973#0" expanded="true" />
-                <element signature="e#28447#28454#0" expanded="true" />
-                <element signature="e#28502#28514#0" expanded="true" />
-                <element signature="e#29125#29132#0" expanded="true" />
-                <element signature="e#29175#29182#0" expanded="true" />
-                <element signature="e#29752#29777#0" expanded="true" />
-                <element signature="e#29823#29835#0" expanded="true" />
-                <element signature="e#29879#29886#0" expanded="true" />
-                <element signature="e#30356#30363#0" expanded="true" />
-                <element signature="e#30628#30644#0" expanded="true" />
-                <element signature="e#30791#30798#0" expanded="true" />
-                <element signature="e#32992#33000#0" expanded="true" />
-                <element signature="e#33387#33395#0" expanded="true" />
-                <element signature="e#33760#33767#0" expanded="true" />
-                <element signature="e#33859#33866#0" expanded="true" />
-                <element signature="e#33957#33964#0" expanded="true" />
-                <element signature="e#34396#34403#0" expanded="true" />
-                <element signature="e#34557#34569#0" expanded="true" />
-                <element signature="e#35850#35858#0" expanded="true" />
-                <element signature="e#37679#37686#0" expanded="true" />
-                <element signature="e#41395#41411#0" expanded="true" />
-                <element signature="e#44887#44894#0" expanded="true" />
-                <element signature="e#44942#44954#0" expanded="true" />
-                <element signature="e#45003#45017#0" expanded="true" />
-                <element signature="e#48197#48207#0" expanded="true" />
-                <element signature="e#54461#54473#0" expanded="true" />
-                <element signature="e#54715#54730#0" expanded="true" />
-                <element signature="e#55955#55962#0" expanded="true" />
-                <element signature="e#56061#56068#0" expanded="true" />
-                <element signature="e#56117#56124#0" expanded="true" />
-                <element signature="e#56285#56297#0" expanded="true" />
-                <element signature="e#56339#56346#0" expanded="true" />
-                <element signature="e#56893#56900#0" expanded="true" />
-                <element signature="e#57419#57434#0" expanded="true" />
-                <element signature="e#57478#57492#0" expanded="true" />
-                <element signature="e#57534#57541#0" expanded="true" />
-                <element signature="e#57841#57848#0" expanded="true" />
-                <element signature="e#58354#58369#0" expanded="true" />
-                <element signature="e#58417#58431#0" expanded="true" />
-                <element signature="e#58563#58570#0" expanded="true" />
-                <element signature="e#59150#59157#0" expanded="true" />
-                <element signature="e#59461#59476#0" expanded="true" />
-                <element signature="e#59666#59674#0" expanded="true" />
-                <element signature="e#60031#60039#0" expanded="true" />
-                <element signature="e#60854#60862#0" expanded="true" />
-                <element signature="e#61294#61318#0" expanded="true" />
-                <element signature="e#61405#61421#0" expanded="true" />
-                <element signature="e#61980#61987#0" expanded="true" />
-                <element signature="e#62141#62148#0" expanded="true" />
-                <element signature="e#62206#62229#0" expanded="true" />
-                <element signature="e#62524#62536#0" expanded="true" />
-                <element signature="e#63203#63210#0" expanded="true" />
-                <element signature="e#64456#64463#0" expanded="true" />
-                <element signature="e#64511#64523#0" expanded="true" />
-                <element signature="e#64610#64625#0" expanded="true" />
-                <element signature="e#66284#66299#0" expanded="true" />
-                <element signature="e#66390#66397#0" expanded="true" />
-                <element signature="e#66567#66574#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="20835">
+              <caret line="1414" column="0" lean-forward="false" selection-start-line="1414" selection-start-column="0" selection-end-line="1414" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -166,8 +66,8 @@
       <file leaf-file-name="RegexTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/it/univr/test/RegexTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+            <state relative-caret-position="444">
+              <caret line="113" column="29" lean-forward="false" selection-start-line="113" selection-start-column="29" selection-end-line="113" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -208,7 +108,7 @@
       <file leaf-file-name="Or.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
+            <state relative-caret-position="495">
               <caret line="46" column="25" lean-forward="false" selection-start-line="46" selection-start-column="19" selection-end-line="46" selection-end-column="25" />
               <folding />
             </state>
@@ -218,7 +118,7 @@
       <file leaf-file-name="RegularExpression.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="450">
               <caret line="32" column="29" lean-forward="false" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
               <folding />
             </state>
@@ -228,7 +128,7 @@
       <file leaf-file-name="Comp.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
+            <state relative-caret-position="600">
               <caret line="50" column="25" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="25" />
               <folding />
             </state>
@@ -321,7 +221,6 @@
         <option value="$PROJECT_DIR$/src/it/univr/fsm/main/Main.java" />
         <option value="$PROJECT_DIR$/automata/automaton0016" />
         <option value="$PROJECT_DIR$/automata/automaton0017" />
-        <option value="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
         <option value="$PROJECT_DIR$/automata/automaton0018" />
         <option value="$PROJECT_DIR$/automata/automaton0019" />
         <option value="$PROJECT_DIR$/automata/automaton0020" />
@@ -333,6 +232,7 @@
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java" />
         <option value="$PROJECT_DIR$/automata/automaton0021" />
         <option value="$PROJECT_DIR$/automata/automaton0022" />
+        <option value="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
         <option value="$PROJECT_DIR$/src/it/univr/test/RegexTest.java" />
       </list>
     </option>
@@ -357,9 +257,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -564,30 +461,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hamcrest-core-1.3.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="automata" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -991,27 +873,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RegexTest_Test7 - 2017.03.08 at 14h 58m 22s.xml">
-      <configuration name="RegexTest.Test7" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.06 at 17h 45m 44s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.06 at 17h 48m 13s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.06 at 17h 50m 04s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.06 at 17h 50m 08s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.06 at 17h 50m 10s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.07 at 02h 46m 49s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="RegexTest_Test8 - 2017.03.07 at 09h 52m 07s.xml">
       <configuration name="RegexTest.Test8" configurationId="JUnit" />
     </history-entry>
@@ -1019,6 +880,27 @@
       <configuration name="RegexTest.Test8" configurationId="JUnit" />
     </history-entry>
     <history-entry file="RegexTest_Test8 - 2017.03.07 at 11h 49m 30s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.10 at 12h 36m 59s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.10 at 12h 39m 27s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.11 at 21h 50m 46s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.11 at 21h 55m 52s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.11 at 21h 56m 32s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.11 at 22h 00m 58s.xml">
+      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexTest_Test8 - 2017.03.11 at 22h 01m 14s.xml">
       <configuration name="RegexTest.Test8" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -1033,34 +915,34 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="828" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32608697" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30298913" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5027174" sideWeight="0.5071531" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33831522" sideWeight="0.5107296" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4456522" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32336956" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33831522" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33831522" sideWeight="0.4892704" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32331902" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31402004" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34120172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26251787" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5027174" sideWeight="0.49284694" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3790761" sideWeight="0.49284694" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30298913" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32884097" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1153,11 +1035,17 @@
           <properties />
           <option name="timeStamp" value="221" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1828</line>
+          <properties />
+          <option name="timeStamp" value="222" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="222" />
+      <option name="time" value="223" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1395,12 +1283,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
           <caret line="99" column="20" lean-forward="false" selection-start-line="99" selection-start-column="20" selection-end-line="99" selection-end-column="20" />
-          <folding>
-            <element signature="e#1401#1402#0" expanded="false" />
-            <element signature="e#1447#1448#0" expanded="false" />
-            <element signature="e#1975#1976#0" expanded="false" />
-            <element signature="e#2017#2018#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1411,19 +1293,6 @@
           <folding>
             <element signature="e#1043#1044#0" expanded="false" />
             <element signature="e#1085#1086#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
-          <folding>
-            <element signature="e#626#627#0" expanded="true" />
-            <element signature="e#668#669#0" expanded="true" />
-            <element signature="e#757#758#0" expanded="true" />
-            <element signature="e#788#789#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1456,125 +1325,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0021">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/junit-4.12.jar!/org/junit/runners/model/FrameworkMethod.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="112">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="1961" column="17" lean-forward="true" selection-start-line="1961" selection-start-column="17" selection-end-line="1961" selection-end-column="17" />
-          <folding>
-            <element signature="e#1528#1556#0" expanded="true" />
-            <element signature="e#1626#1654#0" expanded="true" />
-            <element signature="e#6448#6461#0" expanded="true" />
-            <element signature="e#6516#6530#0" expanded="true" />
-            <element signature="e#6578#6590#0" expanded="true" />
-            <element signature="e#6634#6641#0" expanded="true" />
-            <element signature="e#9020#9033#0" expanded="true" />
-            <element signature="e#9081#9093#0" expanded="true" />
-            <element signature="e#9137#9144#0" expanded="true" />
-            <element signature="e#11108#11120#0" expanded="true" />
-            <element signature="e#11161#11168#0" expanded="true" />
-            <element signature="e#14619#14631#0" expanded="true" />
-            <element signature="e#14672#14679#0" expanded="true" />
-            <element signature="e#17705#17720#0" expanded="true" />
-            <element signature="e#17765#17777#0" expanded="true" />
-            <element signature="e#17818#17825#0" expanded="true" />
-            <element signature="e#17873#17880#0" expanded="true" />
-            <element signature="e#21876#21884#0" expanded="true" />
-            <element signature="e#22209#22216#0" expanded="true" />
-            <element signature="e#22261#22273#0" expanded="true" />
-            <element signature="e#23104#23111#0" expanded="true" />
-            <element signature="e#23159#23171#0" expanded="true" />
-            <element signature="e#23221#23236#0" expanded="true" />
-            <element signature="e#24328#24335#0" expanded="true" />
-            <element signature="e#24380#24392#0" expanded="true" />
-            <element signature="e#25956#25968#0" expanded="true" />
-            <element signature="e#26012#26019#0" expanded="true" />
-            <element signature="e#26084#26098#0" expanded="true" />
-            <element signature="e#26150#26164#0" expanded="true" />
-            <element signature="e#27362#27369#0" expanded="true" />
-            <element signature="e#27417#27429#0" expanded="true" />
-            <element signature="e#27906#27913#0" expanded="true" />
-            <element signature="e#27961#27973#0" expanded="true" />
-            <element signature="e#28447#28454#0" expanded="true" />
-            <element signature="e#28502#28514#0" expanded="true" />
-            <element signature="e#29125#29132#0" expanded="true" />
-            <element signature="e#29175#29182#0" expanded="true" />
-            <element signature="e#29752#29777#0" expanded="true" />
-            <element signature="e#29823#29835#0" expanded="true" />
-            <element signature="e#29879#29886#0" expanded="true" />
-            <element signature="e#30356#30363#0" expanded="true" />
-            <element signature="e#30628#30644#0" expanded="true" />
-            <element signature="e#30791#30798#0" expanded="true" />
-            <element signature="e#32992#33000#0" expanded="true" />
-            <element signature="e#33387#33395#0" expanded="true" />
-            <element signature="e#33760#33767#0" expanded="true" />
-            <element signature="e#33859#33866#0" expanded="true" />
-            <element signature="e#33957#33964#0" expanded="true" />
-            <element signature="e#34396#34403#0" expanded="true" />
-            <element signature="e#34557#34569#0" expanded="true" />
-            <element signature="e#35850#35858#0" expanded="true" />
-            <element signature="e#37679#37686#0" expanded="true" />
-            <element signature="e#41395#41411#0" expanded="true" />
-            <element signature="e#44887#44894#0" expanded="true" />
-            <element signature="e#44942#44954#0" expanded="true" />
-            <element signature="e#45003#45017#0" expanded="true" />
-            <element signature="e#48197#48207#0" expanded="true" />
-            <element signature="e#54461#54473#0" expanded="true" />
-            <element signature="e#54715#54730#0" expanded="true" />
-            <element signature="e#55955#55962#0" expanded="true" />
-            <element signature="e#56061#56068#0" expanded="true" />
-            <element signature="e#56117#56124#0" expanded="true" />
-            <element signature="e#56285#56297#0" expanded="true" />
-            <element signature="e#56339#56346#0" expanded="true" />
-            <element signature="e#56893#56900#0" expanded="true" />
-            <element signature="e#57419#57434#0" expanded="true" />
-            <element signature="e#57478#57492#0" expanded="true" />
-            <element signature="e#57534#57541#0" expanded="true" />
-            <element signature="e#57841#57848#0" expanded="true" />
-            <element signature="e#58354#58369#0" expanded="true" />
-            <element signature="e#58417#58431#0" expanded="true" />
-            <element signature="e#58563#58570#0" expanded="true" />
-            <element signature="e#59150#59157#0" expanded="true" />
-            <element signature="e#59461#59476#0" expanded="true" />
-            <element signature="e#59666#59674#0" expanded="true" />
-            <element signature="e#60031#60039#0" expanded="true" />
-            <element signature="e#60854#60862#0" expanded="true" />
-            <element signature="e#61294#61318#0" expanded="true" />
-            <element signature="e#61405#61421#0" expanded="true" />
-            <element signature="e#61980#61987#0" expanded="true" />
-            <element signature="e#62141#62148#0" expanded="true" />
-            <element signature="e#62206#62229#0" expanded="true" />
-            <element signature="e#62524#62536#0" expanded="true" />
-            <element signature="e#63203#63210#0" expanded="true" />
-            <element signature="e#64456#64463#0" expanded="true" />
-            <element signature="e#64511#64523#0" expanded="true" />
-            <element signature="e#64610#64625#0" expanded="true" />
-            <element signature="e#66284#66299#0" expanded="true" />
-            <element signature="e#66390#66397#0" expanded="true" />
-            <element signature="e#66567#66574#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1588,26 +1342,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java">
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="32" column="29" lean-forward="false" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="50" column="25" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="46" column="25" lean-forward="false" selection-start-line="46" selection-start-column="19" selection-end-line="46" selection-end-column="25" />
+        <state relative-caret-position="225">
+          <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -1620,10 +1358,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/automata/automaton0021">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="46" column="25" lean-forward="false" selection-start-line="46" selection-start-column="19" selection-end-line="46" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/RegularExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="32" column="29" lean-forward="false" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Comp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="50" column="25" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/GroundCoeff.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+          <folding>
+            <element signature="e#626#627#0" expanded="true" />
+            <element signature="e#668#669#0" expanded="true" />
+            <element signature="e#757#758#0" expanded="true" />
+            <element signature="e#788#789#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20835">
+          <caret line="1414" column="0" lean-forward="false" selection-start-line="1414" selection-start-column="0" selection-end-line="1414" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/it/univr/test/RegexTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        <state relative-caret-position="444">
+          <caret line="113" column="29" lean-forward="false" selection-start-line="113" selection-start-column="29" selection-end-line="113" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
