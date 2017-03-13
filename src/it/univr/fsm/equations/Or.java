@@ -185,8 +185,10 @@ public class Or extends RegularExpression {
 	public String getProgram() {
 		int curr = Config.GEN;
 		Config.GEN++;
-		String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + "= 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
-		Config.GEN++;
+		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
+		String result = "g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (this.first.getProgram().equals("") ? ";" : this.first.getProgram()) + "} if (g" + curr  + " == 2) {" + (this.second.getProgram().equals("") ? ";" : this.second.getProgram()) + "}";
+
+		//Config.GEN++;
 		return result;
 	}
 

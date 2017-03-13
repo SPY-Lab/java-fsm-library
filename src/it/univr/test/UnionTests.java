@@ -4,7 +4,6 @@ package it.univr.test;
  * Created by andreaperazzoli on 24/01/17.
  */
 
-import com.sun.tools.internal.xjc.model.AutoClassNameAllocator;
 import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.*;
 import org.junit.Test;
