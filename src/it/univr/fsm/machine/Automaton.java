@@ -1403,6 +1403,7 @@ public class Automaton {
 	 */
 	public void minimize() {
 
+		this.removeUnreachableStates();
 		this.reverse();
 		Automaton a = this.determinize();
 		a.removeUnreachableStates();
@@ -1816,8 +1817,9 @@ public class Automaton {
 
 			if (s.isFinalState()) {
 				newState.setFinalState(false);
-				newState.setInitialState(false);
+				newState.setInitialState(true);
 				newDelta.add(new Transition(newInitialState, newState, "", ""));
+				newInitialState = newState;
 			}
 
 			if (s.isInitialState()) 
