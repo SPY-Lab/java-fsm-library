@@ -1404,7 +1404,7 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		this.removeUnreachableStates();
+		// this.removeUnreachableStates();
 		this.reverse();
 		Automaton a = this.determinize();
 		a.removeUnreachableStates();
@@ -1816,7 +1816,7 @@ public class Automaton {
 
 	/**
 	 * Reverse automata operation.
-	 */
+	*/
 	public void reverse() {
 
 		HashSet<State> newStates = new HashSet<State>();
@@ -1825,18 +1825,16 @@ public class Automaton {
 
 		State newInitialState = new State("init", true, false);
 		newStates.add(newInitialState);
-
+	/*
 		for (State s : this.states) {
 			State newState = new State(s.getState(), false , false);
 
 			if (s.isFinalState()) {
 				newState.setFinalState(false);
-				newState.setInitialState(true);
+				//newState.setInitialState(true);
 				newDelta.add(new Transition(newInitialState, newState, "", ""));
-				newInitialState = newState;
-			}
-
-			if (s.isInitialState()) 
+				//newInitialState = newState;
+			}else if (s.isInitialState())
 				newState.setFinalState(true);
 
 			newStates.add(newState);
@@ -1851,7 +1849,40 @@ public class Automaton {
 		this.initialState = newInitialState;
 		this.states = newStates;
 		this.computeAdjacencyList();
+		*/
+		// reversing edges
+		for (Transition t : this.delta) {
+			mapping.put(t.getFrom(),t.getFrom());
+			mapping.put(t.getTo(),t.getTo());
+			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
+		}
+
+		for (State s : this.states) {
+			State newState = mapping.containsKey(s) ? mapping.get(s) : new State(s.getState(), false, false);
+
+			if (s.isFinalState()) {
+				newState.setFinalState(false);
+				newState.setInitialState(true);
+				newDelta.add(new Transition(newInitialState, newState, "", ""));
+				//newInitialState = newState;
+			}
+
+			if (s.isInitialState()) {
+				newState.setFinalState(true);
+				newState.setInitialState(false);
+			}
+
+			newStates.add(newState);
+		}
+
+		this.delta = newDelta;
+		this.initialState = newInitialState;
+		this.states = newStates;
+		this.computeAdjacencyList();
+
+
 	}
+
 
 
 	/**

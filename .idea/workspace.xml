@@ -9,6 +9,7 @@
     <list default="true" id="644a0ed2-d80f-4aab-ab79-228277580b87" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" afterPath="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" afterPath="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/it/univr/test/RegexTest.java" afterPath="$PROJECT_DIR$/src/it/univr/test/RegexTest.java" />
     </list>
     <ignored path="java-fsm-library.iws" />
@@ -41,75 +42,162 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Automaton.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Automaton.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20835">
-              <caret line="1414" column="0" lean-forward="false" selection-start-line="1414" selection-start-column="0" selection-end-line="1414" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Equation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Equation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="38">
+              <caret line="1221" column="0" lean-forward="false" selection-start-line="1221" selection-start-column="0" selection-end-line="1221" selection-end-column="0" />
               <folding>
-                <element signature="e#453#454#0" expanded="true" />
+                <element signature="e#1528#1556#0" expanded="true" />
+                <element signature="e#1626#1654#0" expanded="true" />
+                <element signature="e#6448#6461#0" expanded="true" />
+                <element signature="e#6516#6530#0" expanded="true" />
+                <element signature="e#6578#6590#0" expanded="true" />
+                <element signature="e#6634#6641#0" expanded="true" />
+                <element signature="e#9020#9033#0" expanded="true" />
+                <element signature="e#9081#9093#0" expanded="true" />
+                <element signature="e#9137#9144#0" expanded="true" />
+                <element signature="e#11108#11120#0" expanded="true" />
+                <element signature="e#11161#11168#0" expanded="true" />
+                <element signature="e#14619#14631#0" expanded="true" />
+                <element signature="e#14672#14679#0" expanded="true" />
+                <element signature="e#17705#17720#0" expanded="true" />
+                <element signature="e#17765#17777#0" expanded="true" />
+                <element signature="e#17818#17825#0" expanded="true" />
+                <element signature="e#17873#17880#0" expanded="true" />
+                <element signature="e#21876#21884#0" expanded="true" />
+                <element signature="e#22209#22216#0" expanded="true" />
+                <element signature="e#22261#22273#0" expanded="true" />
+                <element signature="e#23104#23111#0" expanded="true" />
+                <element signature="e#23159#23171#0" expanded="true" />
+                <element signature="e#23221#23236#0" expanded="true" />
+                <element signature="e#24328#24335#0" expanded="true" />
+                <element signature="e#24380#24392#0" expanded="true" />
+                <element signature="e#25956#25968#0" expanded="true" />
+                <element signature="e#26012#26019#0" expanded="true" />
+                <element signature="e#26084#26098#0" expanded="true" />
+                <element signature="e#26150#26164#0" expanded="true" />
+                <element signature="e#27362#27369#0" expanded="true" />
+                <element signature="e#27417#27429#0" expanded="true" />
+                <element signature="e#27906#27913#0" expanded="true" />
+                <element signature="e#27961#27973#0" expanded="true" />
+                <element signature="e#28447#28454#0" expanded="true" />
+                <element signature="e#28502#28514#0" expanded="true" />
+                <element signature="e#29125#29132#0" expanded="true" />
+                <element signature="e#29175#29182#0" expanded="true" />
+                <element signature="e#29752#29777#0" expanded="true" />
+                <element signature="e#29823#29835#0" expanded="true" />
+                <element signature="e#29879#29886#0" expanded="true" />
+                <element signature="e#30356#30363#0" expanded="true" />
+                <element signature="e#30628#30644#0" expanded="true" />
+                <element signature="e#30791#30798#0" expanded="true" />
+                <element signature="e#32992#33000#0" expanded="true" />
+                <element signature="e#33387#33395#0" expanded="true" />
+                <element signature="e#33760#33767#0" expanded="true" />
+                <element signature="e#33859#33866#0" expanded="true" />
+                <element signature="e#33957#33964#0" expanded="true" />
+                <element signature="e#34396#34403#0" expanded="true" />
+                <element signature="e#34557#34569#0" expanded="true" />
+                <element signature="e#35887#35895#0" expanded="true" />
+                <element signature="e#37716#37723#0" expanded="true" />
+                <element signature="e#41432#41448#0" expanded="true" />
+                <element signature="e#44923#44930#0" expanded="true" />
+                <element signature="e#44978#44990#0" expanded="true" />
+                <element signature="e#45039#45053#0" expanded="true" />
+                <element signature="e#49122#49132#0" expanded="true" />
+                <element signature="e#55386#55398#0" expanded="true" />
+                <element signature="e#55640#55655#0" expanded="true" />
+                <element signature="e#56880#56887#0" expanded="true" />
+                <element signature="e#56986#56993#0" expanded="true" />
+                <element signature="e#57042#57049#0" expanded="true" />
+                <element signature="e#57210#57222#0" expanded="true" />
+                <element signature="e#57264#57271#0" expanded="true" />
+                <element signature="e#57818#57825#0" expanded="true" />
+                <element signature="e#58344#58359#0" expanded="true" />
+                <element signature="e#58403#58417#0" expanded="true" />
+                <element signature="e#58459#58466#0" expanded="true" />
+                <element signature="e#58766#58773#0" expanded="true" />
+                <element signature="e#59279#59294#0" expanded="true" />
+                <element signature="e#59342#59356#0" expanded="true" />
+                <element signature="e#59488#59495#0" expanded="true" />
+                <element signature="e#60075#60082#0" expanded="true" />
+                <element signature="e#60386#60401#0" expanded="true" />
+                <element signature="e#60591#60599#0" expanded="true" />
+                <element signature="e#60956#60964#0" expanded="true" />
+                <element signature="e#61779#61787#0" expanded="true" />
+                <element signature="e#62219#62243#0" expanded="true" />
+                <element signature="e#62330#62346#0" expanded="true" />
+                <element signature="e#62905#62912#0" expanded="true" />
+                <element signature="e#63066#63073#0" expanded="true" />
+                <element signature="e#63131#63154#0" expanded="true" />
+                <element signature="e#63449#63461#0" expanded="true" />
+                <element signature="e#64128#64135#0" expanded="true" />
+                <element signature="e#65381#65388#0" expanded="true" />
+                <element signature="e#65436#65448#0" expanded="true" />
+                <element signature="e#65535#65550#0" expanded="true" />
+                <element signature="e#67209#67224#0" expanded="true" />
+                <element signature="e#67315#67322#0" expanded="true" />
+                <element signature="e#67492#67499#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegexTest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="State.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/State.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="13" lean-forward="false" selection-start-line="81" selection-start-column="8" selection-end-line="83" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MinimizationTests.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="310" column="0" lean-forward="false" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="automaton0018" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/automata/automaton0018">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="615">
+              <caret line="41" column="6" lean-forward="false" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="automaton0019" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/automata/automaton0019">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="44" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="automaton0020" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/automata/automaton0020">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="19" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegexTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/it/univr/test/RegexTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="113" column="29" lean-forward="false" selection-start-line="113" selection-start-column="29" selection-end-line="113" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/main/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="46" lean-forward="false" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="automaton0022" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/automata/automaton0022">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="7" lean-forward="false" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="automaton0021" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/automata/automaton0021">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Or.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="46" column="25" lean-forward="false" selection-start-line="46" selection-start-column="19" selection-end-line="46" selection-end-column="25" />
+            <state relative-caret-position="1770">
+              <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -130,7 +218,23 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="600">
               <caret line="50" column="25" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="25" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#364#365#0" expanded="false" />
+                <element signature="e#383#384#0" expanded="false" />
+                <element signature="e#424#425#0" expanded="false" />
+                <element signature="e#444#445#0" expanded="false" />
+                <element signature="e#484#485#0" expanded="false" />
+                <element signature="e#534#535#0" expanded="false" />
+                <element signature="e#1015#1016#0" expanded="false" />
+                <element signature="e#1065#1066#0" expanded="false" />
+                <element signature="e#1307#1308#0" expanded="false" />
+                <element signature="e#1369#1370#0" expanded="false" />
+                <element signature="e#2088#2089#0" expanded="false" />
+                <element signature="e#2142#2143#0" expanded="false" />
+                <element signature="e#2594#2595#0" expanded="false" />
+                <element signature="e#2645#2646#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -213,7 +317,6 @@
         <option value="$PROJECT_DIR$/src/it/univr/test/RunTests.java" />
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Equation.java" />
         <option value="$PROJECT_DIR$/automata/automaton0013" />
-        <option value="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" />
         <option value="$PROJECT_DIR$/automata/automaton0015" />
         <option value="$PROJECT_DIR$/src/it/univr/test/ConcatTest.java" />
         <option value="$PROJECT_DIR$/automata/automaton0014" />
@@ -232,8 +335,9 @@
         <option value="$PROJECT_DIR$/src/it/univr/fsm/equations/Or.java" />
         <option value="$PROJECT_DIR$/automata/automaton0021" />
         <option value="$PROJECT_DIR$/automata/automaton0022" />
-        <option value="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
         <option value="$PROJECT_DIR$/src/it/univr/test/RegexTest.java" />
+        <option value="$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java" />
+        <option value="$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java" />
       </list>
     </option>
   </component>
@@ -243,7 +347,7 @@
     <option name="height" value="828" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -256,221 +360,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="univr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="univr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fsm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="univr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fsm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="machine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="univr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fsm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="equations" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="univr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fsm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="univr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="exception" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java-fsm-library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="automata" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Libraries" />
@@ -484,8 +374,8 @@
       <recent name="$PROJECT_DIR$/src/it/univr/fsm/machine" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.RegexTest.Test8">
-    <configuration default="false" name="RegexTest.Test6" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.MinimizationTests.reductionTest16">
+    <configuration default="false" name="MinimizationTests.reductionTest14" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="it.univr.test.*" />
@@ -496,8 +386,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="it.univr.test" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.test.RegexTest" />
-      <option name="METHOD_NAME" value="Test6" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.test.MinimizationTests" />
+      <option name="METHOD_NAME" value="reductionTest14" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -511,7 +401,7 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="RegexTest.Test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="MinimizationTests.reductionTest15" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="it.univr.test.*" />
@@ -522,8 +412,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="it.univr.test" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.test.RegexTest" />
-      <option name="METHOD_NAME" value="Test1" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.test.MinimizationTests" />
+      <option name="METHOD_NAME" value="reductionTest15" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -537,7 +427,7 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="RegexTest.Test7" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="MinimizationTests.reductionTest16" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="it.univr.test.*" />
@@ -548,8 +438,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="it.univr.test" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.test.RegexTest" />
-      <option name="METHOD_NAME" value="Test7" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.test.MinimizationTests" />
+      <option name="METHOD_NAME" value="reductionTest16" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -563,7 +453,7 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="RegexTest.Test8" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="MinimizationTests.reductionTest17" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="it.univr.test.*" />
@@ -574,8 +464,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="it.univr.test" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.test.RegexTest" />
-      <option name="METHOD_NAME" value="Test8" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.test.MinimizationTests" />
+      <option name="METHOD_NAME" value="reductionTest17" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -589,24 +479,30 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="MinimizationTests.reductionTest18" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
-          <option name="PATTERN" value="it.univr.fsm.main.*" />
+          <option name="PATTERN" value="it.univr.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.main.Main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <module name="java-fsm-library" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="PACKAGE_NAME" value="it.univr.test" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.test.MinimizationTests" />
+      <option name="METHOD_NAME" value="reductionTest18" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="java-fsm-library" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
       <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -816,19 +712,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.RegexTest.Test6" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.RegexTest.Test1" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.RegexTest.Test7" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.RegexTest.Test8" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest14" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest15" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest16" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest17" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest18" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.RegexTest.Test8" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.RegexTest.Test7" />
-        <item index="2" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.RegexTest.Test1" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.RegexTest.Test6" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest16" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest17" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest18" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest15" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.MinimizationTests.reductionTest14" />
       </list>
     </recent_temporary>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -873,35 +769,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RegexTest_Test8 - 2017.03.07 at 09h 52m 07s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.12 at 20h 00m 51s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.07 at 10h 09m 26s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.12 at 20h 03m 34s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.07 at 11h 49m 30s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.12 at 21h 14m 49s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.10 at 12h 36m 59s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.12 at 23h 32m 27s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.10 at 12h 39m 27s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.13 at 02h 10m 42s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.11 at 21h 50m 46s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.13 at 02h 39m 45s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.11 at 21h 55m 52s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest16 - 2017.03.13 at 03h 00m 57s.xml">
+      <configuration name="MinimizationTests.reductionTest16" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.11 at 21h 56m 32s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest17 - 2017.03.12 at 19h 43m 14s.xml">
+      <configuration name="MinimizationTests.reductionTest17" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.11 at 22h 00m 58s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest17 - 2017.03.12 at 19h 46m 46s.xml">
+      <configuration name="MinimizationTests.reductionTest17" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexTest_Test8 - 2017.03.11 at 22h 01m 14s.xml">
-      <configuration name="RegexTest.Test8" configurationId="JUnit" />
+    <history-entry file="MinimizationTests_reductionTest18 - 2017.03.12 at 18h 50m 37s.xml">
+      <configuration name="MinimizationTests.reductionTest18" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -915,11 +811,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="828" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32608697" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30298913" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -931,18 +828,17 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33831522" sideWeight="0.4892704" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34120172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26251787" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34120172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2653791" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3790761" sideWeight="0.49284694" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.46875" sideWeight="0.49284694" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30298913" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904148" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32884097" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1036,16 +932,52 @@
           <option name="timeStamp" value="221" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
-          <line>1828</line>
+          <url>file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java</url>
+          <line>310</line>
           <properties />
-          <option name="timeStamp" value="222" />
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java</url>
+          <line>327</line>
+          <properties />
+          <option name="timeStamp" value="224" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1407</line>
+          <properties />
+          <option name="timeStamp" value="225" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1194</line>
+          <properties />
+          <option name="timeStamp" value="226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1215</line>
+          <properties />
+          <option name="timeStamp" value="229" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1221</line>
+          <properties />
+          <option name="timeStamp" value="230" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java</url>
+          <line>1236</line>
+          <properties />
+          <option name="timeStamp" value="231" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="223" />
+      <option name="time" value="232" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1107,18 +1039,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/State.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding>
-            <element signature="e#962#963#0" expanded="false" />
-            <element signature="e#981#982#0" expanded="false" />
-            <element signature="e#1419#1420#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1214,14 +1134,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="39" column="8" lean-forward="false" selection-start-line="39" selection-start-column="8" selection-end-line="49" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/junit-4.12.jar!/org/junit/Assert.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="109">
@@ -1251,31 +1163,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0018">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="41" column="6" lean-forward="false" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/src.zip!/java/lang/Object.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-533">
           <caret line="99" column="22" lean-forward="false" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0019">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="44" column="6" lean-forward="false" selection-start-line="44" selection-start-column="6" selection-end-line="44" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/automata/automaton0020">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="7" lean-forward="false" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1294,13 +1185,6 @@
             <element signature="e#1043#1044#0" expanded="false" />
             <element signature="e#1085#1086#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1354,7 +1238,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="7" lean-forward="false" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1362,7 +1245,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1386,7 +1268,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
           <caret line="50" column="25" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#364#365#0" expanded="false" />
+            <element signature="e#383#384#0" expanded="false" />
+            <element signature="e#424#425#0" expanded="false" />
+            <element signature="e#444#445#0" expanded="false" />
+            <element signature="e#484#485#0" expanded="false" />
+            <element signature="e#534#535#0" expanded="false" />
+            <element signature="e#1015#1016#0" expanded="false" />
+            <element signature="e#1065#1066#0" expanded="false" />
+            <element signature="e#1307#1308#0" expanded="false" />
+            <element signature="e#1369#1370#0" expanded="false" />
+            <element signature="e#2088#2089#0" expanded="false" />
+            <element signature="e#2142#2143#0" expanded="false" />
+            <element signature="e#2594#2595#0" expanded="false" />
+            <element signature="e#2645#2646#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1403,20 +1301,156 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
+    <entry file="file://$PROJECT_DIR$/src/it/univr/test/RegexTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20835">
-          <caret line="1414" column="0" lean-forward="false" selection-start-line="1414" selection-start-column="0" selection-end-line="1414" selection-end-column="0" />
+        <state relative-caret-position="1770">
+          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/it/univr/test/RegexTest.java">
+    <entry file="file://$PROJECT_DIR$/automata/automaton0019">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="113" column="29" lean-forward="false" selection-start-line="113" selection-start-column="29" selection-end-line="113" selection-end-column="29" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="44" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/automata/automaton0018">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="6" lean-forward="false" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/automata/automaton0020">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="19" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/junit-4.12.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/State.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="81" selection-start-column="8" selection-end-line="83" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/test/MinimizationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="310" column="0" lean-forward="false" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/it/univr/fsm/machine/Automaton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="1221" column="0" lean-forward="false" selection-start-line="1221" selection-start-column="0" selection-end-line="1221" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1528#1556#0" expanded="true" />
+            <element signature="e#1626#1654#0" expanded="true" />
+            <element signature="e#6448#6461#0" expanded="true" />
+            <element signature="e#6516#6530#0" expanded="true" />
+            <element signature="e#6578#6590#0" expanded="true" />
+            <element signature="e#6634#6641#0" expanded="true" />
+            <element signature="e#9020#9033#0" expanded="true" />
+            <element signature="e#9081#9093#0" expanded="true" />
+            <element signature="e#9137#9144#0" expanded="true" />
+            <element signature="e#11108#11120#0" expanded="true" />
+            <element signature="e#11161#11168#0" expanded="true" />
+            <element signature="e#14619#14631#0" expanded="true" />
+            <element signature="e#14672#14679#0" expanded="true" />
+            <element signature="e#17705#17720#0" expanded="true" />
+            <element signature="e#17765#17777#0" expanded="true" />
+            <element signature="e#17818#17825#0" expanded="true" />
+            <element signature="e#17873#17880#0" expanded="true" />
+            <element signature="e#21876#21884#0" expanded="true" />
+            <element signature="e#22209#22216#0" expanded="true" />
+            <element signature="e#22261#22273#0" expanded="true" />
+            <element signature="e#23104#23111#0" expanded="true" />
+            <element signature="e#23159#23171#0" expanded="true" />
+            <element signature="e#23221#23236#0" expanded="true" />
+            <element signature="e#24328#24335#0" expanded="true" />
+            <element signature="e#24380#24392#0" expanded="true" />
+            <element signature="e#25956#25968#0" expanded="true" />
+            <element signature="e#26012#26019#0" expanded="true" />
+            <element signature="e#26084#26098#0" expanded="true" />
+            <element signature="e#26150#26164#0" expanded="true" />
+            <element signature="e#27362#27369#0" expanded="true" />
+            <element signature="e#27417#27429#0" expanded="true" />
+            <element signature="e#27906#27913#0" expanded="true" />
+            <element signature="e#27961#27973#0" expanded="true" />
+            <element signature="e#28447#28454#0" expanded="true" />
+            <element signature="e#28502#28514#0" expanded="true" />
+            <element signature="e#29125#29132#0" expanded="true" />
+            <element signature="e#29175#29182#0" expanded="true" />
+            <element signature="e#29752#29777#0" expanded="true" />
+            <element signature="e#29823#29835#0" expanded="true" />
+            <element signature="e#29879#29886#0" expanded="true" />
+            <element signature="e#30356#30363#0" expanded="true" />
+            <element signature="e#30628#30644#0" expanded="true" />
+            <element signature="e#30791#30798#0" expanded="true" />
+            <element signature="e#32992#33000#0" expanded="true" />
+            <element signature="e#33387#33395#0" expanded="true" />
+            <element signature="e#33760#33767#0" expanded="true" />
+            <element signature="e#33859#33866#0" expanded="true" />
+            <element signature="e#33957#33964#0" expanded="true" />
+            <element signature="e#34396#34403#0" expanded="true" />
+            <element signature="e#34557#34569#0" expanded="true" />
+            <element signature="e#35887#35895#0" expanded="true" />
+            <element signature="e#37716#37723#0" expanded="true" />
+            <element signature="e#41432#41448#0" expanded="true" />
+            <element signature="e#44923#44930#0" expanded="true" />
+            <element signature="e#44978#44990#0" expanded="true" />
+            <element signature="e#45039#45053#0" expanded="true" />
+            <element signature="e#49122#49132#0" expanded="true" />
+            <element signature="e#55386#55398#0" expanded="true" />
+            <element signature="e#55640#55655#0" expanded="true" />
+            <element signature="e#56880#56887#0" expanded="true" />
+            <element signature="e#56986#56993#0" expanded="true" />
+            <element signature="e#57042#57049#0" expanded="true" />
+            <element signature="e#57210#57222#0" expanded="true" />
+            <element signature="e#57264#57271#0" expanded="true" />
+            <element signature="e#57818#57825#0" expanded="true" />
+            <element signature="e#58344#58359#0" expanded="true" />
+            <element signature="e#58403#58417#0" expanded="true" />
+            <element signature="e#58459#58466#0" expanded="true" />
+            <element signature="e#58766#58773#0" expanded="true" />
+            <element signature="e#59279#59294#0" expanded="true" />
+            <element signature="e#59342#59356#0" expanded="true" />
+            <element signature="e#59488#59495#0" expanded="true" />
+            <element signature="e#60075#60082#0" expanded="true" />
+            <element signature="e#60386#60401#0" expanded="true" />
+            <element signature="e#60591#60599#0" expanded="true" />
+            <element signature="e#60956#60964#0" expanded="true" />
+            <element signature="e#61779#61787#0" expanded="true" />
+            <element signature="e#62219#62243#0" expanded="true" />
+            <element signature="e#62330#62346#0" expanded="true" />
+            <element signature="e#62905#62912#0" expanded="true" />
+            <element signature="e#63066#63073#0" expanded="true" />
+            <element signature="e#63131#63154#0" expanded="true" />
+            <element signature="e#63449#63461#0" expanded="true" />
+            <element signature="e#64128#64135#0" expanded="true" />
+            <element signature="e#65381#65388#0" expanded="true" />
+            <element signature="e#65436#65448#0" expanded="true" />
+            <element signature="e#65535#65550#0" expanded="true" />
+            <element signature="e#67209#67224#0" expanded="true" />
+            <element signature="e#67315#67322#0" expanded="true" />
+            <element signature="e#67492#67499#0" expanded="true" />
           </folding>
         </state>
       </provider>

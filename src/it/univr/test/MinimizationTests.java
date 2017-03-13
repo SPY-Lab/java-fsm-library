@@ -277,6 +277,75 @@ public class MinimizationTests {
 
     }
 
+    @Test
+    public void reductionTest14(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0022");
+
+        Automaton abrow = a.clone();
+        abrow.minimize();
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest15(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0021");
+
+        Automaton abrow = a.clone();
+        abrow.minimize();
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest16(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0020");
+
+        Automaton abrow = a.clone();
+        abrow.minimize();
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+    @Test
+    public void reductionTest17(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0019");
+
+        Automaton abrow = a.clone();
+        abrow.minimize();
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+    @Test
+    public void reductionTest18(){
+
+        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0018");
+
+        Automaton abrow = a.clone();
+        abrow.minimize();
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
 
 
 
