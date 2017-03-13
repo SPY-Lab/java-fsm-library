@@ -250,5 +250,34 @@ public class MinimizationTests {
 
     }
 
+    @Test
+    public void reductionTest13(){
+
+        Automaton a = Automaton.loadAutomataWithAlternatePattern("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/"
+                + "automaton0013");
+        /*
+        *   automaton0013 è il primo automa che rispecchia il pattern
+        *   [state_name]([reject], [accept]) || [initial]
+	    *       [state_name] Sym -> [state_to]
+        *
+         */
+
+        System.out.println(a.automatonPrint());
+        Automaton ahop = a.clone();
+        ahop.minimizeHopcroft();
+        Automaton amoore = a.clone();
+        amoore.minimizeMoore();
+        Automaton abrow = a.clone();
+        abrow.minimize();
+
+
+        assertEquals("Hopcroft minimization is not equal Moore's one", ahop, amoore);
+        assertEquals("Moore minimization is not equal Brow's one", amoore, abrow);
+        assertEquals("Hopcroft minimization is not equal Brow's one", ahop, abrow);
+
+    }
+
+
+
 
 }

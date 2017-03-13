@@ -12,6 +12,31 @@ public class GroundCoeff extends RegularExpression {
 		this.string = s;
 	}
 
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		if(string.equals(with.toString())){
+			string = with.toString();
+		}
+		return this;
+	}*/
+
+	@Override
+	public RegularExpression remove(RegularExpression e) {
+		if(this.equals(e)){
+			return new GroundCoeff("");
+		}
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return this.equals(e) ? this : null;
+	}
+
+	public String getString(){
+		return string;
+	}
+
 	@Override
 	public String toString() {
 		return string.toString();
@@ -25,6 +50,19 @@ public class GroundCoeff extends RegularExpression {
 	@Override
 	public RegularExpression syntetize(State s) {
 		return this;
+	}
+
+	@Override
+	public int hashCode() {
+		return string.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof GroundCoeff){
+			return string.equals(((GroundCoeff) other).string);
+		}
+		return false;
 	}
 
 	@Override

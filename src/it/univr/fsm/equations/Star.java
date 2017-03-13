@@ -39,6 +39,19 @@ public class Star extends RegularExpression {
 	}
 
 	@Override
+	public int hashCode() {
+		return op.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Star){
+			return op.equals(((Star) other).op);
+		}
+		return false;
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return op.containsOnly(s);
 	}
@@ -80,7 +93,30 @@ public class Star extends RegularExpression {
 	}
 
 	@Override
+	public RegularExpression remove(RegularExpression e) {
+		if(this.equals(e)){
+			return new GroundCoeff("");
+		}
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return this.equals(e) ? this : null;
+	}
+
+	/*
+        @Override
+        public RegularExpression replace(RegularExpression e, RegularExpression with) {
+
+            return new Star(op.replace(e,with));
+        }
+    */
+	@Override
 	public RegularExpression simplify() {
+		if(op.toString().equals(""))
+			return new GroundCoeff("");
+
 		return new Star(this.op.simplify());
 	}
 	@Override

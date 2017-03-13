@@ -2,7 +2,6 @@ package it.univr.fsm.equations;
 
 import java.util.Vector;
 
-import it.univr.fsm.config.Config;
 import it.univr.fsm.machine.State;
 
 public class Comp extends RegularExpression {
@@ -44,8 +43,44 @@ public class Comp extends RegularExpression {
 	}
 
 	@Override
+	public int hashCode() {
+		return first.hashCode() * second.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Comp) {
+			return first.equals(((Comp) other).first) && second.equals(((Comp) other).second);
+		}
+		return false;
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return  first.containsOnly(s) && second.containsOnly(s);
+	}
+
+	@Override
+	public RegularExpression remove(RegularExpression e) {
+		first = first.remove(e);
+		second = second.remove(e);
+
+
+		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
+			return first;
+		}else if(first instanceof GroundCoeff && ((GroundCoeff) first).getString().equals("")){
+			return second;
+		}
+
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return first.factorize(e) != null ? first.factorize(e) :
+				second.factorize(e) != null ? second.factorize(e) :
+						e.factorize(first) != null ? e.factorize(first) :
+								e.factorize(second) != null ? e.factorize(second) : null;
 	}
 
 	@Override
@@ -92,18 +127,44 @@ public class Comp extends RegularExpression {
 	@Override
 	public Vector<RegularExpression> inBlockPart() {
 		Vector<RegularExpression> v = new Vector<>();
-		v.add(first);
-		v.add(second);
+		v.add(this);
 		return v;
 	}
 
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		return new Comp(first.replace(e,with),second.replace(e,with));
+	}*/
+
 	@Override
 	public RegularExpression simplify() {
-		if (this.second instanceof Or) {
+		/*if (this.second instanceof Or) {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
+		}*/
+
+
+
+		// Comp with an only term isn't a Comp, but a GroundCoeff
+		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
+			return first.simplify();
+		}else if (first instanceof GroundCoeff && ((GroundCoeff) first).getString().equals("")){
+			return second.simplify();
 		}
 
-		return this;
+		// (a + b)(a + b)* = (a + b)*
+		if(first instanceof Or && second instanceof Star){
+			if(new Star(first).equals(second)){
+				return second.simplify();
+			}
+		}else if(first instanceof Star && second instanceof Or){
+			if(new Star(second).equals(first)){
+				return first.simplify();
+			}
+		}
+
+
+
+		return new Comp(first.simplify(),second.simplify());
 	}
 
 	@Override

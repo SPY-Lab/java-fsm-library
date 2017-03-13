@@ -39,6 +39,21 @@ public class Or extends RegularExpression {
 	}
 
 	@Override
+	public int hashCode() {
+		return first.hashCode() + second.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Or) {
+			return (first.equals(((Or) other).first) && second.equals(((Or) other).second))
+					|| (first.equals(((Or) other).second) && second.equals(((Or) other).first));
+		}
+		return false;
+
+	}
+
+	@Override
 	public boolean containsOnly(State s) {
 		return first.containsOnly(s) && second.containsOnly(s);
 	}
@@ -106,9 +121,64 @@ public class Or extends RegularExpression {
 		return v;
 	}
 
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		return new Or(first.replace(e, with), second.replace(e, with));
+	}*/
+
+	@Override
+	public RegularExpression remove(RegularExpression e) {
+		first = first.remove(e);
+		second = second.remove(e);
+
+
+		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
+			return first;
+		}else if(first instanceof GroundCoeff && ((GroundCoeff) first).getString().equals("")){
+			return second;
+		}
+
+		return this;
+	}
+
+	@Override
+	public RegularExpression factorize(RegularExpression e) {
+		return first.factorize(e) != null && second.factorize(e) != null ? first.factorize(e) :
+				e.factorize(first) != null && e.factorize(second) != null ? e.factorize(first) : null;
+	}
+
 	@Override
 	public RegularExpression simplify() {
-		return new Or(this.first.simplify(), this.second.simplify());
+
+		// common factor: (ab + ac) = a(b+c)
+		Vector<RegularExpression> first_part = first.inBlockPart();
+		Vector<RegularExpression> second_part = second.inBlockPart();
+		Vector<RegularExpression> inCommon = new Vector<>();
+		RegularExpression result = null;
+		RegularExpression factor = null;
+
+		for(int i = 0; i < first_part.size(); i++)
+			for(int j = 0; j < second_part.size(); j++){
+				if( (factor = first_part.get(i).factorize(second_part.get(j))) != null){
+					inCommon.add(new Comp(factor,new Or(first_part.get(i).remove(factor),second_part.get(j).remove(factor))));
+					first_part.remove(i);
+					second_part.remove(j);
+				}
+			}
+			if(inCommon.size() > 0) {
+				first_part.addAll(second_part);
+				first_part.addAll(inCommon);
+
+				for(RegularExpression e : first_part){
+					result = result == null ? e : new Or(result,e);
+				}
+
+				return result;
+			}
+
+
+
+		return new Or(first.simplify(), second.simplify());
 	}
 
 	@Override
@@ -121,4 +191,5 @@ public class Or extends RegularExpression {
 		//Config.GEN++;
 		return result;
 	}
+
 }
