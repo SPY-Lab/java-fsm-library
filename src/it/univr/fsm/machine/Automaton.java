@@ -1403,7 +1403,7 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		this.removeUnreachableStates();
+		/*this.removeUnreachableStates();
 		this.reverse();
 		Automaton a = this.determinize();
 		a.removeUnreachableStates();
@@ -1415,9 +1415,9 @@ public class Automaton {
 		this.states = a.states;
 		
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();*/
 
-		/*
+		
 		this.minimizeHopcroft();
 
 		Automaton a = this.deMerge(++initChar); 
@@ -1425,7 +1425,7 @@ public class Automaton {
 		this.states = a.states;
 		this.delta = a.delta;
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();*/
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 
 	}
 
