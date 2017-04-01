@@ -37,7 +37,7 @@ public class RunTests {
     @Test
     public void runTest1(){
 
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0001");
+        Automaton a = Automaton.loadAutomata("automata/automaton0001");
         a.minimizeHopcroft();
 
         assertTrue(a.run("'a'"));
@@ -49,7 +49,7 @@ public class RunTests {
     @Test
     public void runTest3(){
 
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0003");
+        Automaton a = Automaton.loadAutomata("automata/automaton0003");
         a.minimizeHopcroft();
 
        // assertTrue(a.run("01"));
@@ -60,7 +60,7 @@ public class RunTests {
     @Test
     public void runTest4(){
 
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0004");
+        Automaton a = Automaton.loadAutomata("automata/automaton0004");
         a.minimizeHopcroft();
 
         assertTrue(a.run("01"));
@@ -70,7 +70,7 @@ public class RunTests {
 
     @Test
     public void runTest9(){
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0009");
+        Automaton a = Automaton.loadAutomata("automata/automaton0009");
         a.minimizeHopcroft();
 
         assertTrue(a.run("101"));
@@ -82,7 +82,7 @@ public class RunTests {
 
     @Test
     public void runTest10(){
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0010");
+        Automaton a = Automaton.loadAutomata("automata/automaton0010");
         a.minimizeHopcroft();
 
         assertTrue(a.run("11122"));
@@ -94,7 +94,7 @@ public class RunTests {
 
     @Test
     public void runTest11(){
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0011");
+        Automaton a = Automaton.loadAutomata("automata/automaton0011");
         a.minimizeHopcroft();
 
         assertTrue(a.run("aaaaaaaaaa"));
@@ -105,7 +105,7 @@ public class RunTests {
 
     @Test
     public void runTest12(){
-        Automaton a = Automaton.loadAutomata("/Users/andreaperazzoli/Desktop/SPY/java-fsm-library/automata/" + "automaton0012");
+        Automaton a = Automaton.loadAutomata("automata/automaton0012");
         a.minimizeHopcroft();
 
         assertTrue(a.run("bbbbbbbbbbb"));

@@ -34,7 +34,46 @@ import java.util.HashSet;
 /**
  * Created by andreaperazzoli on 18/12/16.
  */
-public class MinimizationTests {
+public class HopcroftTest {
+
+    public boolean weakEquals(Automaton a1, Automaton a2){
+        if(a1.getDelta().size() == a2.getDelta().size() && a1.getStates().size() == a2.getStates().size()){
+            HashSet<Transition> delta1 = (HashSet<Transition>) a1.getDelta().clone();
+            HashSet<State> states1 = (HashSet<State>) a1.getStates().clone();
+            HashSet<Transition> delta2 = (HashSet<Transition>) a2.getDelta().clone();
+            HashSet<State> states2 = (HashSet<State>) a2.getStates().clone();
+
+            for(Transition t1 : a1.getDelta()){
+                states1.remove(t1.getFrom());
+                states1.remove(t1.getTo());
+                delta1.remove(t1);
+                for(Transition t2 : delta2){
+                    if(t1.getInput().equals(t2.getInput())){
+                        states2.remove(t2.getFrom());
+                        states2.remove(t2.getTo());
+                        delta2.remove(t2);
+                        break;
+                    }
+                }
+            }
+
+            System.out.println("a1\n-----------");
+            System.out.println(a1);
+            System.out.println("a2\n-----------");
+            System.out.println(a2);
+            System.out.println("---------------------------------------------");
+
+            if(states2.size() == 0 && delta2.size() == 0) return true;
+            else return false;
+
+        }
+        System.out.println("a1\n-----------");
+        System.out.println(a1);
+        System.out.println("a2\n-----------");
+        System.out.println(a2);
+        System.out.println("-----------");
+        return false;
+    }
 
     public boolean weakEquals(Automaton a1, Automaton a2){
         if(a1.getDelta().size() == a2.getDelta().size() && a1.getStates().size() == a2.getStates().size()){
