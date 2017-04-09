@@ -34,7 +34,7 @@ import java.util.HashSet;
 /**
  * Created by andreaperazzoli on 18/12/16.
  */
-public class HopcroftTest {
+public class BrzozowskyTest {
 
     public boolean weakEquals(Automaton a1, Automaton a2){
         if(a1.getDelta().size() == a2.getDelta().size() && a1.getStates().size() == a2.getStates().size()){
@@ -78,13 +78,13 @@ public class HopcroftTest {
     @Test
     public void reductionTest1(){
 
-
         Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0008.jff");
-        System.out.println(a);
-        a.minimizeHopcroft();
+        a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern("automataminimized/" + "automaton0008.jff");
 
+        System.out.println(a.equals(solution));
         assertTrue(weakEquals(a,solution));
+
 
     }
 
@@ -92,7 +92,7 @@ public class HopcroftTest {
     public void reductionTest2(){
 
         Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0010.jff");
-        a.minimizeHopcroft();
+        a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern("automataminimized/" + "automaton0010.jff");
 
         assertTrue(weakEquals(a,solution));
@@ -103,10 +103,10 @@ public class HopcroftTest {
     public void reductionTest3(){
 
         Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0017.jff");
-        a.minimizeHopcroft();
+        a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern("automataminimized/" + "automaton0017.jff");
 
-        //assertTrue(weakEquals(a,solution)); FALSE NEGATIVE
+        assertTrue(weakEquals(a,solution));
 
     }
 
@@ -114,7 +114,7 @@ public class HopcroftTest {
     public void reductionTest4(){
 
         Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0018.jff");
-        a.minimizeHopcroft();
+        a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern("automataminimized/" + "automaton0018.jff");
 
         assertTrue(weakEquals(a,solution));
@@ -125,10 +125,10 @@ public class HopcroftTest {
     public void reductionTest5(){
 
         Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0019.jff");
-        a.minimizeHopcroft();
+        a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern("automataminimized/" + "automaton0019.jff");
 
-        //assertTrue(weakEquals(a,solution)); FALSE NEGATIVE
+        assertTrue(weakEquals(a,solution));
 
     }
 
@@ -136,7 +136,7 @@ public class HopcroftTest {
     public void reductionTest6(){
 
         Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0026.jff");
-        a.minimizeHopcroft();
+        a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern("automataminimized/" + "automaton0026.jff");
 
         assertTrue(weakEquals(a,solution));

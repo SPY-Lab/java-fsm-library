@@ -1406,48 +1406,56 @@ public class Automaton {
 //		return a;
 //	}
 	public Automaton determinize(){
-
-		HashMap<MacroState, Boolean> statesMap = new HashMap<>();
-		LinkedList<MacroState> unMarkedStates = new LinkedList<>();
-		HashSet<State> temp;
-
-		State initialState = new State( createName(temp = epsilonClosure(this.getInitialState())), true, isPartitionFinalState(temp));
-		statesMap.put(new MacroState(initialState, temp),false);
-		unMarkedStates.add(new MacroState(initialState, temp));
-
 		HashSet<State> newStates = new HashSet<>();
 		HashSet<Transition> newDelta = new HashSet<>();
 
+		HashMap<HashSet<State>, Boolean> statesMarked = new HashMap<>();
+		HashMap<HashSet<State>,State> statesName = new HashMap<>();
+		int num = 0;
+		LinkedList<HashSet<State>> unMarkedStates = new LinkedList<>();
+
+		HashSet<State> temp;
+
+		temp = epsilonClosure(this.getInitialState());
+		statesName.put(temp,new State("q" + String.valueOf(num++) ,true,isPartitionFinalState(temp)));
+
+		State initialState = statesName.get(temp);
+		newStates.add(statesName.get(temp));
+		statesMarked.put(temp, false);
+		unMarkedStates.add(temp);
+
+
+
 		while(!unMarkedStates.isEmpty()){
-			MacroState T = unMarkedStates.getFirst();
+			HashSet<State> T = unMarkedStates.getFirst();
+			newStates.add(statesName.get(T));
 
 			// mark T
 			unMarkedStates.removeFirst();
-			statesMap.put(T, true);
+			statesMarked.put(T, true);
 
-			for (String alphabet: readableCharFromState(T.getStates())) {
-				temp = epsilonClosure(moveNFA(T.getStates(), alphabet));
+			for (String alphabet: readableCharFromState(T)) {
+				temp = epsilonClosure(moveNFA(T, alphabet));
 
+				if(!statesName.containsKey(temp))
+					statesName.put(temp,new State("q" + String.valueOf(num++) ,false,isPartitionFinalState(temp)));
 
-				MacroState S = new MacroState(new State(createName(temp), false, isPartitionFinalState(temp)), temp);
+				newStates.add(statesName.get(temp));
 
-				if (!statesMap.containsKey(S)) {
-					statesMap.put(S, false);
-					unMarkedStates.addLast(S);
+				if (!statesMarked.containsKey(temp)) {
+					statesMarked.put(temp, false);
+					unMarkedStates.addLast(temp);
 				}
-				newDelta.add(new Transition(T.getMacrostate(), S.getMacrostate(), alphabet, ""));
+				newDelta.add(new Transition(statesName.get(T),statesName.get(temp), alphabet, ""));
 
 			}
 
 
 		}
 
-		for(MacroState s : statesMap.keySet()){
-			newStates.add(s.getMacrostate());
-		}
 
 		Automaton a = new Automaton(initialState, newDelta, newStates);
-		return a.deMerge(++initChar);
+		return a;
 
 	}
 
@@ -1554,7 +1562,7 @@ public class Automaton {
 	/**
 	 * Removes the unreachable states of an automaton.
 	 * 
-	 * @return a new automaton without unreachable states.
+	 *
 	 */
 	public void removeUnreachableStates() {
 		HashSet<State> reachableStates = new HashSet<State>();
@@ -1607,20 +1615,27 @@ public class Automaton {
 	 */
 	public void minimize() {
 
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.initialState = a.initialState;
+			this.delta = a.delta;
+			this.states = a.states;
+			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		}
 
-	//	this.removeUnreachableStates();
+
 		this.reverse();
 		Automaton a = this.determinize();
-		a.removeUnreachableStates();
 		a.reverse();
 		a = a.determinize();
-		a.removeUnreachableStates();
+
 		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
-		
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		
 
 		/*
 		this.minimizeHopcroft();
@@ -2015,62 +2030,61 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashMap<State, State> mapping = new HashMap<State, State>();
 
-		State newInitialState = new State("init", true, false);
+		final State newInitialState = new State("init", true, false);
 		newStates.add(newInitialState);
 
-		for (State s : this.states) {
-			State newState = new State(s.getState(), false , false);
-
-			if (s.isFinalState()) {
-				newState.setFinalState(false);
-				//newState.setInitialState(true);
-				newDelta.add(new Transition(newInitialState, newState, "", ""));
-				//newInitialState = newState;
-			}else if (s.isInitialState())
-				newState.setFinalState(true);
-
-			newStates.add(newState);
-			mapping.put(s, newState);
-		}
-
-		for (Transition t : this.delta) {
-			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
-		}
-
-		this.delta = newDelta;
-		this.initialState = newInitialState;
-		this.states = newStates;
-		this.computeAdjacencyList();
-
-		// reversing edges
-//		for (Transition t : this.delta) {
-//			mapping.put(t.getFrom(),t.getFrom());
-//			mapping.put(t.getTo(),t.getTo());
-//			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
-//		}
-//
 //		for (State s : this.states) {
-//			State newState = mapping.containsKey(s) ? mapping.get(s) : new State(s.getState(), false, false);
+//			State newState = new State(s.getState(), false , false);
 //
 //			if (s.isFinalState()) {
 //				newState.setFinalState(false);
-//				newState.setInitialState(true);
+//				//newState.setInitialState(true);
 //				newDelta.add(new Transition(newInitialState, newState, "", ""));
 //				//newInitialState = newState;
-//			}
-//
-//			if (s.isInitialState()) {
+//			}else if (s.isInitialState())
 //				newState.setFinalState(true);
-//				newState.setInitialState(false);
-//			}
 //
 //			newStates.add(newState);
+//			mapping.put(s, newState);
+//		}
+//
+//		for (Transition t : this.delta) {
+//			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
 //		}
 //
 //		this.delta = newDelta;
 //		this.initialState = newInitialState;
 //		this.states = newStates;
 //		this.computeAdjacencyList();
+
+		// reversing edges
+		for (Transition t : this.delta) {
+			mapping.put(t.getFrom(),t.getFrom());
+			mapping.put(t.getTo(),t.getTo());
+			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
+		}
+
+		for (State s : this.states) {
+			State newState = mapping.containsKey(s) ? mapping.get(s) : new State(s.getState(), false, false);
+
+			if (s.isFinalState()) {
+				newState.setFinalState(false);
+				newDelta.add(new Transition(newInitialState, newState, "", ""));
+				//newInitialState = newState;
+			}
+
+			if (s.isInitialState()) {
+				newState.setFinalState(true);
+				newState.setInitialState(false);
+			}
+
+			newStates.add(newState);
+		}
+
+		this.delta = newDelta;
+		this.initialState = newInitialState;
+		this.states = newStates;
+		this.computeAdjacencyList();
 
 
 	}

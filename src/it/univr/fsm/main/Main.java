@@ -13,7 +13,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata/" + "automaton0008.jff");
+		Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0008brzo_minimized.jff");
 		System.out.println(a);
 
 	}
