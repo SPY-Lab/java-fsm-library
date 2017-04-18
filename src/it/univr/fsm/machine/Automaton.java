@@ -2744,7 +2744,7 @@ public class Automaton {
 
 	@Override
 	public String toString() {
-		return this.automatonPrint();
+		return this.prettyPrint();
 	}
 
 	@Override
