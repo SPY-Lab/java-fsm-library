@@ -13,8 +13,17 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.loadAutomataWithJFLAPPattern("JFLAPautomata_NFA/" + "automaton0008brzo_minimized.jff");
-		System.out.println(a);
+		Automaton a1 = Automaton.makeAutomaton("a");
+		Automaton a2 = Automaton.makeAutomaton("b");
+
+		Automaton a2complement = Automaton.complement(a2);
+		Automaton intersection = Automaton.intersection(a1,a2complement);
+		boolean result = Automaton.isEmptyLanguageAccepted(intersection);
+
+
+		System.out.println(a2complement);
+		System.out.println(intersection);
+		System.out.println(result);
 
 	}
 
