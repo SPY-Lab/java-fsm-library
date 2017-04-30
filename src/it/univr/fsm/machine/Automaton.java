@@ -201,7 +201,7 @@ public class Automaton {
 	 * @return a boolean
 	 */
 	public static boolean isEmptyLanguageAccepted(Automaton automaton){
-		return !automaton.getFinalStates().isEmpty() && !automaton.states.isEmpty();
+		return automaton.getFinalStates().isEmpty() && !automaton.states.isEmpty();
 	}
 
 
@@ -307,56 +307,44 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
-		State firstInitialState = first.getInitialState();
-		HashSet<State> firstInitialStates = first.getInitialStates();
+		State firstInitialState = null;
 
-		State partial;
-
-		HashSet<State> firstFinalStates = first.getFinalStates();
-		State secondInitialState = second.getInitialState();
-		HashSet<State> secondInitialStates = second.getInitialStates();
+		HashSet<State> firstFinalStates = new HashSet<>();
+		HashSet<State> secondInitialStates = new HashSet<>();
 
 		int c = 0;
-
-
-		mappingFirst.put(firstInitialState, new State("q" + c++, true, false));
-		newStates.add(mappingFirst.get(firstInitialState));
-
-		/*for(State s : firstInitialStates){
-			mappingFirst.put(s, new State("q" + c++, true, false));
-			newStates.add(mappingFirst.get(s));
-		}*/
-
-
 
 
 
 		// Add all the first automaton states
 		for (State s: first.states) {
 
-			// The first automaton states are not final
-			if (!s.isInitialState()) {
-				mappingFirst.put(s, partial = new State("q" + c++, false, false));
-				newStates.add(partial);
+			// The first automaton states are not final, can be initial states
+			mappingFirst.put(s, new State("q" + c++, s.isInitialState(), false));
+			newStates.add(mappingFirst.get(s));
+
+			if(s.isInitialState()){
+				firstInitialState = mappingFirst.get(s);
 			}
+
+			if(s.isFinalState()){
+				firstFinalStates.add(s);
+			}
+
+
 		}
-
-		mappingSecond.put(secondInitialState, new State("q" + c++,false,false));
-		newStates.add(mappingSecond.get(secondInitialState));
-
-		/*for(State s : secondInitialStates){
-			mappingSecond.put(s, new State("q" + c++,false,false));
-			newStates.add(mappingSecond.get(s));
-		}*/
-
-
 
 		// Add all the second automaton states
 		for (State s: second.states) {
-			if (!s.isInitialState()) {
-				mappingSecond.put(s, partial = new State("q" + c++, false, s.isFinalState()));
-				newStates.add(partial);
+
+			// the second automaton states are final, can't be initial states
+			mappingSecond.put(s, new State("q" + c++, false, s.isFinalState()));
+			newStates.add(mappingSecond.get(s));
+
+			if(s.isInitialState()){
+				secondInitialStates.add(s);
 			}
+
 		}
 
 		// Add all the first automaton transitions
@@ -392,16 +380,16 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
-		State autNewInitialState = new State(automaton.getInitialState().getState(), automaton.getInitialState().isInitialState(), !automaton.getInitialState().isFinalState());
-		mapping.put(automaton.getInitialState(), autNewInitialState);
-		newStates.add(autNewInitialState);
+		State autNewInitialState = null;
 
-		State partial;
 
 		// Add states to the mapping, replacing accept states to reject
 		for(State s: automaton.states) {
-			mapping.put(s, partial = new State(s.getState(), s.isInitialState(), !s.isFinalState()));
-			newStates.add(partial);
+			mapping.put(s, new State(s.getState(), s.isInitialState(), !s.isFinalState()));
+			newStates.add(mapping.get(s));
+
+			if(s.isInitialState())
+				autNewInitialState = mapping.get(s);
 		}
 
 		// Copying delta set
@@ -1126,7 +1114,7 @@ public class Automaton {
 			/*if (input.get(i).equals(" "))
 				gamma.add(new Transition(state, next, "", ""));
 			else	*/
-			delta.add(new Transition(state, next, input.get(i), input.get(i)));
+			delta.add(new Transition(state, next, input.get(i), ""));
 
 			state = next;
 		}
@@ -1155,12 +1143,12 @@ public class Automaton {
 	/**
 	 * Union operation between two automata.
 	 * 
-	 * @param a1 first automata.
-	 * @param a2 second automata.
+	 * @param a1 first automaton.
+	 * @param a2 second automaton.
 	 * @return the union of the two automata.
 	 */
 	public static Automaton union(Automaton a1, Automaton a2) {
-		State newInitialState = new State("q", true, false);
+		State newInitialState = new State("q0", true, false);
 		HashSet<Transition> newGamma = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
@@ -1174,30 +1162,32 @@ public class Automaton {
 		State initialA2 = null;
 
 		for (State s : a1.states) {
-			State partial;
-			newStates.add(partial = new State("q" + c++, false, s.isFinalState()));
 
-			mappingA1.put(s, partial);
+			mappingA1.put(s, new State("q" + c++, false, s.isFinalState()));
+
+			newStates.add(mappingA1.get(s));
+
+
 
 			if (s.isInitialState())
-				initialA1 = partial;
+				initialA1 = mappingA1.get(s);
 		}
 
 		for (State s : a2.states) {
-			State partial;
-			newStates.add(partial = new State("q" + c++, false, s.isFinalState()));	
+			mappingA2.put(s, new State("q" + c++, false, s.isFinalState()));
+			newStates.add(mappingA2.get(s));
 
-			mappingA2.put(s, partial);
+
 
 			if (s.isInitialState())
-				initialA2 = partial;
+				initialA2 = mappingA2.get(s);
 		}
 
 		for (Transition t : a1.delta)
-			newGamma.add(new Transition(mappingA1.get(t.getFrom()), mappingA1.get(t.getTo()), t.getInput(), t.getOutput()));
+			newGamma.add(new Transition(mappingA1.get(t.getFrom()), mappingA1.get(t.getTo()), t.getInput(), ""));
 
 		for (Transition t : a2.delta)
-			newGamma.add(new Transition(mappingA2.get(t.getFrom()), mappingA2.get(t.getTo()), t.getInput(), t.getOutput()));
+			newGamma.add(new Transition(mappingA2.get(t.getFrom()), mappingA2.get(t.getTo()), t.getInput(), ""));
 
 		newGamma.add(new Transition(newInitialState, initialA1, "", ""));
 		newGamma.add(new Transition(newInitialState, initialA2, "", ""));
