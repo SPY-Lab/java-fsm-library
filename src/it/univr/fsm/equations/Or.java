@@ -150,33 +150,33 @@ public class Or extends RegularExpression {
 	@Override
 	public RegularExpression simplify() {
 
-		// common factor: (ab + ac) = a(b+c)
-		Vector<RegularExpression> first_part = first.inBlockPart();
-		Vector<RegularExpression> second_part = second.inBlockPart();
-		Vector<RegularExpression> inCommon = new Vector<>();
-		RegularExpression result = null;
-		RegularExpression factor = null;
-
-		for(int i = 0; i < first_part.size(); i++)
-			for(int j = 0; j < second_part.size(); j++){
-				if( (factor = first_part.get(i).factorize(second_part.get(j))) != null){
-					inCommon.add(new Comp(factor,new Or(first_part.get(i).remove(factor),second_part.get(j).remove(factor))));
-					first_part.remove(i);
-					second_part.remove(j);
-				}
-			}
-			if(inCommon.size() > 0) {
-				first_part.addAll(second_part);
-				first_part.addAll(inCommon);
-
-				for(RegularExpression e : first_part){
-					result = result == null ? e : new Or(result,e);
-				}
-
-				return result;
-			}
-
-
+//		// common factor: (ab + ac) = a(b+c)
+//		Vector<RegularExpression> first_part = first.inBlockPart();
+//		Vector<RegularExpression> second_part = second.inBlockPart();
+//		Vector<RegularExpression> inCommon = new Vector<>();
+//		RegularExpression result = null;
+//		RegularExpression factor = null;
+//
+//		for(int i = 0; i < first_part.size(); i++)
+//			for(int j = 0; j < second_part.size(); j++){
+//				if( (factor = first_part.get(i).factorize(second_part.get(j))) != null){
+//					inCommon.add(new Comp(factor,new Or(first_part.get(i).remove(factor),second_part.get(j).remove(factor))));
+//					first_part.remove(i);
+//					second_part.remove(j);
+//				}
+//			}
+//			if(inCommon.size() > 0) {
+//				first_part.addAll(second_part);
+//				first_part.addAll(inCommon);
+//
+//				for(RegularExpression e : first_part){
+//					result = result == null ? e : new Or(result,e);
+//				}
+//
+//				return result;
+//			}
+//
+//
 
 		return new Or(first.simplify(), second.simplify());
 	}
@@ -186,6 +186,15 @@ public class Or extends RegularExpression {
 		int curr = Config.GEN;
 		Config.GEN++;
 		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
+		
+//		System.err.println(first.getProgram().trim() + " " + second.getProgram().trim());
+		if (first.getProgram().trim().startsWith("}"))
+			return first.getProgram().substring(1) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (second.getProgram().equals("") ? ";" : second.getProgram()) + "}";
+		
+		if (second.getProgram().trim().startsWith("}"))
+			return second.getProgram().substring(1) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (first.getProgram().equals("") ? ";" : first.getProgram()) + "}";
+		
+		
 		String result = "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (this.first.getProgram().equals("") ? ";" : this.first.getProgram()) + "} if (g" + curr  + " == 2) {" + (this.second.getProgram().equals("") ? ";" : this.second.getProgram()) + "}";
 
 		//Config.GEN++;

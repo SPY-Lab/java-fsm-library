@@ -3,7 +3,8 @@ package it.univr.fsm.machine;
 import it.univr.fsm.equations.*;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
-
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.IRFactory;
 import it.univr.exception.*;
 
 import it.univr.fsm.equations.Comp;
@@ -12,6 +13,7 @@ import it.univr.fsm.equations.GroundCoeff;
 import it.univr.fsm.equations.Or;
 import it.univr.fsm.equations.RegularExpression;
 import it.univr.fsm.equations.Var;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -22,6 +24,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -37,32 +40,7 @@ public class Automaton {
 
 
 	public static void main(String[] args) {
-
-		State q0 = new State("q0", true, false);
-		State q1 = new State("q1", false, false);
-		State q2 = new State("q2", false, false);
-		State q3 = new State("q3", false, false);
-		State q4 = new State("q4", false, true);
-
-		HashSet<State> states = new HashSet<>();
-		states.add(q0);
-		states.add(q1);
-		states.add(q2);	
-		states.add(q3);
-		states.add(q4);
-
-		HashSet<Transition> delta = new HashSet<>();
-
-		delta.add(new Transition(q0, q1, "x", ""));
-		delta.add(new Transition(q1, q2, "=", ""));
-		delta.add(new Transition(q2, q3, "5", ""));
-		delta.add(new Transition(q2, q4, "6", ""));
-
-		Automaton a = new Automaton(q0, delta, states);
-		a.minimizeHopcroft();
-		System.out.println(a.automatonPrint());
-
-		System.out.println(a.stmSyn());
+		System.out.println(Automaton.isJS("asd{"));
 	}
 
 	/**
@@ -1632,37 +1610,37 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-				if (!isDeterministic(this)) {
-					Automaton a = this.determinize();
-					this.initialState = a.initialState;
-					this.delta = a.delta;
-					this.states = a.states;
-					this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-					this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-				}
-		
-		
-				this.reverse();
-				Automaton a = this.determinize();
-				a.reverse();
-				a = a.determinize();
-		
-				this.initialState = a.initialState;
-				this.delta = a.delta;
-				this.states = a.states;
-				this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.initialState = a.initialState;
+			this.delta = a.delta;
+			this.states = a.states;
+			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		}
+
+
+		this.reverse();
+		Automaton a = this.determinize();
+		a.reverse();
+		a = a.determinize();
+
+		this.initialState = a.initialState;
+		this.delta = a.delta;
+		this.states = a.states;
+		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 
 
 
-//		this.minimizeHopcroft();
-//
-//		Automaton a = this.deMerge(++initChar); 
-//		this.initialState = a.initialState;
-//		this.states = a.states;
-//		this.delta = a.delta;
-//		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-//		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		//				this.minimizeHopcroft();
+		//		
+		//				Automaton a = this.deMerge(++initChar); 
+		//				this.initialState = a.initialState;
+		//				this.states = a.states;
+		//				this.delta = a.delta;
+		//				this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		//				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 
 
 	}
@@ -2352,7 +2330,7 @@ public class Automaton {
 	 * @param e regular expression.
 	 */
 	public static String toProgram(RegularExpression e) {		
-		return e.getProgram().replaceAll("\\+", " \\+ ").replaceAll("while", "while ").replaceAll("if", "if ").replaceAll("-", " - ") + "$";
+		return e.getProgram();//.replaceAll("\\+", " \\+ ").replaceAll("while", "while ").replaceAll("if", "if ").replaceAll("-", " - ") ;
 	}
 
 	/**
@@ -2409,13 +2387,19 @@ public class Automaton {
 			if (!mark.contains(new Transition(q, p, sigma, ""))) {
 				mark.add(new Transition(q, p, sigma, ""));
 
-				if (!p.isFinalState()) {
+				if (!isPuntaction(sigma) && !p.isFinalState()) {
 					HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 					markTemp.add(new Transition(q, p, sigma, ""));
+					
 					build_tr(p, stm + sigma, markTemp, Iq);
-				} else {
+				} 
+
+				else if (isPuntaction(sigma)) {
 					Iq.put(stm + sigma, p);
-				}
+
+				} else if (p.isFinalState() && isJS(stm + sigma)) 
+					Iq.put(stm + sigma + ";", p);
+
 			}
 		}
 	}
@@ -2561,7 +2545,7 @@ public class Automaton {
 	}
 
 	private boolean isPuntaction(String s) {
-		return s.equals("$") || s.equals("{");
+		return s.equals("$") || s.equals("{") || s.equals("}")  || s.equals(";") || s.equals("\n");
 	}
 
 	public HashSet<String> getNumbers() {
@@ -2799,16 +2783,16 @@ public class Automaton {
 				return false;
 
 			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
-			
+
 			if (!first.getFinalStates().isEmpty())
 				return false;
-			
+
 			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-//			Automaton c = Automaton.union(first, second);
-			
+			//			Automaton c = Automaton.union(first, second);
+
 			if (!second.getFinalStates().isEmpty())
 				return false;
-			
+
 			return true;
 		}
 
@@ -2845,13 +2829,10 @@ public class Automaton {
 				Vector<State> p = (Vector<State>) partial.clone();
 				p.addAll(v);
 				result.add(p);
-
 			}
 		}
-
 		return result;
 	}
-
 
 	/**
 	 * Checks if this automaton contains a cycle.
@@ -2884,6 +2865,19 @@ public class Automaton {
 		}
 
 		return false;
+	}
+
+	public static boolean isJS(String js) {
+		try {
+			CompilerEnvirons env = new CompilerEnvirons();
+			env.setRecoverFromErrors(true);
+			IRFactory factory = new IRFactory(env);
+			factory.parse(js, null, 0);
+
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 }
