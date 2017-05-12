@@ -1,7 +1,5 @@
 package it.univr.fsm.equations;
 
-import java.util.Vector;
-
 import it.univr.fsm.machine.State;
 
 public class Equation {
@@ -89,7 +87,4 @@ public class Equation {
 	public String toString() {
 		return getLeftSide().toString() + "=" + e.toString();
 	}
-
-
-
 }
