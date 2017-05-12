@@ -5,6 +5,10 @@ import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.IRFactory;
+
+import it.univr.dimpminus.DImpMinus;
+import it.univr.dimpminus.ParseException;
+import it.univr.dimpminus.TokenMgrError;
 import it.univr.exception.*;
 
 import it.univr.fsm.equations.Comp;
@@ -23,10 +27,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -2330,7 +2337,7 @@ public class Automaton {
 	 * @param e regular expression.
 	 */
 	public static String toProgram(RegularExpression e) {		
-		return e.getProgram();//.replaceAll("\\+", " \\+ ").replaceAll("while", "while ").replaceAll("if", "if ").replaceAll("-", " - ") ;
+		return e.getProgram();
 	}
 
 	/**
@@ -2390,17 +2397,13 @@ public class Automaton {
 				if (!isPuntaction(sigma) && !p.isFinalState()) {
 					HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 					markTemp.add(new Transition(q, p, sigma, ""));
-					
 					build_tr(p, stm + sigma, markTemp, Iq);
-				} 
-
-				else if (isPuntaction(sigma)) {
+				} else if (isPuntaction(sigma)) {
+					if (isJS(stm + sigma) || (isJS(stm) && sigma.equals(")")))
+						Iq.put(stm + sigma, p);
+				} else if (p.isFinalState()) 
 					Iq.put(stm + sigma, p);
-
-				} else if (p.isFinalState() && isJS(stm + sigma)) 
-					Iq.put(stm + sigma + ";", p);
-
-			}
+			}		
 		}
 	}
 
@@ -2424,7 +2427,11 @@ public class Automaton {
 
 		Automaton a = new Automaton(q0, delta, Q_first);
 
+		for (Transition t : a.getDelta())
+			t.setInput(t.getInput().replaceAll(" =", "="));
+
 		a.minimize();
+
 		return a; 
 	}
 
@@ -2545,7 +2552,7 @@ public class Automaton {
 	}
 
 	private boolean isPuntaction(String s) {
-		return s.equals("$") || s.equals("{") || s.equals("}")  || s.equals(";") || s.equals("\n");
+		return s.equals("$") || s.equals("{") || s.equals("}")  || s.equals(";") || s.equals("\n")|| s.equals(")");
 	}
 
 	public HashSet<String> getNumbers() {
@@ -2868,16 +2875,40 @@ public class Automaton {
 	}
 
 	public static boolean isJS(String js) {
-		try {
-			CompilerEnvirons env = new CompilerEnvirons();
-			env.setRecoverFromErrors(true);
-			IRFactory factory = new IRFactory(env);
-			factory.parse(js, null, 0);
+		InputStream r = new ByteArrayInputStream(js.getBytes(StandardCharsets.UTF_8));
+		DImpMinus grammar = new DImpMinus(r);
 
-		} catch (Exception e) {
-			return false;
+		try {
+			grammar.DImp();	
+		} catch (TokenMgrError e1) {
+			try {
+				CompilerEnvirons env = new CompilerEnvirons();
+				env.setRecoverFromErrors(true);
+				IRFactory factory = new IRFactory(env);
+				factory.parse(js, null, 0);
+
+			} catch (Exception e) {
+
+				if (e.getMessage().equals("invalid return"))
+					return true;
+				return false;
+			}
+			return true;
+		} catch (ParseException e) {
+			try {
+				CompilerEnvirons env = new CompilerEnvirons();
+				env.setRecoverFromErrors(true);
+				IRFactory factory = new IRFactory(env);
+				factory.parse(js, null, 0);
+
+			} catch (Exception e2) {
+				if (e2.getMessage().equals("invalid return"))
+					return true;
+				return false;
+			}
+			return true;
 		}
+
 		return true;
 	}
-
 }

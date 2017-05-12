@@ -25,6 +25,8 @@ TOKEN:
 | 	< TK_SEMICOLON : ";" >
 | 	< TK_LGPAR : "{" >
 | 	< TK_RGPAR : "}" >
+| 	< TK_LPAR : "(" >
+| 	< TK_RPAR : ")" >
 | 	< TK_FUNCTION : "function" >
 | 	< ID: ["a"-"z","A"-"Z","_"] ( ["a"-"z","A"-"Z","_","0"-"9"] )* >
 
@@ -45,9 +47,11 @@ String DImp() :
 | 	< TK_ELSE > < TK_LGPAR > { return ";"; }
 |  	< TK_LGPAR > { return "{"; }
 | 	< TK_RGPAR > { return "}"; }
+|  	< TK_LPAR > { return "("; }
+| 	< TK_RPAR > { return ")"; }
 | 	(t = < ANY >) < TK_RGPAR > { return t.image; }
-|	< TK_IF > (t = < ANY >) < TK_LGPAR > { return t.image; }
-| 	< TK_WHILE >  (t = < ANY >) < TK_LGPAR > { return t.image; }
+|	< TK_IF > < TK_LPAR > { return ";"; }
+| 	< TK_WHILE > < TK_LPAR > { return ";"; }
 | 	< TK_FUNCTION > < ID > (t = < ANY >) < TK_LGPAR > { return "{"; }
 }
 

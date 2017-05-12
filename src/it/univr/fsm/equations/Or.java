@@ -188,17 +188,15 @@ public class Or extends RegularExpression {
 		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
 		
 //		System.err.println(first.getProgram().trim() + " " + second.getProgram().trim());
+		
 		if (first.getProgram().trim().startsWith("}"))
-			return first.getProgram().substring(1) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (second.getProgram().equals("") ? ";" : second.getProgram()) + "}";
+			return first.getProgram().trim().substring(1) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (second.getProgram().equals("") ? ";" : second.getProgram()) + "}";
 		
 		if (second.getProgram().trim().startsWith("}"))
-			return second.getProgram().substring(1) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (first.getProgram().equals("") ? ";" : first.getProgram()) + "}";
+			return second.getProgram().trim().substring(1) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (first.getProgram().equals("") ? ";" : first.getProgram()) + "}";
 		
 		
-		String result = "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (this.first.getProgram().equals("") ? ";" : this.first.getProgram()) + "} if (g" + curr  + " == 2) {" + (this.second.getProgram().equals("") ? ";" : this.second.getProgram()) + "}";
-
-		//Config.GEN++;
-		return result;
+		return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (this.first.getProgram().equals("") ? ";" : this.first.getProgram()) + "} if (g" + curr  + " == 2) {" + (this.second.getProgram().equals("") ? ";" : this.second.getProgram()) + "}";
 	}
 
 }
