@@ -1,6 +1,8 @@
 package it.univr.fsm.machine;
 
 import it.univr.fsm.equations.*;
+
+import org.apache.commons.collections4.MultiSet.Entry;
 import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -429,10 +431,10 @@ public class Automaton {
 		Automaton notSecond = Automaton.complement(second);
 
 		Automaton union = Automaton.union(notFirst, notSecond);
-		union.minimize();
+		//		union.minimize();
 
 		Automaton result = Automaton.complement(union);
-		result.minimize();
+		//		result.minimize();
 		return result;
 	}
 
@@ -2399,7 +2401,9 @@ public class Automaton {
 					markTemp.add(new Transition(q, p, sigma, ""));
 					build_tr(p, stm + sigma, markTemp, Iq);
 				} else if (isPuntaction(sigma)) {
-					if (isJS(stm + sigma) || (isJS(stm) && sigma.equals(")")))
+					if (sigma.equals("}"))
+						Iq.put(stm + ";" + sigma, p);
+					else if (isJS(stm + sigma) || (isJS(stm) && sigma.equals(")")))
 						Iq.put(stm + sigma, p);
 				} else if (p.isFinalState()) 
 					Iq.put(stm + sigma, p);

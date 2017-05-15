@@ -189,11 +189,10 @@ public class Or extends RegularExpression {
 		
 //		System.err.println(first.getProgram().trim() + " " + second.getProgram().trim());
 		
-		if (first.getProgram().trim().startsWith("}"))
-			return first.getProgram().trim().substring(1) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (second.getProgram().equals("") ? ";" : second.getProgram()) + "}";
-		
-		if (second.getProgram().trim().startsWith("}"))
-			return second.getProgram().trim().substring(1) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (first.getProgram().equals("") ? ";" : first.getProgram()) + "}";
+		if (first.getProgram().trim().startsWith(";}"))
+			return first.getProgram().trim().substring(2) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (second.getProgram().equals("") ? ";" : second.getProgram()) + "}";
+		if (second.getProgram().trim().startsWith(";}"))
+			return second.getProgram().trim().substring(2) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (first.getProgram().equals("") ? ";" : first.getProgram()) + "}";
 		
 		
 		return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (this.first.getProgram().equals("") ? ";" : this.first.getProgram()) + "} if (g" + curr  + " == 2) {" + (this.second.getProgram().equals("") ? ";" : this.second.getProgram()) + "}";
