@@ -49,7 +49,9 @@ public class Automaton {
 
 
 	public static void main(String[] args) {
-		System.out.println(Automaton.isJS("asd{"));
+
+		System.out.println(Automaton.isContained(Automaton.makeAutomaton("a"), Automaton.makeAutomaton("a")));
+
 	}
 
 	/**
@@ -215,6 +217,7 @@ public class Automaton {
 	 * @return a boolean
 	 */
 	public static boolean isEmptyLanguageAccepted(Automaton automaton){
+		automaton.removeUnreachableStates();
 		return automaton.getFinalStates().isEmpty() && !automaton.states.isEmpty();
 	}
 
@@ -1619,6 +1622,43 @@ public class Automaton {
 	 */
 	public void minimize() {
 
+				if (!isDeterministic(this)) {
+					Automaton a = this.determinize();
+					this.initialState = a.initialState;
+					this.delta = a.delta;
+					this.states = a.states;
+					this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+					this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+				}
+		
+		
+				this.reverse();
+				Automaton a = this.determinize();
+				a.reverse();
+				a = a.determinize();
+		
+				this.initialState = a.initialState;
+				this.delta = a.delta;
+				this.states = a.states;
+				this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
+
+//
+//		this.minimizeHopcroft();
+//
+//		Automaton a = this.deMerge(++initChar); 
+//		this.initialState = a.initialState;
+//		this.states = a.states;
+//		this.delta = a.delta;
+//		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+//		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
+
+	}
+
+	public void minimizeBrowozozwi() {
+
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
 			this.initialState = a.initialState;
@@ -1639,21 +1679,8 @@ public class Automaton {
 		this.states = a.states;
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-
-
-
-		//				this.minimizeHopcroft();
-		//		
-		//				Automaton a = this.deMerge(++initChar); 
-		//				this.initialState = a.initialState;
-		//				this.states = a.states;
-		//				this.delta = a.delta;
-		//				this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		//				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-
-
 	}
-
+	
 	public static HashSet<String> getAlphabet(Automaton a){
 		HashSet<String> alphabet = new HashSet<String>();
 
@@ -2631,7 +2658,7 @@ public class Automaton {
 	}
 
 
-	public Automaton widening(int n) {
+	public Automaton widening(int n) {		
 		HashMap<State, HashSet<String> > languages = new HashMap<State, HashSet<String>>();
 		State newInitialState = null;
 		HashSet<HashSet<State>> powerStates = new HashSet<HashSet<State>>();
@@ -2761,7 +2788,7 @@ public class Automaton {
 		HashMap<String, State> nameToStates = new HashMap<String, State>();
 
 		for (State s: this.states) {
-			State newState = s.clone();
+			State newState = new State(s.getState(), s.isInitialState(), s.isFinalState());
 			newStates.add(newState);
 			nameToStates.put(newState.getState(), newState);
 
@@ -2790,26 +2817,34 @@ public class Automaton {
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) {
 
+//			((Automaton) other).minimize();
+//			this.minimize();
+//
 			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
-				return false;
-
+				 return false;
+			
 			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
 
-			if (!first.getFinalStates().isEmpty())
+//			first.removeUnreachableStates();
+			if (!first.getFinalStates().isEmpty()) 
 				return false;
-
+			
 			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-			//			Automaton c = Automaton.union(first, second);
 
-			if (!second.getFinalStates().isEmpty())
+//			second.removeUnreachableStates();
+			if (!second.getFinalStates().isEmpty()) 
 				return false;
 
 			return true;
 		}
 
-		return false;
+		return true;
 	}
 
+	@Override
+	public int hashCode() {
+		return getStates().size() + getDelta().size();
+	}
 
 	public int maxLengthString() {
 		int max = Integer.MIN_VALUE;
