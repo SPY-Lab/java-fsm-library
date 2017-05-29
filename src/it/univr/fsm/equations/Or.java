@@ -3,6 +3,7 @@ package it.univr.fsm.equations;
 import java.util.Vector;
 
 import it.univr.fsm.config.Config;
+import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
 
 public class Or extends RegularExpression {
@@ -190,12 +191,12 @@ public class Or extends RegularExpression {
 //		System.err.println(first.getProgram().trim() + " " + second.getProgram().trim());
 		
 		if (first.getProgram().trim().startsWith(";}"))
-			return first.getProgram().trim().substring(2) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (second.getProgram().equals("") ? ";" : second.getProgram()) + "}";
-		if (second.getProgram().trim().startsWith(";}"))
-			return second.getProgram().trim().substring(2) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (first.getProgram().equals("") ? ";" : first.getProgram()) + "}";
+			return first.getProgram().trim().substring(2) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(second.getProgram()) ? second.getProgram() : ";") + "}";
+		else if (second.getProgram().trim().startsWith(";}"))
+			return second.getProgram().trim().substring(2) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(first.getProgram()) ? first.getProgram() : ";") + "}";
 		
 		
-		return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (this.first.getProgram().equals("") ? ";" : this.first.getProgram()) + "} if (g" + curr  + " == 2) {" + (this.second.getProgram().equals("") ? ";" : this.second.getProgram()) + "}";
+		return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(first.getProgram()) ? first.getProgram() : ";") + "} if (g" + curr  + " == 2) {" + (Automaton.isJSExecutable(second.getProgram()) ? second.getProgram() : ";") + "}";
 	}
 
 }

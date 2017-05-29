@@ -2950,4 +2950,20 @@ public class Automaton {
 
 		return true;
 	}
+	
+	public static boolean isJSExecutable(String js) {
+
+			try {
+				CompilerEnvirons env = new CompilerEnvirons();
+				env.setRecoverFromErrors(true);
+				IRFactory factory = new IRFactory(env);
+				factory.parse(js, null, 0);
+
+			} catch (Exception e2) {
+				if (e2.getMessage().equals("invalid return"))
+					return true;
+				return false;
+			}
+			return true;
+	}
 }

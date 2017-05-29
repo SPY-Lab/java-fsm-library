@@ -3,6 +3,7 @@ package it.univr.fsm.equations;
 import java.util.Vector;
 
 import it.univr.fsm.config.Config;
+import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
 
 public class Star extends RegularExpression {
@@ -123,7 +124,7 @@ public class Star extends RegularExpression {
 	public String getProgram() {
 		int curr = Config.GEN;
 		Config.GEN++;
-		String result = "var g" + curr + " = rand(); while (g" + curr  + " == 1) {" + this.op.getProgram() + " g" + curr + "=rand(); }";
+		String result = "var g" + curr + " = rand(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(op.getProgram()) ? op.getProgram() : ";" ) + " g" + curr + "=rand(); }";
 		return result;
 	}
 }
