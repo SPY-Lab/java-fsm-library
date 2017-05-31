@@ -50,7 +50,7 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		System.out.println(Automaton.isContained(Automaton.makeAutomaton("a"), Automaton.makeAutomaton("a")));
+		System.out.println(Automaton.makeAutomaton("x={a:1};").stmSyn());
 
 	}
 
@@ -1454,12 +1454,8 @@ public class Automaton {
 					unMarkedStates.addLast(temp);
 				}
 				newDelta.add(new Transition(statesName.get(T),statesName.get(temp), alphabet, ""));
-
 			}
-
-
 		}
-
 
 		Automaton a = new Automaton(initialState, newDelta, newStates);
 		return a;
@@ -1622,37 +1618,37 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-				if (!isDeterministic(this)) {
-					Automaton a = this.determinize();
-					this.initialState = a.initialState;
-					this.delta = a.delta;
-					this.states = a.states;
-					this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-					this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-				}
-		
-		
-				this.reverse();
-				Automaton a = this.determinize();
-				a.reverse();
-				a = a.determinize();
-		
-				this.initialState = a.initialState;
-				this.delta = a.delta;
-				this.states = a.states;
-				this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.initialState = a.initialState;
+			this.delta = a.delta;
+			this.states = a.states;
+			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		}
 
 
-//
-//		this.minimizeHopcroft();
-//
-//		Automaton a = this.deMerge(++initChar); 
-//		this.initialState = a.initialState;
-//		this.states = a.states;
-//		this.delta = a.delta;
-//		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-//		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		this.reverse();
+		Automaton a = this.determinize();
+		a.reverse();
+		a = a.determinize();
+
+		this.initialState = a.initialState;
+		this.delta = a.delta;
+		this.states = a.states;
+		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
+
+		//
+		//		this.minimizeHopcroft();
+		//
+		//		Automaton a = this.deMerge(++initChar); 
+		//		this.initialState = a.initialState;
+		//		this.states = a.states;
+		//		this.delta = a.delta;
+		//		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		//		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 
 
 	}
@@ -1680,7 +1676,7 @@ public class Automaton {
 		this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 	}
-	
+
 	public static HashSet<String> getAlphabet(Automaton a){
 		HashSet<String> alphabet = new HashSet<String>();
 
@@ -2396,11 +2392,11 @@ public class Automaton {
 
 	public MultiValueMap<String, State> build(State q) {
 		MultiValueMap<String, State> Iq = new MultiValueMap<String, State>();
-		build_tr(q, "", new HashSet<Transition>(), Iq);
+		build_tr(q, "", new HashSet<Transition>(), Iq, 0);
 		return Iq;
 	}
 
-	private void build_tr(State q, String stm, HashSet<Transition> mark, MultiValueMap<String, State> Iq) {
+	private void build_tr(State q, String stm, HashSet<Transition> mark, MultiValueMap<String, State> Iq, int opcl) {
 
 		MultiValueMap<String, State> delta_q = new MultiValueMap();
 
@@ -2426,13 +2422,37 @@ public class Automaton {
 				if (!isPuntaction(sigma) && !p.isFinalState()) {
 					HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 					markTemp.add(new Transition(q, p, sigma, ""));
-					build_tr(p, stm + sigma, markTemp, Iq);
+					build_tr(p, stm + sigma, markTemp, Iq, opcl);
 				} else if (isPuntaction(sigma)) {
-					if (sigma.equals("}"))
-						Iq.put(stm + ";" + sigma, p);
-					else if (isJS(stm + sigma) || (isJS(stm) && sigma.equals(")")))
+
+					if (sigma.equals(")")) {
+						opcl--;
+						if (opcl == 1) {
+							if (isJS(stm))
+								Iq.put(stm + sigma, p);
+						} else {
+							HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
+							markTemp.add(new Transition(q, p, sigma, ""));
+							build_tr(p, stm + sigma, markTemp, Iq, opcl);
+						}
+					} else if (sigma.equals("(")) {
+						if (opcl > 0) {
+							opcl++;
+							HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
+							markTemp.add(new Transition(q, p, sigma, ""));
+							build_tr(p, stm + sigma, markTemp, Iq, opcl);
+						} else {
+							opcl++;
+							Iq.put(stm + sigma, p);
+						}
+					} else
 						Iq.put(stm + sigma, p);
-				} else if (p.isFinalState()) 
+					
+
+					//					else if (isJS(stm + sigma) || (isJS(stm) && sigma.equals(")")))
+					//						Iq.put(stm + sigma, p);
+
+				} else if (p.isFinalState() && isJS(stm + sigma) && opcl == 0) 
 					Iq.put(stm + sigma, p);
 			}		
 		}
@@ -2817,28 +2837,30 @@ public class Automaton {
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) {
 
-//			((Automaton) other).minimize();
-//			this.minimize();
+			//			((Automaton) other).minimize();
+			//			this.minimize();
+			//
+			if (this.getStates().size() == ((Automaton) other).getStates().size() && this.getDelta().size() == ((Automaton) other).getDelta().size())
+				return true;
+			else
+				return false;
+
+//			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
 //
-			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
-				 return false;
-			
-			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
-
-//			first.removeUnreachableStates();
-			if (!first.getFinalStates().isEmpty()) 
-				return false;
-			
-			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-
-//			second.removeUnreachableStates();
-			if (!second.getFinalStates().isEmpty()) 
-				return false;
-
-			return true;
+//			//			first.removeUnreachableStates();
+//			if (!first.getFinalStates().isEmpty()) 
+//				return false;
+//
+//			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+//
+//			//			second.removeUnreachableStates();
+//			if (!second.getFinalStates().isEmpty()) 
+//				return false;
+//
+//			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override
@@ -2917,6 +2939,9 @@ public class Automaton {
 		InputStream r = new ByteArrayInputStream(js.getBytes(StandardCharsets.UTF_8));
 		DImpMinus grammar = new DImpMinus(r);
 
+		if (js.equals("typeof("))
+			return true;
+
 		try {
 			grammar.DImp();	
 		} catch (TokenMgrError e1) {
@@ -2950,20 +2975,20 @@ public class Automaton {
 
 		return true;
 	}
-	
+
 	public static boolean isJSExecutable(String js) {
 
-			try {
-				CompilerEnvirons env = new CompilerEnvirons();
-				env.setRecoverFromErrors(true);
-				IRFactory factory = new IRFactory(env);
-				factory.parse(js, null, 0);
+		try {
+			CompilerEnvirons env = new CompilerEnvirons();
+			env.setRecoverFromErrors(true);
+			IRFactory factory = new IRFactory(env);
+			factory.parse(js, null, 0);
 
-			} catch (Exception e2) {
-				if (e2.getMessage().equals("invalid return"))
-					return true;
-				return false;
-			}
-			return true;
+		} catch (Exception e2) {
+			if (e2.getMessage().equals("invalid return"))
+				return true;
+			return false;
+		}
+		return true;
 	}
 }
