@@ -2,8 +2,6 @@ package it.univr.fsm.machine;
 
 import it.univr.fsm.equations.*;
 
-import org.apache.commons.collections4.MultiSet.Entry;
-import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.IRFactory;
@@ -25,13 +23,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.HashMultimap;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,6 +99,8 @@ public class Automaton {
 		this.states = states;
 		this.computeAdjacencyList();
 	}
+
+	public Automaton() {}
 
 	private void computeAdjacencyList() {	
 		HashMap<State, HashSet<Transition>> resultOutgoing = new HashMap<State, HashSet<Transition>>();
@@ -1610,7 +1611,7 @@ public class Automaton {
 
 		this.states = states;
 		this.delta = delta;
-		this.computeAdjacencyList();
+		//		this.computeAdjacencyList();
 	}
 
 	/**
@@ -1618,14 +1619,14 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		if (!isDeterministic(this)) {
-			Automaton a = this.determinize();
-			this.initialState = a.initialState;
-			this.delta = a.delta;
-			this.states = a.states;
-			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		}
+		//		if (!isDeterministic(this)) {
+		//			Automaton a = this.determinize();
+		//			this.initialState = a.initialState;
+		//			this.delta = a.delta;
+		//			this.states = a.states;
+		//			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
+		//		}
 
 
 		this.reverse();
@@ -2390,15 +2391,15 @@ public class Automaton {
 		return result;
 	}
 
-	public MultiValueMap<String, State> build(State q) {
-		MultiValueMap<String, State> Iq = new MultiValueMap<String, State>();
+	public HashMultimap<String, State> build(State q) {
+		HashMultimap<String, State> Iq = HashMultimap.create();
 		build_tr(q, "", new HashSet<Transition>(), Iq, 0);
 		return Iq;
 	}
 
-	private void build_tr(State q, String stm, HashSet<Transition> mark, MultiValueMap<String, State> Iq, int opcl) {
+	private void build_tr(State q, String stm, HashSet<Transition> mark, HashMultimap<String, State> Iq, int opcl) {
 
-		MultiValueMap<String, State> delta_q = new MultiValueMap();
+		HashMultimap<String, State> delta_q = HashMultimap.create();
 
 		for (Transition t : this.getOutgoingTransitionsFrom(q)) 
 			delta_q.put(t.getInput(), t.getTo());
@@ -2408,13 +2409,18 @@ public class Automaton {
 			String sigma = null; 
 			State p = null;
 
-			for (Object s : delta_q.keySet()) {
+			for (String s : delta_q.keySet()) {
 				sigma = (String) s;
-				p = ((ArrayList<State>) delta_q.get((String) s)).get(0);
+				for (State state : delta_q.get(s)) {
+					p = state;
+					break;
+				}
+
+				//				p = ((ArrayList<State>) delta_q.get((String) s)).get(0);
 				break;
 			}
 
-			delta_q.removeMapping(sigma, p); //FIX?
+			delta_q.remove(sigma, p); //FIX?
 
 			if (!mark.contains(new Transition(q, p, sigma, ""))) {
 				mark.add(new Transition(q, p, sigma, ""));
@@ -2424,30 +2430,34 @@ public class Automaton {
 					markTemp.add(new Transition(q, p, sigma, ""));
 					build_tr(p, stm + sigma, markTemp, Iq, opcl);
 				} else if (isPuntaction(sigma)) {
-
 					if (sigma.equals(")")) {
-						opcl--;
 						if (opcl == 1) {
+							opcl--;
+
 							if (isJS(stm))
 								Iq.put(stm + sigma, p);
 						} else {
 							HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 							markTemp.add(new Transition(q, p, sigma, ""));
-							build_tr(p, stm + sigma, markTemp, Iq, opcl);
+							build_tr(p, stm + sigma, markTemp, Iq, opcl-1);
 						}
 					} else if (sigma.equals("(")) {
-						if (opcl > 0) {
-							opcl++;
+
+						if (opcl > 1) {
 							HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 							markTemp.add(new Transition(q, p, sigma, ""));
-							build_tr(p, stm + sigma, markTemp, Iq, opcl);
+							build_tr(p, stm + sigma, markTemp, Iq, opcl + 1);
 						} else {
 							opcl++;
 							Iq.put(stm + sigma, p);
 						}
-					} else
+					} else if (sigma.equals(";") && opcl > 0) {		
+						HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
+						markTemp.add(new Transition(q, p, sigma, ""));
+						build_tr(p, stm + sigma, markTemp, Iq, opcl);
+					} else {
 						Iq.put(stm + sigma, p);
-					
+					}
 
 					//					else if (isJS(stm + sigma) || (isJS(stm) && sigma.equals(")")))
 					//						Iq.put(stm + sigma, p);
@@ -2480,8 +2490,8 @@ public class Automaton {
 
 		for (Transition t : a.getDelta())
 			t.setInput(t.getInput().replaceAll(" =", "="));
-
-		a.minimize();
+		//
+		//		a.minimize();
 
 		return a; 
 	}
@@ -2495,22 +2505,22 @@ public class Automaton {
 		} else
 			next = q;*/
 
-		MultiValueMap<String, State> B = build(q);
+		HashMultimap<String, State> B = build(q);
 
 		visited.add(q);
 		HashSet<State> W = new HashSet<State>();
 
-		for (Object s : B.values())
-			q_first.add((State) s);
+		for (State s : B.values())
+			q_first.add(s);
 
 		f_first.retainAll((HashSet<State>) this.getFinalStates()); 
 
-		for (Object sigma : B.keySet())
-			for (Object to : (ArrayList<State>) B.get((String) sigma))
-				delta.add(new Transition(q, (State) to, (String) sigma, ""));
+		for (String sigma : B.keySet())
+			for (State to : (Set<State>) B.get((String) sigma))
+				delta.add(new Transition(q, to, sigma, ""));
 
-		for (Object s : B.values())  
-			W.add((State) s);
+		for (State s : B.values())  
+			W.add(s);
 
 		W.removeAll(visited);
 
@@ -2819,7 +2829,16 @@ public class Automaton {
 		for (Transition t : this.delta)
 			newDelta.add(new Transition(nameToStates.get(t.getFrom().getState()), nameToStates.get(t.getTo().getState()), t.getInput(), t.getOutput()));
 
-		return new Automaton(newInitialState, newDelta, newStates);
+
+		Automaton result = new Automaton();
+
+		result.setInitialState(newInitialState);
+		result.setDelta(newDelta);
+		result.setStates(newStates);
+
+		result.setAdjacencyListIncoming((HashMap<State, HashSet<Transition>>) getAdjacencyListIncoming().clone());
+		result.setAdjacencyListOutgoing((HashMap<State, HashSet<Transition>>) getAdjacencyListOutgoing().clone());
+		return result;
 
 	}
 
@@ -2845,19 +2864,19 @@ public class Automaton {
 			else
 				return false;
 
-//			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
-//
-//			//			first.removeUnreachableStates();
-//			if (!first.getFinalStates().isEmpty()) 
-//				return false;
-//
-//			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-//
-//			//			second.removeUnreachableStates();
-//			if (!second.getFinalStates().isEmpty()) 
-//				return false;
-//
-//			return true;
+			//			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
+			//
+			//			//			first.removeUnreachableStates();
+			//			if (!first.getFinalStates().isEmpty()) 
+			//				return false;
+			//
+			//			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+			//
+			//			//			second.removeUnreachableStates();
+			//			if (!second.getFinalStates().isEmpty()) 
+			//				return false;
+			//
+			//			return true;
 		}
 
 		return false;
