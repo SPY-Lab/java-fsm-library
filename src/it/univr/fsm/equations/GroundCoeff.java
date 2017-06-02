@@ -114,6 +114,4 @@ public class GroundCoeff extends RegularExpression {
 	public String getProgram() {
 		return string;
 	}
-
-
 }

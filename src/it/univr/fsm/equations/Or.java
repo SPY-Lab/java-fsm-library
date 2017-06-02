@@ -181,36 +181,43 @@ public class Or extends RegularExpression {
 
 		return new Or(first.simplify(), second.simplify());
 	}
-
+	
+	
+	public static String G = "g";
+	
 	@Override
 	public String getProgram() {
 		int curr = Config.GEN;
 		Config.GEN++;
+		String randomVar = G + curr;
+
 		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
 
-//		if (first.getProgram().trim().endsWith(";}") && second.getProgram().trim().endsWith(";}")) {
-//
-//			String newFirst = null;
-//			String newSecond = null;
-//			try {
-//				newFirst = first.getProgram().substring(0, first.getProgram().length() - 1);
-//				newSecond = second.getProgram().substring(0, second.getProgram().length() - 1);
-//			} catch (Exception e) {
-//				System.err.println(first.getProgram().trim());
-//				System.err.println(second.getProgram().trim());
-//			}
-//
-//			return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(newFirst) ? newFirst : ";") + "} if (g" + curr  + " == 2) {" + (Automaton.isJSExecutable(newSecond) ? newSecond : ";") + "}}";
-//		} else 
+		//		if (first.getProgram().trim().endsWith(";}") && second.getProgram().trim().endsWith(";}")) {
+		//
+		//			String newFirst = null;
+		//			String newSecond = null;
+		//			try {
+		//				newFirst = first.getProgram().substring(0, first.getProgram().length() - 1);
+		//				newSecond = second.getProgram().substring(0, second.getProgram().length() - 1);
+		//			} catch (Exception e) {
+		//				System.err.println(first.getProgram().trim());
+		//				System.err.println(second.getProgram().trim());
+		//			}
+		//
+		//			return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(newFirst) ? newFirst : ";") + "} if (g" + curr  + " == 2) {" + (Automaton.isJSExecutable(newSecond) ? newSecond : ";") + "}}";
+		//		} else 
 
-			if (first.getProgram().trim().startsWith(";}"))
-				return first.getProgram().trim().substring(2) + " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(second.getProgram()) ? second.getProgram() : ";") + "}";
-			else if (second.getProgram().trim().startsWith(";}"))
-				return second.getProgram().trim().substring(2) +  " var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(first.getProgram()) ? first.getProgram() : ";") + "}";
+		String firstProgram = first.getProgram();
+		String secondProgram = second.getProgram();
+		
+		if (firstProgram.trim().startsWith(";}"))
+			return firstProgram.trim().substring(2) + " var "+ randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
+		else if (secondProgram.trim().startsWith(";}"))
+			return secondProgram.trim().substring(2) +  " var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "}";
 
 
-
-		return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(first.getProgram()) ? first.getProgram() : ";") + "} if (g" + curr  + " == 2) {" + (Automaton.isJSExecutable(second.getProgram()) ? second.getProgram() : ";") + "}";
+		return "var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "} if (" + randomVar  + " == 2) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
 	}
 
 }

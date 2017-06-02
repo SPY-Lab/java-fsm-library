@@ -169,10 +169,8 @@ public class Comp extends RegularExpression {
 
 	@Override
 	public String getProgram() {
-		
-		String a = first.getProgram();
-		String b = second.getProgram();
-		
-		return a + b;
+		StringBuilder a = new StringBuilder(first.getProgram());
+		StringBuilder b = new StringBuilder(second.getProgram());
+		return a.append(b).toString();
 	}
 }

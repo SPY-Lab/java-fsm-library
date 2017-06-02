@@ -124,7 +124,6 @@ public class Star extends RegularExpression {
 	public String getProgram() {
 		int curr = Config.GEN;
 		Config.GEN++;
-		String result = "var g" + curr + " = rand(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(op.getProgram()) ? op.getProgram() : ";" ) + " g" + curr + "=rand(); }";
-		return result;
+		return "var g" + curr + " = rand(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(op.getProgram()) ? op.getProgram() : ";" ) + " g" + curr + "=rand(); }";
 	}
 }
