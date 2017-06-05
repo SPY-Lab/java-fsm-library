@@ -181,14 +181,15 @@ public class Or extends RegularExpression {
 
 		return new Or(first.simplify(), second.simplify());
 	}
-	
-	
+
+
 	public static String G = "g";
-	
+
 	@Override
 	public String getProgram() {
 		int curr = Config.GEN;
 		Config.GEN++;
+		
 		String randomVar = G + curr;
 
 		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
@@ -210,12 +211,11 @@ public class Or extends RegularExpression {
 
 		String firstProgram = first.getProgram();
 		String secondProgram = second.getProgram();
-		
+
 		if (firstProgram.trim().startsWith(";}"))
 			return firstProgram.trim().substring(2) + " var "+ randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
 		else if (secondProgram.trim().startsWith(";}"))
 			return secondProgram.trim().substring(2) +  " var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "}";
-
 
 		return "var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "} if (" + randomVar  + " == 2) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
 	}
