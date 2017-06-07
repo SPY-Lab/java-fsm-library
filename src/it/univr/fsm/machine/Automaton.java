@@ -2388,6 +2388,12 @@ public class Automaton {
 						HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 						markTemp.add(new Transition(q, p, sigma, ""));
 						build_tr(p, stm + sigma, markTemp, Iq, opcl);
+					} else if (sigma.equals("{") || sigma.equals("}") && !isJS(stm + sigma)) {	// Is not a block, it is an object
+					
+						HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
+						markTemp.add(new Transition(q, p, sigma, ""));
+						build_tr(p, stm + sigma, markTemp, Iq, opcl);
+					
 					} else {
 						Iq.put(stm + sigma, p);
 					}
