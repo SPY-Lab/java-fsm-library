@@ -121,56 +121,83 @@ public class Transducer {
 		return result;
 	}
 
-	/**
-	 * Returns the automaton recognized the output language of the transducer.
-	 */
-	public Automaton FA_O() {
-		HashSet<State> newStates = (HashSet<State>) new HashSet<State>(); // this.states.clone();
-		HashSet<Transition> newGamma = new HashSet<Transition>();
-		Automaton automaton = null;
-		State newInitialState = null, from, to;
+//	/**
+//	 * Returns the automaton recognized the output language of the transducer.
+//	 */
+//	public Automaton FA_O() {
+		//		HashSet<State> newStates = (HashSet<State>) new HashSet<State>(); // this.states.clone();
+		//		HashSet<Transition> newGamma = new HashSet<Transition>();
+		//		Automaton automaton = null;
+		//		State newInitialState = null, from, to;
+		//
+		////		for (Transition t : this.delta) {
+		////			newStates.add(from = t.getFrom().clone());
+		////			newStates.add(to = t.getTo().clone());
+		////
+		////			if (to.isInitialState())
+		////				newInitialState = to;
+		////
+		////			if (from.isInitialState())
+		////				newInitialState = from;
+		////
+		////			newGamma.add(new Transition(from, to, t.getOutput(), ""));
+		////		}
+		////
+		////		automaton =  new Automaton(newInitialState, newGamma, newStates);
+		////		automaton.determinize();
+		////		return automaton;
+		//
+		//		
+		//		for (State state: this.states) {
+		//			newStates.add(new State(state.getState(), state.isInitialState(), state.isFinalState()));
+		//		}
+		//
+		//
+		//		for (State state: newStates) {
+		//			if (state.isInitialState()) {
+		//				automaton = new Automaton(state, newGamma, newStates);
+		//				break;
+		//			}
+		//		}
+		//
+		//		for (Transition t: this.delta) 
+		//			newGamma.add(new Transition(automaton.getState(t.getFrom().getState()), automaton.getState(t.getTo().getState()), t.getOutput(), ""));
+		//		 
+		//
+		//		automaton.setDelta(newGamma);
+		//		automaton.minimize();
+		//		return automaton;
 
-		for (Transition t : this.delta) {
-			newStates.add(from = t.getFrom().clone());
-			newStates.add(to = t.getTo().clone());
+//		HashSet<Transition> newGamma =  (HashSet<Transition>) this.delta.clone();
+//		
+//		for (Transition t: newGamma) {
+//			t.setInput(t.getOutput().trim());
+//			t.setOutput("");
+//		}
+//
+//		return new Automaton(this.initialState.clone(), newGamma, (HashSet<State>) this.states.clone());
+		
+		public Automaton FA_O() {
 
-			if (to.isInitialState())
-				newInitialState = to;
+			HashSet<State> newStates = new HashSet<State>();
+			HashSet<Transition> newDelta = new HashSet<Transition>();
+			HashMap<String, State> nameToStates = new HashMap<String, State>();
 
-			if (from.isInitialState())
-				newInitialState = from;
-
-			newGamma.add(new Transition(from, to, t.getOutput(), ""));
-		}
-
-		automaton =  new Automaton(newInitialState, newGamma, newStates);
-		automaton.determinize();
-		return automaton;
-
-		/*
-		for (State state: this.states) {
-			newStates.add(new State(state.getState(), state.isInitialState() ,state.isFinalState()));
-		}
-
-
-		for (State state: newStates) {
-			if (state.isInitialState()) {
-				automaton = new Automaton(state, null, newStates);
-				break;
+			for (State s: this.states) {
+				State newState = new State(s.getState(), s.isInitialState(), s.isFinalState());
+				newStates.add(newState);
+				nameToStates.put(newState.getState(), newState);
 			}
-		}
 
+			for (Transition t : this.delta) 
+				newDelta.add(new Transition(nameToStates.get(t.getFrom().getState()), nameToStates.get(t.getTo().getState()), t.getOutput(), ""));
 
-		for (Transition t: this.gamma) 
-			newGamma.add(new Transition(automaton.getState(t.getFrom().getState()), automaton.getState(t.getTo().getState()), t.getOutput(), ""));
-		 */
-
-
-
-		//automaton.setGamma(newGamma);
-
+			
+			Automaton result = new Automaton(getInitialState(), newDelta, newStates);
+			result.removeUnreachableStates();
+			return result;
 	}
-	
+
 	/**
 	 * Transduction operation of two composed transducers.
 	 * 

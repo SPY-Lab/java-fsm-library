@@ -142,8 +142,6 @@ public class Comp extends RegularExpression {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
 		}*/
 
-
-
 		// Comp with an only term isn't a Comp, but a GroundCoeff
 		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
 			return first.simplify();
@@ -164,6 +162,7 @@ public class Comp extends RegularExpression {
 
 
 
+		
 		return new Comp(first.simplify(),second.simplify());
 	}
 
@@ -172,5 +171,12 @@ public class Comp extends RegularExpression {
 		StringBuilder a = new StringBuilder(first.getProgram());
 		StringBuilder b = new StringBuilder(second.getProgram());
 		return a.append(b).toString();
+	}
+
+	@Override
+	public RegularExpression adjust() {
+		if (first instanceof GroundCoeff && second instanceof Var && ((Var) second).getVariable().isFinalState())
+			return new Or(new Comp(first, second), first);
+		return this.simplify();
 	}
 }

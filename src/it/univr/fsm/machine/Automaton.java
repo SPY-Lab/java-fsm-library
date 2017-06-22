@@ -46,13 +46,6 @@ import java.util.*;
  */
 public class Automaton {
 
-
-	public static void main(String[] args) {
-
-		System.out.println(Automaton.makeAutomaton("x={a:1};").stmSyn());
-
-	}
-
 	/**
 	 * Starting symbol to name the states.
 	 */
@@ -98,9 +91,6 @@ public class Automaton {
 
 	private void computeAdjacencyList() {	
 		adjacencyListOutgoing = new HashMap<State, HashSet<Transition>>();
-
-		//		for (State s : this.getStates()) 
-		//			adjacencyListOutgoing.put(s, new HashSet<Transition>());
 
 		for (Transition t : getDelta()) {
 			if (!adjacencyListOutgoing.containsKey(t.getFrom()))
@@ -1519,41 +1509,64 @@ public class Automaton {
 	 * Removes the unreachable states of an automaton.
 	 */
 	public void removeUnreachableStates() {
-			HashSet<State> reachableStates = new HashSet<State>();
-			reachableStates.add(this.getInitialState());
+		HashSet<State> reachableStates = new HashSet<State>();
+		reachableStates.add(this.getInitialState());
+		HashSet<State> newStates = new HashSet<State>();
+		
+		//		newStates.add(this.getInitialState());		
+		//
+		//					do {
+		//						HashSet<State> temp = new HashSet<State>();
+		//						for (State s : newStates) {
+		//							//				for (String alphabet : this.readableCharFromState(s))
+		//							for (Transition t : this.getOutgoingTransitionsFrom(s))
+		//								//						if (t.getFrom().equals(s)/* && t.getInput().equals(alphabet)*/)
+		//								temp.add(t.getTo());
+		//						}
+		//			
+		//						temp.removeAll(reachableStates);
+		//						newStates = temp;
+		//			
+		//						reachableStates.addAll(newStates);
+		//			
+		//					} while (!newStates.isEmpty());
 
-			HashSet<State> newStates = new HashSet<State>();
-			newStates.add(this.getInitialState());		
 
-			//		do {
-			//			HashSet<State> temp = new HashSet<State>();
-			//			for (State s : newStates) {
-			//				//				for (String alphabet : this.readableCharFromState(s))
-			//				for (Transition t : this.getOutgoingTransitionsFrom(s))
-			//					//						if (t.getFrom().equals(s)/* && t.getInput().equals(alphabet)*/)
-			//					temp.add(t.getTo());
-			//			}
-			//
-			//			temp.removeAll(reachableStates);
-			//			newStates = temp;
-			//
-			//			reachableStates.addAll(newStates);
-			//
-			//		} while (!newStates.isEmpty());
+		int oldSize;
+		do {
+			oldSize = newStates.size();
+
+			HashSet<State> toAdd = new HashSet<State>();
+
+			for (State s : newStates) 
+				for (Transition t : this.getOutgoingTransitionsFrom(s))
+					toAdd.add(t.getTo());
+
+			newStates.addAll(toAdd);
+
+		} while (newStates.size() != oldSize);
+
+		states.removeIf(s -> !reachableStates.contains(s));
+		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
 
 
-			int oldSize;
-			do {
-				oldSize = newStates.size();
-
-				for (State s : newStates) 
-					for (Transition t : this.getOutgoingTransitionsFrom(s))
-						newStates.add(t.getTo());
-
-			} while (newStates.size() != oldSize);
-
-			states.removeIf(s -> !reachableStates.contains(s));
-			delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
+		//		int oldSize;
+		//
+		//		Iterator<State> it;
+		//
+		//		do {
+		//			oldSize = reachableStates.size();
+		//
+		//			it = reachableStates.iterator();
+		//			
+		//			while (it.hasNext()) 
+		//				for (Transition t : this.getOutgoingTransitionsFrom(it.next()))
+		//					reachableStates.add(t.getTo());
+		//
+		//		} while (reachableStates.size() != oldSize);
+		//
+		//		states.removeIf(s -> !reachableStates.contains(s));
+		//		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
 	}
 
 	/**
@@ -1570,16 +1583,16 @@ public class Automaton {
 		//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		//		}
 
-			this.reverse();
-			Automaton a = this.determinize();
-			a.reverse();
-			a = a.determinize();
+		this.reverse();
+		Automaton a = this.determinize();
+		a.reverse();
+		a = a.determinize();
 
-			this.initialState = a.initialState;
-			this.delta = a.delta;
-			this.states = a.states;
-			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-		
+		this.initialState = a.initialState;
+		this.delta = a.delta;
+		this.states = a.states;
+		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
 
 		//				this.minimizeHopcroft();
 		//		
@@ -1588,8 +1601,6 @@ public class Automaton {
 		//				this.states = a.states;
 		//				this.delta = a.delta;
 		//				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-
-
 	}
 
 	//	public void minimizeBrowozozwi() {
@@ -1705,7 +1716,7 @@ public class Automaton {
 
 			if(!setIntersection(X,Ytemp).isEmpty() && !setSubtraction(Ytemp,X).isEmpty())
 				Ys.add(Ytemp);
-			
+
 
 		}
 
@@ -2159,16 +2170,16 @@ public class Automaton {
 
 		int indexOfInitialState = 0;
 
-
 		// search for initial state index and minimize equations first, then add ground formulas
 		for (int i = 0; i < equations.size(); ++i) {
 			Equation e;
 
-			if (equations.get(i).getLeftSide().isInitialState()) {
-				indexOfInitialState = i;
-				//break;
-			}
+//		if (equations.get(i).getLeftSide().isFinalState())
+//				equations.set(i, (e = new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().adjust())));
 
+
+			if (equations.get(i).getLeftSide().isInitialState()) 
+				indexOfInitialState = i;
 
 			equations.set(i, (e = new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify())));
 
@@ -2188,7 +2199,6 @@ public class Automaton {
 			// syntetize all the equations
 			for(int i = 0; i < equations.size(); i++){
 
-				//System.out.println("Simplifying 1" + equations.get(i).getLeftSide());
 				equations.set(i, new Equation(equations.get(i).getLeftSide(),
 						equations.get(i).getE().simplify()));
 
@@ -2389,11 +2399,11 @@ public class Automaton {
 						markTemp.add(new Transition(q, p, sigma, ""));
 						build_tr(p, stm + sigma, markTemp, Iq, opcl);
 					} else if (sigma.equals("{") || sigma.equals("}") && !isJS(stm + sigma)) {	// Is not a block, it is an object
-					
+
 						HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 						markTemp.add(new Transition(q, p, sigma, ""));
 						build_tr(p, stm + sigma, markTemp, Iq, opcl);
-					
+
 					} else {
 						Iq.put(stm + sigma, p);
 					}
@@ -2404,7 +2414,7 @@ public class Automaton {
 				} 
 
 				if (p.isFinalState() && isJS(stm + sigma) && opcl == 0) 
-					Iq.put(stm + sigma, p);
+					Iq.put(stm + sigma, p);		
 			}		
 		}
 	}
@@ -2429,8 +2439,8 @@ public class Automaton {
 
 		Automaton a = new Automaton(q0, delta, Q_first);
 
-//		for (Transition t : a.getDelta())
-//			t.setInput(t.getInput().replaceAll(" =", "="));
+		//		for (Transition t : a.getDelta())
+		//			t.setInput(t.getInput().replaceAll(" =", "="));
 		//
 
 		return a; 
@@ -2610,7 +2620,6 @@ public class Automaton {
 	 */
 	public HashSet<String> getStringsAtMost(State s, int n) {
 		HashSet<String> result = new HashSet<String>();
-
 		if (n == 0)
 			return result;
 
@@ -2628,7 +2637,7 @@ public class Automaton {
 	}
 
 
-	public Automaton widening(int n) {		
+	public Automaton widening(int n) {	
 		HashMap<State, HashSet<String>> languages = new HashMap<State, HashSet<String>>();
 		State newInitialState = null;
 		HashSet<HashSet<State>> powerStates = new HashSet<HashSet<State>>();
@@ -2688,7 +2697,11 @@ public class Automaton {
 			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput(), ""));
 
 		}
-		return new Automaton(newInitialState, newDelta, newStates);
+		
+		Automaton a = new Automaton(newInitialState, newDelta, newStates);
+		a.minimize();
+		System.err.println(a.automatonPrint());
+		return a;
 	}
 
 	/**
@@ -2699,17 +2712,17 @@ public class Automaton {
 		return initialState;
 	}
 
-	public HashSet<State> getInitialStates(){
-		HashSet<State> initialStates=new HashSet<State>();
-
-		for(State s: this.states){
-			if(s.isInitialState()){
-				initialStates.add(s);
-			}
-		}
-		return initialStates;
-
-	}
+	//	public HashSet<State> getInitialStates(){
+	//		HashSet<State> initialStates=new HashSet<State>();
+	//
+	//		for(State s: this.states){
+	//			if(s.isInitialState()){
+	//				initialStates.add(s);
+	//			}
+	//		}
+	//		return initialStates;
+	//
+	//	}
 
 	/**
 	 * Sets the initial state.

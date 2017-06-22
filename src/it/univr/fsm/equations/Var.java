@@ -130,4 +130,9 @@ public class Var extends RegularExpression {
 	public String getProgram() {
 		return "";
 	}
+	
+	@Override
+	public RegularExpression adjust() {
+		return simplify();
+	}
 }

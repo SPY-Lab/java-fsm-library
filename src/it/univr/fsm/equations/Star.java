@@ -128,4 +128,9 @@ public class Star extends RegularExpression {
 		
 		return "var g" + curr + " = rand(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(program) ? program : ";" ) + " g" + curr + "=rand(); }";
 	}
+
+	@Override
+	public RegularExpression adjust() {
+		return simplify();
+	}
 }

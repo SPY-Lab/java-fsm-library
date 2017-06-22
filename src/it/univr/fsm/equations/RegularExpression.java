@@ -32,4 +32,5 @@ public abstract class RegularExpression extends Object{
 
 	public abstract int hashCode();
 	public abstract boolean equals(Object other);
+	public abstract RegularExpression adjust();
 }
