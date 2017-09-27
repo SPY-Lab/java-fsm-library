@@ -1574,14 +1574,13 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		//		if (!isDeterministic(this)) {
-		//			Automaton a = this.determinize();
-		//			this.initialState = a.initialState;
-		//			this.delta = a.delta;
-		//			this.states = a.states;
-		//			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-		//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		//		}
+//				if (!isDeterministic(this)) {
+//					Automaton a = this.determinize();
+//					this.initialState = a.initialState;
+//					this.delta = a.delta;
+//					this.states = a.states;
+//					this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+//				}
 
 		this.reverse();
 		Automaton a = this.determinize();
@@ -1594,13 +1593,13 @@ public class Automaton {
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 
 
-		//				this.minimizeHopcroft();
-		//		
-		//				Automaton a = this.deMerge(++initChar); 
-		//				this.initialState = a.initialState;
-		//				this.states = a.states;
-		//				this.delta = a.delta;
-		//				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+//						this.minimizeHopcroft();
+				
+//						Automaton a = this.deMerge(++initChar); 
+//						this.initialState = this.initialState;
+//						this.states = this.states;
+//						this.delta = this.delta;
+//						this.adjacencyListOutgoing = this.getAdjacencyListOutgoing();
 	}
 
 	//	public void minimizeBrowozozwi() {
@@ -1872,7 +1871,6 @@ public class Automaton {
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-			//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		}
 
 		this.removeUnreachableStates();
@@ -2306,7 +2304,7 @@ public class Automaton {
 	 * @param e regular expression.
 	 */
 	public static String toProgram(RegularExpression e) {		
-		return e.getProgram();
+		return e.getProgram().toString();
 	}
 
 	/**
@@ -2420,6 +2418,7 @@ public class Automaton {
 	}
 
 	public Automaton stmSyn() {
+		System.err.println(this.automatonPrint());
 		HashSet<State> Q_first = new HashSet<State>();
 		State q0;
 		Q_first.add(q0 = this.getInitialState());
@@ -2448,6 +2447,8 @@ public class Automaton {
 
 	private void stmSyn_tr(State q, HashSet<State> q_first, HashSet<State> f_first, HashSet<Transition> delta, HashSet<State> visited) {
 
+		
+		
 		/*State next = null;
 		if (q.isInitialState()) {
 			for (Transition t : this.getOutgoingTransitionsFrom(q))
@@ -2456,6 +2457,7 @@ public class Automaton {
 			next = q;*/
 
 		HashMultimap<String, State> B = build(q);
+		System.out.println(q + (q.isFinalState() ? "1" : "0") + " ===> " + B);
 
 		visited.add(q);
 		HashSet<State> W = new HashSet<State>();
@@ -2626,10 +2628,12 @@ public class Automaton {
 		for (Transition t : this.getOutgoingTransitionsFrom(s)) {
 			String partial = t.getInput();
 
-			if (getStringsAtMost(t.getTo(), n - 1).isEmpty())
+			HashSet<String> set = getStringsAtMost(t.getTo(), n - 1);
+			
+			if (set.isEmpty())
 				result.add(partial);
 			else
-				for (String next : getStringsAtMost(t.getTo(), n - 1))
+				for (String next : set)
 					result.add(partial + next);
 		}
 
@@ -2638,13 +2642,15 @@ public class Automaton {
 
 
 	public Automaton widening(int n) {	
+
 		HashMap<State, HashSet<String>> languages = new HashMap<State, HashSet<String>>();
 		State newInitialState = null;
 		HashSet<HashSet<State>> powerStates = new HashSet<HashSet<State>>();
 
 		for (State s : this.getStates()) 
 			languages.put(s, this.getStringsAtMost(s, n));
-
+				
+			
 		for (State s1 : this.getStates()) 
 			for (State s2 : this.getStates())
 				if (languages.get(s1).equals(languages.get(s2))) {
@@ -2700,7 +2706,6 @@ public class Automaton {
 		
 		Automaton a = new Automaton(newInitialState, newDelta, newStates);
 		a.minimize();
-		System.err.println(a.automatonPrint());
 		return a;
 	}
 
@@ -2807,25 +2812,22 @@ public class Automaton {
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) {
 
-			//			((Automaton) other).minimize();
-			//			this.minimize();
-			//
-			if (this.getStates().size() == ((Automaton) other).getStates().size() && this.getDelta().size() == ((Automaton) other).getDelta().size())
-				return true;
+			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
+				return false;
 
-			//			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
-			//
-			//			//			first.removeUnreachableStates();
-			//			if (!first.getFinalStates().isEmpty()) 
-			//				return false;
-			//
-			//			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-			//
-			//			//			second.removeUnreachableStates();
-			//			if (!second.getFinalStates().isEmpty()) 
-			//				return false;
-			//
-			//			return true;
+						Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
+			
+									first.removeUnreachableStates();
+						if (!first.getFinalStates().isEmpty()) 
+							return false;
+			
+						Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+			
+									second.removeUnreachableStates();
+						if (!second.getFinalStates().isEmpty()) 
+							return false;
+			
+						return true;
 		}
 
 		return false;
@@ -2944,7 +2946,9 @@ public class Automaton {
 		return true;
 	}
 
-	public static boolean isJSExecutable(String js) {
+	public static boolean isJSExecutable(StringBuilder a) {
+		
+		String js = a.toString();
 
 		try {
 			CompilerEnvirons env = new CompilerEnvirons();

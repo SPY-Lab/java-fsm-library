@@ -13,7 +13,6 @@ import it.univr.fsm.machine.State;
  */
 public abstract class RegularExpression extends Object{
 	public abstract RegularExpression replace(State s, RegularExpression e);
-//	public abstract RegularExpression replace(RegularExpression e, RegularExpression with);
 	public abstract boolean containsOnly(State s);
 	public abstract boolean contains(State s);
 	public abstract RegularExpression factorize(RegularExpression e);
@@ -24,7 +23,7 @@ public abstract class RegularExpression extends Object{
 	public abstract Vector<RegularExpression> inSinglePart();
 
 	public abstract RegularExpression simplify();
-	public abstract String getProgram();
+	public abstract StringBuilder getProgram();
 
 	public abstract Vector<RegularExpression> inBlockPart();
 	public abstract RegularExpression syntetize(State s);

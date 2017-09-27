@@ -111,8 +111,8 @@ public class GroundCoeff extends RegularExpression {
 	}
 
 	@Override
-	public String getProgram() {
-		return string;
+	public StringBuilder getProgram() {
+		return new StringBuilder(string);
 	}
 
 	@Override
