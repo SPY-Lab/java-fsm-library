@@ -179,7 +179,10 @@ public class Or extends RegularExpression {
 		//
 		//
 
-		return new Or(first.simplify(), second.simplify());
+		if (first.equals(new GroundCoeff("")) && second.equals(new GroundCoeff("")) )
+			return new GroundCoeff("");
+		else
+			return new Or(first.simplify(), second.simplify());
 	}
 
 
@@ -189,7 +192,7 @@ public class Or extends RegularExpression {
 	public String getProgram() {
 		int curr = Config.GEN;
 		Config.GEN++;
-		
+
 		String randomVar = G + curr;
 
 		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";

@@ -138,9 +138,13 @@ public class Comp extends RegularExpression {
 
 	@Override
 	public RegularExpression simplify() {
-		/*if (this.second instanceof Or) {
+		
+		/**
+		 * This fixes the "unsoundness problem"
+		 */
+		if (this.second instanceof Or) {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
-		}*/
+		}
 
 
 

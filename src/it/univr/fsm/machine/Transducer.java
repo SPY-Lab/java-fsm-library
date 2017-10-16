@@ -144,7 +144,6 @@ public class Transducer {
 		}
 
 		automaton =  new Automaton(newInitialState, newGamma, newStates);
-		automaton.determinize();
 		return automaton;
 
 		/*
