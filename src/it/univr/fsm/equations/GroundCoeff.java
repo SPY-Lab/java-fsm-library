@@ -2,6 +2,7 @@ package it.univr.fsm.equations;
 
 import java.util.Vector;
 
+import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
 
 public class GroundCoeff extends RegularExpression {
@@ -111,10 +112,6 @@ public class GroundCoeff extends RegularExpression {
 
 	@Override
 	public String getProgram() {
-		if (this.string.equals("$"))
-			return "";
-		return this.string;
+		return string;
 	}
-
-
 }

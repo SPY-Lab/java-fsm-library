@@ -141,7 +141,7 @@ public class Transition {
 	
 	@Override
 	public int hashCode() {
-		return (this.getFrom() + "" + this.getTo() + "" +  this.getOutput() + "" + this.getInput()).hashCode(); 
+		return (this.getFrom() + "" + this.getTo() + "" +  this.getInput()).hashCode(); 
 	}
 	
 	@Override

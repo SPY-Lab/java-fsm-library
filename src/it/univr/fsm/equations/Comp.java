@@ -138,9 +138,13 @@ public class Comp extends RegularExpression {
 
 	@Override
 	public RegularExpression simplify() {
-		/*if (this.second instanceof Or) {
+		
+		/**
+		 * This fixes the "unsoundness problem"
+		 */
+		if (this.second instanceof Or) {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
-		}*/
+		}
 
 
 
@@ -169,10 +173,8 @@ public class Comp extends RegularExpression {
 
 	@Override
 	public String getProgram() {
-		
-		String a = first.getProgram();
-		String b = second.getProgram();
-		
-		return a + b;
+		StringBuilder a = new StringBuilder(first.getProgram());
+		StringBuilder b = new StringBuilder(second.getProgram());
+		return a.append(b).toString();
 	}
 }
