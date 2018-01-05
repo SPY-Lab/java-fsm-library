@@ -212,8 +212,8 @@ public class Or extends RegularExpression {
 		//			return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(newFirst) ? newFirst : ";") + "} if (g" + curr  + " == 2) {" + (Automaton.isJSExecutable(newSecond) ? newSecond : ";") + "}}";
 		//		} else 
 
-		String firstProgram = first.getProgram().toString();
-		String secondProgram = second.getProgram().toString();
+		String firstProgram = first.getProgram();
+		String secondProgram = second.getProgram();
 
 		if (firstProgram.trim().startsWith(";}"))
 			return firstProgram.trim().substring(2) + " var "+ randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";

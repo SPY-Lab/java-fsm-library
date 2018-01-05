@@ -80,13 +80,13 @@ public class State {
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof State) 
-			return this.getState().equals(((State) other).getState()) && this.isInitialState == ((State) other).isInitialState && this.isFinalState == ((State) other).isFinalState;
+			return this.getState().equals(((State) other).getState());
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return (this.getState() + (isInitialState ? "1" : "0") + (isFinalState ? "1" : "0")).hashCode();
+		return this.getState().hashCode();
 	}
 
 	@Override

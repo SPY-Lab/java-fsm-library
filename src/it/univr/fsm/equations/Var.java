@@ -127,12 +127,7 @@ public class Var extends RegularExpression {
 
 
 	@Override
-	public StringBuilder getProgram() {
-		return new StringBuilder("");
-	}
-	
-	@Override
-	public RegularExpression adjust() {
-		return simplify();
+	public String getProgram() {
+		return "";
 	}
 }
