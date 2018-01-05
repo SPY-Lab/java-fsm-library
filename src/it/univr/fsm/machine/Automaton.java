@@ -46,6 +46,28 @@ import java.util.*;
  */
 public class Automaton {
 
+
+	public static void main(String[] args) {
+
+		Automaton l1 = Automaton.makeAutomaton("carrot");
+		Automaton l2 = Automaton.union(Automaton.makeAutomaton("abcdef"), Automaton.makeAutomaton("abaaaf"));
+		Automaton l3 = Automaton.union(l1, l2);
+
+
+		State q = new State("q0", true, true);
+
+		HashSet<State> states = new HashSet<>();
+		HashSet<Transition> transition = new HashSet<>();
+		
+		states.add(q);
+		transition.add(new Transition(q, q, "a", ""));
+		
+		
+		Automaton a = new Automaton(q, transition, states);
+		
+		System.out.println(Automaton.substring(l1, 13, 15).automatonPrint());
+	}
+
 	/**
 	 * Starting symbol to name the states.
 	 */
@@ -188,8 +210,8 @@ public class Automaton {
 	 * @return a boolean
 	 */
 	public static boolean isEmptyLanguageAccepted(Automaton automaton) {
-		automaton.removeUnreachableStates();
-		return automaton.getFinalStates().isEmpty() && !automaton.states.isEmpty();
+		automaton.minimize();
+		return automaton.getFinalStates().isEmpty(); //&& !automaton.states.isEmpty();
 	}
 
 
@@ -361,6 +383,8 @@ public class Automaton {
 		State autNewInitialState = null;
 
 
+		automaton = Automaton.totalize(automaton.clone());
+
 		// Add states to the mapping, replacing accept states to reject
 		for(State s: automaton.states) {
 			mapping.put(s, new State(s.getState(), s.isInitialState(), !s.isFinalState()));
@@ -377,6 +401,39 @@ public class Automaton {
 		Automaton a = new Automaton(autNewInitialState,newDelta,newStates);
 		a.minimize();
 		return a;
+	}
+
+	public static Automaton totalize(Automaton automaton) {		
+		HashSet<State> newState = new HashSet<>();
+		HashSet<Transition> newDelta = new HashSet<>();
+
+		for (State s : automaton.getStates())
+			newState.add(s);
+
+		State qbottom = new State("qbottom", false, false);
+
+		newState.add(qbottom);
+
+		for (Transition t : automaton.getDelta())
+			newDelta.add(t);
+
+		for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
+			newDelta.add(new Transition(qbottom, qbottom, String.valueOf(alphabet), ""));
+
+
+		Automaton result = new Automaton(automaton.getInitialState(), newDelta, newState);
+
+		for (State s : newState)
+			for (char alphabet = '!'; alphabet <= '~'; ++alphabet) {
+				HashSet<State> states = new HashSet<>();
+				states.add(s);
+
+				if (!result.readableCharFromState(states).contains(String.valueOf(alphabet)))
+					newDelta.add(new Transition(s, qbottom, String.valueOf(alphabet), ""));
+
+			}
+
+		return new Automaton(automaton.getInitialState(), newDelta, newState);
 	}
 
 
@@ -1516,32 +1573,32 @@ public class Automaton {
 		HashSet<State> newStates = new HashSet<State>();
 		newStates.add(this.getInitialState());		
 
-		//		do {
-		//			HashSet<State> temp = new HashSet<State>();
-		//			for (State s : newStates) {
-		//				//				for (String alphabet : this.readableCharFromState(s))
-		//				for (Transition t : this.getOutgoingTransitionsFrom(s))
-		//					//						if (t.getFrom().equals(s)/* && t.getInput().equals(alphabet)*/)
-		//					temp.add(t.getTo());
-		//			}
-		//
-		//			temp.removeAll(reachableStates);
-		//			newStates = temp;
-		//
-		//			reachableStates.addAll(newStates);
-		//
-		//		} while (!newStates.isEmpty());
-
-
-		int oldSize;
 		do {
-			oldSize = newStates.size();
-
-			for (State s : newStates) 
+			HashSet<State> temp = new HashSet<State>();
+			for (State s : newStates) {
+				//				for (String alphabet : this.readableCharFromState(s))
 				for (Transition t : this.getOutgoingTransitionsFrom(s))
-					newStates.add(t.getTo());
+					//						if (t.getFrom().equals(s)/* && t.getInput().equals(alphabet)*/)
+					temp.add(t.getTo());
+			}
 
-		} while (newStates.size() != oldSize);
+			temp.removeAll(reachableStates);
+			newStates = temp;
+
+			reachableStates.addAll(newStates);
+
+		} while (!newStates.isEmpty());
+
+
+		//		int oldSize;
+		//		do {
+		//			oldSize = newStates.size();
+		//
+		//			for (State s : newStates) 
+		//				for (Transition t : this.getOutgoingTransitionsFrom(s))
+		//					newStates.add(t.getTo());
+		//
+		//		} while (newStates.size() != oldSize);
 
 		states.removeIf(s -> !reachableStates.contains(s));
 		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
@@ -2932,7 +2989,6 @@ public class Automaton {
 
 	public static boolean isJSExecutable(String js) {
 
-		System.out.println(js);
 		try {
 			CompilerEnvirons env = new CompilerEnvirons();
 			env.setRecoverFromErrors(true);
@@ -2945,5 +3001,85 @@ public class Automaton {
 			return false;
 		}
 		return true;
+	}
+
+
+	public static Automaton leftQuotient(Automaton L1, Automaton L2) {
+		Automaton result = L1.clone();
+		Automaton L1copy = L1.clone();
+
+		// Remove the initial state
+		for (State q : result.getStates())
+			if (q.isInitialState())
+				q.setInitialState(false);
+
+
+		// Remove the initial state
+		for (State q : L1copy.getStates())
+			if (q.isFinalState())
+				q.setFinalState(false);
+
+		for (State q: L1copy.getStates()) {
+			q.setFinalState(true);
+
+			Automaton copy = L1copy.clone();
+			copy.minimize();
+
+			if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(copy, L2))) {
+				for (State rS: result.getStates())
+					if (rS.getState().equals(q.getState()))
+						rS.setInitialState(true);
+			}
+
+			q.setFinalState(false);
+		}
+
+		result.minimize();
+		return result;
+	}
+
+	public static Automaton prefix(Automaton automaton) {
+		Automaton result = automaton.clone();
+
+		result.minimize();
+
+		for (State s : result.getStates())
+			s.setFinalState(true);
+
+		return result;
+	}
+	
+	public static Automaton prefixAtMost(int i, Automaton automaton) {
+		return Automaton.intersection(Automaton.prefix(automaton), Automaton.maxLengthAutomaton(i));
+	}
+
+	
+	public static Automaton substring(Automaton a, int i, int j) {	
+		Automaton left = Automaton.leftQuotient(Automaton.prefix(a), Automaton.prefixAtMost(i, a));
+		return Automaton.intersection(Automaton.prefix(left), Automaton.maxLengthAutomaton(j-i));
+	}
+	
+	public static Automaton maxLengthAutomaton(int max) {
+		HashSet<State> states = new HashSet<>();
+		HashSet<Transition> delta = new HashSet<>();
+
+		State q0 = new State("q0", true, false);
+		states.add(q0);
+		
+		State prev = q0;
+		
+		for (int i = 0; i < max; ++i) {
+			State next = new State("q" + i + 1, false, false);
+			states.add(next);
+			
+			for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
+				delta.add(new Transition(prev, next, String.valueOf(alphabet), ""));
+			
+			prev = next;
+		}
+		
+		prev.setFinalState(true);
+		
+		return new Automaton(q0, delta, states);
 	}
 }
