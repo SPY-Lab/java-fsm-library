@@ -122,10 +122,10 @@ public class Or extends RegularExpression {
 		return v;
 	}
 
-//	@Override
-//	public RegularExpression replace(RegularExpression e, RegularExpression with) {
-//		return new Or(first.replace(e, with), second.replace(e, with));
-//	}
+	/*@Override
+	public RegularExpression replace(RegularExpression e, RegularExpression with) {
+		return new Or(first.replace(e, with), second.replace(e, with));
+	}*/
 
 	@Override
 	public RegularExpression remove(RegularExpression e) {
@@ -150,34 +150,34 @@ public class Or extends RegularExpression {
 
 	@Override
 	public RegularExpression simplify() {
-//
-//				// common factor: (ab + ac) = a(b+c)
-//				Vector<RegularExpression> first_part = first.inBlockPart();
-//				Vector<RegularExpression> second_part = second.inBlockPart();
-//				Vector<RegularExpression> inCommon = new Vector<>();
-//				RegularExpression result = null;
-//				RegularExpression factor = null;
-//		
-//				for(int i = 0; i < first_part.size(); i++)
-//					for(int j = 0; j < second_part.size(); j++){
-//						if( (factor = first_part.get(i).factorize(second_part.get(j))) != null){
-//							inCommon.add(new Comp(factor,new Or(first_part.get(i).remove(factor),second_part.get(j).remove(factor))));
-//							first_part.remove(i);
-//							second_part.remove(j);
-//						}
-//					}
-//					if(inCommon.size() > 0) {
-//						first_part.addAll(second_part);
-//						first_part.addAll(inCommon);
-//		
-//						for(RegularExpression e : first_part){
-//							result = result == null ? e : new Or(result,e);
-//						}
-//		
-//						return result;
-//					}
-		
-		
+
+		//		// common factor: (ab + ac) = a(b+c)
+		//		Vector<RegularExpression> first_part = first.inBlockPart();
+		//		Vector<RegularExpression> second_part = second.inBlockPart();
+		//		Vector<RegularExpression> inCommon = new Vector<>();
+		//		RegularExpression result = null;
+		//		RegularExpression factor = null;
+		//
+		//		for(int i = 0; i < first_part.size(); i++)
+		//			for(int j = 0; j < second_part.size(); j++){
+		//				if( (factor = first_part.get(i).factorize(second_part.get(j))) != null){
+		//					inCommon.add(new Comp(factor,new Or(first_part.get(i).remove(factor),second_part.get(j).remove(factor))));
+		//					first_part.remove(i);
+		//					second_part.remove(j);
+		//				}
+		//			}
+		//			if(inCommon.size() > 0) {
+		//				first_part.addAll(second_part);
+		//				first_part.addAll(inCommon);
+		//
+		//				for(RegularExpression e : first_part){
+		//					result = result == null ? e : new Or(result,e);
+		//				}
+		//
+		//				return result;
+		//			}
+		//
+		//
 
 		if (first.equals(new GroundCoeff("")) && second.equals(new GroundCoeff("")) )
 			return new GroundCoeff("");
@@ -185,27 +185,42 @@ public class Or extends RegularExpression {
 			return new Or(first.simplify(), second.simplify());
 	}
 
+
+	public static String G = "g";
+
 	@Override
+	public String getProgram() {
+		int curr = Config.GEN;
+		Config.GEN++;
 
-	public StringBuilder getProgram() {
-		int curr = Config.getGen();
-		Config.incrementGen();
-		
-		String randomVar = Config.g + curr;
+		String randomVar = G + curr;
 
-		StringBuilder firstProgram = first.getProgram();
-		StringBuilder secondProgram = second.getProgram();
+		//String result = "g" + curr + ":=rand(); if g" + curr  + " = 1 {" + (this.first.getProgram().equals("") ? "skip;" : this.first.getProgram()) + "}; if g" + curr  + " = 2 {" + (this.second.getProgram().equals("") ? "skip;" : this.second.getProgram()) + "};";
 
-		if (firstProgram.toString().trim().startsWith(";}"))
-			return new StringBuilder(firstProgram.toString().trim().substring(2)).append(Config.var).append(randomVar).append(Config.rand_if).append(randomVar).append(Config.equals1).append((Automaton.isJSExecutable(secondProgram) ? secondProgram : Config.semicolon)).append(Config.rpar);
-		else if (secondProgram.toString().trim().startsWith(";}"))
-			return new StringBuilder(secondProgram.toString().trim().substring(2)).append(Config.var).append(randomVar).append(Config.rand_if).append(randomVar).append(Config.equals1).append((Automaton.isJSExecutable(firstProgram) ? firstProgram : Config.semicolon)).append(Config.rpar);
-		
-		return new StringBuilder(Config.var).append(randomVar).append(Config.rand_if).append(randomVar).append(Config.equals1).append((Automaton.isJSExecutable(firstProgram) ? firstProgram : Config.semicolon)).append(Config.iff).append(randomVar).append(Config.equals2).append((Automaton.isJSExecutable(secondProgram) ? secondProgram : Config.semicolon)).append(Config.rpar);
-	} 
-	
-	@Override
-	public RegularExpression adjust() {
-		return simplify();
+		//		if (first.getProgram().trim().endsWith(";}") && second.getProgram().trim().endsWith(";}")) {
+		//
+		//			String newFirst = null;
+		//			String newSecond = null;
+		//			try {
+		//				newFirst = first.getProgram().substring(0, first.getProgram().length() - 1);
+		//				newSecond = second.getProgram().substring(0, second.getProgram().length() - 1);
+		//			} catch (Exception e) {
+		//				System.err.println(first.getProgram().trim());
+		//				System.err.println(second.getProgram().trim());
+		//			}
+		//
+		//			return "var g" + curr + "=rand(); if (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(newFirst) ? newFirst : ";") + "} if (g" + curr  + " == 2) {" + (Automaton.isJSExecutable(newSecond) ? newSecond : ";") + "}}";
+		//		} else 
+
+		String firstProgram = first.getProgram();
+		String secondProgram = second.getProgram();
+
+		if (firstProgram.trim().startsWith(";}"))
+			return firstProgram.trim().substring(2) + " var "+ randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
+		else if (secondProgram.trim().startsWith(";}"))
+			return secondProgram.trim().substring(2) +  " var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "}";
+
+		return "var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "} if (" + randomVar  + " == 2) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
 	}
+
 }

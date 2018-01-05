@@ -120,20 +120,12 @@ public class Star extends RegularExpression {
 
 		return new Star(this.op.simplify());
 	}
-	
 	@Override
-	public StringBuilder getProgram() {
-		int curr = Config.getGen();
-		Config.incrementGen();
+	public String getProgram() {
+		int curr = Config.GEN;
+		Config.GEN++;		
+		String program = op.getProgram();
 		
-		StringBuilder program = op.getProgram();
-		
-		StringBuilder G = new StringBuilder(Config.g).append(curr);
-		return new StringBuilder(Config.var).append(G).append(Config.rand_while).append(G).append(Config.equals1).append((Automaton.isJSExecutable(program) ? program : Config.semicolon )).append(G).append("=rand();}");
-	}
-
-	@Override
-	public RegularExpression adjust() {
-		return simplify();
+		return "var g" + curr + " = rand(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(program) ? program : ";" ) + " g" + curr + "=rand(); }";
 	}
 }

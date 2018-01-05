@@ -65,7 +65,7 @@ public class Automaton {
 		
 		Automaton a = new Automaton(q, transition, states);
 		
-		System.out.println(Automaton.substring(l2, 2, 5));
+		System.out.println(Automaton.substring(l1, 13, 15).automatonPrint());
 	}
 
 	/**
@@ -113,6 +113,9 @@ public class Automaton {
 
 	private void computeAdjacencyList() {	
 		adjacencyListOutgoing = new HashMap<State, HashSet<Transition>>();
+
+		//		for (State s : this.getStates()) 
+		//			adjacencyListOutgoing.put(s, new HashSet<Transition>());
 
 		for (Transition t : getDelta()) {
 			if (!adjacencyListOutgoing.containsKey(t.getFrom()))
@@ -1585,33 +1588,20 @@ public class Automaton {
 			reachableStates.addAll(newStates);
 
 		} while (!newStates.isEmpty());
-//			HashSet<State> toAdd = new HashSet<State>();
-//
-//			for (State s : newStates) 
-//				for (Transition t : this.getOutgoingTransitionsFrom(s))
-//					toAdd.add(t.getTo());
-
-		states.removeIf(s -> !reachableStates.contains(s));
-		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
 
 
 		//		int oldSize;
-		//
-		//		Iterator<State> it;
-		//
 		//		do {
-		//			oldSize = reachableStates.size();
+		//			oldSize = newStates.size();
 		//
-		//			it = reachableStates.iterator();
-		//			
-		//			while (it.hasNext()) 
-		//				for (Transition t : this.getOutgoingTransitionsFrom(it.next()))
-		//					reachableStates.add(t.getTo());
+		//			for (State s : newStates) 
+		//				for (Transition t : this.getOutgoingTransitionsFrom(s))
+		//					newStates.add(t.getTo());
 		//
-		//		} while (reachableStates.size() != oldSize);
-		//
-		//		states.removeIf(s -> !reachableStates.contains(s));
-		//		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
+		//		} while (newStates.size() != oldSize);
+
+		states.removeIf(s -> !reachableStates.contains(s));
+		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
 	}
 
 	/**
@@ -1637,6 +1627,17 @@ public class Automaton {
 		this.delta = a.delta;
 		this.states = a.states;
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
+
+		//				this.minimizeHopcroft();
+		//		
+		//				Automaton a = this.deMerge(++initChar); 
+		//				this.initialState = a.initialState;
+		//				this.states = a.states;
+		//				this.delta = a.delta;
+		//				this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+
+
 	}
 
 	//	public void minimizeBrowozozwi() {
@@ -1908,6 +1909,7 @@ public class Automaton {
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+			//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		}
 
 		this.removeUnreachableStates();
@@ -2205,12 +2207,15 @@ public class Automaton {
 
 		int indexOfInitialState = 0;
 
+
 		// search for initial state index and minimize equations first, then add ground formulas
 		for (int i = 0; i < equations.size(); ++i) {
 			Equation e;
 
-//		if (equations.get(i).getLeftSide().isFinalState())
-//				equations.set(i, (e = new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().adjust())));
+			if (equations.get(i).getLeftSide().isInitialState()) {
+				indexOfInitialState = i;
+				//break;
+			}
 
 			/**
 			 * This fixes the "unsoundness problem"
@@ -2218,9 +2223,6 @@ public class Automaton {
 			if (equations.get(i).getLeftSide().isFinalState()) {				
 				equations.get(i).setE(new Or(equations.get(i).getE(), new GroundCoeff("")));
 			}
-
-			if (equations.get(i).getLeftSide().isInitialState()) 
-				indexOfInitialState = i;
 
 			equations.set(i, (e = new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify())));
 
@@ -2240,6 +2242,7 @@ public class Automaton {
 			// syntetize all the equations
 			for(int i = 0; i < equations.size(); i++){
 
+				//System.out.println("Simplifying 1" + equations.get(i).getLeftSide());
 				equations.set(i, new Equation(equations.get(i).getLeftSide(),
 						equations.get(i).getE().simplify()));
 
@@ -2347,7 +2350,7 @@ public class Automaton {
 	 * @param e regular expression.
 	 */
 	public static String toProgram(RegularExpression e) {		
-		return e.getProgram().toString();
+		return e.getProgram();
 	}
 
 	/**
@@ -2463,7 +2466,6 @@ public class Automaton {
 	}
 
 	public Automaton stmSyn() {
-		System.err.println(this.automatonPrint());
 		HashSet<State> Q_first = new HashSet<State>();
 		State q0;
 		Q_first.add(q0 = this.getInitialState());
@@ -2492,8 +2494,6 @@ public class Automaton {
 
 	private void stmSyn_tr(State q, HashSet<State> q_first, HashSet<State> f_first, HashSet<Transition> delta, HashSet<State> visited) {
 
-		
-		
 		/*State next = null;
 		if (q.isInitialState()) {
 			for (Transition t : this.getOutgoingTransitionsFrom(q))
@@ -2502,7 +2502,6 @@ public class Automaton {
 			next = q;*/
 
 		HashMultimap<String, State> B = build(q);
-		System.out.println(q + (q.isFinalState() ? "1" : "0") + " ===> " + B);
 
 		visited.add(q);
 		HashSet<State> W = new HashSet<State>();
@@ -2667,18 +2666,17 @@ public class Automaton {
 	 */
 	public HashSet<String> getStringsAtMost(State s, int n) {
 		HashSet<String> result = new HashSet<String>();
+
 		if (n == 0)
 			return result;
 
 		for (Transition t : this.getOutgoingTransitionsFrom(s)) {
 			String partial = t.getInput();
 
-			HashSet<String> set = getStringsAtMost(t.getTo(), n - 1);
-			
-			if (set.isEmpty())
+			if (getStringsAtMost(t.getTo(), n - 1).isEmpty())
 				result.add(partial);
 			else
-				for (String next : set)
+				for (String next : getStringsAtMost(t.getTo(), n - 1))
 					result.add(partial + next);
 		}
 
@@ -2686,16 +2684,14 @@ public class Automaton {
 	}
 
 
-	public Automaton widening(int n) {	
-
+	public Automaton widening(int n) {		
 		HashMap<State, HashSet<String>> languages = new HashMap<State, HashSet<String>>();
 		State newInitialState = null;
 		HashSet<HashSet<State>> powerStates = new HashSet<HashSet<State>>();
 
 		for (State s : this.getStates()) 
 			languages.put(s, this.getStringsAtMost(s, n));
-				
-			
+
 		for (State s1 : this.getStates()) 
 			for (State s2 : this.getStates())
 				if (languages.get(s1).equals(languages.get(s2))) {
@@ -2748,10 +2744,7 @@ public class Automaton {
 			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput(), ""));
 
 		}
-		
-		Automaton a = new Automaton(newInitialState, newDelta, newStates);
-		a.minimize();
-		return a;
+		return new Automaton(newInitialState, newDelta, newStates);
 	}
 
 	/**
@@ -2762,17 +2755,17 @@ public class Automaton {
 		return initialState;
 	}
 
-	//	public HashSet<State> getInitialStates(){
-	//		HashSet<State> initialStates=new HashSet<State>();
-	//
-	//		for(State s: this.states){
-	//			if(s.isInitialState()){
-	//				initialStates.add(s);
-	//			}
-	//		}
-	//		return initialStates;
-	//
-	//	}
+	public HashSet<State> getInitialStates(){
+		HashSet<State> initialStates=new HashSet<State>();
+
+		for(State s: this.states){
+			if(s.isInitialState()){
+				initialStates.add(s);
+			}
+		}
+		return initialStates;
+
+	}
 
 	/**
 	 * Sets the initial state.
@@ -2857,22 +2850,25 @@ public class Automaton {
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) {
 
-			if (this.getStates().size() != ((Automaton) other).getStates().size() || this.getDelta().size() != ((Automaton) other).getDelta().size())
-				return false;
+			//			((Automaton) other).minimize();
+			//			this.minimize();
+			//
+			if (this.getStates().size() == ((Automaton) other).getStates().size() && this.getDelta().size() == ((Automaton) other).getDelta().size())
+				return true;
 
-						Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
-			
-									first.removeUnreachableStates();
-						if (!first.getFinalStates().isEmpty()) 
-							return false;
-			
-						Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
-			
-									second.removeUnreachableStates();
-						if (!second.getFinalStates().isEmpty()) 
-							return false;
-			
-						return true;
+			//			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
+			//
+			//			//			first.removeUnreachableStates();
+			//			if (!first.getFinalStates().isEmpty()) 
+			//				return false;
+			//
+			//			Automaton second = Automaton.intersection(Automaton.complement(this), (Automaton) other);
+			//
+			//			//			second.removeUnreachableStates();
+			//			if (!second.getFinalStates().isEmpty()) 
+			//				return false;
+			//
+			//			return true;
 		}
 
 		return false;
@@ -2991,9 +2987,7 @@ public class Automaton {
 		return true;
 	}
 
-	public static boolean isJSExecutable(StringBuilder a) {
-		
-		String js = a.toString();
+	public static boolean isJSExecutable(String js) {
 
 		try {
 			CompilerEnvirons env = new CompilerEnvirons();
