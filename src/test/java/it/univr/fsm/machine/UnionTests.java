@@ -1,4 +1,4 @@
-package it.univr.test;
+package it.univr.fsm.machine;
 
 /**
  * Created by andreaperazzoli on 24/01/17.
@@ -32,15 +32,33 @@ import org.hamcrest.core.CombinableMatcher;
 import org.junit.Test;
 
 import java.util.HashSet;
+
+
 public class UnionTests {
+
     @Test
     public void UnionTest1(){
-        Automaton a1 = Automaton.makeAutomaton("''");
-        Automaton a2 = Automaton.makeAutomaton("'l'");
+        Automaton a1 = Automaton.makeAutomaton("a");
+        Automaton a2 = Automaton.makeAutomaton("b");
 
         Automaton union = Automaton.union(a1,a2);
 
-        assertEquals("Not equals",union, "'l'");
+
+        HashSet<State> states = new HashSet<>();
+        HashSet<Transition> delta = new HashSet<>();
+        
+        State q0 = new State("q0", true, false);
+        State q1 = new State("q1", false, true);
+
+        states.add(q0);
+        states.add(q1);
+        
+        delta.add(new Transition(q0, q1, "a", ""));
+        delta.add(new Transition(q0, q1, "b", ""));
+        
+        Automaton expectedResult = new Automaton(q0, delta, states);
+        
+        assertTrue(expectedResult.equals(union));
     }
 
 
