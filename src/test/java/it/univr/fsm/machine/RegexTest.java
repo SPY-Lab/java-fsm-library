@@ -60,22 +60,6 @@ public class RegexTest {
     }
 
     @Test
-    public void test4(){
-        // (c + (a + dc)(b)*)
-        RegularExpression result = new Or(new GroundCoeff("c"),new Comp(new Or(new GroundCoeff("a"),new Comp(new GroundCoeff("d"),new GroundCoeff("c"))),new Star(new GroundCoeff("b"))));
-
-        Automaton a = Automaton.loadAutomataWithFSM2RegexPattern(path + "automata/automaton0018");
-        a.minimize();
-
-        RegularExpression aregex = a.toRegex();
-        aregex.equals(result);
-        System.out.println(aregex);
-
-        assertTrue("Expected: " + result.toString() + "\n" + aregex,
-                a.toRegex().equals(result));
-    }
-
-    @Test
     public void test5(){
 
         Automaton a = Automaton.loadAutomataWithFSM2RegexPattern(path + "automata/automaton0019");
