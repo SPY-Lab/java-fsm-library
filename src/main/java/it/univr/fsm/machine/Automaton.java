@@ -63,7 +63,7 @@ public class Automaton {
 		transition.add(new Transition(q, q, "a", ""));
 
 
-		Automaton a = new Automaton(q, transition, states);
+		Automaton a = new Automaton(transition, states);
 
 		Automaton l4 = Automaton.union(Automaton.makeAutomaton("abc"), Automaton.makeAutomaton("aa"));
 
@@ -75,11 +75,6 @@ public class Automaton {
 	 * Starting symbol to name the states.
 	 */
 	public static char initChar = 'a';
-
-	/**
-	 * Initial state.
-	 */
-	private State initialState;
 
 	/**
 	 * Set of transitions between states.
@@ -104,8 +99,7 @@ public class Automaton {
 	 * @param states the set of states
 	 */
 
-	public Automaton(State initialState, HashSet<Transition> delta, HashSet<State> states)  {
-		this.initialState = initialState;
+	public Automaton(HashSet<Transition> delta, HashSet<State> states)  {
 		this.delta = delta;
 		this.states = states;
 		this.computeAdjacencyList();
@@ -117,9 +111,6 @@ public class Automaton {
 	private void computeAdjacencyList() {	
 		adjacencyListOutgoing = new HashMap<State, HashSet<Transition>>();
 
-		//		for (State s : this.getStates()) 
-		//			adjacencyListOutgoing.put(s, new HashSet<Transition>());
-
 		for (Transition t : getDelta()) {
 			if (!adjacencyListOutgoing.containsKey(t.getFrom()))
 				adjacencyListOutgoing.put(t.getFrom(), new HashSet<Transition>());
@@ -127,19 +118,6 @@ public class Automaton {
 			adjacencyListOutgoing.get(t.getFrom()).add(t);	
 		}
 	}
-
-	//	/**
-	//	 * Constructs a new automaton.
-	//	 * 
-	//	 * @param initialStates the set of initial states
-	//	 * @param delta the set of transitions
-	//	 * @param states the set of states
-	//	 */
-	//	public Automaton(HashSet<State> initialStates, HashSet<Transition> delta, HashSet<State> states)  {
-	//		this.initialStates = initialStates;
-	//		this.delta = delta;
-	//		this.states = states;
-	//	}
 
 	/**
 	 * Check whether an automaton is deterministic
@@ -267,10 +245,9 @@ public class Automaton {
 	public static Automaton minus(Collection<Automaton> collection){
 		Automaton a=null;
 
-		for(Automaton aut: collection){
+		for(Automaton aut: collection)
 			a = (a == null) ? aut : Automaton.minus(a, aut);
-		}
-
+	
 		if(a!=null)
 			a.minimize();
 		return a;
@@ -309,15 +286,10 @@ public class Automaton {
 		HashMap<State, State> mappingSecond = new HashMap<State, State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
-
-		State firstInitialState = null;
-
 		HashSet<State> firstFinalStates = new HashSet<>();
 		HashSet<State> secondInitialStates = new HashSet<>();
 
 		int c = 0;
-
-
 
 		// Add all the first automaton states
 		for (State s: first.states) {
@@ -326,15 +298,8 @@ public class Automaton {
 			mappingFirst.put(s, new State("q" + c++, s.isInitialState(), false));
 			newStates.add(mappingFirst.get(s));
 
-			if(s.isInitialState()){
-				firstInitialState = mappingFirst.get(s);
-			}
-
-			if(s.isFinalState()){
+			if (s.isFinalState())
 				firstFinalStates.add(s);
-			}
-
-
 		}
 
 		// Add all the second automaton states
@@ -364,7 +329,7 @@ public class Automaton {
 			for(State s : secondInitialStates)
 				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
 
-		Automaton a = new Automaton(firstInitialState, newDelta, newStates);
+		Automaton a = new Automaton(newDelta, newStates);
 		a.minimize();
 
 		return a;
@@ -383,8 +348,6 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
-		State autNewInitialState = null;
-
 
 		automaton = Automaton.totalize(automaton.clone());
 
@@ -392,16 +355,13 @@ public class Automaton {
 		for(State s: automaton.states) {
 			mapping.put(s, new State(s.getState(), s.isInitialState(), !s.isFinalState()));
 			newStates.add(mapping.get(s));
-
-			if(s.isInitialState())
-				autNewInitialState = mapping.get(s);
 		}
 
 		// Copying delta set
 		for (Transition t:  automaton.delta)
 			newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput(), ""));
 
-		Automaton a = new Automaton(autNewInitialState,newDelta,newStates);
+		Automaton a = new Automaton(newDelta,newStates);
 		a.minimize();
 		return a;
 	}
@@ -424,7 +384,7 @@ public class Automaton {
 			newDelta.add(new Transition(qbottom, qbottom, String.valueOf(alphabet), ""));
 
 
-		Automaton result = new Automaton(automaton.getInitialState(), newDelta, newState);
+		Automaton result = new Automaton(newDelta, newState);
 
 		for (State s : newState)
 			for (char alphabet = '!'; alphabet <= '~'; ++alphabet) {
@@ -436,7 +396,7 @@ public class Automaton {
 
 			}
 
-		return new Automaton(automaton.getInitialState(), newDelta, newState);
+		return new Automaton(newDelta, newState);
 	}
 
 
@@ -476,18 +436,12 @@ public class Automaton {
 	 *
 	 *
 	 */
-	public static Automaton loadAutomataWithAlternatePattern(String path){
-
-
+	public static Automaton loadAutomataWithAlternatePattern(String path) {
 		BufferedReader br = null;
-
 
 		HashMap<String, State> mapStates = new HashMap<>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
-		State initialstate = null;
-
-
 
 		try{
 			String currentLine;
@@ -531,7 +485,6 @@ public class Automaton {
 								&& pieces[i].contains("initial")){
 							if(mapStates.containsKey(stateName)){
 								current = mapStates.get(stateName);
-								initialstate = current;
 								current.setInitialState(true);
 							}else{
 								throw new MalformedInputException();
@@ -603,7 +556,7 @@ public class Automaton {
 			}
 		}
 
-		Automaton a= new Automaton(initialstate,delta,states);
+		Automaton a = new Automaton(delta, states);
 
 		return a;
 	}
@@ -615,9 +568,6 @@ public class Automaton {
 		HashMap<String, State> mapStates = new HashMap<>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
-		State initialstate = null;
-
-
 
 		try{
 			String currentLine;
@@ -665,8 +615,7 @@ public class Automaton {
 					if(mapStates.containsKey(currentLine)) {
 						current = mapStates.get(currentLine);
 						current.setInitialState(true);
-						initialstate = current;
-					}else
+					} else
 						throw new MalformedInputException();
 					break;
 				case 2:
@@ -716,7 +665,7 @@ public class Automaton {
 			}
 		}
 
-		Automaton a= new Automaton(initialstate,delta,states);
+		Automaton a = new Automaton(delta, states);
 
 		return a;
 	}
@@ -724,7 +673,6 @@ public class Automaton {
 	public static Automaton loadAutomataWithJFLAPPattern(String path){
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		HashSet<State> newStates = new HashSet<>();
-		State initialState = null;
 		HashSet<Transition> newDelta = new HashSet<>();
 
 		HashMap<String, State> statesMap = new HashMap<>();
@@ -762,8 +710,6 @@ public class Automaton {
 				}
 
 				State s = new State(stateName,isInitialState,isFinalState);
-				if(s.isInitialState()) initialState = s;
-
 				statesMap.put(actual.getAttributes().getNamedItem("id").getNodeValue(),s);
 				newStates.add(statesMap.get(actual.getAttributes().getNamedItem("id").getNodeValue()));
 			}
@@ -802,7 +748,7 @@ public class Automaton {
 
 			}
 
-			return new Automaton(initialState,newDelta,newStates);
+			return new Automaton(newDelta, newStates);
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -814,10 +760,7 @@ public class Automaton {
 			e.printStackTrace();
 			return null;
 		}
-
-
 	}
-
 
 
 	/**
@@ -831,9 +774,6 @@ public class Automaton {
 	 * 2nd line: initial states
 	 * 3rd line: final states
 	 * Transitions: From To Sym
-	 *
-	 * 
-	 * 
 	 */
 
 	public static Automaton loadAutomata(String path){
@@ -850,8 +790,6 @@ public class Automaton {
 		HashSet<Transition> delta = new HashSet<Transition>();
 		HashSet<State> states = new HashSet<State>();
 		HashSet<State> initialStates = new HashSet<State>();
-		State initialstate = null;
-
 		State currentState;
 		int lineNum;
 
@@ -883,9 +821,9 @@ public class Automaton {
 						if(currentState==null) throw new MalformedInputException();
 
 						currentState.setInitialState(true);
-						initialstate = currentState;
 						initialStates.add(currentState);
 					}
+					
 					break;
 
 					// final states
@@ -925,7 +863,7 @@ public class Automaton {
 			}
 		}
 
-		Automaton a= new Automaton(initialstate,delta,states);
+		Automaton a = new Automaton(delta, states);
 
 		return a;
 	}
@@ -938,7 +876,7 @@ public class Automaton {
 	 * @return true if the string is accepted by the automaton, false otherwise
 	 */
 	public boolean run(String s) {
-		return run(s, initialState);
+		return run(s, getInitialState());
 	}
 
 	public boolean run(String s, State state){
@@ -1074,7 +1012,6 @@ public class Automaton {
 		HashSet<State> newStates = new HashSet<State>();
 		HashSet<Transition> newGamma = new HashSet<Transition>();
 		HashMap<String, State> mapping = new HashMap<String, State>();
-		State newInitialState = null;
 
 		int counter = 0;
 
@@ -1083,17 +1020,13 @@ public class Automaton {
 			mapping.put(s.getState(), newState);
 			newStates.add(newState);
 			counter++;
-
-			if (s.isInitialState()) {
-				newInitialState = newState;
-			}
 		}
 
 
 		for (Transition t : this.delta)
 			newGamma.add(new Transition(mapping.get(t.getFrom().getState()), mapping.get(t.getTo().getState()), t.getInput(), t.getOutput()));
 
-		return new Automaton(newInitialState, newGamma, newStates);
+		return new Automaton(newGamma, newStates);
 	}
 
 	/**
@@ -1127,7 +1060,7 @@ public class Automaton {
 
 		if (s.isEmpty()) {
 			initialState.setFinalState(true);
-			return new Automaton(initialState, delta, states);
+			return new Automaton(delta, states);
 		}
 
 		State state = initialState;
@@ -1147,7 +1080,7 @@ public class Automaton {
 			state = next;
 		}
 
-		return new Automaton(initialState, delta, states);
+		return new Automaton(delta, states);
 	}
 
 	public HashSet<Transition> getOutgoingTransitionsFrom(State s) {
@@ -1218,7 +1151,7 @@ public class Automaton {
 		newGamma.add(new Transition(newInitialState, initialA1, "", ""));
 		newGamma.add(new Transition(newInitialState, initialA2, "", ""));
 
-		Automaton a =  new Automaton(newInitialState, newGamma, newStates);
+		Automaton a =  new Automaton(newGamma, newStates);
 		a.minimize();
 		return a;
 	}
@@ -1236,7 +1169,7 @@ public class Automaton {
 		for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
 			newGamma.add(new Transition(initialState, initialState, String.valueOf(alphabet), String.valueOf(alphabet)));
 
-		return new Automaton(initialState, newGamma, newStates);
+		return new Automaton(newGamma, newStates);
 	}
 
 	/**
@@ -1253,7 +1186,7 @@ public class Automaton {
 		for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
 			newGamma.add(new Transition(initialState, initialState, String.valueOf(alphabet), String.valueOf(alphabet)));
 
-		return new Automaton(initialState, newGamma, newStates);
+		return new Automaton(newGamma, newStates);
 	}
 
 	/**
@@ -1268,7 +1201,7 @@ public class Automaton {
 
 		newStates.add(q0);
 
-		return new Automaton(q0, newDelta, newStates);
+		return new Automaton(newDelta, newStates);
 	}
 
 	/**
@@ -1423,9 +1356,8 @@ public class Automaton {
 		HashSet<State> temp;
 
 		temp = epsilonClosure(this.getInitialState());
-		statesName.put(temp,new State("q" + String.valueOf(num++) ,true, isPartitionFinalState(temp)));
+		statesName.put(temp,new State("q" + String.valueOf(num++) , true, isPartitionFinalState(temp)));
 
-		State initialState = statesName.get(temp);
 		newStates.add(statesName.get(temp));
 		statesMarked.put(temp, false);
 		unMarkedStates.add(temp);
@@ -1455,11 +1387,10 @@ public class Automaton {
 			}
 		}
 
-		Automaton a = new Automaton(initialState, newDelta, newStates);
+		Automaton a = new Automaton(newDelta, newStates);
 		return a;
 
 	}
-
 
 	/**
 	 * Returns the first set of states not marked in the set of sets of states powerset.
@@ -1618,7 +1549,7 @@ public class Automaton {
 		a.reverse();
 		a = a.determinize();
 
-		this.initialState = a.initialState;
+//		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1862,7 +1793,7 @@ public class Automaton {
 	public void minimizeMoore(){
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
-			this.initialState = a.initialState;
+//			this.initialState = a.initialState;
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1900,7 +1831,7 @@ public class Automaton {
 	public void minimizeHopcroft(){
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
-			this.initialState = a.initialState;
+//			this.initialState = a.initialState;
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1991,8 +1922,8 @@ public class Automaton {
 
 			this.states.add(mergedMacroState);
 
-			if(isInitialState)
-				this.initialState = mergedMacroState;
+//			if(isInitialState)
+//				this.initialState = mergedMacroState;
 
 			for(State s : macroState)
 				automatonStateBinding.put(s, mergedMacroState);
@@ -2087,7 +2018,7 @@ public class Automaton {
 		}
 
 		this.delta = newDelta;
-		this.initialState = newInitialState;
+//		this.initialState = newInitialState;
 		this.states = newStates;
 		this.computeAdjacencyList();
 
@@ -2478,11 +2409,7 @@ public class Automaton {
 		visited.add(q0);
 		stmSyn_tr(q0, Q_first, F_first, delta, visited);
 
-		Automaton a = new Automaton(q0, delta, Q_first);
-
-		//		for (Transition t : a.getDelta())
-		//			t.setInput(t.getInput().replaceAll(" =", "="));
-		//
+		Automaton a = new Automaton(delta, Q_first);
 
 		return a; 
 	}
@@ -2681,7 +2608,6 @@ public class Automaton {
 
 	public Automaton widening(int n) {		
 		HashMap<State, HashSet<String>> languages = new HashMap<State, HashSet<String>>();
-		State newInitialState = null;
 		HashSet<HashSet<State>> powerStates = new HashSet<HashSet<State>>();
 
 		for (State s : this.getStates()) 
@@ -2715,10 +2641,6 @@ public class Automaton {
 		for (HashSet<State> ps : powerStates) {
 			State ns = new State("q" + i++, isPartitionInitialState(ps), isPartitionFinalState(ps));
 			newStates.add(ns);
-
-			if (ns.isInitialState())
-				newInitialState = ns;
-
 			mapping.put(ps, ns);
 		}
 
@@ -2739,7 +2661,7 @@ public class Automaton {
 			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput(), ""));
 
 		}
-		return new Automaton(newInitialState, newDelta, newStates);
+		return new Automaton(newDelta, newStates);
 	}
 
 	/**
@@ -2747,10 +2669,14 @@ public class Automaton {
 	 */
 	@Deprecated
 	public State getInitialState() {
-		return initialState;
+		for (State s : this.getStates())
+			if (s.isInitialState())
+				return s;
+		
+		return null;
 	}
 
-	public HashSet<State> getInitialStates(){
+	public HashSet<State> getInitialStates() {
 		HashSet<State> initialStates=new HashSet<State>();
 
 		for(State s: this.states){
@@ -2758,15 +2684,17 @@ public class Automaton {
 				initialStates.add(s);
 			}
 		}
+		
 		return initialStates;
-
 	}
 
 	/**
 	 * Sets the initial state.
 	 */
 	public void setInitialState(State initialState) {
-		this.initialState = initialState;
+		for (State s : this.getStates())
+			if (s.getState().equals(initialState.getState()))
+				s.setInitialState(true);
 	}
 
 	/**
@@ -2823,7 +2751,7 @@ public class Automaton {
 
 		Automaton result = new Automaton();
 
-		result.setInitialState(getInitialState());
+//		result.setInitialState(getInitialState());
 		result.setDelta(newDelta);
 		result.setStates(newStates);
 
@@ -3143,7 +3071,7 @@ public class Automaton {
 
 		prev.setFinalState(true);
 
-		return new Automaton(q0, delta, states);
+		return new Automaton(delta, states);
 	}
 
 	public static Automaton atMostLengthAutomaton(int max) {
@@ -3167,7 +3095,6 @@ public class Automaton {
 
 		prev.setFinalState(true);
 
-		return new Automaton(q0, delta, states);
+		return new Automaton(delta, states);
 	}
-
 }

@@ -34,7 +34,7 @@ public class UnionTests {
         delta.add(new Transition(q0, q1, "a", ""));
         delta.add(new Transition(q0, q1, "b", ""));
         
-        Automaton expectedResult = new Automaton(q0, delta, states);
+        Automaton expectedResult = new Automaton(delta, states);
         
         assertTrue(expectedResult.equals(union));
     }

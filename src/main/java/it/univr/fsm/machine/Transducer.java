@@ -143,7 +143,7 @@ public class Transducer {
 			newGamma.add(new Transition(from, to, t.getOutput(), ""));
 		}
 
-		automaton =  new Automaton(newInitialState, newGamma, newStates);
+		automaton =  new Automaton(newGamma, newStates);
 		return automaton;
 
 		/*
