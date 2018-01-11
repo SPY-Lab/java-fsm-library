@@ -183,7 +183,6 @@ public class Automaton {
 	}
 
 
-
 	/**
 	 * Check whether an automaton accepts the empty language or not
 	 * 
@@ -1099,6 +1098,17 @@ public class Automaton {
 		this.adjacencyListOutgoing = adjacencyListOutgoing;
 	}
 
+	
+	public static Automaton union(HashSet<Automaton> automata) {
+		Automaton result = Automaton.makeEmptyLanguage();
+		
+		
+		for (Automaton a : automata)
+			result = Automaton.union(result, a);
+		
+		return result;
+	}
+	
 	/**
 	 * Union operation between two automata.
 	 * 
@@ -3018,23 +3028,23 @@ public class Automaton {
 		return result;
 	}
 
-	public static Automaton prefixAtMost(int i, Automaton automaton) {
+	public static Automaton prefixAtMost(long i, Automaton automaton) {
 		return Automaton.intersection(Automaton.prefix(automaton), Automaton.exactLengthAutomaton(i));
 	}
 
-	public static Automaton suffixAtMost(int i, Automaton automaton) {
+	public static Automaton suffixAtMost(long i, Automaton automaton) {
 		return Automaton.intersection(Automaton.suffix(automaton), Automaton.exactLengthAutomaton(i));
 	}
 
-	public static Automaton suffixesAt(int i, Automaton automaton) {
+	public static Automaton suffixesAt(long i, Automaton automaton) {
 		return Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));		
 	}
 
-	public static Automaton prefixesAt(int i, Automaton automaton) {
+	public static Automaton prefixesAt(long i, Automaton automaton) {
 		return Automaton.leftQuotient(prefix(automaton), Automaton.atMostLengthAutomaton(i));		
 	}
 
-	public static Automaton substring(Automaton a, int i, int j) {	
+	public static Automaton substring(Automaton a, long i, long j) {	
 
 		Automaton left = Automaton.leftQuotient(a, Automaton.prefixAtMost(i, a));	
 
@@ -3050,7 +3060,7 @@ public class Automaton {
 
 
 
-	public static Automaton exactLengthAutomaton(int max) {
+	public static Automaton exactLengthAutomaton(long max) {
 		HashSet<State> states = new HashSet<>();
 		HashSet<Transition> delta = new HashSet<>();
 
@@ -3074,7 +3084,7 @@ public class Automaton {
 		return new Automaton(delta, states);
 	}
 
-	public static Automaton atMostLengthAutomaton(int max) {
+	public static Automaton atMostLengthAutomaton(long max) {
 		HashSet<State> states = new HashSet<>();
 		HashSet<Transition> delta = new HashSet<>();
 
