@@ -78,9 +78,9 @@ public class Comp extends RegularExpression {
 	@Override
 	public RegularExpression factorize(RegularExpression e) {
 		return first.factorize(e) != null ? first.factorize(e) :
-				second.factorize(e) != null ? second.factorize(e) :
-						e.factorize(first) != null ? e.factorize(first) :
-								e.factorize(second) != null ? e.factorize(second) : null;
+			second.factorize(e) != null ? second.factorize(e) :
+				e.factorize(first) != null ? e.factorize(first) :
+					e.factorize(second) != null ? e.factorize(second) : null;
 	}
 
 	@Override
@@ -91,12 +91,12 @@ public class Comp extends RegularExpression {
 	@Override
 	public Vector<RegularExpression> getTermsWithState(State s) {
 		Vector<RegularExpression> v = new Vector<RegularExpression>();
-		
+
 		if (this.containsOnly(s))
 			v.add(this);
 		return v;
 	}
-	
+
 	@Override
 	public Vector<RegularExpression> getGroundTerms() {
 		Vector<RegularExpression> v = new Vector<RegularExpression>();
@@ -105,22 +105,22 @@ public class Comp extends RegularExpression {
 			v.add(this);
 		return v;
 	}
-	
+
 	@Override
 	public boolean isGround() {
 		return first.isGround() && second.isGround();
 	}
-	
+
 	@Override
 	public Vector<RegularExpression> inSinglePart() {
 		Vector<RegularExpression> v = new Vector<RegularExpression>();
-		
+
 		for (int i = 0; i < first.inSinglePart().size(); ++i)
 			v.add(first.inSinglePart().get(i));
-		
+
 		for (int i = 0; i < second.inSinglePart().size(); ++i)
 			v.add(second.inSinglePart().get(i));
-		
+
 		return v;
 	}
 
@@ -138,7 +138,7 @@ public class Comp extends RegularExpression {
 
 	@Override
 	public RegularExpression simplify() {
-		
+
 		/**
 		 * This fixes the "unsoundness problem"
 		 */
@@ -155,6 +155,7 @@ public class Comp extends RegularExpression {
 			return second.simplify();
 		}
 
+		// TODO: sicuro?
 		// (a + b)(a + b)* = (a + b)*
 		if(first instanceof Or && second instanceof Star){
 			if(new Star(first).equals(second)){
@@ -166,6 +167,19 @@ public class Comp extends RegularExpression {
 			}
 		}
 
+
+		if (first instanceof GroundCoeff && second instanceof Star && ((Star) second).getOperand() instanceof Or) {
+
+			if (((Or) ((Star) second).getOperand()).getFirst() instanceof GroundCoeff 
+					&& ((Or) ((Star) second).getOperand()).getSecond() instanceof GroundCoeff) {
+
+				Or newOr = new Or(getFirst(), new Or(new GroundCoeff(getFirst().toString() + ((Or) ((Star) second).getOperand()).getFirst().toString()), 
+						new GroundCoeff(getFirst().toString() + ((Or) ((Star) second).getOperand()).getSecond().toString())));
+
+				return new Comp(newOr, second);
+			}
+
+		}
 
 
 		return new Comp(first.simplify(),second.simplify());

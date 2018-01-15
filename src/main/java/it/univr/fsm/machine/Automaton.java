@@ -246,7 +246,7 @@ public class Automaton {
 
 		for(Automaton aut: collection)
 			a = (a == null) ? aut : Automaton.minus(a, aut);
-	
+
 		if(a!=null)
 			a.minimize();
 		return a;
@@ -822,7 +822,7 @@ public class Automaton {
 						currentState.setInitialState(true);
 						initialStates.add(currentState);
 					}
-					
+
 					break;
 
 					// final states
@@ -1098,17 +1098,17 @@ public class Automaton {
 		this.adjacencyListOutgoing = adjacencyListOutgoing;
 	}
 
-	
+
 	public static Automaton union(HashSet<Automaton> automata) {
 		Automaton result = Automaton.makeEmptyLanguage();
-		
-		
+
+
 		for (Automaton a : automata)
 			result = Automaton.union(result, a);
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Union operation between two automata.
 	 * 
@@ -1545,21 +1545,19 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		//		if (!isDeterministic(this)) {
-		//			Automaton a = this.determinize();
-		//			this.initialState = a.initialState;
-		//			this.delta = a.delta;
-		//			this.states = a.states;
-		//			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-		//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
-		//		}
+//		if (!isDeterministic(this)) {
+//			Automaton a = this.determinize();
+//			this.delta = a.delta;
+//			this.states = a.states;
+//			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+//		}
 
 		this.reverse();
 		Automaton a = this.determinize();
 		a.reverse();
 		a = a.determinize();
 
-//		this.initialState = a.initialState;
+		//		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1803,7 +1801,7 @@ public class Automaton {
 	public void minimizeMoore(){
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
-//			this.initialState = a.initialState;
+			//			this.initialState = a.initialState;
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1841,7 +1839,7 @@ public class Automaton {
 	public void minimizeHopcroft(){
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
-//			this.initialState = a.initialState;
+			//			this.initialState = a.initialState;
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1932,8 +1930,8 @@ public class Automaton {
 
 			this.states.add(mergedMacroState);
 
-//			if(isInitialState)
-//				this.initialState = mergedMacroState;
+			//			if(isInitialState)
+			//				this.initialState = mergedMacroState;
 
 			for(State s : macroState)
 				automatonStateBinding.put(s, mergedMacroState);
@@ -2028,7 +2026,7 @@ public class Automaton {
 		}
 
 		this.delta = newDelta;
-//		this.initialState = newInitialState;
+		//		this.initialState = newInitialState;
 		this.states = newStates;
 		this.computeAdjacencyList();
 
@@ -2317,6 +2315,7 @@ public class Automaton {
 	public HashMultimap<String, State> build(State q) {
 		HashMultimap<String, State> Iq = HashMultimap.create();
 		build_tr(q, "", new HashSet<Transition>(), Iq, 0);
+		System.out.println(q + " " + Iq);
 		return Iq;
 	}
 
@@ -2394,9 +2393,10 @@ public class Automaton {
 
 				} 
 
-				if (p.isFinalState() && isJS(stm + sigma) && opcl == 0) 
+				if (p.isFinalState() /*&& isJS(stm + sigma) */&& opcl == 0) 
 					Iq.put(stm + sigma, p);
 
+//				System.out.println(stm + sigma);
 			}		
 		}
 	}
@@ -2682,7 +2682,7 @@ public class Automaton {
 		for (State s : this.getStates())
 			if (s.isInitialState())
 				return s;
-		
+
 		return null;
 	}
 
@@ -2694,7 +2694,7 @@ public class Automaton {
 				initialStates.add(s);
 			}
 		}
-		
+
 		return initialStates;
 	}
 
@@ -2761,7 +2761,7 @@ public class Automaton {
 
 		Automaton result = new Automaton();
 
-//		result.setInitialState(getInitialState());
+		//		result.setInitialState(getInitialState());
 		result.setDelta(newDelta);
 		result.setStates(newStates);
 
@@ -2816,7 +2816,7 @@ public class Automaton {
 			if (v.size() > max)
 				max = v.size();
 
-		return max - 2; // removes ''
+		return max; //- 2; // removes ''
 	}
 
 	public HashSet<Vector<State>> pahtsFrom(State init, Vector<State> visited) {

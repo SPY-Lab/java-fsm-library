@@ -7,6 +7,7 @@ import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
 
 public class Star extends RegularExpression {
+	
 	private RegularExpression op;
 
 	public Star(RegularExpression op) {
@@ -72,6 +73,10 @@ public class Star extends RegularExpression {
 		return op.getGroundTerms();
 	}
 
+	public RegularExpression getOperand() {
+		return op;
+	}
+	
 	@Override
 	public String toString() {
 		return "("  + this.op.toString() + ")*";

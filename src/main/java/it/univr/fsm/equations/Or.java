@@ -185,8 +185,10 @@ public class Or extends RegularExpression {
 			return second;
 		else if (second.equals(new GroundCoeff("")) && first instanceof Star)
 			return first;
-		else
-			return new Or(first.simplify(), second.simplify());
+//		else if (first instanceof GroundCoeff && second instanceof GroundCoeff)
+//			return new GroundCoeff(((GroundCoeff)first).getString() + ((GroundCoeff)second).getString());
+//		
+		return new Or(first.simplify(), second.simplify());
 	}
 
 
