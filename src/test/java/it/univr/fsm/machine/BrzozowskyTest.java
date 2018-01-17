@@ -39,8 +39,7 @@ public class BrzozowskyTest {
 	String path = "src/test/resources/";
 
     @Test
-    public void reductionTest1(){
-
+    public void reductionTest1() {
         Automaton a = Automaton.loadAutomataWithJFLAPPattern(path + "JFLAPautomata_NFA/automaton0008.jff");
         a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern(path + "automataminimized/automaton0008.jff");
@@ -49,8 +48,7 @@ public class BrzozowskyTest {
     }
 
     @Test
-    public void reductionTest2(){
-
+    public void reductionTest2() {
         Automaton a = Automaton.loadAutomataWithJFLAPPattern(path +"JFLAPautomata_NFA/automaton0010.jff");
         a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern(path + "automataminimized/automaton0010.jff");
@@ -59,19 +57,16 @@ public class BrzozowskyTest {
     }
 
     @Test
-    public void reductionTest3(){
-
+    public void reductionTest3() {
         Automaton a = Automaton.loadAutomataWithJFLAPPattern(path +"JFLAPautomata_NFA/automaton0017.jff");
         a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern(path + "automataminimized/automaton0017.jff");
 
         assertTrue(a.equals(solution));
-
     }
 
     @Test
-    public void reductionTest4(){
-
+    public void reductionTest4() {
         Automaton a = Automaton.loadAutomataWithJFLAPPattern(path + "JFLAPautomata_NFA/automaton0018.jff");
         a.minimize();
         Automaton solution = Automaton.loadAutomataWithJFLAPPattern(path + "automataminimized/automaton0018.jff");

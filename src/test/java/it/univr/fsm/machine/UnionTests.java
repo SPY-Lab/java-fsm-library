@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class UnionTests {
 
     @Test
-    public void UnionTest1(){
+    public void UnionTest1() {
         Automaton a1 = Automaton.makeAutomaton("a");
         Automaton a2 = Automaton.makeAutomaton("b");
 

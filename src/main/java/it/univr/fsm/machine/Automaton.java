@@ -49,7 +49,7 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		Automaton l1 = Automaton.makeAutomaton("carrot");
+		Automaton l1 = Automaton.makeAutomaton("abc");
 		Automaton l2 = Automaton.union(Automaton.makeAutomaton("abcdef"), Automaton.makeAutomaton("abaaaf"));
 		Automaton l3 = Automaton.union(l1, l2);
 
@@ -68,7 +68,7 @@ public class Automaton {
 		Automaton l4 = Automaton.union(Automaton.makeAutomaton("abc"), Automaton.makeAutomaton("aa"));
 
 
-		System.out.println(Automaton.substring(l4, 0, 2));
+		System.out.println(Automaton.factorsStartingAt(l1, 1));
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class Automaton {
 	 * 
 	 */
 	public static Automaton minus(Collection<Automaton> collection){
-		Automaton a=null;
+		Automaton a = null;
 
 		for(Automaton aut: collection)
 			a = (a == null) ? aut : Automaton.minus(a, aut);
@@ -310,8 +310,6 @@ public class Automaton {
 
 			if(s.isInitialState())
 				secondInitialStates.add(s);
-
-
 		}
 
 		// Add all the first automaton transitions
@@ -1908,9 +1906,7 @@ public class Automaton {
 		constructMinimumAutomatonFromPartition(P);
 
 	}
-
-
-
+	
 	private void constructMinimumAutomatonFromPartition(HashSet<HashSet<State>> P) {
 		HashMap<State, State> automatonStateBinding = new HashMap<>();
 
@@ -3058,7 +3054,16 @@ public class Automaton {
 		return Automaton.intersection(Automaton.union(Automaton.rightQuotient(left,  Automaton.suffixesAt(j, a)), shortSubs), Automaton.atMostLengthAutomaton(j-i));
 	}
 
-
+	public static Automaton substringWithUnknowEndPoint(Automaton a, long i, long j) {	
+		Automaton left = Automaton.leftQuotient(a, Automaton.prefixAtMost(i, a));	
+		Automaton suffixes = Automaton.minus(Automaton.prefix(Automaton.leftQuotient(a, Automaton.prefixAtMost(j, a))), Automaton.makeEmptyString());			
+		return Automaton.rightQuotient(left,  Automaton.suffix(suffixes));//, Automaton.atMostLengthAutomaton(j-i));
+	}
+	
+	public static Automaton factorsStartingAt(Automaton a, long i) {
+		Automaton left = Automaton.leftQuotient(a, Automaton.prefixAtMost(i, a));	
+		return Automaton.suffix(Automaton.prefix(left));
+	}
 
 	public static Automaton exactLengthAutomaton(long max) {
 		HashSet<State> states = new HashSet<>();
