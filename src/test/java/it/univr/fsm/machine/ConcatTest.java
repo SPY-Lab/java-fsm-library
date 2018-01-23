@@ -46,6 +46,20 @@ public class ConcatTest {
    
         assertTrue(concat.equals(expectedResult));
     }
-
-
+    
+    @Test
+    public void concatTest4() {
+    	
+    	// ab
+    	Automaton ab = Automaton.makeAutomaton("ab");
+    	
+    	// dc
+    	Automaton dc = Automaton.makeAutomaton("dc");
+    	
+    	Automaton concat = Automaton.concat(ab, dc);
+    	Automaton expectedResult = Automaton.makeAutomaton("abdc");
+    	
+    	// abdc
+    	assertTrue(concat.equals(expectedResult));
+    }
 }
