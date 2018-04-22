@@ -60,7 +60,7 @@ public class Automaton {
 		HashSet<Transition> transition = new HashSet<>();
 
 		states.add(q);
-		transition.add(new Transition(q, q, "a", ""));
+		transition.add(new Transition(q, q, "a"));
 
 
 		Automaton a = new Automaton(transition, states);
@@ -314,17 +314,17 @@ public class Automaton {
 
 		// Add all the first automaton transitions
 		for (Transition t: first.delta)
-			newDelta.add(new Transition(mappingFirst.get(t.getFrom()), mappingFirst.get(t.getTo()), t.getInput(), ""));
+			newDelta.add(new Transition(mappingFirst.get(t.getFrom()), mappingFirst.get(t.getTo()), t.getInput()));
 
 		// Add all the second automaton transitions
 		for (Transition t: second.delta)
-			newDelta.add(new Transition(mappingSecond.get(t.getFrom()), mappingSecond.get(t.getTo()), t.getInput(), ""));
+			newDelta.add(new Transition(mappingSecond.get(t.getFrom()), mappingSecond.get(t.getTo()), t.getInput()));
 
 		// Add the links between the first automaton final states and the second automaton initial state
 
 		for (State f: firstFinalStates)
 			for(State s : secondInitialStates)
-				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), "", ""));
+				newDelta.add(new Transition(mappingFirst.get(f), mappingSecond.get(s), ""));
 
 		Automaton a = new Automaton(newDelta, newStates);
 		a.minimize();
@@ -356,7 +356,7 @@ public class Automaton {
 
 		// Copying delta set
 		for (Transition t:  automaton.delta)
-			newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput(), ""));
+			newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput()));
 
 		Automaton a = new Automaton(newDelta,newStates);
 		a.minimize();
@@ -378,7 +378,7 @@ public class Automaton {
 			newDelta.add(t);
 
 		for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
-			newDelta.add(new Transition(qbottom, qbottom, String.valueOf(alphabet), ""));
+			newDelta.add(new Transition(qbottom, qbottom, String.valueOf(alphabet)));
 
 
 		Automaton result = new Automaton(newDelta, newState);
@@ -389,7 +389,7 @@ public class Automaton {
 				states.add(s);
 
 				if (!result.readableCharFromState(states).contains(String.valueOf(alphabet)))
-					newDelta.add(new Transition(s, qbottom, String.valueOf(alphabet), ""));
+					newDelta.add(new Transition(s, qbottom, String.valueOf(alphabet)));
 
 			}
 
@@ -537,7 +537,7 @@ public class Automaton {
 						}
 					}
 
-					delta.add(new Transition(current,next,sym,""));
+					delta.add(new Transition(current,next,sym));
 				}
 			}
 
@@ -634,7 +634,7 @@ public class Automaton {
 
 					for(String toS : to){
 						if(mapStates.containsKey(toS)){
-							delta.add(new Transition(current,mapStates.get(toS),sym,""));
+							delta.add(new Transition(current,mapStates.get(toS),sym));
 						}else
 							throw new MalformedInputException();
 					}
@@ -740,7 +740,7 @@ public class Automaton {
 					property = property.getNextSibling();
 				}
 
-				newDelta.add(new Transition(from,to,sym,""));
+				newDelta.add(new Transition(from,to,sym));
 
 
 			}
@@ -840,7 +840,7 @@ public class Automaton {
 
 					if(mapStates.get(pieces[0])==null || mapStates.get(pieces[1])==null) throw new MalformedInputException();
 
-					delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2],""));
+					delta.add(new Transition(mapStates.get(pieces[0]),mapStates.get(pieces[1]),pieces[2]));
 
 					break;
 
@@ -971,37 +971,6 @@ public class Automaton {
 	}
 
 	/**
-	 * Returns the transducer associated to this automaton.
-	 * T(A)
-	 */
-	public Transducer toTransducer() {
-		HashSet<State> states = new HashSet<State>();
-		HashSet<Transition> gamma = new HashSet<Transition>();
-		Transducer transducer = null;
-		State newFinalState = null;
-
-		for (State state: this.states) 
-			states.add(new State(state.getState(), state.isInitialState(), state.isFinalState()));
-
-		for (State state: states) {
-			if (state.isInitialState())
-				transducer = new Transducer(state, null, states);
-
-			if (state.isFinalState())
-				newFinalState = state;
-		}
-
-
-		for (Transition t: this.delta)
-			gamma.add(new Transition(transducer.getState(t.getFrom().getState()), transducer.getState(t.getTo().getState()), t.getInput(), t.getInput()));
-
-		transducer.setDelta(gamma);
-		transducer.setFinalState(newFinalState);
-		return transducer;
-
-	}
-
-	/**
 	 * Renames the states of the automaton.
 	 * @return the automaton with renamed states.
 	 */
@@ -1021,7 +990,7 @@ public class Automaton {
 
 
 		for (Transition t : this.delta)
-			newGamma.add(new Transition(mapping.get(t.getFrom().getState()), mapping.get(t.getTo().getState()), t.getInput(), t.getOutput()));
+			newGamma.add(new Transition(mapping.get(t.getFrom().getState()), mapping.get(t.getTo().getState()), t.getInput()));
 
 		return new Automaton(newGamma, newStates);
 	}
@@ -1072,7 +1041,7 @@ public class Automaton {
 			/*if (input.get(i).equals(" "))
 				gamma.add(new Transition(state, next, "", ""));
 			else	*/
-			delta.add(new Transition(state, next, input.get(i), ""));
+			delta.add(new Transition(state, next, input.get(i)));
 
 			state = next;
 		}
@@ -1151,13 +1120,13 @@ public class Automaton {
 		}
 
 		for (Transition t : a1.delta)
-			newGamma.add(new Transition(mappingA1.get(t.getFrom()), mappingA1.get(t.getTo()), t.getInput(), ""));
+			newGamma.add(new Transition(mappingA1.get(t.getFrom()), mappingA1.get(t.getTo()), t.getInput()));
 
 		for (Transition t : a2.delta)
-			newGamma.add(new Transition(mappingA2.get(t.getFrom()), mappingA2.get(t.getTo()), t.getInput(), ""));
+			newGamma.add(new Transition(mappingA2.get(t.getFrom()), mappingA2.get(t.getTo()), t.getInput()));
 
-		newGamma.add(new Transition(newInitialState, initialA1, "", ""));
-		newGamma.add(new Transition(newInitialState, initialA2, "", ""));
+		newGamma.add(new Transition(newInitialState, initialA1, ""));
+		newGamma.add(new Transition(newInitialState, initialA2, ""));
 
 		Automaton a =  new Automaton(newGamma, newStates);
 		a.minimize();
@@ -1175,7 +1144,7 @@ public class Automaton {
 		newStates.add(initialState);
 
 		for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
-			newGamma.add(new Transition(initialState, initialState, String.valueOf(alphabet), String.valueOf(alphabet)));
+			newGamma.add(new Transition(initialState, initialState, String.valueOf(alphabet)));
 
 		return new Automaton(newGamma, newStates);
 	}
@@ -1192,7 +1161,7 @@ public class Automaton {
 		newStates.add(initialState);
 
 		for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
-			newGamma.add(new Transition(initialState, initialState, String.valueOf(alphabet), String.valueOf(alphabet)));
+			newGamma.add(new Transition(initialState, initialState, String.valueOf(alphabet)));
 
 		return new Automaton(newGamma, newStates);
 	}
@@ -1391,7 +1360,7 @@ public class Automaton {
 					unMarkedStates.addLast(temp);
 				}
 
-				newDelta.add(new Transition(statesName.get(T), statesName.get(temp), alphabet, ""));
+				newDelta.add(new Transition(statesName.get(T), statesName.get(temp), alphabet));
 			}
 		}
 
@@ -1936,7 +1905,7 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<>();
 
 		for(Transition t : this.delta)
-			newDelta.add(new Transition(automatonStateBinding.get(t.getFrom()), automatonStateBinding.get(t.getTo()), t.getInput(), ""));
+			newDelta.add(new Transition(automatonStateBinding.get(t.getFrom()), automatonStateBinding.get(t.getTo()), t.getInput()));
 
 		this.delta = newDelta;
 		this.computeAdjacencyList();
@@ -2001,7 +1970,7 @@ public class Automaton {
 		for (Transition t : this.delta) {
 			mapping.put(t.getFrom(),t.getFrom());
 			mapping.put(t.getTo(),t.getTo());
-			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
+			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput()));
 		}
 
 		for (State s : this.states) {
@@ -2009,7 +1978,7 @@ public class Automaton {
 
 			if (s.isFinalState()) {
 				newState.setFinalState(false);
-				newDelta.add(new Transition(newInitialState, newState, "", ""));
+				newDelta.add(new Transition(newInitialState, newState, ""));
 				//newInitialState = newState;
 			}
 
@@ -2340,12 +2309,12 @@ public class Automaton {
 
 			delta_q.remove(sigma, p); //FIX?
 
-			if (!mark.contains(new Transition(q, p, sigma, ""))) {
-				mark.add(new Transition(q, p, sigma, ""));
+			if (!mark.contains(new Transition(q, p, sigma))) {
+				mark.add(new Transition(q, p, sigma));
 
 				if (!isPuntaction(sigma) && !p.isFinalState()) {
 					HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
-					markTemp.add(new Transition(q, p, sigma, ""));
+					markTemp.add(new Transition(q, p, sigma));
 
 					build_tr(p, stm + sigma, markTemp, Iq, opcl);
 				} else if (isPuntaction(sigma)) {
@@ -2357,14 +2326,14 @@ public class Automaton {
 								Iq.put(stm + sigma, p);
 						} else {
 							HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
-							markTemp.add(new Transition(q, p, sigma, ""));
+							markTemp.add(new Transition(q, p, sigma));
 							build_tr(p, stm + sigma, markTemp, Iq, opcl-1);
 						}
 					} else if (sigma.equals("(")) {
 
 						if (opcl > 1) {
 							HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
-							markTemp.add(new Transition(q, p, sigma, ""));
+							markTemp.add(new Transition(q, p, sigma));
 							build_tr(p, stm + sigma, markTemp, Iq, opcl + 1);
 						} else {
 							opcl++;
@@ -2372,12 +2341,12 @@ public class Automaton {
 						}
 					} else if (sigma.equals(";") && opcl > 0) {		
 						HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
-						markTemp.add(new Transition(q, p, sigma, ""));
+						markTemp.add(new Transition(q, p, sigma));
 						build_tr(p, stm + sigma, markTemp, Iq, opcl);
 					} else if (sigma.equals("{") || sigma.equals("}") && !isJS(stm + sigma)) {	// Is not a block, it is an object
 
 						HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
-						markTemp.add(new Transition(q, p, sigma, ""));
+						markTemp.add(new Transition(q, p, sigma));
 						build_tr(p, stm + sigma, markTemp, Iq, opcl);
 
 					} else {
@@ -2441,7 +2410,7 @@ public class Automaton {
 
 		for (String sigma : B.keySet())
 			for (State to : (Set<State>) B.get((String) sigma))
-				delta.add(new Transition(q, to, sigma, ""));
+				delta.add(new Transition(q, to, sigma));
 
 		for (State s : B.values())  
 			W.add(s);
@@ -2664,7 +2633,7 @@ public class Automaton {
 					toPartition = ps;			
 			}
 
-			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput(), ""));
+			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput()));
 
 		}
 		return new Automaton(newDelta, newStates);
@@ -2753,7 +2722,7 @@ public class Automaton {
 		}
 
 		for (Transition t : this.delta)
-			newDelta.add(new Transition(nameToStates.get(t.getFrom().getState()), nameToStates.get(t.getTo().getState()), t.getInput(), t.getOutput()));
+			newDelta.add(new Transition(nameToStates.get(t.getFrom().getState()), nameToStates.get(t.getTo().getState()), t.getInput()));
 
 		Automaton result = new Automaton();
 
@@ -2815,29 +2784,6 @@ public class Automaton {
 		return max; //- 2; // removes ''
 	}
 
-	public HashSet<Vector<State>> pahtsFrom(State init, Vector<State> visited) {
-		HashSet<Vector<State>> result = new HashSet<Vector<State>>();
-
-		if (init.isFinalState() || visited.contains(init)) {
-			Vector<State> v = new Vector<State>();
-			result.add(v);
-			return result;			
-		}
-
-		visited.add(init);
-
-		for (Transition t : this.getOutgoingTransitionsFrom(init)) {
-			Vector<State> partial = new Vector<State>();
-			partial.add(init);
-
-			for (Vector<State> v : this.pahtsFrom(t.getTo(), visited)) {
-				Vector<State> p = (Vector<State>) partial.clone();
-				p.addAll(v);
-				result.add(p);
-			}
-		}
-		return result;
-	}
 
 	/**
 	 * Checks if this automaton contains a cycle.
@@ -2929,6 +2875,29 @@ public class Automaton {
 		return true;
 	}
 
+	public HashSet<Vector<State>> pahtsFrom(State init, Vector<State> visited) {
+		HashSet<Vector<State>> result = new HashSet<Vector<State>>();
+
+		if (init.isFinalState() || visited.contains(init)) {
+			Vector<State> v = new Vector<State>();
+			result.add(v);
+			return result;			
+		}
+
+		visited.add(init);
+
+		for (Transition t : this.getOutgoingTransitionsFrom(init)) {
+			Vector<State> partial = new Vector<State>();
+			partial.add(init);
+
+			for (Vector<State> v : this.pahtsFrom(t.getTo(), visited)) {
+				Vector<State> p = (Vector<State>) partial.clone();
+				p.addAll(v);
+				result.add(p);
+			}
+		}
+		return result;
+	}
 
 	public static Automaton leftQuotient(Automaton L1, Automaton L2) {
 		Automaton result = L1.clone();
@@ -2968,6 +2937,7 @@ public class Automaton {
 		Automaton result = L1.clone();
 		Automaton L1copy = L1.clone();
 
+
 		// Remove the initial state
 		for (State q : result.getStates())
 			if (q.isFinalState())
@@ -2985,6 +2955,7 @@ public class Automaton {
 			Automaton copy = L1copy.clone();
 			copy.minimize();
 
+
 			if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(copy, L2))) {
 				for (State rS: result.getStates())
 					if (rS.getState().equals(q.getState()))
@@ -3001,8 +2972,6 @@ public class Automaton {
 	public static Automaton prefix(Automaton automaton) {
 		Automaton result = automaton.clone();
 
-		result.minimize();
-
 		for (State s : result.getStates())
 			s.setFinalState(true);
 
@@ -3013,8 +2982,6 @@ public class Automaton {
 
 	public static Automaton suffix(Automaton automaton) {
 		Automaton result = automaton.clone();
-
-		result.minimize();
 
 		for (State s : result.getStates())
 			s.setInitialState(true);
@@ -3033,33 +3000,26 @@ public class Automaton {
 	}
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-		return Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));		
-	}
-
-	public static Automaton prefixesAt(long i, Automaton automaton) {
-		return Automaton.leftQuotient(prefix(automaton), Automaton.atMostLengthAutomaton(i));		
+		Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
 	}
 
 	public static Automaton substring(Automaton a, long i, long j) {	
 
-		Automaton left = Automaton.leftQuotient(a, Automaton.prefixAtMost(i, a));	
 
-		//		System.out.println("Substrings at i " + left);
-		//		System.out.println("Suffixes at j " + Automaton.suffixesAt(j, a));
+		long initPoint = Long.min(i, j) < 0 ? 0 : Long.min(i, j);
+		long endPoint = Long.max(i, j) < 0 ? 0 : Long.max(i, j);
 
-		Automaton shortSubs = Automaton.intersection(left, Automaton.atMostLengthAutomaton(j-i));
-		left = Automaton.minus(left, shortSubs);
-		//		Automaton right = Automaton.minus(Automaton.suffixesAt(j, a), Automaton.makeEmptyString());
+		Automaton left = Automaton.suffixesAt(initPoint, a);	
 
-		return Automaton.intersection(Automaton.union(Automaton.rightQuotient(left,  Automaton.suffixesAt(j, a)), shortSubs), Automaton.atMostLengthAutomaton(j-i));
+		Automaton noProperSubs = Automaton.intersection(left, Automaton.atMostLengthAutomaton(endPoint-initPoint));
+		return Automaton.union(Automaton.intersection(Automaton.rightQuotient(left,  Automaton.suffixesAt(endPoint, a)), Automaton.exactLengthAutomaton(endPoint-initPoint)), noProperSubs);	
 	}
 
-	public static Automaton substringWithUnknowEndPoint(Automaton a, long i, long j) {	
-		Automaton left = Automaton.leftQuotient(a, Automaton.prefixAtMost(i, a));	
-		Automaton suffixes = Automaton.minus(Automaton.prefix(Automaton.leftQuotient(a, Automaton.prefixAtMost(j, a))), Automaton.makeEmptyString());			
-		return Automaton.rightQuotient(left,  Automaton.suffix(suffixes));//, Automaton.atMostLengthAutomaton(j-i));
+	public static Automaton substringWithUnknownEndPoint(Automaton a, long i, long j) {	 
+		return Automaton.rightQuotient(Automaton.suffixesAt(i,a),  Automaton.suffix(Automaton.suffixesAt(j, a)));
 	}
-	
+
 	public static Automaton factorsStartingAt(Automaton a, long i) {
 		Automaton left = Automaton.leftQuotient(a, Automaton.prefixAtMost(i, a));	
 		return Automaton.suffix(Automaton.prefix(left));
@@ -3079,7 +3039,7 @@ public class Automaton {
 			states.add(next);
 
 			for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
-				delta.add(new Transition(prev, next, String.valueOf(alphabet), ""));
+				delta.add(new Transition(prev, next, String.valueOf(alphabet)));
 
 			prev = next;
 		}
@@ -3103,7 +3063,7 @@ public class Automaton {
 			states.add(next);
 
 			for (char alphabet = '!'; alphabet <= '~'; ++alphabet) 
-				delta.add(new Transition(prev, next, String.valueOf(alphabet), ""));
+				delta.add(new Transition(prev, next, String.valueOf(alphabet)));
 
 			prev = next;
 		}
@@ -3111,5 +3071,171 @@ public class Automaton {
 		prev.setFinalState(true);
 
 		return new Automaton(delta, states);
+	}
+
+	public static Automaton charAt(Automaton a, long i) {
+		return Automaton.substring(a, i, i + 1);
+	}
+
+	public static Automaton factors(Automaton a) {
+		return Automaton.suffix(Automaton.prefix(a));
+	}
+
+
+	public LinkedList<State> minimumDijkstra(State target) {
+		Set<State>  settledNodes = new HashSet<State>();
+		Set<State> unSettledNodes = new HashSet<State>();
+		Map<State, Integer> distance = new HashMap<State, Integer>();
+		Map<State, State> predecessors = new HashMap<State, State>();
+
+		distance.put(getInitialState(), 0);
+		unSettledNodes.add(getInitialState());
+
+		while (unSettledNodes.size() > 0) {
+			State node = getMinimum(unSettledNodes, distance);
+			settledNodes.add(node);
+			unSettledNodes.remove(node);
+			findMinimalDistances(node, distance, predecessors, unSettledNodes, settledNodes);
+		}
+
+		return getPath(target, predecessors);
+	}
+
+	public LinkedList<State> maximumDijkstra(State target) {
+		Set<State>  settledNodes = new HashSet<State>();
+		Set<State> unSettledNodes = new HashSet<State>();
+		Map<State, Integer> distance = new HashMap<State, Integer>();
+		Map<State, State> predecessors = new HashMap<State, State>();
+
+		distance.put(getInitialState(), 0);
+		unSettledNodes.add(getInitialState());
+
+		while (unSettledNodes.size() > 0) {
+			State node = getMaximum(unSettledNodes, distance);
+			settledNodes.add(node);
+			unSettledNodes.remove(node);
+			findMaximalDistances(node, distance, predecessors, unSettledNodes, settledNodes);
+		}
+
+		return getPath(target, predecessors);
+	}
+
+	private void findMinimalDistances(State node, Map<State, Integer> distance, Map<State, State> predecessors, Set<State> unSettledNodes, Set<State> settledNodes) {
+		List<State> adjacentNodes = getNeighbors(node, settledNodes);
+		for (State target : adjacentNodes) {
+			if (getShortestDistance(target, distance) > getShortestDistance(node, distance)
+					+ getDistance(node, target)) {
+				distance.put(target, getShortestDistance(node, distance)
+						+ getDistance(node, target));
+				predecessors.put(target, node);
+				unSettledNodes.add(target);
+			}
+		}
+	}
+
+	private void findMaximalDistances(State node, Map<State, Integer> distance, Map<State, State> predecessors, Set<State> unSettledNodes, Set<State> settledNodes) {
+		List<State> adjacentNodes = getNeighbors(node, settledNodes);
+		for (State target : adjacentNodes) {
+			if (getLongestDistance(target, distance) < getLongestDistance(node, distance)
+					+ getDistance(node, target)) {
+				distance.put(target, getShortestDistance(node, distance)
+						+ getDistance(node, target));
+				predecessors.put(target, node);
+				unSettledNodes.add(target);
+			}
+		}
+	}
+
+	private int getDistance(State node, State target) {
+		for (Transition edge : getDelta()) {
+			if (edge.getFrom().equals(node)
+					&& edge.getTo().equals(target)) {
+				return 1;
+			}
+		}
+		throw new RuntimeException("Should not happen");
+	}
+
+	private List<State> getNeighbors(State node, Set<State> settledNodes) {
+		List<State> neighbors = new ArrayList<State>();
+		for (Transition edge : getDelta()) {
+			if (edge.getFrom().equals(node)
+					&& !isSettled(edge.getTo(), settledNodes)) {
+				neighbors.add(edge.getTo());
+			}
+		}
+		return neighbors;
+	}
+
+	private State getMinimum(Set<State> vertexes, Map<State, Integer> distance) {
+		State minimum = null;
+		for (State vertex : vertexes) {
+			if (minimum == null) {
+				minimum = vertex;
+			} else {
+				if (getShortestDistance(vertex, distance) < getShortestDistance(minimum, distance)) {
+					minimum = vertex;
+				}
+			}
+		}
+		return minimum;
+	}
+
+	private State getMaximum(Set<State> vertexes, Map<State, Integer> distance) {
+		State maximum = null;
+		for (State vertex : vertexes) {
+			if (maximum == null) {
+				maximum = vertex;
+			} else {
+				if (getShortestDistance(vertex, distance) > getLongestDistance(maximum, distance)) {
+					maximum = vertex;
+				}
+			}
+		}
+
+		return maximum;
+	}
+
+	private boolean isSettled(State vertex, Set<State> settledNodes) {
+		return settledNodes.contains(vertex);
+	}
+
+	private int getShortestDistance(State destination, Map<State, Integer> distance) {
+		Integer d = distance.get(destination);
+		if (d == null) {
+			return Integer.MAX_VALUE;
+		} else {
+			return d;
+		}
+	}
+
+	private int getLongestDistance(State destination, Map<State, Integer> distance) {
+		Integer d = distance.get(destination);
+
+		if (d == null) {
+			return Integer.MIN_VALUE;
+		} else {
+			return d;
+		}
+	}
+
+	public LinkedList<State> getPath(State target, Map<State, State> predecessors) {
+		LinkedList<State> path = new LinkedList<State>();
+		State step = target;
+
+		// check if a path exists
+		if (predecessors.get(step) == null) {
+			path.add(target);
+			return path;
+		}
+
+		path.add(step);
+		while (predecessors.get(step) != null) {
+			step = predecessors.get(step);
+			path.add(step);
+		}
+		// Put it into the correct order
+		Collections.reverse(path);
+		return path;
 	}
 }

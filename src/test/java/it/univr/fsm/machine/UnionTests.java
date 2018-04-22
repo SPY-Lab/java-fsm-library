@@ -31,8 +31,8 @@ public class UnionTests {
         states.add(q0);
         states.add(q1);
         
-        delta.add(new Transition(q0, q1, "a", ""));
-        delta.add(new Transition(q0, q1, "b", ""));
+        delta.add(new Transition(q0, q1, "a"));
+        delta.add(new Transition(q0, q1, "b"));
         
         Automaton expectedResult = new Automaton(delta, states);
         

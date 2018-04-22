@@ -25,10 +25,6 @@ public class Transition {
 	 */
 	private String input;
 	
-	/**
-	 * Output string.
-	 */
-	private String output;
 	
 	public HashSet<State> pfrom;
 	public HashSet<State> pto;
@@ -36,11 +32,10 @@ public class Transition {
 	/**
 	 * Constructs a new transition.
 	 */
-	public Transition(State from, State to, String input, String output) {
+	public Transition(State from, State to, String input) {
 		this.from = from;
 		this.to = to;
 		this.input = input;
-		this.output = output;
 	}
 	
 	/**
@@ -84,20 +79,8 @@ public class Transition {
 	public void setInput(String input) {
 		this.input = input;
 	}
+
 	
-	/**
-	 * Gets the output string.
-	 */
-	public String getOutput() {
-		return output;
-	}
-	
-	/**
-	 * Sets the output string.
-	 */
-	public void setOutput(String output) {
-		this.output = output;
-	}
 	
 	/**
 	 * Fires the transition with a given input.
@@ -131,12 +114,12 @@ public class Transition {
 	
 	@Override
 	public String toString() {
-		return from.getState().toString() + " " + input + " -> " + output + " " + to.getState().toString()+ "\n";
+		return from.getState().toString() + " " + input + " -> " + to.getState().toString()+ "\n";
 	}
 	
 	@Override
 	public Transition clone() {
-		return new Transition((State) this.getFrom().clone(), (State) this.getTo().clone(), this.getInput(), this.getOutput());
+		return new Transition((State) this.getFrom().clone(), (State) this.getTo().clone(), this.getInput());
 	}
 	
 	@Override
@@ -149,8 +132,7 @@ public class Transition {
 		if (other instanceof Transition) {
 					return this.getFrom().equals(((Transition) other).getFrom()) &&
 					this.getTo().equals(((Transition) other).getTo()) &&
-					this.getInput().equals(((Transition) other).getInput()) &&
-					this.getOutput().equals(((Transition) other).getOutput());
+					this.getInput().equals(((Transition) other).getInput());
 		}
 		
 		return false;

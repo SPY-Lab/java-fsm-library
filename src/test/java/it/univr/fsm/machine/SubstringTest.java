@@ -63,7 +63,7 @@ public class SubstringTest {
 
 		states.add(q0);
 		
-		delta.add(new Transition(q0, q0, "a", ""));
+		delta.add(new Transition(q0, q0, "a"));
 		
 		// a^*
 		Automaton aStar = new Automaton(delta, states);
