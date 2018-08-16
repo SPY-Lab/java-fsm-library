@@ -226,7 +226,7 @@ public class Or extends RegularExpression {
 		else if (secondProgram.trim().startsWith(";}"))
 			return secondProgram.trim().substring(2) +  " var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "}";
 
-		return "var " + randomVar + "=rand(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "} if (" + randomVar  + " == 2) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
+		return "var " + randomVar + "= Math.random(); if (" + randomVar  + " == 1) {" + (Automaton.isJSExecutable(firstProgram) ? firstProgram : ";") + "} if (" + randomVar  + " == 2) {" + (Automaton.isJSExecutable(secondProgram) ? secondProgram : ";") + "}";
 	}
 
 }
