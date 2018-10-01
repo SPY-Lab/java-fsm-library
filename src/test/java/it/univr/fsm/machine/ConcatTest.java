@@ -1,9 +1,6 @@
 package it.univr.fsm.machine;
 
-import it.univr.fsm.machine.Automaton;
 import org.junit.Test;
-
-import java.util.HashSet;
 
 import static org.junit.Assert.assertTrue;
 

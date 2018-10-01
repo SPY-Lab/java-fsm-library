@@ -66,6 +66,10 @@ public class Automaton {
 	 */
 	private HashMap<State, HashSet<Transition>> adjacencyListOutgoing;
 
+	private String singleString;
+	
+	private boolean isSingleValue;
+	
 	/**
 	 * Constructs a new automaton.
 	 * 
@@ -73,12 +77,27 @@ public class Automaton {
 	 * @param delta the set of transitions
 	 * @param states the set of states
 	 */
-
 	public Automaton(HashSet<Transition> delta, HashSet<State> states)  {
 		this.delta = delta;
 		this.states = states;
 		this.computeAdjacencyList();
+		
+		this.singleString = null;
+		this.isSingleValue = false;
 	}
+
+	public String getSingleString() {
+		return this.singleString;
+	}
+	
+	public void setSingleString(String s) {
+		this.singleString = s;
+	}
+	
+	public boolean isSingleString() {
+		return isSingleValue;
+	}
+	
 
 	public Automaton() {}
 
@@ -136,8 +155,6 @@ public class Automaton {
 		return Automaton.isEmptyLanguageAccepted(Automaton.intersection(first, Automaton.complement(second)));
 	}
 
-
-
 	/**
 	 * Check whether a state is reachable from initial state
 	 * 
@@ -145,7 +162,7 @@ public class Automaton {
 	 * @param a the automaton
 	 * @return a boolean
 	 */
-	public static boolean isReachable(State f, Automaton a ){
+	public static boolean isReachable(State f, Automaton a) {
 		HashSet<Transition> transitionSet;
 
 		if (f.isInitialState()) {
@@ -183,7 +200,7 @@ public class Automaton {
 	 * @return the intersection
 	 */
 	public static Automaton intersection(Collection<Automaton> collection){
-		Automaton a=null;
+		Automaton a = null;
 
 		for(Automaton aut: collection)
 			a = (a == null) ? aut : Automaton.intersection(a, aut);
@@ -262,6 +279,10 @@ public class Automaton {
 	 */
 	public static Automaton concat(Automaton first, Automaton second){
 
+		
+		if (first.isSingleString() && second.isSingleString()) 
+			return Automaton.makeAutomaton(first.getSingleString() + second.getSingleString());
+		
 		HashMap<State, State> mappingFirst = new HashMap<State,State>();
 		HashMap<State, State> mappingSecond = new HashMap<State, State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
@@ -326,8 +347,7 @@ public class Automaton {
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
 
-
-		automaton = Automaton.totalize(automaton.clone());
+		automaton = automaton.isSingleString() ? Automaton.totalize(Automaton.makeRealAutomaton(automaton.getSingleString())): Automaton.totalize(automaton.clone());
 
 		// Add states to the mapping, replacing accept states to reject
 		for(State s: automaton.states) {
@@ -388,15 +408,21 @@ public class Automaton {
 
 	public static Automaton intersection(Automaton first, Automaton second) {
 
+		if (first.isSingleString() && second.isSingleString()) {
+			
+			if (first.getSingleString().equals(second.getSingleString()))
+				return Automaton.makeAutomaton(first.getSingleString());
+			else
+				return Automaton.makeEmptyLanguage();
+			
+		}
+			
 		// !(!(first) u !(second))
 		Automaton notFirst = Automaton.complement(first);
 		Automaton notSecond = Automaton.complement(second);
-
 		Automaton union = Automaton.union(notFirst, notSecond);
-		//		union.minimize();
-
 		Automaton result = Automaton.complement(union);
-		//		result.minimize();
+
 		return result;
 	}
 
@@ -990,15 +1016,22 @@ public class Automaton {
 		return null;
 	}
 
+	public static Automaton makeSingleString(String s) {
+		Automaton a = new Automaton();
+		a.singleString = s;
+		a.isSingleValue = true;
+		return a;
+	}
+	
 	/**
 	 * Builds an automaton from a given string.
 	 * 
 	 * @param s the string.
 	 * @return a new automaton recognize the given string.
 	 */
-	public static Automaton makeAutomaton(String s) {
-
-
+	public static Automaton makeRealAutomaton(String s) {
+		
+		
 		HashSet<State> states = new HashSet<State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 
@@ -1027,7 +1060,19 @@ public class Automaton {
 			state = next;
 		}
 
-		return new Automaton(delta, states);
+		Automaton result = new Automaton(delta, states);
+		
+		result.isSingleValue = false;
+		result.singleString = null;
+		return result;
+	}
+	
+	public static Automaton makeAutomaton(String s) {
+		Automaton a = new Automaton();
+		a.singleString = s;
+		a.isSingleValue = true;
+		
+		return a;
 	}
 
 	public HashSet<Transition> getOutgoingTransitionsFrom(State s) {
@@ -1065,6 +1110,20 @@ public class Automaton {
 	 * @return the union of the two automata.
 	 */
 	public static Automaton union(Automaton a1, Automaton a2) {
+		
+		Automaton first;
+		Automaton second;
+		
+		if (a1.isSingleString())
+			first = Automaton.makeRealAutomaton(a1.getSingleString());
+		else 
+			first = a1;
+		
+		if (a2.isSingleString())
+			second = Automaton.makeRealAutomaton(a2.getSingleString());
+		else 
+			second = a2;
+			
 		State newInitialState = new State("initialState", true, false);
 		HashSet<Transition> newGamma = new HashSet<Transition>();
 		HashSet<State> newStates = new HashSet<State>();
@@ -1078,7 +1137,7 @@ public class Automaton {
 		State initialA1 = null; 
 		State initialA2 = null;
 
-		for (State s : a1.states) {
+		for (State s : first.states) {
 
 			mappingA1.put(s, new State("q" + c++, false, s.isFinalState()));
 
@@ -1090,7 +1149,7 @@ public class Automaton {
 				initialA1 = mappingA1.get(s);
 		}
 
-		for (State s : a2.states) {
+		for (State s : second.states) {
 			mappingA2.put(s, new State("q" + c++, false, s.isFinalState()));
 			newStates.add(mappingA2.get(s));
 
@@ -1100,10 +1159,10 @@ public class Automaton {
 				initialA2 = mappingA2.get(s);
 		}
 
-		for (Transition t : a1.delta)
+		for (Transition t : first.delta)
 			newGamma.add(new Transition(mappingA1.get(t.getFrom()), mappingA1.get(t.getTo()), t.getInput()));
 
-		for (Transition t : a2.delta)
+		for (Transition t : second.delta)
 			newGamma.add(new Transition(mappingA2.get(t.getFrom()), mappingA2.get(t.getTo()), t.getInput()));
 
 		newGamma.add(new Transition(newInitialState, initialA1, ""));
@@ -1396,21 +1455,9 @@ public class Automaton {
 	 * RegEx printing.
 	 */
 	public String prettyPrint() {
-		return this.toRegex().toString();
+		return isSingleString() ? getSingleString()  : this.toRegex().toString();
 	}
 
-	//	private String createName(HashSet<State> states) {
-	//		String result = "";
-	//
-	//		if (!states.isEmpty()) {
-	//
-	//			for (State s : states)
-	//				result += s.getState() + "x";
-	//
-	//			result = result.substring(0, result.length() -1);
-	//		}
-	//		return result;
-	//	}
 
 	/**
 	 * Returns the set of strings readable from the states state partition.
@@ -2039,6 +2086,8 @@ public class Automaton {
 
 	public RegularExpression toRegex() {
 
+		
+		
 		Vector<Equation> equations = new Vector<Equation>();
 
 		HashMap<State, Equation> toSubstitute = new HashMap<>();
@@ -2763,6 +2812,9 @@ public class Automaton {
 	@Override
 	public Automaton clone() {
 
+		if (isSingleString())
+			return Automaton.makeAutomaton(getSingleString());
+		
 		HashSet<State> newStates = new HashSet<State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
 		HashMap<String, State> nameToStates = new HashMap<String, State>();
@@ -2800,8 +2852,8 @@ public class Automaton {
 	public boolean equals(Object other) {
 		if (other instanceof Automaton) {
 
-			//			if (this.getStates().size() == ((Automaton) other).getStates().size() && this.getDelta().size() == ((Automaton) other).getDelta().size())
-			//				return true;
+			if (isSingleString() && ((Automaton) other).isSingleString())
+				return getSingleString().equals(((Automaton) other).getSingleString());
 
 			Automaton first = Automaton.intersection(this, Automaton.complement((Automaton) other));
 
@@ -2823,7 +2875,7 @@ public class Automaton {
 
 	@Override
 	public int hashCode() {
-		return getStates().size() + getDelta().size();
+		return isSingleValue ? getSingleString().hashCode() : getStates().size() + getDelta().size();
 	}
 
 	public int maxLengthString() {
@@ -3013,7 +3065,7 @@ public class Automaton {
 	}
 
 	public static Automaton prefix(Automaton automaton) {
-		Automaton result = automaton.clone();
+		Automaton result = automaton.isSingleString() ? Automaton.makeRealAutomaton(automaton.getSingleString()) : automaton.clone();
 
 		for (State s : result.getStates())
 			s.setFinalState(true);
@@ -3024,7 +3076,7 @@ public class Automaton {
 	}
 
 	public static Automaton suffix(Automaton automaton) {
-		Automaton result = automaton.clone();
+		Automaton result = automaton.isSingleString() ? Automaton.makeRealAutomaton(automaton.getSingleString()) : automaton.clone();
 
 		for (State s : result.getStates())
 			s.setInitialState(true);
@@ -3053,6 +3105,9 @@ public class Automaton {
 		long initPoint = Long.min(i, j) < 0 ? 0 : Long.min(i, j);
 		long endPoint = Long.max(i, j) < 0 ? 0 : Long.max(i, j);
 
+		if (a.isSingleString())
+			return Automaton.makeAutomaton(a.getSingleString().substring((int) initPoint, (int) endPoint));
+		
 		Automaton left = Automaton.suffixesAt(initPoint, a);	
 
 		Automaton noProperSubs = Automaton.intersection(left, Automaton.atMostLengthAutomaton(endPoint-initPoint));
