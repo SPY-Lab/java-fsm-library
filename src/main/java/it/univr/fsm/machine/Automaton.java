@@ -46,6 +46,10 @@ import java.util.*;
  */
 public class Automaton {
 
+	public static void main(String[] args) {
+		System.out.println(Automaton.singleParameterSubstring(Automaton.makeAutomaton("hello"), 2));
+	}
+	
 	/**
 	 * Starting symbol to name the states.
 	 */
@@ -3099,8 +3103,14 @@ public class Automaton {
 		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
 	}
 
+	public static Automaton singleParameterSubstring(Automaton a, long i) {
+		if (a.isSingleString())
+			return Automaton.makeAutomaton(a.getSingleString().substring((int) (i < 0 ? 0 : i)));
+		
+		return Automaton.suffixesAt(i < 0 ? 0 : i, a);
+	}
+	
 	public static Automaton substring(Automaton a, long i, long j) {	
-
 
 		long initPoint = Long.min(i, j) < 0 ? 0 : Long.min(i, j);
 		long endPoint = Long.max(i, j) < 0 ? 0 : Long.max(i, j);
