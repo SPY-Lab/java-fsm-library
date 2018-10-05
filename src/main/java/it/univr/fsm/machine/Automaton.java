@@ -47,7 +47,15 @@ import java.util.*;
 public class Automaton {
 
 	public static void main(String[] args) {
-		System.out.println(Automaton.singleParameterSubstring(Automaton.makeAutomaton("hello"), 9));
+
+		Automaton a = Automaton.makeAutomaton("panda");
+		Automaton b = Automaton.makeAutomaton("pandemonium");
+
+		Automaton c = Automaton.union(a, b);
+
+		System.out.println(Automaton.singleParameterSubstring(c, 6));
+
+
 	}
 
 	/**
@@ -3098,9 +3106,44 @@ public class Automaton {
 		return Automaton.intersection(Automaton.suffix(automaton), Automaton.exactLengthAutomaton(i));
 	}
 
+	public static Automaton su(Automaton a, long n){
+
+		if(a.hasCycle()){
+			return a;
+		}
+
+		HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
+		int i = 0;
+		State currentState = a.getInitialState();
+		Automaton result = Automaton.makeEmptyLanguage();
+		Automaton partial = a;
+
+		while(i!=n){
+			for(Transition removeT: partial.getOutgoingTransitionsFrom(currentState)){
+				HashSet<Transition> to = partial.getOutgoingTransitionsFrom(removeT.getTo());
+				if(to.size() == 0){
+					result = Automaton.makeEmptyString();
+				}
+				for(Transition addT: to){
+					delta.add(new Transition(currentState, addT.getTo(), addT.getInput()));
+					delta.remove(addT);
+				}
+
+				partial = new Automaton(delta, a.getStates());
+				delta.remove(removeT);
+			}
+			i++;
+		}
+
+		result = Automaton.union(result, new Automaton(delta, a.getStates()));
+		result.minimize();
+		return result;
+	}
+
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-		Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
+//			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+//			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;		
+		return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
