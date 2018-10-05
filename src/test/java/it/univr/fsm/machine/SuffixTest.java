@@ -116,5 +116,45 @@ public class SuffixTest{
         Assert.assertEquals(resultR, result);
     }
 
+    @Test
+    public void SuffixTest007(){
+
+    	
+    	HashSet<State> states = new HashSet<>();
+    	HashSet<Transition> delta = new HashSet<>();
+
+    	State q0 = new State("q0", true, false);
+    	State q1 = new State("q0", false, false);
+    	State q2 = new State("q0", false, true);
+
+    	states.add(q0);
+    	states.add(q1);
+    	states.add(q2);
+
+    	delta.add(new Transition(q0, q1, "a"));
+    	delta.add(new Transition(q1, q2, "b"));
+    	delta.add(new Transition(q2, q2, "c"));
+    	
+    	Automaton a  = new Automaton(delta, states);
+    	
+    	HashSet<State> statesR = new HashSet<>();
+    	HashSet<Transition> deltaR = new HashSet<>();
+
+    	State q3 = new State("q3", true, false);
+    	State q4 = new State("q4", false, true);
+
+    	statesR.add(q3);
+    	statesR.add(q4);
+
+    	deltaR.add(new Transition(q3, q4, "b"));
+    	deltaR.add(new Transition(q4, q4, "c"));
+    	
+    	Automaton r = new Automaton(deltaR, statesR);
+    	
+    	
+        Automaton resultR = Automaton.su(a, 1);
+
+        Assert.assertEquals(resultR, r);
+    }
 
 }
