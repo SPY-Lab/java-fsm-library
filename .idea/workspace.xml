@@ -17,13 +17,14 @@
     <session id="-143788129">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.15" value="2" />
           <entry key="project.open.time.16" value="3" />
           <entry key="project.open.time.27" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -47,14 +48,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="2669" />
-          <entry key="txt" value="61" />
+          <entry key="java" value="2948" />
+          <entry key="txt" value="99" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="2669" />
-          <entry key="PLAIN_TEXT" value="61" />
+          <entry key="JAVA" value="2948" />
+          <entry key="PLAIN_TEXT" value="99" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -64,128 +65,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="3146" lean-forward="true" selection-start-line="3146" selection-end-line="3146" />
+            <state relative-caret-position="1650">
+              <caret line="3179" column="84" selection-start-line="3179" selection-start-column="84" selection-end-line="3179" selection-end-column="84" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2375#2376#0" expanded="true" />
-                <element signature="e#2406#2407#0" expanded="true" />
-                <element signature="e#2448#2449#0" expanded="true" />
-                <element signature="e#2476#2477#0" expanded="true" />
-                <element signature="e#2512#2513#0" expanded="true" />
-                <element signature="e#2539#2540#0" expanded="true" />
-                <element signature="e#7312#7325#0" expanded="true" />
-                <element signature="e#7380#7394#0" expanded="true" />
-                <element signature="e#7442#7454#0" expanded="true" />
-                <element signature="e#7498#7505#0" expanded="true" />
-                <element signature="e#9237#9250#0" expanded="true" />
-                <element signature="e#9298#9310#0" expanded="true" />
-                <element signature="e#9354#9361#0" expanded="true" />
-                <element signature="e#12285#12297#0" expanded="true" />
-                <element signature="e#12338#12345#0" expanded="true" />
-                <element signature="e#15710#15722#0" expanded="true" />
-                <element signature="e#15763#15770#0" expanded="true" />
-                <element signature="e#21341#21356#0" expanded="true" />
-                <element signature="e#21401#21413#0" expanded="true" />
-                <element signature="e#21454#21461#0" expanded="true" />
-                <element signature="e#21509#21516#0" expanded="true" />
-                <element signature="e#25212#25213#0" expanded="true" />
-                <element signature="e#25231#25232#0" expanded="true" />
-                <element signature="e#25324#25325#0" expanded="true" />
-                <element signature="e#25349#25350#0" expanded="true" />
-                <element signature="e#25496#25504#0" expanded="true" />
-                <element signature="e#25650#25651#0" expanded="true" />
-                <element signature="e#25677#25678#0" expanded="true" />
-                <element signature="e#25862#25869#0" expanded="true" />
-                <element signature="e#25917#25929#0" expanded="true" />
-                <element signature="e#25979#25994#0" expanded="true" />
-                <element signature="e#27110#27117#0" expanded="true" />
-                <element signature="e#27162#27174#0" expanded="true" />
-                <element signature="e#29317#29329#0" expanded="true" />
-                <element signature="e#29373#29380#0" expanded="true" />
-                <element signature="e#29445#29459#0" expanded="true" />
-                <element signature="e#29511#29525#0" expanded="true" />
-                <element signature="e#30666#30673#0" expanded="true" />
-                <element signature="e#30721#30733#0" expanded="true" />
-                <element signature="e#31170#31177#0" expanded="true" />
-                <element signature="e#31225#31237#0" expanded="true" />
-                <element signature="e#31671#31678#0" expanded="true" />
-                <element signature="e#31726#31738#0" expanded="true" />
-                <element signature="e#32115#32122#0" expanded="true" />
-                <element signature="e#32165#32172#0" expanded="true" />
-                <element signature="e#38232#38233#0" expanded="true" />
-                <element signature="e#38311#38312#0" expanded="true" />
-                <element signature="e#38549#38557#0" expanded="true" />
-                <element signature="e#39305#39312#0" expanded="true" />
-                <element signature="e#39404#39411#0" expanded="true" />
-                <element signature="e#39502#39509#0" expanded="true" />
-                <element signature="e#41891#41899#0" expanded="true" />
-                <element signature="e#43622#43634#0" expanded="true" />
-                <element signature="e#43839#43846#0" expanded="true" />
-                <element signature="e#47465#47481#0" expanded="true" />
-                <element signature="e#50519#50520#0" expanded="true" />
-                <element signature="e#50554#50555#0" expanded="true" />
-                <element signature="e#50973#50980#0" expanded="true" />
-                <element signature="e#51028#51040#0" expanded="true" />
-                <element signature="e#51089#51103#0" expanded="true" />
-                <element signature="e#55206#55216#0" expanded="true" />
-                <element signature="e#61040#61041#0" expanded="true" />
-                <element signature="e#61070#61071#0" expanded="true" />
-                <element signature="e#61563#61575#0" expanded="true" />
-                <element signature="e#65693#65700#0" expanded="true" />
-                <element signature="e#65799#65806#0" expanded="true" />
-                <element signature="e#65855#65862#0" expanded="true" />
-                <element signature="e#66023#66035#0" expanded="true" />
-                <element signature="e#66077#66084#0" expanded="true" />
-                <element signature="e#66613#66620#0" expanded="true" />
-                <element signature="e#68866#68881#0" expanded="true" />
-                <element signature="e#68929#68943#0" expanded="true" />
-                <element signature="e#69075#69082#0" expanded="true" />
-                <element signature="e#69814#69821#0" expanded="true" />
-                <element signature="e#70177#70192#0" expanded="true" />
-                <element signature="e#70382#70390#0" expanded="true" />
-                <element signature="e#70747#70755#0" expanded="true" />
-                <element signature="e#71570#71578#0" expanded="true" />
-                <element signature="e#72011#72035#0" expanded="true" />
-                <element signature="e#72090#72106#0" expanded="true" />
-                <element signature="e#72665#72672#0" expanded="true" />
-                <element signature="e#72826#72833#0" expanded="true" />
-                <element signature="e#72891#72914#0" expanded="true" />
-                <element signature="e#73163#73175#0" expanded="true" />
-                <element signature="e#73890#73897#0" expanded="true" />
-                <element signature="e#74315#74316#0" expanded="true" />
-                <element signature="e#74335#74336#0" expanded="true" />
-                <element signature="e#74432#74433#0" expanded="true" />
-                <element signature="e#74459#74460#0" expanded="true" />
-                <element signature="e#75107#75108#0" expanded="true" />
-                <element signature="e#75139#75140#0" expanded="true" />
-                <element signature="e#75301#75308#0" expanded="true" />
-                <element signature="e#75356#75368#0" expanded="true" />
-                <element signature="e#75423#75438#0" expanded="true" />
-                <element signature="e#77068#77069#0" expanded="true" />
-                <element signature="e#77167#77168#0" expanded="true" />
-                <element signature="e#79348#79363#0" expanded="true" />
-                <element signature="e#79454#79461#0" expanded="true" />
-                <element signature="e#79631#79638#0" expanded="true" />
-                <element signature="e#88185#88186#0" expanded="true" />
-                <element signature="e#88231#88232#0" expanded="true" />
-                <element signature="e#88280#88281#0" expanded="true" />
-                <element signature="e#88331#88332#0" expanded="true" />
-                <element signature="e#92089#92090#0" expanded="true" />
-                <element signature="e#92132#92133#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
-              <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
+            <state relative-caret-position="-11421">
+              <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -206,7 +102,11 @@
       <find>explode</find>
       <find>explodeAutomaton</find>
       <find>explodeautomaton</find>
+      <find>states</find>
     </findStrings>
+    <replaceStrings>
+      <replace>statesR</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -246,106 +146,21 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="71" />
+    <option name="x" value="705" />
     <option name="y" value="32" />
-    <option name="width" value="925" />
+    <option name="width" value="1215" />
     <option name="height" value="1048" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-              <item name="fsm" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-              <item name="fsm" type="462c0819:PsiDirectoryNode" />
-              <item name="machine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="machine" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539008488031" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539033477254" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/js.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -365,7 +180,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.SuffixTest">
+  <component name="RunManager" selected="JUnit.SuffixTest.SuffixTest016">
     <configuration name="SuffixTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
@@ -376,22 +191,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
       <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SuffixTest.SuffixTest001" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="java-fsm-library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.univr.fsm.machine.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
-      <option name="METHOD_NAME" value="SuffixTest001" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -428,7 +227,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="explodeAutomaton.test001" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SuffixTest.SuffixTest015" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
         <pattern>
@@ -437,8 +236,24 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.explodeAutomaton" />
-      <option name="METHOD_NAME" value="test001" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
+      <option name="METHOD_NAME" value="SuffixTest015" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SuffixTest.SuffixTest016" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
+      <option name="METHOD_NAME" value="SuffixTest016" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -446,18 +261,18 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.SuffixTest" />
-      <item itemvalue="JUnit.SuffixTest.SuffixTest001" />
-      <item itemvalue="JUnit.explodeAutomaton.test001" />
       <item itemvalue="JUnit.SuffixTest.SuffixTest007" />
       <item itemvalue="JUnit.SuffixTest.SuffixTest009" />
+      <item itemvalue="JUnit.SuffixTest.SuffixTest015" />
+      <item itemvalue="JUnit.SuffixTest.SuffixTest016" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SuffixTest.SuffixTest016" />
         <item itemvalue="JUnit.SuffixTest" />
+        <item itemvalue="JUnit.SuffixTest.SuffixTest015" />
         <item itemvalue="JUnit.SuffixTest.SuffixTest009" />
         <item itemvalue="JUnit.SuffixTest.SuffixTest007" />
-        <item itemvalue="JUnit.SuffixTest.SuffixTest001" />
-        <item itemvalue="JUnit.explodeAutomaton.test001" />
       </list>
     </recent_temporary>
   </component>
@@ -480,6 +295,8 @@
       <workItem from="1538928309638" duration="1858000" />
       <workItem from="1538987105902" duration="246000" />
       <workItem from="1538996351106" duration="10147000" />
+      <workItem from="1539008619534" duration="5221000" />
+      <workItem from="1539031801151" duration="1466000" />
     </task>
     <task id="LOCAL-00001" summary="fixed su for cycles">
       <created>1538987226796</created>
@@ -495,48 +312,63 @@
       <option name="project" value="LOCAL" />
       <updated>1539006736460</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fixed su">
+      <created>1539008807854</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1539008807854</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added more tests on SuffixTest">
+      <created>1539014572399</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1539014572399</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SuffixTest_SuffixTest007 - 2018.10.08 at 15h 00m 57s.xml">
-      <configuration name="SuffixTest.SuffixTest007" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest_SuffixTest007 - 2018.10.08 at 15h 02m 37s.xml">
-      <configuration name="SuffixTest.SuffixTest007" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest_SuffixTest007 - 2018.10.08 at 15h 03m 22s.xml">
-      <configuration name="SuffixTest.SuffixTest007" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest_SuffixTest007 - 2018.10.08 at 15h 08m 25s.xml">
-      <configuration name="SuffixTest.SuffixTest007" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest - 2018.10.08 at 15h 12m 04s.xml">
+    <history-entry file="SuffixTest - 2018.10.08 at 17h 16m 38s.xml">
       <configuration name="SuffixTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SuffixTest_SuffixTest009 - 2018.10.08 at 15h 40m 50s.xml">
-      <configuration name="SuffixTest.SuffixTest009" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest_SuffixTest009 - 2018.10.08 at 15h 45m 53s.xml">
-      <configuration name="SuffixTest.SuffixTest009" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest_SuffixTest009 - 2018.10.08 at 15h 49m 43s.xml">
-      <configuration name="SuffixTest.SuffixTest009" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest_SuffixTest009 - 2018.10.08 at 15h 49m 55s.xml">
-      <configuration name="SuffixTest.SuffixTest009" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SuffixTest - 2018.10.08 at 16h 21m 28s.xml">
+    <history-entry file="SuffixTest - 2018.10.08 at 17h 24m 30s.xml">
       <configuration name="SuffixTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest - 2018.10.08 at 17h 27m 29s.xml">
+      <configuration name="SuffixTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest - 2018.10.08 at 17h 30m 31s.xml">
+      <configuration name="SuffixTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest015 - 2018.10.08 at 17h 30m 56s.xml">
+      <configuration name="SuffixTest.SuffixTest015" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest015 - 2018.10.08 at 17h 31m 13s.xml">
+      <configuration name="SuffixTest.SuffixTest015" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest - 2018.10.08 at 18h 01m 38s.xml">
+      <configuration name="SuffixTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest - 2018.10.08 at 18h 02m 16s.xml">
+      <configuration name="SuffixTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest016 - 2018.10.08 at 18h 09m 25s.xml">
+      <configuration name="SuffixTest.SuffixTest016" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest016 - 2018.10.08 at 18h 09m 38s.xml">
+      <configuration name="SuffixTest.SuffixTest016" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18478000" />
+    <option name="totallyTimeSpent" value="25165000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="32" width="1849" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2574313" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20919798" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -545,8 +377,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32915717" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.54897493" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997722" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -575,7 +407,22 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed su for cycles" />
     <MESSAGE value="fixed su" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed su" />
+    <MESSAGE value="added more tests on SuffixTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="added more tests on SuffixTest" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>r</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>deltaR.size()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/dimpminus/DImpMinus.jj">
@@ -595,132 +442,21 @@
     <entry file="file://$PROJECT_DIR$/substring1.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/explodeAutomaton.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/explodeAutomaton.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="43" column="46" selection-start-line="43" selection-start-column="46" selection-end-line="43" selection-end-column="46" />
+        <state relative-caret-position="-11421">
+          <caret line="12" column="30" lean-forward="true" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="3146" lean-forward="true" selection-start-line="3146" selection-end-line="3146" />
+        <state relative-caret-position="1650">
+          <caret line="3179" column="84" selection-start-line="3179" selection-start-column="84" selection-end-line="3179" selection-end-column="84" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2375#2376#0" expanded="true" />
-            <element signature="e#2406#2407#0" expanded="true" />
-            <element signature="e#2448#2449#0" expanded="true" />
-            <element signature="e#2476#2477#0" expanded="true" />
-            <element signature="e#2512#2513#0" expanded="true" />
-            <element signature="e#2539#2540#0" expanded="true" />
-            <element signature="e#7312#7325#0" expanded="true" />
-            <element signature="e#7380#7394#0" expanded="true" />
-            <element signature="e#7442#7454#0" expanded="true" />
-            <element signature="e#7498#7505#0" expanded="true" />
-            <element signature="e#9237#9250#0" expanded="true" />
-            <element signature="e#9298#9310#0" expanded="true" />
-            <element signature="e#9354#9361#0" expanded="true" />
-            <element signature="e#12285#12297#0" expanded="true" />
-            <element signature="e#12338#12345#0" expanded="true" />
-            <element signature="e#15710#15722#0" expanded="true" />
-            <element signature="e#15763#15770#0" expanded="true" />
-            <element signature="e#21341#21356#0" expanded="true" />
-            <element signature="e#21401#21413#0" expanded="true" />
-            <element signature="e#21454#21461#0" expanded="true" />
-            <element signature="e#21509#21516#0" expanded="true" />
-            <element signature="e#25212#25213#0" expanded="true" />
-            <element signature="e#25231#25232#0" expanded="true" />
-            <element signature="e#25324#25325#0" expanded="true" />
-            <element signature="e#25349#25350#0" expanded="true" />
-            <element signature="e#25496#25504#0" expanded="true" />
-            <element signature="e#25650#25651#0" expanded="true" />
-            <element signature="e#25677#25678#0" expanded="true" />
-            <element signature="e#25862#25869#0" expanded="true" />
-            <element signature="e#25917#25929#0" expanded="true" />
-            <element signature="e#25979#25994#0" expanded="true" />
-            <element signature="e#27110#27117#0" expanded="true" />
-            <element signature="e#27162#27174#0" expanded="true" />
-            <element signature="e#29317#29329#0" expanded="true" />
-            <element signature="e#29373#29380#0" expanded="true" />
-            <element signature="e#29445#29459#0" expanded="true" />
-            <element signature="e#29511#29525#0" expanded="true" />
-            <element signature="e#30666#30673#0" expanded="true" />
-            <element signature="e#30721#30733#0" expanded="true" />
-            <element signature="e#31170#31177#0" expanded="true" />
-            <element signature="e#31225#31237#0" expanded="true" />
-            <element signature="e#31671#31678#0" expanded="true" />
-            <element signature="e#31726#31738#0" expanded="true" />
-            <element signature="e#32115#32122#0" expanded="true" />
-            <element signature="e#32165#32172#0" expanded="true" />
-            <element signature="e#38232#38233#0" expanded="true" />
-            <element signature="e#38311#38312#0" expanded="true" />
-            <element signature="e#38549#38557#0" expanded="true" />
-            <element signature="e#39305#39312#0" expanded="true" />
-            <element signature="e#39404#39411#0" expanded="true" />
-            <element signature="e#39502#39509#0" expanded="true" />
-            <element signature="e#41891#41899#0" expanded="true" />
-            <element signature="e#43622#43634#0" expanded="true" />
-            <element signature="e#43839#43846#0" expanded="true" />
-            <element signature="e#47465#47481#0" expanded="true" />
-            <element signature="e#50519#50520#0" expanded="true" />
-            <element signature="e#50554#50555#0" expanded="true" />
-            <element signature="e#50973#50980#0" expanded="true" />
-            <element signature="e#51028#51040#0" expanded="true" />
-            <element signature="e#51089#51103#0" expanded="true" />
-            <element signature="e#55206#55216#0" expanded="true" />
-            <element signature="e#61040#61041#0" expanded="true" />
-            <element signature="e#61070#61071#0" expanded="true" />
-            <element signature="e#61563#61575#0" expanded="true" />
-            <element signature="e#65693#65700#0" expanded="true" />
-            <element signature="e#65799#65806#0" expanded="true" />
-            <element signature="e#65855#65862#0" expanded="true" />
-            <element signature="e#66023#66035#0" expanded="true" />
-            <element signature="e#66077#66084#0" expanded="true" />
-            <element signature="e#66613#66620#0" expanded="true" />
-            <element signature="e#68866#68881#0" expanded="true" />
-            <element signature="e#68929#68943#0" expanded="true" />
-            <element signature="e#69075#69082#0" expanded="true" />
-            <element signature="e#69814#69821#0" expanded="true" />
-            <element signature="e#70177#70192#0" expanded="true" />
-            <element signature="e#70382#70390#0" expanded="true" />
-            <element signature="e#70747#70755#0" expanded="true" />
-            <element signature="e#71570#71578#0" expanded="true" />
-            <element signature="e#72011#72035#0" expanded="true" />
-            <element signature="e#72090#72106#0" expanded="true" />
-            <element signature="e#72665#72672#0" expanded="true" />
-            <element signature="e#72826#72833#0" expanded="true" />
-            <element signature="e#72891#72914#0" expanded="true" />
-            <element signature="e#73163#73175#0" expanded="true" />
-            <element signature="e#73890#73897#0" expanded="true" />
-            <element signature="e#74315#74316#0" expanded="true" />
-            <element signature="e#74335#74336#0" expanded="true" />
-            <element signature="e#74432#74433#0" expanded="true" />
-            <element signature="e#74459#74460#0" expanded="true" />
-            <element signature="e#75107#75108#0" expanded="true" />
-            <element signature="e#75139#75140#0" expanded="true" />
-            <element signature="e#75301#75308#0" expanded="true" />
-            <element signature="e#75356#75368#0" expanded="true" />
-            <element signature="e#75423#75438#0" expanded="true" />
-            <element signature="e#77068#77069#0" expanded="true" />
-            <element signature="e#77167#77168#0" expanded="true" />
-            <element signature="e#79348#79363#0" expanded="true" />
-            <element signature="e#79454#79461#0" expanded="true" />
-            <element signature="e#79631#79638#0" expanded="true" />
-            <element signature="e#88185#88186#0" expanded="true" />
-            <element signature="e#88231#88232#0" expanded="true" />
-            <element signature="e#88280#88281#0" expanded="true" />
-            <element signature="e#88331#88332#0" expanded="true" />
-            <element signature="e#92089#92090#0" expanded="true" />
-            <element signature="e#92132#92133#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="244" lean-forward="true" selection-start-line="244" selection-end-line="244" />
         </state>
       </provider>
     </entry>

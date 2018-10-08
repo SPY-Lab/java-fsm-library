@@ -3166,6 +3166,7 @@ public class Automaton {
 
             for(State s: doubleState.keySet()){
                 //tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
+                //a parte l'autoanello
                 for (Transition t: a.getIncomingTransitionsTo(s)){
                     if (!t.getFrom().equals(s)) {
                         delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
@@ -3173,6 +3174,7 @@ public class Automaton {
                     }
                 }
                 //lo stato doppione ha tutte le transizioni in uscita dello stato originale
+                //a parte l'autoanello
                 for(Transition t: a.getOutgoingTransitionsFrom(s)) {
                     if (!t.getTo().equals(s)) {
                         delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));

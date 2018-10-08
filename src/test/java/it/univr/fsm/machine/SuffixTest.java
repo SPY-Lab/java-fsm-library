@@ -76,7 +76,6 @@ public class SuffixTest{
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.su(a, 6);
-        System.out.println("Result --> " + resultR);
 
         Assert.assertEquals(resultR, result);
     }
@@ -488,5 +487,21 @@ public class SuffixTest{
         Automaton resultR = Automaton.su(a, 2);
 
         Assert.assertEquals(resultR, r);
+    }
+
+    @Test
+    public void SuffixTest016(){
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("panda"));
+        Automaton a = Automaton.union(set);
+
+        HashSet<Automaton> r = new HashSet<>();
+        r.add(Automaton.makeEmptyString());
+        Automaton result = Automaton.union(r);
+
+        Automaton resultR = Automaton.su(a, 10);
+
+        Assert.assertEquals(resultR, result);
+
     }
 }
