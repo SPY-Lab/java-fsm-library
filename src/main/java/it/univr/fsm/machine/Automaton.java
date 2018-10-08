@@ -3043,10 +3043,7 @@ public class Automaton {
 		}
 
 		result.minimize();
-		
-		if (Automaton.isEmptyLanguageAccepted(result))
-			return Automaton.makeEmptyString();
-		
+			
 		return result;
 	}
 
@@ -3199,8 +3196,9 @@ public class Automaton {
     }
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;		
+//			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+//			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
+		return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
