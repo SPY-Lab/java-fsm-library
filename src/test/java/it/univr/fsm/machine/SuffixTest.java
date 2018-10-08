@@ -124,8 +124,8 @@ public class SuffixTest{
     	HashSet<Transition> delta = new HashSet<>();
 
     	State q0 = new State("q0", true, false);
-    	State q1 = new State("q0", false, false);
-    	State q2 = new State("q0", false, true);
+    	State q1 = new State("q1", false, false);
+    	State q2 = new State("q2", false, true);
 
     	states.add(q0);
     	states.add(q1);
@@ -150,11 +150,30 @@ public class SuffixTest{
     	deltaR.add(new Transition(q4, q4, "c"));
     	
     	Automaton r = new Automaton(deltaR, statesR);
-    	
-    	
+
         Automaton resultR = Automaton.su(a, 1);
 
         Assert.assertEquals(resultR, r);
+    }
+
+    @Test
+    public void SuffixTest008(){
+
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("and"));
+        set.add(Automaton.makeAutomaton("alpa"));
+        set.add(Automaton.makeAutomaton("epa"));
+        Automaton a = Automaton.union(set);
+
+        HashSet<Automaton> r = new HashSet<>();
+        r.add(Automaton.makeAutomaton("nd"));
+        r.add(Automaton.makeAutomaton("lpa"));
+        r.add(Automaton.makeAutomaton("pa"));
+        Automaton result = Automaton.union(r);
+
+        Automaton resultR = Automaton.su(a, 1);
+
+        Assert.assertEquals(resultR, result);
     }
 
 }

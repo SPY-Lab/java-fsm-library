@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cbc39da2-d31b-4978-8798-114b23f3c301" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,26 +17,45 @@
     <session id="-143788129">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
-          <entry key="project.open.time.1" value="2" />
+          <entry key="project.closed" value="7" />
+          <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.27" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="2" />
+          <entry key="java" value="4" />
           <entry key="jj" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="2" />
+          <entry key="JAVA" value="4" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.checkout.local" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="1418" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="1418" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.spring.boot.mvc.usages" />
+      <usages-collector id="statistics.spring.boot.run.usages" />
     </session>
   </component>
   <component name="FileEditorManager">
@@ -42,8 +63,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="51" selection-start-line="51" selection-end-line="51" />
+            <state relative-caret-position="629">
+              <caret line="3178" column="17" lean-forward="true" selection-start-line="3178" selection-start-column="17" selection-end-line="3178" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -51,10 +72,51 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1450">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>su(</find>
+      <find>suffixes</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="sunyi" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" />
+      </list>
+    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -95,63 +157,22 @@
               <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
               <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
               <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
               <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-              <item name="dimpminus" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-              <item name="fsm" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="univr" type="462c0819:PsiDirectoryNode" />
-              <item name="fsm" type="462c0819:PsiDirectoryNode" />
               <item name="machine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="java-fsm-library" type="b2602c69:ProjectViewProjectNode" />
-              <item name="java-fsm-library" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -163,7 +184,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537262264059" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538754722826" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/js.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -183,7 +204,53 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.SuffixTest">
+    <configuration name="SuffixTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SuffixTest.SuffixTest007" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
+      <option name="METHOD_NAME" value="SuffixTest007" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SuffixTest.SuffixTest008" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
+      <option name="METHOD_NAME" value="SuffixTest008" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="it.univr.fsm.machine in java-fsm-library" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
@@ -198,8 +265,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.it.univr.fsm.machine in java-fsm-library" />
+      <item itemvalue="JUnit.SuffixTest.SuffixTest007" />
+      <item itemvalue="JUnit.SuffixTest.SuffixTest008" />
+      <item itemvalue="JUnit.SuffixTest" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SuffixTest" />
+        <item itemvalue="JUnit.SuffixTest.SuffixTest008" />
+        <item itemvalue="JUnit.SuffixTest.SuffixTest007" />
+        <item itemvalue="JUnit.it.univr.fsm.machine in java-fsm-library" />
         <item itemvalue="JUnit.it.univr.fsm.machine in java-fsm-library" />
       </list>
     </recent_temporary>
@@ -219,22 +296,50 @@
       <workItem from="1538471569273" duration="31000" />
       <workItem from="1538566933709" duration="298000" />
       <workItem from="1538654613715" duration="76000" />
+      <workItem from="1538739321523" duration="4868000" />
+      <workItem from="1538928309638" duration="1858000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="it_univr_fsm_machine_in_java-fsm-library - 2018.09.18 at 11h 09m 54s.xml">
-      <configuration name="it.univr.fsm.machine in java-fsm-library" configurationId="JUnit" />
+    <history-entry file="SuffixTest_SuffixTest007 - 2018.10.05 at 13h 51m 48s.xml">
+      <configuration name="SuffixTest.SuffixTest007" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest007 - 2018.10.05 at 13h 56m 53s.xml">
+      <configuration name="SuffixTest.SuffixTest007" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 20m 29s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 29m 23s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 34m 37s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 35m 06s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 41m 47s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 43m 42s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest_SuffixTest008 - 2018.10.05 at 17h 50m 49s.xml">
+      <configuration name="SuffixTest.SuffixTest008" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SuffixTest - 2018.10.05 at 17h 50m 59s.xml">
+      <configuration name="SuffixTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1359000" />
+    <option name="totallyTimeSpent" value="8085000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="32" width="1849" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26303983" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19517668" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -280,11 +385,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="629">
+          <caret line="3178" column="17" lean-forward="true" selection-start-line="3178" selection-start-column="17" selection-end-line="3178" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1450">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
         </state>
       </provider>
     </entry>

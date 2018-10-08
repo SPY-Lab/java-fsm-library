@@ -3108,15 +3108,11 @@ public class Automaton {
 
 	public static Automaton su(Automaton a, long n){
 
-		if(a.hasCycle()){
-			return a;
-		}
-
 		HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
 		int i = 0;
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
-		Automaton partial = a;
+		Automaton partial = Automaton.explodeAutomaton((Automaton)a.clone());
 
 		while(i!=n){
 			for(Transition removeT: partial.getOutgoingTransitionsFrom(currentState)){
@@ -3124,14 +3120,16 @@ public class Automaton {
 				if(to.size() == 0){
 					result = Automaton.makeEmptyString();
 				}
+
 				for(Transition addT: to){
 					delta.add(new Transition(currentState, addT.getTo(), addT.getInput()));
-					delta.remove(addT);
 				}
 
-				partial = new Automaton(delta, a.getStates());
 				delta.remove(removeT);
+				partial = new Automaton(delta, a.getStates());
+
 			}
+
 			i++;
 		}
 
@@ -3139,6 +3137,48 @@ public class Automaton {
 		result.minimize();
 		return result;
 	}
+
+	static Automaton explodeAutomaton(Automaton a){
+	    HashMap<State, String> selfT = new HashMap<>();
+
+	    for(Transition t : a.getDelta()){
+	        if(t.getTo() == t.getFrom()){
+	            selfT.put(t.getFrom(), t.getInput());
+            }
+        }
+        if(selfT.size() > 0){
+            HashMap<State, State> doubleState = new HashMap<>();
+            for (State s : selfT.keySet()){
+                doubleState.put(s, new State(s.getState() + "b", s.isInitialState(), s.isFinalState()));
+            }
+
+            HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
+
+            for(State s: doubleState.keySet()){
+                //tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
+                for (Transition t: a.getIncomingTransitionsTo(s)){
+                    delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
+                    delta.remove(t);
+                }
+                //lo stato doppione ha tutte le transizioni in uscita dello stato originale
+                for(Transition t: a.getOutgoingTransitionsFrom(s)){
+                    delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
+                }
+
+                delta.add(new Transition(s, doubleState.get(s), selfT.get(s)));
+            }
+
+            HashSet<State> states = (HashSet<State>)a.getStates().clone();
+            for (State s: doubleState.values()){
+                states.add(s);
+            }
+
+            return new Automaton(delta, states);
+        }
+
+        return a;
+
+    }
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
 //			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
