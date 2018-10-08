@@ -3115,11 +3115,11 @@ public class Automaton {
 
 	public static Automaton su(Automaton a, long n){
 
-		HashSet<Transition> delta = null;
 		int i = 0;
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = (Automaton)a.clone();
+		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();;
 
 		while(i!=n){
 		    partial = Automaton.explodeAutomaton(partial);

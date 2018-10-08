@@ -135,7 +135,6 @@ public class SuffixTest{
     	delta.add(new Transition(q2, q2, "c"));
     	
     	Automaton a  = new Automaton(delta, states);
-    	visualizeAutomaton.show(a, "a");
     	
     	HashSet<State> statesR = new HashSet<>();
     	HashSet<Transition> deltaR = new HashSet<>();
