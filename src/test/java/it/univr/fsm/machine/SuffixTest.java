@@ -124,8 +124,8 @@ public class SuffixTest{
     	HashSet<Transition> delta = new HashSet<>();
 
     	State q0 = new State("q0", true, false);
-    	State q1 = new State("q0", false, false);
-    	State q2 = new State("q0", false, true);
+    	State q1 = new State("q1", false, false);
+    	State q2 = new State("q2", false, true);
 
     	states.add(q0);
     	states.add(q1);
@@ -152,7 +152,7 @@ public class SuffixTest{
     	Automaton r = new Automaton(deltaR, statesR);
     	
     	
-        Automaton resultR = Automaton.su(a, 1);
+        Automaton resultR = Automaton.suffixesAt(1, a);
 
         Assert.assertEquals(resultR, r);
     }

@@ -48,12 +48,12 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.makeAutomaton("panda");
-		Automaton b = Automaton.makeAutomaton("pandemonium");
+		Automaton a = Automaton.makeRealAutomaton("panda");
+		Automaton b = Automaton.makeRealAutomaton("a");
 
 		Automaton c = Automaton.union(a, b);
 
-		System.out.println(Automaton.singleParameterSubstring(c, 6));
+		System.out.println(Automaton.leftQuotient(a,b));
 
 
 	}
@@ -3013,6 +3013,8 @@ public class Automaton {
 	}
 
 	public static Automaton leftQuotient(Automaton L1, Automaton L2) {
+		
+				
 		Automaton result = L1.clone();
 		Automaton L1copy = L1.clone();
 
@@ -3043,6 +3045,10 @@ public class Automaton {
 		}
 
 		result.minimize();
+		
+		if (Automaton.isEmptyLanguageAccepted(result))
+			return Automaton.makeEmptyString();
+		
 		return result;
 	}
 
@@ -3149,20 +3155,20 @@ public class Automaton {
 	public static Automaton suffixesAt(long i, Automaton automaton) {
 			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
 			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;		
-//		return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
+		int initIndex = (int) (i < 0 ? 0 : i);
+
 		if (a.isSingleString()) {
-			int initIndex = (int) (i < 0 ? 0 : i);
 
 			if (i >= a.getSingleString().length())
 				return Automaton.makeEmptyString();
 			else
-				return Automaton.makeAutomaton(a.getSingleString().substring((int) (initIndex)));
+				return Automaton.makeAutomaton(a.getSingleString().substring(initIndex));
 		}
 
-		return Automaton.suffixesAt(i < 0 ? 0 : i, a);
+		return Automaton.suffixesAt(initIndex, a);
 	}
 
 	public static Automaton substring(Automaton a, long i, long j) {	
