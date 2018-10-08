@@ -118,7 +118,6 @@ public class SuffixTest{
 
     @Test
     public void SuffixTest007(){
-
     	
     	HashSet<State> states = new HashSet<>();
     	HashSet<Transition> delta = new HashSet<>();
@@ -136,6 +135,7 @@ public class SuffixTest{
     	delta.add(new Transition(q2, q2, "c"));
     	
     	Automaton a  = new Automaton(delta, states);
+    	visualizeAutomaton.show(a, "a");
     	
     	HashSet<State> statesR = new HashSet<>();
     	HashSet<Transition> deltaR = new HashSet<>();
@@ -150,6 +150,8 @@ public class SuffixTest{
     	deltaR.add(new Transition(q4, q4, "c"));
     	
     	Automaton r = new Automaton(deltaR, statesR);
+
+    	Automaton exp = Automaton.explodeAutomaton(a);
 
         Automaton resultR = Automaton.su(a, 1);
 
@@ -175,5 +177,72 @@ public class SuffixTest{
 
         Assert.assertEquals(resultR, result);
     }
+
+    @Test
+    public void SuffixTest009(){
+        HashSet<State> states = new HashSet<>();
+        HashSet<Transition> delta = new HashSet<>();
+
+        State q0 = new State("q0", true, false);
+        State q1 = new State("q1", false, false);
+        State q2 = new State("q2", false, false);
+        State q3 = new State("q3", false, true);
+        State q4 = new State("q4", false, false);
+        State q5 = new State("q5", false, false);
+
+        states.add(q0);
+        states.add(q1);
+        states.add(q2);
+        states.add(q3);
+        states.add(q4);
+        states.add(q5);
+
+        delta.add(new Transition(q0, q1, "a"));
+        delta.add(new Transition(q1, q2, "b"));
+        delta.add(new Transition(q2, q2, "c"));
+        delta.add(new Transition(q2, q3, "d"));
+        delta.add(new Transition(q0, q4, "g"));
+        delta.add(new Transition(q4, q4, "h"));
+        delta.add(new Transition(q4, q5, "i"));
+        delta.add(new Transition(q5, q3, "l"));
+        delta.add(new Transition(q1, q4, "e"));
+        delta.add(new Transition(q5, q2, "f"));
+
+        Automaton a  = new Automaton(delta, states);
+        visualizeAutomaton.show(a, "a");
+
+        visualizeAutomaton.show(Automaton.explodeAutomaton(a), "exp1");
+        visualizeAutomaton.show(Automaton.su(a, 1), "sub1");
+
+        /*HashSet<State> statesR = new HashSet<>();
+        HashSet<Transition> deltaR = new HashSet<>();
+
+        State q00 = new State("q0", true, false);
+        State q01 = new State("q1", false, false);
+        State q02 = new State("q2", false, false);
+        State q03 = new State("q3", false, true);
+        State q04 = new State("q4", false, false);
+        State q05 = new State("q5", false, false);
+
+        states.add(q00);
+        states.add(q01);
+        states.add(q02);
+        states.add(q03);
+        states.add(q04);
+        states.add(q05);
+
+        deltaR.add(new Transition(q3, q4, "b"));
+        deltaR.add(new Transition(q4, q4, "c"));
+
+        Automaton r = new Automaton(deltaR, statesR);
+
+        Automaton exp = Automaton.explodeAutomaton(a);
+
+        Automaton resultR = Automaton.su(a, 1);
+
+        Assert.assertEquals(resultR, r);*/
+    }
+
+
 
 }

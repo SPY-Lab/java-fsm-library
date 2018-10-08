@@ -84,8 +84,6 @@ public class Automaton {
 
 	/**
 	 * Constructs a new automaton.
-	 * 
-	 * @param initialState the initial state
 	 * @param delta the set of transitions
 	 * @param states the set of states
 	 */
@@ -3120,16 +3118,19 @@ public class Automaton {
 
 	public static Automaton su(Automaton a, long n){
 
-		HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
+		HashSet<Transition> delta = null;
 		int i = 0;
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
-		Automaton partial = Automaton.explodeAutomaton((Automaton)a.clone());
+		Automaton partial = (Automaton)a.clone();
 
 		while(i!=n){
+		    partial = Automaton.explodeAutomaton(partial);
+            delta = (HashSet<Transition>)partial.getDelta().clone();
+
 			for(Transition removeT: partial.getOutgoingTransitionsFrom(currentState)){
 				HashSet<Transition> to = partial.getOutgoingTransitionsFrom(removeT.getTo());
-				if(to.size() == 0){
+				if(to.size() == 0 || removeT.getTo().isFinalState()){
 					result = Automaton.makeEmptyString();
 				}
 
@@ -3138,14 +3139,13 @@ public class Automaton {
 				}
 
 				delta.remove(removeT);
-				partial = new Automaton(delta, a.getStates());
-
+				partial = new Automaton(delta, partial.getStates());
 			}
 
 			i++;
 		}
 
-		result = Automaton.union(result, new Automaton(delta, a.getStates()));
+		result = Automaton.union(result, new Automaton(delta, partial.getStates()));
 		result.minimize();
 		return result;
 	}
@@ -3158,6 +3158,7 @@ public class Automaton {
 	            selfT.put(t.getFrom(), t.getInput());
             }
         }
+
         if(selfT.size() > 0){
             HashMap<State, State> doubleState = new HashMap<>();
             for (State s : selfT.keySet()){
@@ -3169,15 +3170,20 @@ public class Automaton {
             for(State s: doubleState.keySet()){
                 //tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
                 for (Transition t: a.getIncomingTransitionsTo(s)){
-                    delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
-                    delta.remove(t);
+                    if (!t.getFrom().equals(s)) {
+                        delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
+                        delta.remove(t);
+                    }
                 }
                 //lo stato doppione ha tutte le transizioni in uscita dello stato originale
-                for(Transition t: a.getOutgoingTransitionsFrom(s)){
-                    delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
+                for(Transition t: a.getOutgoingTransitionsFrom(s)) {
+                    if (!t.getTo().equals(s)) {
+                        delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
+                    }
                 }
 
-                delta.add(new Transition(s, doubleState.get(s), selfT.get(s)));
+                delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
+                delta.add(new Transition(s, s, selfT.get(s)));
             }
 
             HashSet<State> states = (HashSet<State>)a.getStates().clone();
