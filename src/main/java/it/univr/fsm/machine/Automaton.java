@@ -48,14 +48,12 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.makeRealAutomaton("panda");
+		Automaton a = Automaton.makeRealAutomaton("abc");
 		Automaton b = Automaton.makeRealAutomaton("a");
 
 		Automaton c = Automaton.union(a, b);
 
-		System.out.println(Automaton.leftQuotient(a,b));
-
-
+		System.out.println(Automaton.star(a));
 	}
 
 	/**
@@ -1187,6 +1185,20 @@ public class Automaton {
 		Automaton a =  new Automaton(newGamma, newStates);
 		a.minimize();
 		return a;
+	}
+	
+	
+	public static Automaton star(Automaton a) {
+		Automaton result =  a.isSingleString() ? Automaton.makeRealAutomaton(a.getSingleString()) : a.clone();
+		
+		for (State f : result.getFinalStates())
+			for (State i : result.getInitialStates()) {
+				i.setFinalState(true);
+				result.getDelta().add(new Transition(f, i, ""));
+			}
+		
+		result.minimize();
+		return result;
 	}
 
 	/**
@@ -2475,6 +2487,7 @@ public class Automaton {
 		return a; 
 	}
 
+
 	private void stmSyn_tr(State q, HashSet<State> q_first, HashSet<State> f_first, HashSet<Transition> delta, HashSet<State> visited) {
 
 		/*State next = null;
@@ -3115,11 +3128,11 @@ public class Automaton {
 
 	public static Automaton su(Automaton a, long n){
 
-		HashSet<Transition> delta = null;
 		int i = 0;
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = (Automaton)a.clone();
+		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();;
 
 		while(i!=n){
 		    partial = Automaton.explodeAutomaton(partial);
