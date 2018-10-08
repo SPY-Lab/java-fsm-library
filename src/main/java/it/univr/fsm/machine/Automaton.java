@@ -294,7 +294,10 @@ public class Automaton {
 
 		if (first.isSingleString() && second.isSingleString()) 
 			return Automaton.makeAutomaton(first.getSingleString() + second.getSingleString());
-
+		
+		first = first.isSingleString() ? Automaton.makeRealAutomaton(first.getSingleString()) : first;
+		second = second.isSingleString() ? Automaton.makeRealAutomaton(second.getSingleString()) : second;
+		
 		HashMap<State, State> mappingFirst = new HashMap<State,State>();
 		HashMap<State, State> mappingSecond = new HashMap<State, State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
@@ -892,6 +895,9 @@ public class Automaton {
 	 * @return true if the string is accepted by the automaton, false otherwise
 	 */
 	public boolean run(String s) {
+		if (isSingleString())
+			return s.equals(getSingleString());
+		
 		return run(s, getInitialState());
 	}
 
@@ -3141,9 +3147,9 @@ public class Automaton {
 	}
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-//			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-//			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;		
-		return Automaton.su(automaton, i);
+			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;		
+//		return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
