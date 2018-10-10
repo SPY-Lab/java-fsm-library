@@ -3131,7 +3131,7 @@ public class Automaton {
 		int i = 0;
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
-		Automaton partial = (Automaton)a.clone();
+		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
 		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();;
 
 		while(i!=n){
@@ -3160,7 +3160,7 @@ public class Automaton {
 		return result;
 	}
 
-	static Automaton explodeAutomaton(Automaton a){
+	public static Automaton explodeAutomaton(Automaton a){
 	    HashMap<State, String> selfT = new HashMap<>();
 
 	    for(Transition t : a.getDelta()){
@@ -3207,6 +3207,42 @@ public class Automaton {
         }
 
         return a;
+    }
+
+    /**
+     * The method deletes the cycles that run through the initial state
+     * @param a
+     * @return
+     */
+    public static Automaton deleteCycle(Automaton a){
+        boolean cycleOnStart = false;
+	    for(Transition t: a.getDelta()){
+	        if(t.getTo().equals(a.getInitialState())){
+	            cycleOnStart = true;
+            }
+        }
+
+        if(!cycleOnStart){
+            return a;
+        }
+
+        HashSet<Transition> delta = new HashSet<>();
+        State q0Clone = new State("q0b", false, a.getInitialState().isFinalState());
+        for(Transition t: a.getDelta()){
+            if(!t.getTo().equals(a.getInitialState())) {
+                delta.add(t);
+            }else{
+                delta.add(new Transition(t.getFrom(), q0Clone, t.getInput()));
+            }
+
+            if(t.getFrom().equals(a.getInitialState())){
+                delta.add(new Transition(q0Clone, t.getTo(), t.getInput()));
+            }
+        }
+
+        HashSet<State> states = (HashSet<State>) a.getStates().clone();
+        states.add(q0Clone);
+        return new Automaton(delta, states);
 
     }
 
