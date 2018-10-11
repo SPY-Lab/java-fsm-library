@@ -290,10 +290,10 @@ public class Automaton {
 
 		if (first.isSingleString() && second.isSingleString()) 
 			return Automaton.makeAutomaton(first.getSingleString() + second.getSingleString());
-		
+
 		first = first.isSingleString() ? Automaton.makeRealAutomaton(first.getSingleString()) : first;
 		second = second.isSingleString() ? Automaton.makeRealAutomaton(second.getSingleString()) : second;
-		
+
 		HashMap<State, State> mappingFirst = new HashMap<State,State>();
 		HashMap<State, State> mappingSecond = new HashMap<State, State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
@@ -893,7 +893,7 @@ public class Automaton {
 	public boolean run(String s) {
 		if (isSingleString())
 			return s.equals(getSingleString());
-		
+
 		return run(s, getInitialState());
 	}
 
@@ -1186,17 +1186,17 @@ public class Automaton {
 		a.minimize();
 		return a;
 	}
-	
-	
+
+
 	public static Automaton star(Automaton a) {
 		Automaton result =  a.isSingleString() ? Automaton.makeRealAutomaton(a.getSingleString()) : a.clone();
-		
+
 		for (State f : result.getFinalStates())
 			for (State i : result.getInitialStates()) {
 				i.setFinalState(true);
 				result.getDelta().add(new Transition(f, i, ""));
 			}
-		
+
 		result.minimize();
 		return result;
 	}
@@ -3024,8 +3024,8 @@ public class Automaton {
 	}
 
 	public static Automaton leftQuotient(Automaton L1, Automaton L2) {
-		
-				
+
+
 		Automaton result = L1.clone();
 		Automaton L1copy = L1.clone();
 
@@ -3056,7 +3056,7 @@ public class Automaton {
 		}
 
 		result.minimize();
-			
+
 		return result;
 	}
 
@@ -3135,8 +3135,8 @@ public class Automaton {
 		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();;
 
 		while(i!=n){
-		    partial = Automaton.explodeAutomaton(partial);
-            delta = (HashSet<Transition>)partial.getDelta().clone();
+			partial = Automaton.explodeAutomaton(partial);
+			delta = (HashSet<Transition>)partial.getDelta().clone();
 
 			for(Transition removeT: partial.getOutgoingTransitionsFrom(currentState)){
 				HashSet<Transition> to = partial.getOutgoingTransitionsFrom(removeT.getTo());
@@ -3161,56 +3161,56 @@ public class Automaton {
 	}
 
 	static Automaton explodeAutomaton(Automaton a){
-	    HashMap<State, String> selfT = new HashMap<>();
+		HashMap<State, String> selfT = new HashMap<>();
 
-	    for(Transition t : a.getDelta()){
-	        if(t.getTo() == t.getFrom()){
-	            selfT.put(t.getFrom(), t.getInput());
-            }
-        }
+		for(Transition t : a.getDelta()){
+			if(t.getTo() == t.getFrom()){
+				selfT.put(t.getFrom(), t.getInput());
+			}
+		}
 
-        if(selfT.size() > 0){
-            HashMap<State, State> doubleState = new HashMap<>();
-            for (State s : selfT.keySet()){
-                doubleState.put(s, new State(s.getState() + "b", s.isInitialState(), s.isFinalState()));
-            }
+		if(selfT.size() > 0){
+			HashMap<State, State> doubleState = new HashMap<>();
+			for (State s : selfT.keySet()){
+				doubleState.put(s, new State(s.getState() + "b", s.isInitialState(), s.isFinalState()));
+			}
 
-            HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
+			HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
 
-            for(State s: doubleState.keySet()){
-                //tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
-                for (Transition t: a.getIncomingTransitionsTo(s)){
-                    if (!t.getFrom().equals(s)) {
-                        delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
-                        delta.remove(t);
-                    }
-                }
-                //lo stato doppione ha tutte le transizioni in uscita dello stato originale
-                for(Transition t: a.getOutgoingTransitionsFrom(s)) {
-                    if (!t.getTo().equals(s)) {
-                        delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
-                    }
-                }
+			for(State s: doubleState.keySet()){
+				//tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
+				for (Transition t: a.getIncomingTransitionsTo(s)){
+					if (!t.getFrom().equals(s)) {
+						delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
+						delta.remove(t);
+					}
+				}
+				//lo stato doppione ha tutte le transizioni in uscita dello stato originale
+				for(Transition t: a.getOutgoingTransitionsFrom(s)) {
+					if (!t.getTo().equals(s)) {
+						delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
+					}
+				}
 
-                delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
-                delta.add(new Transition(s, s, selfT.get(s)));
-            }
+				delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
+				delta.add(new Transition(s, s, selfT.get(s)));
+			}
 
-            HashSet<State> states = (HashSet<State>)a.getStates().clone();
-            for (State s: doubleState.values()){
-                states.add(s);
-            }
+			HashSet<State> states = (HashSet<State>)a.getStates().clone();
+			for (State s: doubleState.values()){
+				states.add(s);
+			}
 
-            return new Automaton(delta, states);
-        }
+			return new Automaton(delta, states);
+		}
 
-        return a;
+		return a;
 
-    }
+	}
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-//			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-//			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
+		//			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+		//			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
 		return Automaton.su(automaton, i);
 	}
 
@@ -3233,8 +3233,18 @@ public class Automaton {
 		long initPoint = Long.min(i, j) < 0 ? 0 : Long.min(i, j);
 		long endPoint = Long.max(i, j) < 0 ? 0 : Long.max(i, j);
 
-		if (a.isSingleString())
-			return Automaton.makeAutomaton(a.getSingleString().substring((int) initPoint, (int) endPoint));
+		if (a.isSingleString()) {
+			String s = a.getSingleString();
+
+			if (endPoint >= s.length()) 
+				if (initPoint >= s.length())
+					return Automaton.makeEmptyString();
+				else
+					return Automaton.makeAutomaton(s.substring((int) initPoint));
+			else
+				return Automaton.makeAutomaton(a.getSingleString().substring((int) initPoint, (int) endPoint));
+		}
+
 
 		Automaton left = Automaton.suffixesAt(initPoint, a);	
 
