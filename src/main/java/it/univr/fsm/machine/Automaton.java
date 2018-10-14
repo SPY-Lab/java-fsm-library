@@ -3474,4 +3474,32 @@ public class Automaton {
 		Collections.reverse(path);
 		return path;
 	}
+	
+	/**
+	 * Length algorithm in the constant integers abstract domain.
+	 * 
+	 * @param a input automaton
+	 * @return Returns -1 if the automaton has no constant lengths (i.e., top integer), the length otherwise.
+	 */
+	public static int length(Automaton a) {
+
+		if (a.hasCycle()) {
+			return -1;
+		} else {
+			
+			int constantLength = -1;
+			
+			for (State f : a.getFinalStates()) {
+				int min = a.minimumDijkstra(f).size() - 1;
+				int max = a.maximumDijkstra(f).size() - 1;
+				
+				if (min != max || (min == max && min != constantLength && constantLength != -1))
+					return -1;
+				else
+					constantLength = min;
+			}
+			
+			return constantLength;
+		}
+	}
 }
