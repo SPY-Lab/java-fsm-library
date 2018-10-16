@@ -3502,4 +3502,5 @@ public class Automaton {
 		Collections.reverse(path);
 		return path;
 	}
+
 }
