@@ -290,10 +290,10 @@ public class Automaton {
 
 		if (first.isSingleString() && second.isSingleString()) 
 			return Automaton.makeAutomaton(first.getSingleString() + second.getSingleString());
-		
+
 		first = first.isSingleString() ? Automaton.makeRealAutomaton(first.getSingleString()) : first;
 		second = second.isSingleString() ? Automaton.makeRealAutomaton(second.getSingleString()) : second;
-		
+
 		HashMap<State, State> mappingFirst = new HashMap<State,State>();
 		HashMap<State, State> mappingSecond = new HashMap<State, State>();
 		HashSet<Transition> newDelta = new HashSet<Transition>();
@@ -893,7 +893,7 @@ public class Automaton {
 	public boolean run(String s) {
 		if (isSingleString())
 			return s.equals(getSingleString());
-		
+
 		return run(s, getInitialState());
 	}
 
@@ -1186,17 +1186,17 @@ public class Automaton {
 		a.minimize();
 		return a;
 	}
-	
-	
+
+
 	public static Automaton star(Automaton a) {
 		Automaton result =  a.isSingleString() ? Automaton.makeRealAutomaton(a.getSingleString()) : a.clone();
-		
+
 		for (State f : result.getFinalStates())
 			for (State i : result.getInitialStates()) {
 				i.setFinalState(true);
 				result.getDelta().add(new Transition(f, i, ""));
 			}
-		
+
 		result.minimize();
 		return result;
 	}
@@ -3024,8 +3024,8 @@ public class Automaton {
 	}
 
 	public static Automaton leftQuotient(Automaton L1, Automaton L2) {
-		
-				
+
+
 		Automaton result = L1.clone();
 		Automaton L1copy = L1.clone();
 
@@ -3194,9 +3194,9 @@ public class Automaton {
                     }
                 }
 
-                delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
-                delta.add(new Transition(s, s, selfT.get(s)));
-            }
+				delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
+				delta.add(new Transition(s, s, selfT.get(s)));
+			}
 
             HashSet<State> states = (HashSet<State>)a.getStates().clone();
             for (State s: doubleState.values()){
@@ -3271,8 +3271,18 @@ public class Automaton {
 		long initPoint = Long.min(i, j) < 0 ? 0 : Long.min(i, j);
 		long endPoint = Long.max(i, j) < 0 ? 0 : Long.max(i, j);
 
-		if (a.isSingleString())
-			return Automaton.makeAutomaton(a.getSingleString().substring((int) initPoint, (int) endPoint));
+		if (a.isSingleString()) {
+			String s = a.getSingleString();
+
+			if (endPoint >= s.length())
+				if (initPoint >= s.length())
+					return Automaton.makeEmptyString();
+				else
+					return Automaton.makeAutomaton(s.substring((int) initPoint));
+			else
+				return Automaton.makeAutomaton(a.getSingleString().substring((int) initPoint, (int) endPoint));
+		}
+
 
 		Automaton left = Automaton.suffixesAt(initPoint, a);	
 
@@ -3503,4 +3513,31 @@ public class Automaton {
 		return path;
 	}
 
+	/**
+	 * Length algorithm in the constant integers abstract domain.
+	 *
+	 * @param a input automaton
+	 * @return Returns -1 if the automaton has no constant lengths (i.e., top integer), the length otherwise.
+	 */
+	public static int length(Automaton a) {
+
+		if (a.hasCycle()) {
+			return -1;
+		} else {
+
+			int constantLength = -1;
+
+			for (State f : a.getFinalStates()) {
+				int min = a.minimumDijkstra(f).size() - 1;
+				int max = a.maximumDijkstra(f).size() - 1;
+
+				if (min != max || (min == max && min != constantLength && constantLength != -1))
+					return -1;
+				else
+					constantLength = min;
+			}
+
+			return constantLength;
+		}
+	}
 }
