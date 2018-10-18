@@ -255,4 +255,41 @@ public class SliceTest {
 
     }
 
+    @Test
+    public void sliceTest013(){
+        HashSet<State> states = new HashSet<>();
+        State q0 = new State("q0", true, true);
+        State q1 = new State("q1", false, false);
+        states.add(q0);
+        states.add(q1);
+
+        HashSet<Transition> delta = new HashSet<>();
+        delta.add(new Transition(q0, q1, "a"));
+        delta.add(new Transition(q1, q0, "c"));
+
+        Automaton  a = new Automaton(delta, states);
+
+        HashSet<State> statesR = new HashSet<>();
+        HashSet<Transition> deltaR = new HashSet<>();
+
+        State q00 = new State("q0", true, true);
+        State q01 = new State("q1", false, false);
+        State q02 = new State("q2", false, true);
+
+        statesR.add(q00);
+        statesR.add(q01);
+        statesR.add(q02);
+
+        deltaR.add(new Transition(q00, q02, "c"));
+        deltaR.add(new Transition(q02, q01, "a"));
+        deltaR.add(new Transition(q01, q02, "c"));
+
+        Automaton r = new Automaton(deltaR, statesR);
+
+        Automaton resultR = Automaton.slice(a, 1);
+
+        Assert.assertEquals(resultR, r);
+
+    }
+
 }

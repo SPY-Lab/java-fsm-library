@@ -3615,12 +3615,13 @@ public class Automaton {
      * @return
      */
     public static Automaton toLowerCase(Automaton a){
-        Automaton toLower = (Automaton)a.clone();
+        Automaton toLower = a.clone();
+
         for (Transition t : toLower.getDelta()){
             t.setInput(t.getInput().toLowerCase());
         }
 
-        toLower.minimize();
+        //toLower.minimize();
 
         return toLower;
     }
@@ -3629,10 +3630,10 @@ public class Automaton {
      * Creates a new FA that recognizes the upper case of all the strings of the automaton
      * @return
      */
-    public static Automaton UpperCase(Automaton a){
-        Automaton toUpper = (Automaton)a.clone();
+    public static Automaton toUpperCase(Automaton a){
+        Automaton toUpper = a.clone();
         for (Transition t : toUpper.getDelta()){
-            t.setInput(t.getInput().toLowerCase());
+            t.setInput(t.getInput().toUpperCase());
         }
 
         toUpper.minimize();
@@ -3640,7 +3641,6 @@ public class Automaton {
         return toUpper;
     }
 
-    /************************************************************/
     /**
      * Method that, given two indexes, returns the automaton that recognizes all the substrings in
      * those indexes. If any of them is negative then index = index + length.
@@ -3654,11 +3654,16 @@ public class Automaton {
         if(start == end){
             return Automaton.makeEmptyString();
         }
-        if(start > 0 && end > 0 && start < end){
+
+        if (start > 0 && end > 0 && start < end) {
             return Automaton.substring(a, start, end);
         }
 
-        return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
+        if(!a.hasCycle()) {
+            return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
+        }
+
+        return Automaton.makeTopLanguage();
 
     }
 
@@ -3730,11 +3735,13 @@ public class Automaton {
      */
     public static Automaton slice(Automaton a, long start){
 
-        //todo check if is possible with cycles
-
         //if the starting index is greater or equal to zero we return the result of Substring
         if(start >= 0){
             return Automaton.singleParameterSubstring(a, start);
+        }
+
+        if(a.hasCycle()){
+            return Automaton.makeTopLanguage();
         }
 
         //otherwise the index is negative and we need to transform it in a positive value and return the result
@@ -3784,6 +3791,84 @@ public class Automaton {
         return result;
     }
 
+    /**
+     * Checks whether an automaton includes another one.
+     * @param other Automaton on which we set the search
+     * @param a Automaton
+     * @return true (1) if all the strings in automaton contains the strings in other,
+     *         false (0) if none of the strings cointain strings of other
+     *         topbool (-1) otherwise
+     */
+    public static int includes(Automaton a, Automaton other){
+
+        a.minimize();
+
+        if(other.hasCycle() || a.hasCycle()){
+            return -1;
+        }
+
+        Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
+        if (Automaton.isEmptyLanguageAccepted(intersection))
+            return 0;
+
+        if (other.equals(Automaton.makeEmptyString())){
+            return 1;
+        }
+
+        return a.auxIncludes(other,new HashSet<Transition>(), a.getInitialState());
+    }
 
 
+    /**
+     * Checks whether an automaton includes another one.
+     * @param other FA on which we set the search
+     * @param i Interval on which we start the search
+     * @return true if all the strings in automaton contains the strings in other,
+     *         false if none of the strings contain strings of other
+     *         topbool otherwise
+     */
+    public static int includes(Automaton a, Automaton other, long i){
+
+        return Automaton.includes(Automaton.singleParameterSubstring(a, i),other);
+
+    }
+
+    /**
+     * Auxiliary function for includes() that checks whether automaton contains all the strings in
+     * Automaton other or just some of them. The method is recursive.
+     * @param other Automaton on which the search is set on
+     * @param delta set of transitions that lead to current state
+     * @param currentState state from which we start to explore the automaton
+     * @return
+     */
+    private int auxIncludes(Automaton other, HashSet<Transition> delta, State currentState){
+        int outgoingTrans = this.getOutgoingTransitionsFrom(currentState).size();
+
+        //we enter in this body only if a state has more than one outgoing transaction and
+        //it is not the initial state of the automaton
+        //or if we arrived at a final state
+        if(( outgoingTrans > 1 && !(currentState.equals(this.getInitialState()))) || currentState.isFinalState()) {
+            Automaton factors = Automaton.factors(new Automaton(delta, this.getStates()));
+            //check if the intersection between the factorization on the automaton visited so far
+            //and the other automaton are equals, if they are it means the strings are contained
+            boolean equalsOther = Automaton.intersection(factors, other).equals(other);
+
+            if (equalsOther) {
+                return 1;
+            }
+
+            if (currentState.isFinalState())
+                return -1;
+        }
+
+        //for each path we check if the string is contained or not
+        for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
+            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+            clone.add(t);
+            if(auxIncludes(other, clone, t.getTo()) == -1){
+                return -1;
+            }
+        }
+        return 1;
+    }
 }
