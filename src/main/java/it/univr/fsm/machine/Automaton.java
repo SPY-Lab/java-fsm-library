@@ -3871,4 +3871,126 @@ public class Automaton {
         }
         return 1;
     }
+
+    
+    /**
+     * startsWith with two parameters.
+     * @param other
+     * @param i
+     * @return
+     */
+    public static int startsWith(Automaton a, Automaton other, long i){
+        return Automaton.startsWith(Automaton.singleParameterSubstring(a, i), other);
+    }
+
+    /**
+     * starsWith with one parameter.
+     * Determines if every string of automaton starts with all the strings in Automaton  other
+     * @param other Automaton  containing the strings to search for
+     * @return Bool True if automaton starts with other
+     *         Bool False if none of the strings in automaton starts with a string in other
+     *         Bool TopBool otherwise.
+     */
+    public static int startsWith(Automaton a, Automaton  other){
+        other.minimize();
+        a.minimize();
+
+        if(other.hasCycle() || a.hasCycle()) {
+            return -1;
+        }
+
+        if (other.equals(Automaton.makeEmptyString())) {
+            return 1;
+        }
+
+        Automaton intersection = Automaton.intersection(Automaton.prefix(a), other);
+
+        if(Automaton.isEmptyLanguageAccepted(intersection)) {
+            return 0;
+        }
+
+        if(other.hasOnlyOnePath()) {
+
+            Automaton  C = other.extractLongestString();
+            Automaton  B = Automaton.substring(a, 0, Automaton.length(C));
+            B.minimize();
+
+            if (B.equals(C)) {
+                return 1;
+            }
+
+        }
+
+        return -1;
+    }
+
+    /**
+     * Checks if the automaton has only one path meaning that the
+     * recongnized strings all have common prefixes.
+     * A string is basically the concat of the shortest string recognized with
+     * other characters.
+     * The automaton must be minimized.
+     * @return true if it is only one path, false otherwise
+     */
+    private boolean hasOnlyOnePath(){
+        HashSet<State> transFrom = new HashSet<>();
+        HashSet<State> transTo = new HashSet<>();
+        State from = null;
+        State to = null;
+
+        /**
+         * The general idea is that if the automaton has only one path
+         * then the set of states contain a node at most once as starting point of
+         * a transition and at most once as arrival node.
+         */
+        for (Transition t: this.getDelta()) {
+
+            from = t.getFrom();
+            if(transFrom.contains(from)){
+                return false;
+            }
+
+            transFrom.add(from);
+
+            to = t.getTo();
+            if(transTo.contains(to)){
+                return false;
+            }
+
+            transTo.add(to);
+
+        }
+
+        return true;
+    }
+
+    /**
+     * Creates a new Automaton  recognizing only the longest string of the Automaton 
+     * Works only if the Automaton  has only one path
+     * @return Automaton  for the longest string found
+     */
+    private Automaton  extractLongestString(){
+        State lastFinalState = null;
+
+        for (State finalState : this.getFinalStates()){
+            HashSet<Transition> outgoingTransaction = this.getOutgoingTransitionsFrom(finalState);
+            if(outgoingTransaction.size() == 0){
+                lastFinalState = finalState;
+            }
+        }
+
+        State nextState = this.getInitialState();
+        String s = "";
+        while(!nextState.equals(lastFinalState)){
+            for(Transition t: this.getDelta()){
+                if(t.getFrom().equals(nextState)){
+                    nextState = t.getTo();
+                    s += t.getInput();
+                }
+            }
+        }
+
+        return Automaton.makeAutomaton(s);
+    }
+
 }

@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbc39da2-d31b-4978-8798-114b23f3c301" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ToLowerCaseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ToUpperCase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,7 +33,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="2" />
-          <entry key="java" value="23" />
+          <entry key="java" value="24" />
           <entry key="jj" value="1" />
           <entry key="png" value="1" />
         </counts>
@@ -47,7 +42,7 @@
         <counts>
           <entry key="CLASS" value="2" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="23" />
+          <entry key="JAVA" value="24" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -59,14 +54,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="5" />
-          <entry key="java" value="9545" />
-          <entry key="txt" value="277" />
+          <entry key="java" value="9788" />
+          <entry key="txt" value="379" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9545" />
-          <entry key="PLAIN_TEXT" value="282" />
+          <entry key="JAVA" value="9788" />
+          <entry key="PLAIN_TEXT" value="384" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -76,11 +71,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="829">
-              <caret line="3867" column="59" selection-start-line="3867" selection-start-column="59" selection-end-line="3867" selection-end-column="59" />
+            <state relative-caret-position="604">
+              <caret line="3992" column="41" selection-start-line="3992" selection-start-column="41" selection-end-line="3992" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2314#2315#0" expanded="true" />
@@ -116,6 +111,18 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="504">
+              <caret line="346" column="55" lean-forward="true" selection-start-line="346" selection-start-column="55" selection-end-line="346" selection-end-column="55" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -131,32 +138,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10625">
-              <caret line="425" column="74" selection-start-line="425" selection-start-column="74" selection-end-line="425" selection-end-column="74" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest2.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret selection-end-line="7" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="50">
-              <caret line="7" column="25" selection-end-line="7" selection-end-column="25" />
+              <caret selection-end-line="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -175,10 +158,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>su(</find>
-      <find>suffixes</find>
-      <find>explode</find>
-      <find>explodeautomaton</find>
       <find>states</find>
       <find>length</find>
       <find>explodeAutomaton</find>
@@ -191,12 +170,10 @@
       <find>Automaton a = (Automaton.union(set));</find>
       <find>Automaton result = (Automaton.union(r));</find>
       <find>Assert.assertTrue(lower.equals(automaton.toLowerCase()));</find>
-      <find>FA</find>
       <find>automaton.toUpperCase()</find>
       <find>Interval</find>
       <find>a.slice(start, end);</find>
       <find>new Automaton(Automaton.union(r));</find>
-      <find>new Automaton(</find>
       <find>.getAutomaton()</find>
       <find>includesOpt</find>
       <find>new AbstractBoolean(</find>
@@ -204,17 +181,22 @@
       <find>));</find>
       <find>new FA(</find>
       <find>);</find>
+      <find>sub</find>
+      <find>FA</find>
+      <find>new AbstractBoolean(2)</find>
+      <find>new AbstractBoolean(0)</find>
+      <find>new Automaton(</find>
+      <find>a.startsWith(sub)</find>
+      <find>Automaton a = Automaton.union(set));</find>
     </findStrings>
     <replaceStrings>
       <replace>statesR</replace>
       <replace>trimLeft</replace>
       <replace>Automaton resultR = Automaton.slice(a, slice);</replace>
       <replace>Automaton resultR = Automaton.slice(a, start);</replace>
-      <replace>Automaton a = Automaton.union(set);</replace>
       <replace>Automaton result = Automaton.union(r);</replace>
       <replace>trim</replace>
       <replace>Assert.asserEquals(lower, Automaton.toLowerCase(automaton));</replace>
-      <replace>Automaton</replace>
       <replace>Automaton.toUpperCase(automaton)</replace>
       <replace>long</replace>
       <replace>Automaton.slice(a, start, end);</replace>
@@ -224,6 +206,11 @@
       <replace>9;</replace>
       <replace>);</replace>
       <replace>Automaton.includes(automaton,</replace>
+      <replace>Automaton</replace>
+      <replace>other</replace>
+      <replace>Automaton</replace>
+      <replace>Automaton.startsWith(a, sub)</replace>
+      <replace>Automaton a = Automaton.union(set);</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -264,6 +251,7 @@
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java" />
+        <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest.java" />
       </list>
     </option>
   </component>
@@ -284,7 +272,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -362,13 +350,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539866457460" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539868737691" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/js.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -388,7 +376,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.IncludesTest2.includesTest035">
+  <component name="RunManager" selected="JUnit.StartsWithTest">
     <configuration name="IncludesTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
@@ -433,22 +421,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IncludesTest.includesTest000" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="java-fsm-library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.univr.fsm.machine.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.IncludesTest" />
-      <option name="METHOD_NAME" value="includesTest000" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="IncludesTest.includesTest001" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
@@ -465,20 +437,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StartsWithTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.StartsWithTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="JUnit.IncludesTest.includesTest000" />
       <item itemvalue="JUnit.IncludesTest" />
       <item itemvalue="JUnit.IncludesTest.includesTest001" />
       <item itemvalue="JUnit.IncludesTest2" />
       <item itemvalue="JUnit.IncludesTest2.includesTest035" />
+      <item itemvalue="JUnit.StartsWithTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.StartsWithTest" />
         <item itemvalue="JUnit.IncludesTest2.includesTest035" />
         <item itemvalue="JUnit.IncludesTest2" />
         <item itemvalue="JUnit.IncludesTest.includesTest001" />
         <item itemvalue="JUnit.IncludesTest" />
-        <item itemvalue="JUnit.IncludesTest.includesTest000" />
       </list>
     </recent_temporary>
   </component>
@@ -514,7 +500,7 @@
       <workItem from="1539781788854" duration="8133000" />
       <workItem from="1539803259275" duration="6971000" />
       <workItem from="1539851641820" duration="8489000" />
-      <workItem from="1539864780947" duration="1734000" />
+      <workItem from="1539864780947" duration="3948000" />
     </task>
     <task id="LOCAL-00001" summary="fixed su for cycles">
       <created>1538987226796</created>
@@ -579,7 +565,14 @@
       <option name="project" value="LOCAL" />
       <updated>1539810205447</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added includes, tolowercase, touppercase and relative tests. fixed slice for cycles">
+      <created>1539866618803</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1539866618803</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -615,12 +608,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65312000" />
+    <option name="totallyTimeSpent" value="67526000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="32" width="1849" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22041503" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.22041503" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -664,7 +658,8 @@
     <MESSAGE value="added tests" />
     <MESSAGE value="Merge branch 'master' of https://github.com/SPY-Lab/java-fsm-library into sunyi&#10;&#10;# Conflicts:&#10;#&#9;src/main/java/it/univr/fsm/machine/Automaton.java&#10;&#10;added trimLeft and trimRight and relative tests,&#10;issue with trim()" />
     <MESSAGE value="added slice and its tests, fixed trim" />
-    <option name="LAST_COMMIT_MESSAGE" value="added slice and its tests, fixed trim" />
+    <MESSAGE value="added includes, tolowercase, touppercase and relative tests. fixed slice for cycles" />
+    <option name="LAST_COMMIT_MESSAGE" value="added includes, tolowercase, touppercase and relative tests. fixed slice for cycles" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -782,40 +777,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="7" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="7" column="25" selection-end-line="7" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10625">
-          <caret line="425" column="74" selection-start-line="425" selection-start-column="74" selection-end-line="425" selection-end-column="74" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="829">
-          <caret line="3867" column="59" selection-start-line="3867" selection-start-column="59" selection-end-line="3867" selection-end-column="59" />
+        <state relative-caret-position="604">
+          <caret line="3992" column="41" selection-start-line="3992" selection-start-column="41" selection-end-line="3992" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2314#2315#0" expanded="true" />
@@ -846,6 +811,46 @@
             <element signature="e#77470#77471#0" expanded="true" />
             <element signature="e#97677#97678#0" expanded="true" />
             <element signature="e#97742#97743#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="7" column="25" selection-end-line="7" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="7" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/IncludesTest2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="346" column="55" lean-forward="true" selection-start-line="346" selection-start-column="55" selection-end-line="346" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
