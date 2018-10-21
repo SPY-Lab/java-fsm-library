@@ -2027,13 +2027,14 @@ public class Automaton {
 		for (State s : this.states) {
 			State newState = mapping.containsKey(s) ? mapping.get(s) : new State(s.getState(), false, false);
 
-			if (s.isFinalState()) {
+			if (s.isFinalState() && s.isInitialState()) {
+				newState.setFinalState(true);
+				newState.setInitialState(false);
+				newDelta.add(new Transition(newInitialState, newState, ""));
+			} else if (s.isFinalState()) {
 				newState.setFinalState(false);
 				newDelta.add(new Transition(newInitialState, newState, ""));
-				//newInitialState = newState;
-			}
-
-			if (s.isInitialState()) {
+			} else if (s.isInitialState()) {
 				newState.setFinalState(true);
 				newState.setInitialState(false);
 			}
@@ -2042,7 +2043,6 @@ public class Automaton {
 		}
 
 		this.delta = newDelta;
-		//		this.initialState = newInitialState;
 		this.states = newStates;
 		this.computeAdjacencyList();
 
