@@ -272,4 +272,23 @@ public class TrimRightTest {
         Assert.assertEquals(resultR, result);
     }
 
+    @Test
+    public void trimTest013() {
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("abc"));
+        set.add(Automaton.makeAutomaton("def"));
+        Automaton a = Automaton.union(set);
+
+        visualizeAutomaton.show(a, "a");
+
+        a.minimize();
+        a.reverse();
+        a.minimize();
+        Automaton result = Automaton.trimLeft(a);
+        result.minimize();
+        result.reverse();
+        result.minimize();
+
+    }
+
 }
