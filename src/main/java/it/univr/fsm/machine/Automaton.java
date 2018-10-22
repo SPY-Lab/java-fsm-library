@@ -3617,13 +3617,17 @@ public class Automaton {
 	 * @return
 	 */
 	public static Automaton toLowerCase(Automaton a){
+
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
+
 		Automaton toLower = a.clone();
 
 		for (Transition t : toLower.getDelta()){
 			t.setInput(t.getInput().toLowerCase());
 		}
 
-		//toLower.minimize();
+		toLower.minimize();
 
 		return toLower;
 	}
@@ -3633,6 +3637,10 @@ public class Automaton {
 	 * @return
 	 */
 	public static Automaton toUpperCase(Automaton a){
+
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
+
 		Automaton toUpper = a.clone();
 		for (Transition t : toUpper.getDelta()){
 			t.setInput(t.getInput().toUpperCase());
@@ -3643,157 +3651,158 @@ public class Automaton {
 		return toUpper;
 	}
 
-	/**
-	 * Method that, given two indexes, returns the automaton that recognizes all the substrings in
-	 * those indexes. If any of them is negative then index = index + length.
-	 * If the first index is grater then the second epsilon is returned
-	 * @param start starting index, included. Negative value possible
-	 * @param end ending index, not included. Negative value possible
-	 * @return
-	 */
-	public static Automaton slice(Automaton a, long start, long end){
+    /**
+     * Method that, given two indexes, returns the automaton that recognizes all the substrings in
+     * those indexes. If any of them is negative then index = index + length.
+     * If the first index is grater then the second epsilon is returned
+     * @param start starting index, included. Negative value possible
+     * @param end ending index, not included. Negative value possible
+     * @return
+     */
+    public static Automaton slice(Automaton a, long start, long end){
 
-		if(start == end){
-			return Automaton.makeEmptyString();
-		}
+        if(start == end){
+            return Automaton.makeEmptyString();
+        }
 
-		if (start > 0 && end > 0 && start < end) {
-			return Automaton.substring(a, start, end);
-		}
+        if (start > 0 && end > 0 && start < end) {
+            return Automaton.substring(a, start, end);
+        }
 
-		if(!a.hasCycle()) {
-			return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
-		}
+        if(!a.hasCycle()) {
+            return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
+        }
 
-		return Automaton.makeTopLanguage();
+        return Automaton.makeTopLanguage();
 
-	}
+    }
 
-	/**
-	 * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
-	 * in the given indexes.
-	 * @param start starting index, negative value possible
-	 * @param end ending index, negative value possible
-	 * @param currentState state we are currently searching
-	 * @param delta set of all the transitions
-	 * @param result result automaton
-	 * @return
-	 */
-	private Automaton cutter(long start, long end, State currentState, HashSet<Transition> delta, Automaton result){
-		if(currentState.isFinalState()) {
+    /**
+     * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
+     * in the given indexes.
+     * @param start starting index, negative value possible
+     * @param end ending index, negative value possible
+     * @param currentState state we are currently searching
+     * @param delta set of all the transitions
+     * @param result result automaton
+     * @return
+     */
+    private Automaton cutter(long start, long end, State currentState, HashSet<Transition> delta, Automaton result){
+        if(currentState.isFinalState()) {
 
-			HashSet<State> states = new HashSet<>();
+            HashSet<State> states = new HashSet<>();
 
-			for (State s : this.getStates()) {
-				State newState = (State)s.clone();
-				states.add(newState);
-				if (!newState.equals(currentState)) {
-					newState.setFinalState(false);
-				}
-			}
+            for (State s : this.getStates()) {
+                State newState = (State)s.clone();
+                states.add(newState);
+                if (!newState.equals(currentState)) {
+                    newState.setFinalState(false);
+                }
+            }
 
-			Automaton partial = new Automaton(delta, states);
-			long s = start;
-			long e = end;
-			int length = Automaton.length(partial);
+            Automaton partial = new Automaton(delta, states);
+            long s = start;
+            long e = end;
+            int length = Automaton.length(partial);
 
-			if (s < 0) {
-				s = s + length;
-				if (s < 0) {
-					s = 0;
-				}
-			}
+            if (s < 0) {
+                s = s + length;
+                if (s < 0) {
+                    s = 0;
+                }
+            }
 
-			if (e < 0) {
-				e = e + length;
-				if (e < 0) {
-					e = 0;
-				}
-			}
+            if (e < 0) {
+                e = e + length;
+                if (e < 0) {
+                    e = 0;
+                }
+            }
 
-			//if the start index is greater than end epsilon is returned
-			if (s >= e) {
-				result = Automaton.union(result, Automaton.makeEmptyString());
-			} else {
+            //if the start index is greater than end epsilon is returned
+            if (s >= e) {
+                result = Automaton.union(result, Automaton.makeEmptyString());
+            } else {
 
-				result = Automaton.union(result, Automaton.substring(partial, start, end));
-			}
-		}
+                result = Automaton.union(result, Automaton.substring(partial, s, e));
+            }
+        }
 
-		for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
-			HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-			clone.add(t);
-			result = Automaton.union(result, cutter(start, end, t.getTo(), clone, result));
-		}
+        for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
+            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+            clone.add(t);
+            result = Automaton.union(result, cutter(start, end, t.getTo(), clone, result));
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Method that, given the starting index, returns the automaton that recognizes all the substrings from
-	 * the given index till the end.
-	 * @param start starting index, negative value possible.
-	 * @return
-	 */
-	public static Automaton slice(Automaton a, long start){
+    /**
+     * Method that, given the starting index, returns the automaton that recognizes all the substrings from
+     * the given index till the end.
+     * @param start starting index, negative value possible.
+     * @return
+     */
+    public static Automaton slice(Automaton a, long start){
 
-		//if the starting index is greater or equal to zero we return the result of Substring
-		if(start >= 0){
-			return Automaton.singleParameterSubstring(a, start);
-		}
+        //if the starting index is greater or equal to zero we return the result of Substring
+        if(start >= 0){
+            return Automaton.singleParameterSubstring(a, start);
+        }
 
-		if(a.hasCycle()){
-			return Automaton.makeTopLanguage();
-		}
+        if(a.hasCycle()){
+            return Automaton.makeTopLanguage();
+        }
 
-		//otherwise the index is negative and we need to transform it in a positive value and return the result
-		return a.auxSlice(start, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
-	}
+        //otherwise the index is negative and we need to transform it in a positive value and return the result
+        return a.auxSlice(start, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
+    }
 
-	/**
-	 * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
-	 * in the given indexes.
-	 * @param start negative starting index
-	 * @param currentState state we are currently exploring
-	 * @param delta set of transitions
-	 * @param result result automaton
-	 * @return
-	 */
-	private Automaton auxSlice(long start, State currentState, HashSet<Transition> delta, Automaton result){
+    /**
+     * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
+     * in the given indexes.
+     * @param start negative starting index
+     * @param currentState state we are currently exploring
+     * @param delta set of transitions
+     * @param result result automaton
+     * @return
+     */
+    private Automaton auxSlice(long start, State currentState, HashSet<Transition> delta, Automaton result){
 
-		if(currentState.isFinalState()){
+        if(currentState.isFinalState()){
 
-			HashSet<State> states = new HashSet<>();
+            HashSet<State> states = new HashSet<>();
 
-			for(State s: this.getStates()){
-				State newState = (State)s.clone();
-				states.add(newState);
-				if(!newState.equals(currentState)){
-					newState.setFinalState(false);
-				}
-			}
+            for(State s: this.getStates()){
+                State newState = (State)s.clone();
+                states.add(newState);
+                if(!newState.equals(currentState)){
+                    newState.setFinalState(false);
+                }
+            }
 
 
-			Automaton partial = new Automaton(delta, states);
+            Automaton partial = new Automaton(delta, states);
 
-			long length = Automaton.length(partial) + start;
+            long length = Automaton.length(partial) + start;
 
-			if(length < 0){
-				length = 0;
-			}
-			result = Automaton.union(result, Automaton.singleParameterSubstring(partial, length));
-		}
+            if(length < 0){
+                length = 0;
+            }
+            result = Automaton.union(result, Automaton.singleParameterSubstring(partial, length));
+        }
 
-		for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
-			HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-			clone.add(t);
-			result = Automaton.union(result, auxSlice(start, t.getTo(), clone, result));
-		}
+        for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
+            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+            clone.add(t);
+            result = Automaton.union(result, auxSlice(start, t.getTo(), clone, result));
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
+
+    /**
 	 * Checks whether an automaton includes another one.
 	 * @param other Automaton on which we set the search
 	 * @param a Automaton
@@ -3802,6 +3811,12 @@ public class Automaton {
 	 *         topbool (-1) otherwise
 	 */
 	public static int includes(Automaton a, Automaton other){
+
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
+
+        if (other.isSingleString())
+            other = Automaton.makeRealAutomaton(other.getSingleString());
 
 		a.minimize();
 
@@ -4004,5 +4019,64 @@ public class Automaton {
 
 		return Automaton.makeRealAutomaton(s);
 	}
+
+    public static Automaton repeat(Automaton a, long i){
+
+        if(i < 0){
+            //todo should return OUT OF RANGE EXCEPTION
+            return Automaton.makeEmptyLanguage();
+        }
+
+        if(i == Integer.MAX_VALUE){
+            return Automaton.star(a);
+        }
+
+        if(i == 0){
+            return Automaton.makeEmptyString();
+        }
+
+        if(a.hasCycle() || a.equals(Automaton.makeEmptyString())){
+            return a;
+        }
+
+        return a.auxRepeat(i, a.getInitialState(), new HashSet<Transition>(), makeEmptyLanguage());
+    }
+
+    public Automaton auxRepeat(long i, State currentState, HashSet<Transition> delta, Automaton result){
+
+        if(currentState.isFinalState()){
+
+            HashSet<State> states = new HashSet<>();
+
+            for(State s: this.getStates()){
+                State newState = (State)s.clone();
+                states.add(newState);
+                if(!newState.equals(currentState)){
+                    newState.setFinalState(false);
+                }
+            }
+
+            Automaton temp = new Automaton(delta, states);
+            Automaton tempResult = temp.clone();
+
+            for(int k = 1; k < i; k++){
+                tempResult = Automaton.concat(tempResult, temp);
+            }
+
+
+            result = Automaton.union(result, tempResult);
+
+        }
+
+        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
+            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+            clone.add(t);
+            result = Automaton.union(auxRepeat(i, t.getTo(), clone, result), result);
+        }
+
+        return result;
+
+    }
+
 
 }

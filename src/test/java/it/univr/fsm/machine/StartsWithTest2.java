@@ -11,6 +11,10 @@ import java.util.HashSet;
 
 public class StartsWithTest2 {
 
+    private static final int TRUE = 1;
+    private static final int FALSE = 0;
+    private static final int TOPBOOL = -1;
+    
     @Test
     public void startsWithTest1(){
         HashSet<Automaton> set = new HashSet<>();
@@ -18,10 +22,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("apan"));
         set.add(Automaton.makeAutomaton("ap"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("kyi"), Automaton.makeAutomaton("p")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("kyi"), Automaton.makeAutomaton("p"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 1), TOPBOOL);
     }
 
     @Test
@@ -31,10 +35,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("dapan"));
         set.add(Automaton.makeAutomaton("dap"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.makeAutomaton("p"));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.makeAutomaton("p");
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("2", "2")), new AbstractBoolean(1));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 2), TRUE);
     }
 
     @Test
@@ -45,10 +49,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("pon"));
 
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("p"), Automaton.makeAutomaton("pan")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("p"), Automaton.makeAutomaton("pan"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "3")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 3), TOPBOOL);
     }
 
     @Test
@@ -57,10 +61,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("panda"));
         set.add(Automaton.makeAutomaton("dan"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("p"), Automaton.makeAutomaton("pan")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("p"), Automaton.makeAutomaton("pan"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("3", "4")), new AbstractBoolean(0));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 4), FALSE);
     }
 
     @Test
@@ -69,10 +73,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("apan"));
         set.add(Automaton.makeAutomaton("apen"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.makeAutomaton("p"));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.makeAutomaton("p");
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 1), TRUE);
     }
 
     @Test
@@ -82,10 +86,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("pan"));
         set.add(Automaton.makeAutomaton("p"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("k"), Automaton.makeAutomaton("ka")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("k"), Automaton.makeAutomaton("ka"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(0));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 2), FALSE);
     }
 
     @Test
@@ -94,10 +98,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("panda"));
         set.add(Automaton.makeAutomaton("koala"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("pan"), Automaton.makeAutomaton("ko")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("pan"), Automaton.makeAutomaton("ko"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "0")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 0), TOPBOOL);
     }
 
     @Test
@@ -106,10 +110,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton("pan"));
         set.add(Automaton.makeAutomaton("p"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.makeAutomaton("panda"));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.makeAutomaton("panda");
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "3")), new AbstractBoolean(0));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 0), FALSE);
     }
 
     @Test
@@ -118,10 +122,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton(""));
         set.add(Automaton.makeAutomaton("p"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("p"), Automaton.makeAutomaton("")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("p"), Automaton.makeAutomaton(""));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 0), TOPBOOL);
     }
 
     @Test
@@ -130,10 +134,10 @@ public class StartsWithTest2 {
         set.add(Automaton.makeAutomaton(" "));
         set.add(Automaton.makeAutomaton(""));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.makeAutomaton(""));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.makeAutomaton("");
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(1));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 1), TRUE);
     }
 
     @Test
@@ -141,10 +145,10 @@ public class StartsWithTest2 {
         HashSet<Automaton> set = new HashSet<>();
         set.add(Automaton.makeAutomaton(""));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.makeAutomaton("a"));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.makeAutomaton("a");
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("2", "3")), new AbstractBoolean(0));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 2), FALSE);
     }
 
     @Test
@@ -156,10 +160,10 @@ public class StartsWithTest2 {
         HashSet<Transition> delta = new HashSet<>();
         delta.add(t);
 
-        FA a = new FA(new Automaton (delta, states));
-        FA sub = new FA(Automaton.makeAutomaton("a"));
+        Automaton a = new Automaton (delta, states);
+        Automaton sub = Automaton.makeAutomaton("a");
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("3", "9")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 8), TOPBOOL);
     }
 
     @Test
@@ -167,10 +171,10 @@ public class StartsWithTest2 {
         HashSet<Automaton> set = new HashSet<>();
         set.add(Automaton.makeAutomaton(""));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("a"), Automaton.makeAutomaton("")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("a"), Automaton.makeAutomaton(""));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 0), TOPBOOL);
     }
 
     @Test
@@ -186,11 +190,11 @@ public class StartsWithTest2 {
         delta.add(t);
 
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(new Automaton(delta, states));
+        Automaton a = Automaton.union(set);
+        Automaton sub = new Automaton(delta, states);
 
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("0", "1")), new AbstractBoolean(2));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 1), TOPBOOL);
     }
 
     @Test
@@ -198,10 +202,10 @@ public class StartsWithTest2 {
         HashSet<Automaton> set = new HashSet<>();
         set.add(Automaton.makeAutomaton("pandapandapandapanda"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("pandapanda"), Automaton.makeAutomaton("panda")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("pandapanda"), Automaton.makeAutomaton("panda"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("9", "9")), new AbstractBoolean(0));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 9), FALSE);
 
     }
 
@@ -210,16 +214,10 @@ public class StartsWithTest2 {
         HashSet<Automaton> set = new HashSet<>();
         set.add(Automaton.makeAutomaton("panda"));
 
-        FA a = new FA(Automaton.union(set));
-        FA sub = new FA(Automaton.union(Automaton.makeAutomaton("nda"), Automaton.makeAutomaton("a")));
+        Automaton a = Automaton.union(set);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("nda"), Automaton.makeAutomaton("a"));
 
-        Assert.assertEquals(a.startsWith(sub, new Interval("2", "4")), new AbstractBoolean(2));
-    }
-
-    @Test
-    public void startsWithTest17(){
-        HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("panda"));
+        Assert.assertEquals(Automaton.startsWith(a, sub, 4), TOPBOOL);
     }
 
 
