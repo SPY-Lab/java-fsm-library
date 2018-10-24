@@ -4027,10 +4027,6 @@ public class Automaton {
             return Automaton.makeEmptyLanguage();
         }
 
-        if(i == Integer.MAX_VALUE){
-            return Automaton.star(a);
-        }
-
         if(i == 0){
             return Automaton.makeEmptyString();
         }
@@ -4059,10 +4055,13 @@ public class Automaton {
             Automaton temp = new Automaton(delta, states);
             Automaton tempResult = temp.clone();
 
-            for(int k = 1; k < i; k++){
-                tempResult = Automaton.concat(tempResult, temp);
+            if(i == Integer.MAX_VALUE){
+                tempResult = Automaton.makeCyclic(temp);
+            }else {
+                for (int k = 1; k < i; k++) {
+                    tempResult = Automaton.concat(tempResult, temp);
+                }
             }
-
 
             result = Automaton.union(result, tempResult);
 
@@ -4076,6 +4075,39 @@ public class Automaton {
 
         return result;
 
+    }
+
+    /**
+     * Method that creates a cyclic automaton from a given one, the automaton must recognize only one string
+     * (it should be a function for automaton and not for FA)
+     * @return
+     */
+    public static Automaton makeCyclic(Automaton a){
+
+        HashSet<State> newStates = new HashSet<>();
+        HashSet<Transition> newDelta = new HashSet<>();
+        Transition finalT = null;
+
+        for(State s: a.getStates()){
+            newStates.add(s);
+        }
+
+        for(State s: a.getFinalStates()){
+            newStates.remove(s);
+        }
+
+        a.getInitialState().setFinalState(true);
+
+        for(Transition t: a.getDelta()){
+            if(!t.getTo().isFinalState()){
+                newDelta.add(t);
+            }else{
+                finalT = t;
+            }
+        }
+
+        newDelta.add(new Transition(finalT.getFrom(), a.getInitialState(), finalT.getInput()));
+        return new Automaton(newDelta, newStates);
     }
 
 
