@@ -428,8 +428,10 @@ public class RepeatTest {
         Automaton a = Automaton.union(set);
 
 
-        Automaton resultR = Automaton.repeat(a, Integer.MAX_VALUE);
+        /*Automaton resultR = Automaton.repeat(a, Integer.MAX_VALUE);
         Automaton b = Automaton.star(a);
-        visualizeAutomaton.show(a, "star");
+        visualizeAutomaton.show(a, "star");*/
+
+        visualizeAutomaton.show(Automaton.repeat(a, Integer.MAX_VALUE), "cycle");
     }
 }
