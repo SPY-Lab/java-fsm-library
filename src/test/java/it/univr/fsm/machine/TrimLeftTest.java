@@ -325,75 +325,22 @@ public class TrimLeftTest {
 
     @Test
     public void trimTest016(){
-        HashSet<State> states = new HashSet<>();
-        HashSet<Transition> delta = new HashSet<>();
-        State q0 = new State("q0", true, false);
-        State q1 = new State("q1", false, false);
-        State q2 = new State("q2", false, true);
-
-        states.add(q0);
-        states.add(q1);
-        states.add(q2);
-
-
-        delta.add(new Transition(q0, q1, " "));
-        delta.add(new Transition(q1, q2, "a"));
-        delta.add(new Transition(q2, q0, "b"));
-
-        Automaton a = new Automaton(delta, states);
-        visualizeAutomaton.show(a, "trimleft");
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("ab"));
+        set.add(Automaton.makeAutomaton("c"));
+        set.add(Automaton.makeAutomaton("d"));
+        Automaton a = Automaton.union(set);
 
         /*HashSet<Automaton> r = new HashSet<>();
-        r.add(Automaton.makeAutomaton("ab"));
-        r.add(Automaton.makeAutomaton("c"));
-        r.add(Automaton.makeAutomaton("d"));
-        Automaton result = Automaton.union(r);*/
+        r.add(Automaton.makeAutomaton("nap"));
+        r.add(Automaton.makeAutomaton("ap"));
+        r.add(Automaton.makeAutomaton("adnap"));
+        Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.trimLeft(a);
-        visualizeAutomaton.show(resultR, "trimleftresult");
-        //Assert.assertEquals(resultR, result);
+
+        Assert.assertEquals(resultR, result);*/
+
+        visualizeAutomaton.show(a, "trimrightresult");
     }
-
-    @Test
-    public void trimTest017(){
-        HashSet<State> states = new HashSet<>();
-        HashSet<Transition> delta = new HashSet<>();
-        State q0 = new State("q0", true, false);
-        State q1 = new State("q1", false, false);
-        State q2 = new State("q2", false, true);
-        State q3 = new State("q3", false, false);
-        State q4 = new State("q4", false, false);
-        State q5 = new State("q5", false, false);
-
-
-        states.add(q0);
-        states.add(q1);
-        states.add(q2);
-        states.add(q3);
-        states.add(q4);
-        states.add(q5);
-
-
-        delta.add(new Transition(q0, q1, "a"));
-        delta.add(new Transition(q1, q2, " "));
-        delta.add(new Transition(q0, q3, "b"));
-        delta.add(new Transition(q3, q4, " "));
-        delta.add(new Transition(q4, q5, "c"));
-        delta.add(new Transition(q5, q2, " "));
-
-        Automaton a = new Automaton(delta, states);
-        visualizeAutomaton.show(a, "trimright");
-
-        /*HashSet<Automaton> r = new HashSet<>();
-        r.add(Automaton.makeAutomaton("ab"));
-        r.add(Automaton.makeAutomaton("c"));
-        r.add(Automaton.makeAutomaton("d"));
-        Automaton result = Automaton.union(r);*/
-
-        Automaton resultR = Automaton.trimLeft(a);
-        visualizeAutomaton.show(resultR, "trimleftresult");
-        //Assert.assertEquals(resultR, result);
-    }
-
-
 }

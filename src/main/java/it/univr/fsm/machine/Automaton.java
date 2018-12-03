@@ -3547,6 +3547,8 @@ public class Automaton {
 
 	public static Automaton trimLeft(Automaton a){
 	    a.minimize();
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
 		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
 		a.auxTrimLeft(delta, a.getInitialState());
 		Automaton result = new Automaton(delta, a.getStates());
@@ -4169,7 +4171,6 @@ public class Automaton {
                 return searchIn;
 
             }else if(!Automaton.isEmptyLanguageAccepted(intersection)){
-                visualizeAutomaton.show(searchIn, "searchInDFS");
                 Automaton mr = searchIn.makeReplacement(intersection, replaceWith, this.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
                 result = Automaton.union(result, mr);
 

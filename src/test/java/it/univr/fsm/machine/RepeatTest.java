@@ -427,7 +427,6 @@ public class RepeatTest {
         set.add(Automaton.makeAutomaton("cat"));
         Automaton a = Automaton.union(set);
 
-
         /*Automaton resultR = Automaton.repeat(a, Integer.MAX_VALUE);
         Automaton b = Automaton.star(a);
         visualizeAutomaton.show(a, "star");*/
