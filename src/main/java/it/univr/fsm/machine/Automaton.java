@@ -3546,9 +3546,23 @@ public class Automaton {
 	}
 
 	public static Automaton trimLeft(Automaton a){
+	    boolean notSpace = false;
+
 	    a.minimize();
-        if (a.isSingleString())
+        if (a.isSingleString()){
             a = Automaton.makeRealAutomaton(a.getSingleString());
+        }
+
+        for(Transition t : a.getDelta()){
+            if(!t.getInput().equals(" ")){
+                notSpace = true;
+            }
+        }
+
+        if (notSpace == false){
+            return makeEmptyString();
+        }
+
 		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
 		a.auxTrimLeft(delta, a.getInitialState());
 		Automaton result = new Automaton(delta, a.getStates());
@@ -3557,6 +3571,7 @@ public class Automaton {
 	}
 
 	private void auxTrimLeft(HashSet<Transition> delta, State currentState){
+
 		for(Transition t: getOutgoingTransitionsFrom(currentState)){
 			if(t.getInput().equals(" ")){
 				delta.remove(t);
@@ -3588,7 +3603,23 @@ public class Automaton {
 
     }*/
 
-	public static Automaton trimRight(Automaton a){
+	public static Automaton trimRight(Automaton a){boolean notSpace = false;
+
+        a.minimize();
+        if (a.isSingleString()){
+            a = Automaton.makeRealAutomaton(a.getSingleString());
+        }
+
+        for(Transition t : a.getDelta()){
+            if(!t.getInput().equals(" ")){
+                notSpace = true;
+            }
+        }
+
+        if (notSpace == false){
+            return makeEmptyString();
+        }
+
 		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
 		for(State finalState: a.getFinalStates()) {
 			a.auxTrimRight(delta, finalState, finalState);
@@ -3974,17 +4005,7 @@ public class Automaton {
 
         if(currentState.isFinalState()){
 
-            HashSet<State> states = new HashSet<>();
-
-            for(State s: this.getStates()){
-                State newState = (State)s.clone();
-                states.add(newState);
-                if(!newState.equals(currentState)){
-                    newState.setFinalState(false);
-                }
-            }
-
-            Automaton temp = new Automaton(delta, states);
+            Automaton temp = copy(this, currentState, delta);
             Automaton tempResult = temp.clone();
 
             if(i == Integer.MAX_VALUE){

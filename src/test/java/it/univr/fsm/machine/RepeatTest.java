@@ -90,7 +90,7 @@ public class RepeatTest {
 
         HashSet<State> statesR = new HashSet<>();
         HashSet<Transition> deltaR = new HashSet<>();
-        State q0 = new State("q0", true, true);
+        State q0 = new State("q0", true, false);
         State q1 = new State("q1", false, false);
         State q2 = new State("q2", false, false);
         State q3 = new State("q3", false, false);
@@ -157,7 +157,7 @@ public class RepeatTest {
 
         HashSet<State> statesR = new HashSet<>();
         HashSet<Transition> deltaR = new HashSet<>();
-        State q0 = new State("q0", true, true);
+        State q0 = new State("q0", true, false);
         State q1 = new State("q1", false, false);
         State q2 = new State("q2", false, true);
         State q3 = new State("q3", false, false);
@@ -180,8 +180,6 @@ public class RepeatTest {
         Automaton result = new Automaton(deltaR, statesR);
 
         Automaton resultR = Automaton.repeat(a, Integer.MAX_VALUE);
-        visualizeAutomaton.show(result, "result");
-        visualizeAutomaton.show(resultR, "result_repeat");
         Assert.assertEquals(resultR, result);
     }
 
@@ -421,16 +419,4 @@ public class RepeatTest {
         Assert.assertEquals(resultR, result);
     }
 
-    @Test
-    public void repeatTest023(){
-        HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("cat"));
-        Automaton a = Automaton.union(set);
-
-        /*Automaton resultR = Automaton.repeat(a, Integer.MAX_VALUE);
-        Automaton b = Automaton.star(a);
-        visualizeAutomaton.show(a, "star");*/
-
-        visualizeAutomaton.show(Automaton.repeat(a, Integer.MAX_VALUE), "cycle");
-    }
 }

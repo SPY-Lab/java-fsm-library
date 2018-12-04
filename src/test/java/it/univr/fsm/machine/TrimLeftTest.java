@@ -316,10 +316,9 @@ public class TrimLeftTest {
         r.add(Automaton.makeAutomaton("d"));
         Automaton result = Automaton.union(r);
 
-        visualizeAutomaton.show(a, "trimleft");
+
         Automaton resultR = Automaton.trimLeft(a);
 
-        visualizeAutomaton.show(resultR, "trimleftresult");
         Assert.assertEquals(resultR, result);
     }
 
@@ -331,7 +330,7 @@ public class TrimLeftTest {
         set.add(Automaton.makeAutomaton("d"));
         Automaton a = Automaton.union(set);
 
-        /*HashSet<Automaton> r = new HashSet<>();
+        HashSet<Automaton> r = new HashSet<>();
         r.add(Automaton.makeAutomaton("nap"));
         r.add(Automaton.makeAutomaton("ap"));
         r.add(Automaton.makeAutomaton("adnap"));
@@ -339,8 +338,25 @@ public class TrimLeftTest {
 
         Automaton resultR = Automaton.trimLeft(a);
 
-        Assert.assertEquals(resultR, result);*/
+        Assert.assertEquals(resultR, result);
 
-        visualizeAutomaton.show(a, "trimrightresult");
     }
+
+    @Test
+    public void trimTest017(){
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("    "));
+        Automaton a = Automaton.union(set);
+
+        HashSet<Automaton> r = new HashSet<>();
+        r.add(Automaton.makeEmptyString());
+        Automaton result = Automaton.union(r);
+
+        Automaton resultR = Automaton.trimLeft(a);
+
+        Assert.assertEquals(resultR, result);
+
+    }
+
+
 }
