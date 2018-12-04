@@ -3678,9 +3678,7 @@ public class Automaton {
             return Automaton.substring(a, start, end);
         }
 
-
         return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
-
 
     }
 
@@ -3697,19 +3695,12 @@ public class Automaton {
     private Automaton cutter(long start, long end, State currentState, HashSet<Transition> delta, Automaton result){
         if(currentState.isFinalState()) {
 
-            HashSet<State> states = new HashSet<>();
+            Automaton partial = Automaton.copy(this, currentState, delta);
+            //printDetails(partial);
 
-            for (State s : this.getStates()) {
-                State newState = (State)s.clone();
-                states.add(newState);
-                if (!newState.equals(currentState)) {
-                    newState.setFinalState(false);
-                }
-            }
-
-            Automaton partial = new Automaton(delta, states);
             long s = start;
             long e = end;
+
             int length = Automaton.length(partial);
 
             if (s < 0) {
@@ -3742,72 +3733,6 @@ public class Automaton {
 
         return result;
     }
-
-    /**
-     * Method that, given the starting index, returns the automaton that recognizes all the substrings from
-     * the given index till the end.
-     * @param start starting index, negative value possible.
-     * @return
-     */
-    public static Automaton slice(Automaton a, long start){
-
-        if(a.hasCycle()){
-            return Automaton.makeTopLanguage();
-        }
-
-
-        //if the starting index is greater or equal to zero we return the result of Substring
-        if(start >= 0){
-            return Automaton.singleParameterSubstring(a, start);
-        }
-
-        //otherwise the index is negative and we need to transform it in a positive value and return the result
-        return a.auxSlice(start, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
-    }
-
-    /**
-     * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
-     * in the given indexes.
-     * @param start negative starting index
-     * @param currentState state we are currently exploring
-     * @param delta set of transitions
-     * @param result result automaton
-     * @return
-     */
-    private Automaton auxSlice(long start, State currentState, HashSet<Transition> delta, Automaton result){
-
-        if(currentState.isFinalState()){
-
-            HashSet<State> states = new HashSet<>();
-
-            for(State s: this.getStates()){
-                State newState = (State)s.clone();
-                states.add(newState);
-                if(!newState.equals(currentState)){
-                    newState.setFinalState(false);
-                }
-            }
-
-
-            Automaton partial = new Automaton(delta, states);
-
-            long length = Automaton.length(partial) + start;
-
-            if(length < 0){
-                length = 0;
-            }
-            result = Automaton.union(result, Automaton.singleParameterSubstring(partial, length));
-        }
-
-        for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
-            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-            clone.add(t);
-            result = Automaton.union(result, auxSlice(start, t.getTo(), clone, result));
-        }
-
-        return result;
-    }
-
 
     /**
 	 * Checks whether an automaton includes another one.
@@ -4334,7 +4259,7 @@ public class Automaton {
     private static void printDetails(Automaton a){
         System.out.println("stati: ");
         for (State s: a.states){
-            System.out.println(s.toString() + ",iniziale: " + s.isInitialState() + ", finale: " + s.isFinalState() + " indirizzo: " + System.identityHashCode(s) );
+            System.out.println(s.toString() + ",iniziale: " + s.isInitialState() + ", finale: " + s.isFinalState());
         }
         System.out.println("transizioni :");
         for (Transition t: a.getDelta()){
@@ -4358,6 +4283,14 @@ public class Automaton {
         if(!currentState.isInitialState()){
             mapping.get(currentState).setFinalState(true);
         }
+
+        for(State s: a.getFinalStates()){
+            if(!s.equals(currentState)){
+                mapping.get(s).setFinalState(false);
+            }
+        }
+
+
 
         for (Transition t: delta){
             newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput()));

@@ -487,5 +487,49 @@ public class SliceTest2 {
 
     }
 
+    @Test
+    public void sliceTest021() {
+
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("abc"));
+        set.add(Automaton.makeAutomaton("def"));
+        Automaton a = Automaton.union(set);
+
+        long start = -2;
+        long end = 3;
+
+        visualizeAutomaton.show(a, "a");
+        HashSet<Automaton> r = new HashSet<>();
+        r.add(Automaton.makeAutomaton("bc"));
+        r.add(Automaton.makeAutomaton("ef"));
+        Automaton result = Automaton.union(r);
+
+        Automaton resultR = Automaton.slice(a, start, end);
+
+        Assert.assertEquals(resultR, result);
+    }
+
+    @Test
+    public void sliceTest022() {
+
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("panda"));
+        set.add(Automaton.makeAutomaton("pandemonium"));
+        set.add(Automaton.makeAutomaton("pandaland"));
+        set.add(Automaton.makeEmptyString());
+        Automaton a = Automaton.union(set);
+
+        long start = -2;
+        long end = 3;
+
+        HashSet<Automaton> r = new HashSet<>();
+        r.add(Automaton.makeEmptyString());
+        Automaton result = Automaton.union(r);
+
+        Automaton resultR = Automaton.slice(a, start, end);
+
+        Assert.assertEquals(resultR, result);
+    }
+
 
 }
