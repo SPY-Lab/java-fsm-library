@@ -3670,7 +3670,7 @@ public class Automaton {
             return Automaton.makeEmptyString();
         }
 
-        if(a.hasCycle()) {
+        if(a.hasCycle() && (start < 0 || end < 0)) {
             return Automaton.makeTopLanguage();
         }
 
@@ -4207,48 +4207,31 @@ public class Automaton {
      */
     private Automaton makeReplacement(Automaton searchFor, Automaton replaceWith, State currentState, HashSet<Transition> delta, Automaton resultOfRep){
 
-        System.out.println("this initialize " + this);
-        //if currentState is not the initial state, we make it final
-        HashSet<State> states = (HashSet<State>)this.getStates().clone();
-        if(!currentState.equals(this.getInitialState())){
-            states.remove(currentState);
-            states.add(new State(currentState.getState(),currentState.isInitialState(), true));
-        }
-
-        Automaton searchIn = new Automaton(delta, states);
+        Automaton searchIn = copy(this, currentState, delta);
 
         Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
 
         if (!intersection.equals(Automaton.makeEmptyLanguage())) {
-            Automaton a = searchIn;
-            visualizeAutomaton.show(searchIn, "searchIn");
             Automaton temp = null;
 
             //if the intersection is epsilon, it means that searchFor contains epsilon therefore replaceWith will be
             //added at the start of the string
             if(intersection.equals(Automaton.makeEmptyString())){
-                temp = this.auxMakeReplacementOpt(intersection, replaceWith, delta);
+                temp = this.auxMakeReplacement(intersection, replaceWith, delta);
             }else {
-                temp = a.auxMakeReplacementOpt(intersection, replaceWith, delta);
+                temp = searchIn.auxMakeReplacement(intersection, replaceWith, delta);
             }
 
-            visualizeAutomaton.show(temp, "temp");
+            //we remove the strings we have already found
             searchFor = Automaton.minus(searchFor, intersection);
 
             //if the intersection is not epsilon we need to add to the first part of the result, which is resultOfRep
             //containing the automaton till the replacement, the rest of the original automaton
 
-        System.out.println("this before: " + this);
-
-            if(!intersection.equals(Automaton.makeEmptyString())) {
-                searchIn.minimize();
-                visualizeAutomaton.show(searchIn, "searchInminimize");
-                System.out.println(this);
-                visualizeAutomaton.show(this, "this");
-                Automaton remainingAutomaton = Automaton.substring(this, 0, 9);
-                visualizeAutomaton.show(remainingAutomaton, "rem");
-                System.out.println("remaining: " + remainingAutomaton);
-                temp = Automaton.concat(temp, remainingAutomaton);
+           if(!intersection.equals(Automaton.makeEmptyString())) {
+               searchIn.minimize();
+               Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
+               temp = Automaton.concat(temp, remainingAutomaton);
             }
 
             resultOfRep = Automaton.union(resultOfRep, temp);
@@ -4334,17 +4317,53 @@ public class Automaton {
      * @return
      */
     private Automaton auxMakeReplacement(Automaton searchFor, Automaton replaceWith, HashSet<Transition> delta){
+
         if(searchFor.equals(Automaton.makeEmptyString())){
             return Automaton.concat(replaceWith, this);
         }
 
-        System.out.println("this aux: " + this);
         this.minimize();
         int length = Automaton.length(this);
         int start = Automaton.length(searchFor);
 
         Automaton prefix = Automaton.substring(this,0, length - start);
+
         return Automaton.concat(prefix, replaceWith);
+    }
+
+    private static void printDetails(Automaton a){
+        System.out.println("stati: ");
+        for (State s: a.states){
+            System.out.println(s.toString() + ",iniziale: " + s.isInitialState() + ", finale: " + s.isFinalState() + " indirizzo: " + System.identityHashCode(s) );
+        }
+        System.out.println("transizioni :");
+        for (Transition t: a.getDelta()){
+            System.out.println(t);
+        }
+
+        Automaton temp = null;
+    }
+
+    private static Automaton copy(Automaton a, State currentState, HashSet<Transition> delta){
+
+        HashMap<State, State> mapping = new HashMap<>();
+        HashSet<Transition> newDelta = new HashSet<>();
+        HashSet<State> newStates = new HashSet<>();
+
+        for(State s: a.getStates()){
+            State newState = (State)s.clone();
+            newStates.add(newState);
+            mapping.put(s, newState);
+        }
+        if(!currentState.isInitialState()){
+            mapping.get(currentState).setFinalState(true);
+        }
+
+        for (Transition t: delta){
+            newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput()));
+        }
+
+        return new Automaton(newDelta, newStates);
     }
 
 
