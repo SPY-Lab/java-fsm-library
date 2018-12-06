@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cbc39da2-d31b-4978-8798-114b23f3c301" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ReplaceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ReplaceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1395">
-              <caret line="4123" column="86" lean-forward="true" selection-start-line="4123" selection-start-column="86" selection-end-line="4123" selection-end-column="86" />
+            <state relative-caret-position="205">
+              <caret line="3134" column="38" lean-forward="true" selection-start-line="3134" selection-start-column="38" selection-end-line="3134" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2314#2315#0" expanded="true" />
@@ -58,11 +60,50 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="14075">
+              <caret line="568" lean-forward="true" selection-start-line="568" selection-end-line="568" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="330" column="35" lean-forward="true" selection-start-line="330" selection-start-column="35" selection-end-line="330" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ReplaceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="1046" column="46" selection-start-line="1046" selection-start-column="46" selection-end-line="1046" selection-end-column="46" />
+            <state relative-caret-position="5925">
+              <caret line="237" column="43" selection-start-line="237" selection-start-column="43" selection-end-line="237" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="16">
+              <caret line="161" lean-forward="true" selection-start-line="161" selection-end-line="161" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/RepeatTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="625">
+              <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -81,7 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>includesOpt</find>
       <find>new AbstractBoolean(</find>
       <find>automaton.Automaton.includes(search)</find>
       <find>));</find>
@@ -111,6 +151,7 @@
       <find>slice</find>
       <find>trimleft</find>
       <find>replace</find>
+      <find>su(</find>
     </findStrings>
     <replaceStrings>
       <replace>statesR</replace>
@@ -167,7 +208,6 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/visualizeAutomaton.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/explodeAutomaton.java" />
-        <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimRight.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java" />
@@ -179,10 +219,11 @@
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimRightTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest2.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest2.java" />
-        <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/RepeatTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ReplaceTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java" />
       </list>
     </option>
   </component>
@@ -197,6 +238,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -235,13 +277,12 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544022638732" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544095211284" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/js.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -262,38 +303,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ReplaceTest.replaceTest035">
-    <configuration name="RepeatTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="java-fsm-library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.univr.fsm.machine.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.RepeatTest" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RepeatTest.repeatTest007" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="java-fsm-library" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.univr.fsm.machine.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.RepeatTest" />
-      <option name="METHOD_NAME" value="repeatTest007" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReplaceTest.replaceTest035" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.SuffixTest">
+    <configuration name="ReplaceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
         <pattern>
@@ -303,13 +314,11 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
       <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.ReplaceTest" />
-      <option name="METHOD_NAME" value="replaceTest035" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SliceTest2.sliceTest022" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StartsWithTest2.startsWithTest12" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
         <pattern>
@@ -318,14 +327,28 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
-      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SliceTest2" />
-      <option name="METHOD_NAME" value="sliceTest022" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.StartsWithTest2" />
+      <option name="METHOD_NAME" value="startsWithTest12" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrimLeftTest.trimTest017" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SuffixTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.SuffixTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TrimLeftTest.trimTest016" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-fsm-library" />
       <extension name="coverage">
         <pattern>
@@ -335,26 +358,40 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
       <option name="MAIN_CLASS_NAME" value="it.univr.fsm.machine.TrimLeftTest" />
-      <option name="METHOD_NAME" value="trimTest017" />
+      <option name="METHOD_NAME" value="trimTest016" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="it.univr.fsm.machine in java-fsm-library" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-fsm-library" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.univr.fsm.machine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.univr.fsm.machine" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="JUnit.SliceTest2.sliceTest022" />
-      <item itemvalue="JUnit.TrimLeftTest.trimTest017" />
-      <item itemvalue="JUnit.RepeatTest" />
-      <item itemvalue="JUnit.RepeatTest.repeatTest007" />
-      <item itemvalue="JUnit.ReplaceTest.replaceTest035" />
+      <item itemvalue="JUnit.ReplaceTest" />
+      <item itemvalue="JUnit.StartsWithTest2.startsWithTest12" />
+      <item itemvalue="JUnit.it.univr.fsm.machine in java-fsm-library" />
+      <item itemvalue="JUnit.TrimLeftTest.trimTest016" />
+      <item itemvalue="JUnit.SuffixTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ReplaceTest.replaceTest035" />
-        <item itemvalue="JUnit.RepeatTest" />
-        <item itemvalue="JUnit.RepeatTest.repeatTest007" />
-        <item itemvalue="JUnit.TrimLeftTest.trimTest017" />
-        <item itemvalue="JUnit.SliceTest2.sliceTest022" />
+        <item itemvalue="JUnit.SuffixTest" />
+        <item itemvalue="JUnit.TrimLeftTest.trimTest016" />
+        <item itemvalue="JUnit.it.univr.fsm.machine in java-fsm-library" />
+        <item itemvalue="JUnit.StartsWithTest2.startsWithTest12" />
+        <item itemvalue="JUnit.ReplaceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -420,6 +457,9 @@
       <workItem from="1543916836737" duration="5846000" />
       <workItem from="1543930691367" duration="641000" />
       <workItem from="1544000010272" duration="4266000" />
+      <workItem from="1544022436380" duration="230000" />
+      <workItem from="1544054123350" duration="149000" />
+      <workItem from="1544090902041" duration="4156000" />
     </task>
     <task id="LOCAL-00001" summary="fixed su for cycles">
       <created>1538987226796</created>
@@ -554,48 +594,55 @@
       <option name="project" value="LOCAL" />
       <updated>1543925968952</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="backup version">
+      <created>1544022655303</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1544022655304</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 10h 05m 06s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="StartsWithTest2_startsWithTest12 - 2018.12.06 at 11h 43m 22s.xml">
+      <configuration name="StartsWithTest2.startsWithTest12" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 10h 14m 50s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="StartsWithTest2_startsWithTest12 - 2018.12.06 at 11h 45m 06s.xml">
+      <configuration name="StartsWithTest2.startsWithTest12" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 10h 15m 26s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="it_univr_fsm_machine_in_java-fsm-library - 2018.12.06 at 11h 51m 59s.xml">
+      <configuration name="it.univr.fsm.machine in java-fsm-library" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 10h 18m 40s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="ReplaceTest - 2018.12.06 at 11h 54m 25s.xml">
+      <configuration name="ReplaceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 10h 19m 06s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="SuffixTest_SuffixTest018 - 2018.12.06 at 12h 01m 16s.xml">
+      <configuration name="SuffixTest.SuffixTest018" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 15h 19m 55s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="ReplaceTest - 2018.12.06 at 12h 02m 49s.xml">
+      <configuration name="ReplaceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 15h 20m 51s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="StartsWithTest2_startsWithTest12 - 2018.12.06 at 12h 02m 54s.xml">
+      <configuration name="StartsWithTest2.startsWithTest12" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 15h 21m 17s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="it_univr_fsm_machine_in_java-fsm-library - 2018.12.06 at 12h 15m 43s.xml">
+      <configuration name="it.univr.fsm.machine in java-fsm-library" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 15h 22m 12s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="TrimLeftTest_trimTest016 - 2018.12.06 at 12h 17m 26s.xml">
+      <configuration name="TrimLeftTest.trimTest016" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ReplaceTest_replaceTest035 - 2018.12.05 at 15h 22m 47s.xml">
-      <configuration name="ReplaceTest.replaceTest035" configurationId="JUnit" />
+    <history-entry file="SuffixTest - 2018.12.06 at 12h 19m 26s.xml">
+      <configuration name="SuffixTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143834000" />
+    <option name="totallyTimeSpent" value="148369000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="995" y="72" width="925" height="784" extended-state="0" />
+    <frame x="71" y="32" width="1849" height="1048" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49886104" weight="0.36903375" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49886104" visible="true" weight="0.20471115" />
       <window_info id="Structure" order="1" sideWeight="0.5011389" side_tool="true" weight="0.224341" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -604,7 +651,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.85876626" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4909091" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.53872436" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -644,11 +691,11 @@
     <MESSAGE value="fixed singleString problem on all methods" />
     <MESSAGE value="added repeat and tests" />
     <MESSAGE value="added tests, fixed small errors" />
-    <MESSAGE value="backup version" />
     <MESSAGE value="fixed replace" />
     <MESSAGE value="removed slice with only start index, added more tests" />
     <MESSAGE value="fixed errors in two repeat tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed errors in two repeat tests" />
+    <MESSAGE value="backup version" />
+    <option name="LAST_COMMIT_MESSAGE" value="backup version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -737,13 +784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" column="25" lean-forward="true" selection-end-line="7" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ToUpperCase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1525">
@@ -800,13 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SliceTest2.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -815,27 +848,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8650">
-          <caret line="351" column="43" selection-start-line="351" selection-start-column="43" selection-end-line="351" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/RepeatTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="413" column="47" lean-forward="true" selection-start-line="413" selection-start-column="47" selection-end-line="413" selection-end-column="47" />
+        <state relative-caret-position="625">
+          <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/StartsWithTest2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="161" lean-forward="true" selection-start-line="161" selection-end-line="161" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ReplaceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5925">
+          <caret line="237" column="43" selection-start-line="237" selection-start-column="43" selection-end-line="237" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/TrimLeftTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="330" column="35" lean-forward="true" selection-start-line="330" selection-start-column="35" selection-end-line="330" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/SuffixTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14075">
+          <caret line="568" lean-forward="true" selection-start-line="568" selection-end-line="568" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/univr/fsm/machine/Automaton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1395">
-          <caret line="4123" column="86" lean-forward="true" selection-start-line="4123" selection-start-column="86" selection-end-line="4123" selection-end-column="86" />
+        <state relative-caret-position="205">
+          <caret line="3134" column="38" lean-forward="true" selection-start-line="3134" selection-start-column="38" selection-end-line="3134" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2314#2315#0" expanded="true" />
@@ -856,16 +913,6 @@
             <element signature="e#50856#50857#0" expanded="true" />
             <element signature="e#74734#74735#0" expanded="true" />
             <element signature="e#74754#74755#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/it/univr/fsm/machine/ReplaceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="1046" column="46" selection-start-line="1046" selection-start-column="46" selection-end-line="1046" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

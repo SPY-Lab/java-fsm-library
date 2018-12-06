@@ -569,5 +569,20 @@ public class SuffixTest{
 
     }
 
+    @Test
+    public void SuffixTest018(){
+        HashSet<State> states = new HashSet<>();
+        State q0 = new State("q0", true, true);
+        states.add(q0);
+
+        HashSet<Transition> delta = new HashSet<>();
+        delta.add(new Transition(q0, q0, "a"));
+
+        Automaton  a = new Automaton(delta, states);
+
+        visualizeAutomaton.show(Automaton.explodeAutomaton(a), "a");
+
+    }
+
 
 }

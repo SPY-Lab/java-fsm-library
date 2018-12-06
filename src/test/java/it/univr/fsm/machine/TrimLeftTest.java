@@ -325,9 +325,9 @@ public class TrimLeftTest {
     @Test
     public void trimTest016(){
         HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("ab"));
-        set.add(Automaton.makeAutomaton("c"));
-        set.add(Automaton.makeAutomaton("d"));
+        set.add(Automaton.makeAutomaton("   nap"));
+        set.add(Automaton.makeAutomaton("  ap"));
+        set.add(Automaton.makeAutomaton("adnap"));
         Automaton a = Automaton.union(set);
 
         HashSet<Automaton> r = new HashSet<>();

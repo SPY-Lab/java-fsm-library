@@ -3130,9 +3130,12 @@ public class Automaton {
 	public static Automaton su(Automaton a, long n){
 
 		int i = 0;
+		//a.minimize()
+        a = Automaton.explodeAutomaton(a);
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
+        //Automaton partial = a.clone();
 		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();
 
 		while(i!=n){
@@ -3860,6 +3863,8 @@ public class Automaton {
 	 * @return
 	 */
 	public static int startsWith(Automaton a, Automaton other, long i){
+
+        System.out.println(Automaton.su(a, i));
 		return Automaton.startsWith(Automaton.singleParameterSubstring(a, i), other);
 	}
 
@@ -4109,6 +4114,7 @@ public class Automaton {
         if(currentState.isFinalState()) {
             //searchIn is the automaton that recognizes a single recognized string in the current Automaton
             Automaton searchIn = new Automaton(delta, (HashSet<State>) this.getStates().clone());
+            searchIn = searchIn.clone();
             Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
 
             //if the intersection is empty and there are no other transitions from the current state,
@@ -4137,7 +4143,6 @@ public class Automaton {
 
         return result;
     }
-
 
     /**
      * makes the replacement and returns a result automaton. The general idea is to start from the empty automaton and then
@@ -4175,7 +4180,6 @@ public class Automaton {
             //containing the automaton till the replacement, the rest of the original automaton
 
            if(!intersection.equals(Automaton.makeEmptyString())) {
-               searchIn.minimize();
                Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
                temp = Automaton.concat(temp, remainingAutomaton);
             }
@@ -4196,64 +4200,6 @@ public class Automaton {
 
     }
 
-    public Automaton auxMakeReplacementOpt(Automaton searchFor, Automaton replaceWith, HashSet<Transition> delta){
-
-        boolean found = false;
-        delta = (HashSet<Transition>)delta.clone();
-        HashSet<State> states = (HashSet<State>)this.getStates().clone();
-        HashSet<State> newStates = new HashSet<>();
-        State currentState = this.getInitialState();
-        HashSet<Transition> newDelta = new HashSet<>();
-        Transition currentTransition = null;
-
-        if(searchFor.equals(Automaton.makeEmptyString())){
-            return Automaton.concat(replaceWith, this);
-        }
-
-        for(Transition t: delta) {
-            if (t.getFrom().equals(currentState)) {
-                currentTransition = t;
-                break;
-            }
-        }
-
-        while(!found){
-            Automaton a = new Automaton(delta, states);
-
-            if(searchFor.equals(a)){
-                found = true;
-                newStates.remove(currentState);
-                currentState = new State(currentState.getState(), currentState.isInitialState(), true);
-                //currentState.setFinalState(true);
-                newStates.add(currentState);
-
-            }else{
-                newDelta.add(currentTransition);
-                newStates.add(currentState);
-                states.remove(currentState);
-                delta.remove(currentTransition);
-                currentState = currentTransition.getTo();
-                states.remove(currentState);
-                states.add(new State(currentState.getState(), true, currentState.isFinalState()));
-                //currentState.setInitialState(true);
-
-                for(Transition t: delta) {
-                    if (t.getFrom().equals(currentState)) {
-                        currentTransition = t;
-                        break;
-                    }
-                }
-            }
-        }
-
-        HashSet<State> connectOn = new HashSet<>();
-        connectOn.add(currentState);
-
-        return Automaton.concat(new Automaton(newDelta, newStates), replaceWith);
-
-    }
-
-
     /**
      * Method that finds the initial point of the string to search for and makes the replacement.
      * Uses the methods length and substring of FA
@@ -4269,8 +4215,10 @@ public class Automaton {
         }
 
         this.minimize();
-        int length = Automaton.length(this);
-        int start = Automaton.length(searchFor);
+        //int length = Automaton.length(this);
+        //int start = Automaton.length(searchFor);
+        int length = this.getDelta().size();
+        int start = searchFor.getDelta().size();
 
         Automaton prefix = Automaton.substring(this,0, length - start);
 
@@ -4311,13 +4259,14 @@ public class Automaton {
             }
         }
 
-
-
         for (Transition t: delta){
             newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput()));
         }
 
-        return new Automaton(newDelta, newStates);
+        Automaton result = new Automaton(newDelta, newStates);
+        result.minimize();
+
+        return result;
     }
 
 
