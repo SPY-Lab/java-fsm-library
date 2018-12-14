@@ -580,8 +580,6 @@ public class SuffixTest{
 
         Automaton  a = new Automaton(delta, states);
 
-        visualizeAutomaton.show(Automaton.deleteCycle(a), "a");
-
     }
 
     @Test
@@ -597,8 +595,6 @@ public class SuffixTest{
         delta.add(new Transition(q1, q0, "c"));
 
         Automaton  a = new Automaton(delta, states);
-
-        visualizeAutomaton.show(Automaton.deleteCycle(a), "a");
 
     }
 

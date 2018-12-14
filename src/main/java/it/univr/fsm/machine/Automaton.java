@@ -3618,7 +3618,7 @@ public class Automaton {
 					auxTrimLeft(delta, t.getTo());
 				}
 			}else{
-				delta.add(new Transition(this.getInitialState(), t.getTo(), t.getInput()));
+				delta.add(new Transition(this.getInitialState(), t.getFrom(), ""));
 			}
 		}
 	}

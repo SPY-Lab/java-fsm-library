@@ -22,7 +22,6 @@ public class TrimRightTest {
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.trimRight(a);
-        visualizeAutomaton.show(resultR, "resultR");
         Automaton.printDetails(resultR);
 
         Assert.assertEquals(resultR, result);
