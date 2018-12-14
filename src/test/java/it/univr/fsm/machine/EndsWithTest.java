@@ -12,7 +12,7 @@ public class EndsWithTest {
 
     private static final int TRUE = 1;
     private static final int FALSE = 0;
-    private static final int TOPBOOL = 2;
+    private static final int TOPBOOL = -1;
 
     @Test
     public void endsWithTest001() {
