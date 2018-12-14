@@ -498,7 +498,6 @@ public class SliceTest2 {
         long start = -2;
         long end = 3;
 
-        visualizeAutomaton.show(a, "a");
         HashSet<Automaton> r = new HashSet<>();
         r.add(Automaton.makeAutomaton("bc"));
         r.add(Automaton.makeAutomaton("ef"));

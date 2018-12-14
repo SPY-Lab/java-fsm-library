@@ -80,7 +80,7 @@ public class State {
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof State) 
-			return this.getState().equals(((State) other).getState());
+			return this.getState().equals(((State) other).getState()); //&& this.isFinalState == ((State) other).isFinalState &&  this.isInitialState == ((State) other).isInitialState;
 		return false;
 	}
 

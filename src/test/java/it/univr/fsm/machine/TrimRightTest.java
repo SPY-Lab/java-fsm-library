@@ -11,18 +11,7 @@ public class TrimRightTest {
 
     @Test
     public void trimTest001(){
-
-        HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("panda   "));
-        Automaton a = Automaton.union(set);
-
-        HashSet<Automaton> r = new HashSet<>();
-        r.add(Automaton.makeAutomaton("panda"));
-        Automaton result = Automaton.union(r);
-
-        Automaton resultR = Automaton.trimRight(a);
-
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(Automaton.trimRight(Automaton.makeRealAutomaton("panda   ")), Automaton.makeRealAutomaton("panda"));
     }
 
     @Test
@@ -41,7 +30,7 @@ public class TrimRightTest {
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.trimRight(a);
-
+        System.out.println(resultR.automatonPrint());
         Assert.assertEquals(resultR, result);
     }
 
@@ -270,25 +259,6 @@ public class TrimRightTest {
         Automaton resultR = Automaton.trim(a);
 
         Assert.assertEquals(resultR, result);
-    }
-
-    @Test
-    public void trimTest013() {
-        HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("abc"));
-        set.add(Automaton.makeAutomaton("def"));
-        Automaton a = Automaton.union(set);
-
-        visualizeAutomaton.show(a, "a");
-
-        a.minimize();
-        a.reverse();
-        a.minimize();
-        Automaton result = Automaton.trimLeft(a);
-        result.minimize();
-        result.reverse();
-        result.minimize();
-
     }
 
 }

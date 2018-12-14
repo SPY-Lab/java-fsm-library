@@ -579,10 +579,5 @@ public class SuffixTest{
         delta.add(new Transition(q0, q0, "a"));
 
         Automaton  a = new Automaton(delta, states);
-
-        visualizeAutomaton.show(Automaton.explodeAutomaton(a), "a");
-
     }
-
-
 }
