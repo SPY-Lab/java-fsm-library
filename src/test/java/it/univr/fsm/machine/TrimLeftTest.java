@@ -358,5 +358,15 @@ public class TrimLeftTest {
 
     }
 
+    @Test
+    public void trimTest018(){
+
+        Automaton a = Automaton.star(Automaton.makeAutomaton("a"));
+
+        Automaton resultR = Automaton.trimLeft(a);
+
+        Assert.assertEquals(a, resultR);
+    }
+
 
 }

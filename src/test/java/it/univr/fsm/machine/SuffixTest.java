@@ -580,9 +580,30 @@ public class SuffixTest{
 
         Automaton  a = new Automaton(delta, states);
 
-        visualizeAutomaton.show(Automaton.explodeAutomaton(a), "a");
+        visualizeAutomaton.show(Automaton.deleteCycle(a), "a");
 
     }
+
+    @Test
+    public void SuffixTest019(){
+        HashSet<State> states = new HashSet<>();
+        State q0 = new State("q0", true, true);
+        State q1 = new State("q1", false, false);
+        states.add(q0);
+        states.add(q1);
+
+        HashSet<Transition> delta = new HashSet<>();
+        delta.add(new Transition(q0, q1, "a"));
+        delta.add(new Transition(q1, q0, "c"));
+
+        Automaton  a = new Automaton(delta, states);
+
+        visualizeAutomaton.show(Automaton.deleteCycle(a), "a");
+
+    }
+
+
+
 
 
 }

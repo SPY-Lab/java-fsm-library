@@ -3127,10 +3127,15 @@ public class Automaton {
 		return Automaton.intersection(Automaton.suffix(automaton), Automaton.exactLengthAutomaton(i));
 	}
 
+    /**
+     * Extracts suffix from an automaton starting from the input index
+     * @param a
+     * @param n
+     * @return
+     */
 	public static Automaton su(Automaton a, long n){
 
 		int i = 0;
-		//a.minimize()
         a = Automaton.explodeAutomaton(a);
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
@@ -3552,6 +3557,7 @@ public class Automaton {
 	    boolean notSpace = false;
 
 	    a.minimize();
+
         if (a.isSingleString()){
             a = Automaton.makeRealAutomaton(a.getSingleString());
         }
@@ -3566,10 +3572,13 @@ public class Automaton {
             return makeEmptyString();
         }
 
-		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
-		a.auxTrimLeft(delta, a.getInitialState());
-		Automaton result = new Automaton(delta, a.getStates());
+        Automaton clone = a.clone();
+
+		HashSet<Transition> delta = (HashSet<Transition>)clone.getDelta().clone();
+		a.auxTrimLeft(delta, clone.getInitialState());
+		Automaton result = new Automaton(delta, clone.getStates());
 		result.minimize();
+
 		return result;
 	}
 
@@ -3631,6 +3640,7 @@ public class Automaton {
 		Automaton result = new Automaton(delta, a.getStates());
 		result.minimize();
 		return result;
+
 	}
 
 	private void auxTrimRight(HashSet<Transition> delta, State currentState, State finalState){
@@ -4225,7 +4235,7 @@ public class Automaton {
         return Automaton.concat(prefix, replaceWith);
     }
 
-    private static void printDetails(Automaton a){
+    public static void printDetails(Automaton a){
         System.out.println("stati: ");
         for (State s: a.states){
             System.out.println(s.toString() + ",iniziale: " + s.isInitialState() + ", finale: " + s.isFinalState());
