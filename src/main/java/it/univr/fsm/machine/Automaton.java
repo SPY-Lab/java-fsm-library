@@ -48,10 +48,12 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.makeRealAutomaton("abc");
-		Automaton b = Automaton.makeRealAutomaton("a");
+		Automaton a = Automaton.makeRealAutomaton("panda");
 
-		Automaton c = Automaton.union(a, b);
+		Automaton b = Automaton.reverse(a);
+		b.minimize();
+
+		System.out.println(b.automatonPrint());
 
 		System.out.println(Automaton.star(a));
 	}
@@ -1400,7 +1402,7 @@ public class Automaton {
 
 		HashSet<State> temp;
 
-		temp = epsilonClosure(this.getInitialState());
+		temp = epsilonClosure(this.getInitialStates());
 		statesName.put(temp,new State("q" + String.valueOf(num++) , true, isPartitionFinalState(temp)));
 
 		newStates.add(statesName.get(temp));
@@ -1568,19 +1570,18 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-		//		if (!isDeterministic(this)) {
-		//			Automaton a = this.determinize();
-		//			this.delta = a.delta;
-		//			this.states = a.states;
-		//			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-		//		}
+				if (!isDeterministic(this)) {
+					Automaton a = this.determinize();
+					this.delta = a.delta;
+					this.states = a.states;
+					this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+				}
 
-		this.reverse();
-		Automaton a = this.determinize();
-		a.reverse();
-		a = a.determinize();
+		Automaton a = Automaton.reverse(this).determinize();
+		a.removeUnreachableStates();
+		a = Automaton.reverse(a).determinize();
+		a.removeUnreachableStates();
 
-		//		this.initialState = a.initialState;
 		this.delta = a.delta;
 		this.states = a.states;
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
@@ -1984,54 +1985,84 @@ public class Automaton {
 	/**
 	 * Reverse automata operation.
 	 */
-	public void reverse() {
-
-		HashSet<State> newStates = new HashSet<State>();
-		HashSet<Transition> newDelta = new HashSet<Transition>();
-		HashMap<State, State> mapping = new HashMap<State, State>();
-
-		final State newInitialState = new State("init", true, false);
-		newStates.add(newInitialState);
+	public static Automaton reverse(Automaton a) {
 
 		//		for (State s : this.states) {
 		//			State newState = new State(s.getState(), false , false);
 		//
-		//			if (s.isFinalState()) {
+		//			if (s.isFinalState() && s.isInitialState()) {
+		//				newState.setFinalState(true);
+		//				newState.setInitialState(true);
+		//				newDelta.add(new Transition(newInitialState, newState, ""));
+		//			} else if (s.isFinalState()) {
 		//				newState.setFinalState(false);
-		//				//newState.setInitialState(true);
-		//				newDelta.add(new Transition(newInitialState, newState, "", ""));
-		//				//newInitialState = newState;
-		//			}else if (s.isInitialState())
+		//				newDelta.add(new Transition(newInitialState, newState, ""));
+		//			} else if (s.isInitialState())
 		//				newState.setFinalState(true);
 		//
 		//			newStates.add(newState);
-		//			mapping.put(s, newState);
+		//			mapping.put(s.getState(), newState);
 		//		}
 		//
 		//		for (Transition t : this.delta) {
-		//			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput(), ""));
+		//			newDelta.add(new Transition(mapping.get(t.getTo().getState()) , mapping.get(t.getFrom().getState()), t.getInput()));
 		//		}
 		//
 		//		this.delta = newDelta;
 		//		this.initialState = newInitialState;
 		//		this.states = newStates;
+		//		this.isSingleValue = false;
+		//		this.singleString = null;
 		//		this.computeAdjacencyList();
 
-		// reversing edges
-		for (Transition t : this.delta) {
-			mapping.put(t.getFrom(),t.getFrom());
-			mapping.put(t.getTo(),t.getTo());
-			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput()));
-		}
+		//		// reversing edges
+		//		for (Transition t : a.delta) {
+		//			mapping.put(t.getFrom(),t.getFrom());
+		//			mapping.put(t.getTo(),t.getTo());
+		//			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput()));
+		//		}
+		//
+		//		for (State s : a.states) {
+		//			State newState = mapping.containsKey(s) ? mapping.get(s) : new State(s.getState(), false, false);
+		//
+		//			if (s.isFinalState() && s.isInitialState()) {
+		//				newState.setFinalState(true);
+		//				newState.setInitialState(false);
+		//				newDelta.add(new Transition(newInitialState, newState, ""));
+		//			} else if (s.isFinalState()) {
+		//				newState.setFinalState(false);
+		//				newDelta.add(new Transition(newInitialState, newState, ""));
+		//			} else if (s.isInitialState()) {
+		//				newState.setFinalState(true);
+		//				newState.setInitialState(false);
+		//			}
+		//
+		//			newStates.add(newState);
+		//		}
+		//
+		//		return new Automaton(newDelta, newStates);
 
-		for (State s : this.states) {
-			State newState = mapping.containsKey(s) ? mapping.get(s) : new State(s.getState(), false, false);
+
+		if (a.isSingleString())
+			return Automaton.makeAutomaton(new StringBuilder(a.getSingleString()).reverse().toString());
+
+
+		HashSet<State> newStates = new HashSet<State>();
+		HashSet<Transition> newDelta = new HashSet<Transition>();
+		HashMap<State, State> mapping = new HashMap<State, State>();
+
+		State newInitialState = new State("init", true, false);
+		newStates.add(newInitialState);
+
+		for (State s : a.getStates()) {
+			State newState = new State(s.getState(), false, false);
 
 			if (s.isFinalState() && s.isInitialState()) {
 				newState.setFinalState(true);
-				newState.setInitialState(false);
 				newDelta.add(new Transition(newInitialState, newState, ""));
-			} else if (s.isFinalState()) {
+			} else
+
+			if (s.isFinalState()) {
 				newState.setFinalState(false);
 				newDelta.add(new Transition(newInitialState, newState, ""));
 			} else if (s.isInitialState()) {
@@ -2039,13 +2070,15 @@ public class Automaton {
 				newState.setInitialState(false);
 			}
 
+			mapping.put(s, newState);
 			newStates.add(newState);
 		}
 
-		this.delta = newDelta;
-		this.states = newStates;
-		this.computeAdjacencyList();
+		for (Transition t : a.getDelta())
+				newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput()));
 
+		Automaton r =  new Automaton(newDelta, newStates);
+		return r;
 	}
 
 
@@ -2929,7 +2962,7 @@ public class Automaton {
 		Set<State> graySet = new HashSet<>();
 		Set<State> blackSet = new HashSet<>();
 
-		
+
 		for (State vertex : getStates())
 			whiteSet.add(vertex);
 
@@ -3127,12 +3160,6 @@ public class Automaton {
 		return Automaton.intersection(Automaton.suffix(automaton), Automaton.exactLengthAutomaton(i));
 	}
 
-    /**
-     * Extracts suffix from an automaton starting from the input index
-     * @param a
-     * @param n
-     * @return
-     */
 	public static Automaton su(Automaton a, long n){
 
 		int i = 0;
@@ -3140,7 +3167,7 @@ public class Automaton {
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
-        //Automaton partial = a.clone();
+		//Automaton partial = a.clone();
 		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();
 
 		while(i!=n){
@@ -3262,8 +3289,8 @@ public class Automaton {
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
-        System.out.println("a: " + a);
-        System.out.println("i: " + i);
+		System.out.println("a: " + a);
+		System.out.println("i: " + i);
 		int initIndex = (int) (i < 0 ? 0 : i);
 
 		if (a.isSingleString()) {
@@ -3554,13 +3581,12 @@ public class Automaton {
 	}
 
 	public static Automaton trimLeft(Automaton a){
-	    boolean notSpace = false;
+		boolean notSpace = false;
 
-	    a.minimize();
-
-        if (a.isSingleString()){
-            a = Automaton.makeRealAutomaton(a.getSingleString());
-        }
+		a.minimize();
+		if (a.isSingleString()){
+			a = Automaton.makeRealAutomaton(a.getSingleString());
+		}
 
         for(Transition t : a.getDelta()){
             if(!t.getInput().equals(" ")){
@@ -3615,32 +3641,38 @@ public class Automaton {
 
     }*/
 
-	public static Automaton trimRight(Automaton a){boolean notSpace = false;
+	public static Automaton trimRight(Automaton a){
 
-        a.minimize();
-        if (a.isSingleString()){
-            a = Automaton.makeRealAutomaton(a.getSingleString());
-        }
+		Automaton r = Automaton.reverse(a);
+		r.minimize();
+		r = Automaton.reverse(Automaton.trimLeft(r));
+		r.minimize();
 
-        for(Transition t : a.getDelta()){
-            if(!t.getInput().equals(" ")){
-                notSpace = true;
-            }
-        }
+		return  r;
 
-        if (notSpace == false){
-            return makeEmptyString();
-        }
 
-		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
-		for(State finalState: a.getFinalStates()) {
-			a.auxTrimRight(delta, finalState, finalState);
-		}
-
-		Automaton result = new Automaton(delta, a.getStates());
-		result.minimize();
-		return result;
-
+		//        if (a.isSingleString()){
+		//            a = Automaton.makeRealAutomaton(a.getSingleString());
+		//        }
+		//
+		//        for(Transition t : a.getDelta()){
+		//            if(!t.getInput().equals(" ")){
+		//                notSpace = true;
+		//            }
+		//        }
+		//
+		//        if (notSpace == false){
+		//            return makeEmptyString();
+		//        }
+		//
+		//		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
+		//		for(State finalState: a.getFinalStates()) {
+		//			a.auxTrimRight(delta, finalState, finalState);
+		//		}
+		//
+		//		Automaton result = new Automaton(delta, a.getStates());
+		//		result.minimize();
+		//		return result;
 	}
 
 	private void auxTrimRight(HashSet<Transition> delta, State currentState, State finalState){
@@ -3667,8 +3699,8 @@ public class Automaton {
 	 */
 	public static Automaton toLowerCase(Automaton a){
 
-        if (a.isSingleString())
-            a = Automaton.makeRealAutomaton(a.getSingleString());
+		if (a.isSingleString())
+			a = Automaton.makeRealAutomaton(a.getSingleString());
 
 		Automaton toLower = a.clone();
 
@@ -3687,8 +3719,8 @@ public class Automaton {
 	 */
 	public static Automaton toUpperCase(Automaton a){
 
-        if (a.isSingleString())
-            a = Automaton.makeRealAutomaton(a.getSingleString());
+		if (a.isSingleString())
+			a = Automaton.makeRealAutomaton(a.getSingleString());
 
 		Automaton toUpper = a.clone();
 		for (Transition t : toUpper.getDelta()){
@@ -3700,15 +3732,15 @@ public class Automaton {
 		return toUpper;
 	}
 
-    /**
-     * Method that, given two indexes, returns the automaton that recognizes all the substrings in
-     * those indexes. If any of them is negative then index = index + length.
-     * If the first index is grater then the second epsilon is returned
-     * @param start starting index, included. Negative value possible
-     * @param end ending index, not included. Negative value possible
-     * @return
-     */
-    public static Automaton slice(Automaton a, long start, long end){
+	/**
+	 * Method that, given two indexes, returns the automaton that recognizes all the substrings in
+	 * those indexes. If any of them is negative then index = index + length.
+	 * If the first index is grater then the second epsilon is returned
+	 * @param start starting index, included. Negative value possible
+	 * @param end ending index, not included. Negative value possible
+	 * @return
+	 */
+	public static Automaton slice(Automaton a, long start, long end){
 
         if(start == end){
             return Automaton.makeEmptyString();
@@ -4279,6 +4311,10 @@ public class Automaton {
         return result;
     }
 
+    public static int endsWith(Automaton a, Automaton other){
+        return Automaton.startsWith(Automaton.reverse(a), Automaton.reverse(other));
+
+    }
 
 
 }
