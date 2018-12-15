@@ -495,5 +495,16 @@ public class IncludesTest {
 
         Assert.assertEquals(Automaton.includes(automaton, search), FALSE);
     }
-
+    
+    @Test
+    public void includesTest040() {
+        Automaton automaton = Automaton.makeAutomaton("land");
+        automaton = Automaton.union(automaton, Automaton.makeAutomaton("panda"));
+        automaton = Automaton.union(automaton, Automaton.makeAutomaton("and"));
+        
+        Automaton search = Automaton.makeAutomaton("an");
+        search = Automaton.union(search, Automaton.makeAutomaton("nd"));
+        
+        Assert.assertEquals(Automaton.includes(automaton, search), TRUE);
+    }
 }

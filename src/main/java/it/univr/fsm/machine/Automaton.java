@@ -3878,6 +3878,7 @@ public class Automaton {
 			//and the other automaton are equals, if they are it means the strings are contained
 			boolean equalsOther = Automaton.intersection(factors, other).equals(other);
 
+			
 			if (equalsOther) {
 				return 1;
 			}
