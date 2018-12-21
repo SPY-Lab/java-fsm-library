@@ -3289,8 +3289,6 @@ public class Automaton {
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
-		System.out.println("a: " + a);
-		System.out.println("i: " + i);
 		int initIndex = (int) (i < 0 ? 0 : i);
 
 		if (a.isSingleString()) {
@@ -3302,6 +3300,45 @@ public class Automaton {
 		}
 
 		return Automaton.suffixesAt(initIndex, a);
+	}
+	
+	
+	public static int indexOf(Automaton a, Automaton b) {
+
+		Automaton aut = a.isSingleString() ? Automaton.makeRealAutomaton(a.getSingleString()) : a;
+		Automaton search = b.isSingleString() ? Automaton.makeRealAutomaton(b.getSingleString()) : b;
+		
+		if (Automaton.isEmptyLanguageAccepted(Automaton.intersection(search, Automaton.factors(aut))))
+			return -1;
+		else if (aut.hasCycle() || search.hasCycle())
+			return -2;
+		
+		
+		Automaton build = aut.clone();
+		
+		int indexOf = -2;
+
+		for (State s : build.getStates()) {
+			if (s.isInitialState())
+				s.setInitialState(false);
+			s.setFinalState(true);
+		}
+
+		for (State q : build.getStates()) {
+			q.setInitialState(true);
+
+			if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(build, search))) {
+				int index =  aut.minimumDijkstra(q).size() - 1;
+				if (index != indexOf && indexOf != -2)
+					return -2;
+				else
+					indexOf = index;
+			}
+
+			q.setInitialState(false);	
+		}
+
+		return indexOf;
 	}
 
 	public static Automaton substring(Automaton a, long i, long j) {	
