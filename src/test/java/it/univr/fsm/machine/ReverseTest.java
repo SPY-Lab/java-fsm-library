@@ -1,6 +1,7 @@
 package it.univr.fsm.machine;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ public class ReverseTest {
 		Automaton a = Automaton.makeAutomaton("aaa");
 		assertEquals(a, Automaton.reverse(Automaton.reverse(a)));
 	}
+	
 
 	@Test
 	public void reverseTest002() {
@@ -28,6 +30,7 @@ public class ReverseTest {
 		r = Automaton.reverse(r);
 		r.minimize();
 		assertEquals(a, r);
+		assertEquals(Automaton.intersection(a, Automaton.complement(r)), Automaton.makeEmptyLanguage());
 	}
 
 	@Test
@@ -39,6 +42,7 @@ public class ReverseTest {
 		r = Automaton.reverse(r);
 		r.minimize();
 		assertEquals(a, r);
+		assertEquals(Automaton.intersection(a, Automaton.complement(r)), Automaton.makeEmptyLanguage());
 	}
 
 	@Test
@@ -50,5 +54,44 @@ public class ReverseTest {
 		r = Automaton.reverse(r);
 		r.minimize();
 		assertEquals(a, r);
+		assertEquals(Automaton.intersection(a, Automaton.complement(r)), Automaton.makeEmptyLanguage());
+	}
+	
+	@Test
+	public void reverseTest006() {
+		Automaton a = Automaton.star(Automaton.union(Automaton.makeAutomaton("a"), Automaton.makeAutomaton("a")));
+
+		Automaton r = Automaton.reverse(a);
+		r.minimize();
+		r = Automaton.reverse(r);
+		r.minimize();
+		assertEquals(a, r);
+		assertEquals(Automaton.intersection(a, Automaton.complement(r)), Automaton.makeEmptyLanguage());
+
+	}
+	
+
+	@Test
+	public void reverseTest007() {
+		Automaton a = Automaton.star(Automaton.union(Automaton.makeAutomaton("a"), Automaton.makeAutomaton("b"), Automaton.makeAutomaton("ccc")));
+
+		Automaton r = Automaton.reverse(a);
+		r.minimize();
+		r = Automaton.reverse(r);
+		r.minimize();
+		assertEquals(a, r);
+		assertEquals(Automaton.intersection(a, Automaton.complement(r)), Automaton.makeEmptyLanguage());
+	}
+	
+	@Test
+	public void reverseTest008() {
+		Automaton a = Automaton.star(Automaton.union(Automaton.makeAutomaton(""), Automaton.makeAutomaton(""), Automaton.makeAutomaton("")));
+
+		Automaton r = Automaton.reverse(a);
+		r.minimize();
+		r = Automaton.reverse(r);
+		r.minimize();
+		assertEquals(a, r);
+		assertEquals(Automaton.intersection(a, Automaton.complement(r)), Automaton.makeEmptyLanguage());
 	}
 }

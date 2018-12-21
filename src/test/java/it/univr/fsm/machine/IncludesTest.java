@@ -507,4 +507,12 @@ public class IncludesTest {
         
         Assert.assertEquals(Automaton.includes(automaton, search), TRUE);
     }
+    
+
+    @Test
+    public void includesTest041() {
+        Automaton automaton = Automaton.star(Automaton.makeAutomaton("land"));
+       
+        Assert.assertEquals(Automaton.includes(automaton, Automaton.makeAutomaton("c")), FALSE);
+    }
 }

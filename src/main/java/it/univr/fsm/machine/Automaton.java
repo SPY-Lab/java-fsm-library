@@ -1202,6 +1202,15 @@ public class Automaton {
 		result.minimize();
 		return result;
 	}
+	
+	public static Automaton union(Automaton... automata) {
+		Automaton result = Automaton.makeEmptyLanguage();
+		
+		for (Automaton a : automata)
+			result = Automaton.union(a, result);
+		
+		return result;
+	}
 
 	/**
 	 * Returns an automaton recognize any string.
@@ -2633,7 +2642,6 @@ public class Automaton {
 		q.add(root);
 
 		while (!q.isEmpty()) {
-			System.out.println(q);
 			State current = q.remove();
 
 			for (Transition t : this.getOutgoingTransitionsFrom(current)) {
@@ -2677,8 +2685,6 @@ public class Automaton {
 
 		for (Transition t : this.getOutgoingTransitionsFrom(this.getInitialState()))
 			bfs.putAll(this.bfsAux(t.getTo()));
-
-		System.out.println(bfs);
 
 		HashSet<String> result = new HashSet<String>();
 
@@ -3865,16 +3871,17 @@ public class Automaton {
 
 		a.minimize();
 
-		if(other.hasCycle() || a.hasCycle()){
-			return -1;
-		}
 
 		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
 		if (Automaton.isEmptyLanguageAccepted(intersection))
 			return 0;
-
+		
 		if (other.equals(Automaton.makeEmptyString())){
 			return 1;
+		}
+		
+		if(other.hasCycle() || a.hasCycle()){
+			return -1;
 		}
 
 		return a.auxIncludes(other,new HashSet<Transition>(), a.getInitialState());
@@ -3943,8 +3950,6 @@ public class Automaton {
 	 * @return
 	 */
 	public static int startsWith(Automaton a, Automaton other, long i){
-
-        System.out.println(Automaton.su(a, i));
 		return Automaton.startsWith(Automaton.singleParameterSubstring(a, i), other);
 	}
 
@@ -3969,11 +3974,6 @@ public class Automaton {
 
 		other.minimize();
 		a.minimize();
-		
-		if(other.hasCycle() || a.hasCycle()) {
-			return -1;
-		}
-
 		if (other.equals(Automaton.makeEmptyString())) {
 			return 1;
 		}
@@ -3983,6 +3983,12 @@ public class Automaton {
 		if(Automaton.isEmptyLanguageAccepted(intersection)) {
 			return 0;
 		}
+		
+		if(other.hasCycle() || a.hasCycle()) {
+			return -1;
+		}
+
+		
 
 		if(other.hasOnlyOnePath()) {
 
@@ -4193,13 +4199,13 @@ public class Automaton {
 
         if(currentState.isFinalState()) {
             //searchIn is the automaton that recognizes a single recognized string in the current Automaton
-            Automaton searchIn = new Automaton(delta, (HashSet<State>) this.getStates().clone());
+            Automaton searchIn = new Automaton(delta, (HashSet<State>) getStates().clone());
             searchIn = searchIn.clone();
             Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
 
             //if the intersection is empty and there are no other transitions from the current state,
             //we return searchIn
-            if (Automaton.isEmptyLanguageAccepted(intersection) && this.getOutgoingTransitionsFrom(currentState).size() == 0) {
+            if (Automaton.isEmptyLanguageAccepted(intersection) && getOutgoingTransitionsFrom(currentState).size() == 0) {
                 return searchIn;
 
             }else if(!Automaton.isEmptyLanguageAccepted(intersection)){
@@ -4314,8 +4320,6 @@ public class Automaton {
         for (Transition t: a.getDelta()){
             System.out.println(t);
         }
-
-        Automaton temp = null;
     }
 
     private static Automaton copy(Automaton a, State currentState, HashSet<Transition> delta){
