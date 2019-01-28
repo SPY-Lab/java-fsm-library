@@ -215,4 +215,74 @@ public class SingleAssignmentTest {
 		
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+
+
+	@Test
+	public void singleAssignmentTest010() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=x+y*z;"), Automaton.makeRealAutomaton("x=x+z*y;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+	
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = x+y*z;"));
+		delta.add(new Transition(q0, q1, "x = x+z*y;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+
+	@Test
+	public void singleAssignmentTest011() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("y=x+y*z;"), Automaton.makeRealAutomaton("z=x+z*y;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+	
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "y = x+y*z;"));
+		delta.add(new Transition(q0, q1, "z = x+z*y;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+
+	@Test
+	public void singleAssignmentTest012() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("y=x+y*z;"), Automaton.makeRealAutomaton("z=x+z*y;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+	
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "y = x+y*z;"));
+		delta.add(new Transition(q0, q1, "z = x+z*y;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }
