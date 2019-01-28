@@ -15,7 +15,7 @@ public class MultipleAssignmentTest {
 	AbstractParser parser = new AbstractParser();
 
 	@Test
-	public void singleAssignmentTest001() {
+	public void multipleAssignmentTest001() {
 
 		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=7;y=5;"),Automaton.makeRealAutomaton("x=9;"));
 
@@ -40,7 +40,7 @@ public class MultipleAssignmentTest {
 	}
 
 	@Test
-	public void singleAssignmentTest002() {
+	public void multipleAssignmentTest002() {
 
 		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=7;y=5;"),Automaton.makeRealAutomaton("x=9;y=5;"));
 
@@ -66,7 +66,7 @@ public class MultipleAssignmentTest {
 	}
 
 	@Test
-	public void singleAssignmentTest003() {
+	public void multipleAssignmentTest003() {
 
 		Automaton a = Automaton.union(Automaton.makeRealAutomaton("xx=7;y=5;"),Automaton.makeRealAutomaton("x=9;y=5;"));
 
@@ -93,7 +93,7 @@ public class MultipleAssignmentTest {
 
 
 	@Test
-	public void singleAssignmentTest004() {
+	public void multipleAssignmentTest004() {
 
 		Automaton a = Automaton.union(Automaton.makeRealAutomaton("a=1;b=2;c=3;"),Automaton.makeRealAutomaton("a=4;b=5;c=6;"));
 
@@ -126,4 +126,90 @@ public class MultipleAssignmentTest {
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
 	
+	@Test
+	public void multipleAssignmentTest005() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=1+1;y=2;"), Automaton.makeRealAutomaton("x=1+2;z=33;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, false);
+		State q3 = new State("q3", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		states.add(q2);
+		states.add(q3);
+		
+		delta.add(new Transition(q0, q1, "x = 1+1;"));
+		delta.add(new Transition(q1, q3, "y = 2;"));
+		delta.add(new Transition(q2, q3, "z = 33;"));
+		delta.add(new Transition(q0, q2, "x = 1+2;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+	
+	@Test
+	public void multipleAssignmentTest006() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=2-1;y=2;"), Automaton.makeRealAutomaton("x=1+2;z=33;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, false);
+		State q3 = new State("q3", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		states.add(q2);
+		states.add(q3);
+		
+		delta.add(new Transition(q0, q1, "x = 2-1;"));
+		delta.add(new Transition(q1, q3, "y = 2;"));
+		delta.add(new Transition(q2, q3, "z = 33;"));
+		delta.add(new Transition(q0, q2, "x = 1+2;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+
+	
+	@Test
+	public void multipleAssignmentTest007() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=1*1;y=2;"), Automaton.makeRealAutomaton("x=1+2;z=33;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, false);
+		State q3 = new State("q3", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		states.add(q2);
+		states.add(q3);
+		
+		delta.add(new Transition(q0, q1, "x = 1*1;"));
+		delta.add(new Transition(q1, q3, "y = 2;"));
+		delta.add(new Transition(q2, q3, "z = 33;"));
+		delta.add(new Transition(q0, q2, "x = 1+2;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }

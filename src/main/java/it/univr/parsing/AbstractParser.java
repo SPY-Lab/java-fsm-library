@@ -58,28 +58,53 @@ public class AbstractParser {
 
 		for (Transition t : a.getOutgoingTransitionsFrom(q)) {
 
-			switch(t.getInput()) {
-			case "+": 
-				pexps = reduceExpression(a, t.getTo());
+//
+//			if (isIdLetter(t.getInput())) {
+//				pexps = reduceValue(a, t.getFrom());
+//
+//				for (Map.Entry<String, State> entry : pexps.entrySet()) 
+//					exps.put(entry.getKey(), entry.getValue());	
+//				
+//			} else {
 
-				for (Map.Entry<String, State> entry : pexps.entrySet()) 
-					exps.put(entry.getKey(), entry.getValue());					
+				switch(t.getInput()) {
+				case "+":  
+				case "*":  
+				case "-":  
+				case "/":  
 
-				break;
-			default:
-				pexps = reduceValue(a, t.getFrom());
+					pexps = reduceExpression(a, t.getTo());
 
-				for (Map.Entry<String, State> entry : pexps.entrySet()) 
-					exps.put(entry.getKey(), entry.getValue());	
+					for (Map.Entry<String, State> entry : pexps.entrySet()) 
+						exps.put(t.getInput() + entry.getKey(), entry.getValue());					
+
+					break;
+
+
+				default:
+					pexps = reduceValue(a, t.getFrom());
+
+					for (Map.Entry<String, State> entry : pexps.entrySet()) 
+						exps.put(entry.getKey(), entry.getValue());	
+				}
 			}
-		}
-
+//		}
 
 		return exps;
 	}
 
 	public HashMap<String, State> reduceValue(Automaton a, State q) {
-		return reduceInteger(a, q);
+		HashMap<String, State> pvals = new HashMap<String, State>();
+		
+		for (Transition t : a.getOutgoingTransitionsFrom(q)) {
+			if (isCipher(t.getInput()))
+				pvals.putAll(reduceInteger(a,q));
+			else if (isIdLetter(t.getInput()))
+				pvals.putAll(reduceIdExpression(a,q));
+
+		}
+
+		return pvals;
 	}
 
 	public HashMap<String, State> reduceAssignment(Automaton a, State q) {
@@ -115,7 +140,7 @@ public class AbstractParser {
 				HashMap<String, State> restOfExpression = reduceExpression(a, t.getFrom());
 
 				for (Map.Entry<String, State> e : restOfExpression.entrySet()) {
-					ids.put(t.getInput() + e.getKey(), e.getValue());
+					ids.put(e.getKey(), e.getValue());
 				}
 			}
 		}
@@ -142,6 +167,31 @@ public class AbstractParser {
 
 		return ids;
 	}
+	
+
+	public HashMap<String, State> reduceIdExpression(Automaton a, State q) {
+		HashMap<String, State> ids = new HashMap<String, State>();
+
+		for (Transition t : a.getOutgoingTransitionsFrom(q)) {
+			if (isIdLetter(t.getInput())) {
+				HashMap<String, State> pids = reduceIdExpression(a, t.getTo());
+
+				for (Map.Entry<String, State> pid : pids.entrySet()) {
+					ids.put(t.getInput() + pid.getKey(), pid.getValue());
+				}
+			} else if (t.getInput().equals(";")){
+				ids.put("", t.getTo());
+			} else {
+				HashMap<String, State> restOfExpression = reduceExpression(a, t.getFrom());
+
+				for (Map.Entry<String, State> e : restOfExpression.entrySet()) {
+					ids.put(e.getKey(), e.getValue());
+				}
+			}
+		}
+
+		return ids;
+	}
 
 	private boolean isCipher(String n) {
 		return n.equals("0") ||
@@ -154,5 +204,34 @@ public class AbstractParser {
 				n.equals("7") ||
 				n.equals("8") ||
 				n.equals("9");
+	}
+
+	private boolean isIdLetter(String c) {
+		return c.equals("a") ||
+				c.equals("b") ||
+				c.equals("c") ||
+				c.equals("d") ||
+				c.equals("e") ||
+				c.equals("f") ||
+				c.equals("g") ||
+				c.equals("h") ||
+				c.equals("i") ||
+				c.equals("j") ||
+				c.equals("k") ||
+				c.equals("l") ||
+				c.equals("m") ||
+				c.equals("n") ||
+				c.equals("o") ||
+				c.equals("p") ||
+				c.equals("q") ||
+				c.equals("r") ||
+				c.equals("s") ||
+				c.equals("t") ||
+				c.equals("u") ||
+				c.equals("v") ||
+				c.equals("w") ||
+				c.equals("y") ||
+				c.equals("x") ||
+				c.equals("z");
 	}
 }
