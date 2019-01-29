@@ -238,4 +238,30 @@ public class MultipleAssignmentTest {
 		
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+	
+	@Test
+	public void singleAssignmentTest014() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("y=x+y*1;y=5;"), Automaton.makeRealAutomaton("z=x+2*y;y=5;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+	
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		states.add(q2);
+		
+		delta.add(new Transition(q0, q1, "y = x+y*1;"));
+		delta.add(new Transition(q0, q1, "z = x+2*y;"));
+		delta.add(new Transition(q1, q2, "y = 5;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }
