@@ -1,6 +1,8 @@
 package it.univr.parsing;
 
 import java.util.HashMap;
+import org.apache.commons.lang3.tuple.*;
+
 import java.util.HashSet;
 import java.util.Map;
 
@@ -10,7 +12,12 @@ import it.univr.fsm.machine.Transition;
 
 public class AbstractParser {
 
+
 	public Automaton reduceProgram(Automaton a) {
+		
+		// Normalize automaton cycles
+		normalizeAutomaton(a);
+		
 		HashSet<State> states = new HashSet<State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
 
@@ -58,44 +65,44 @@ public class AbstractParser {
 
 		for (Transition t : a.getOutgoingTransitionsFrom(q)) {
 
-//
-//			if (isIdLetter(t.getInput())) {
-//				pexps = reduceValue(a, t.getFrom());
-//
-//				for (Map.Entry<String, State> entry : pexps.entrySet()) 
-//					exps.put(entry.getKey(), entry.getValue());	
-//				
-//			} else {
+			//
+			//			if (isIdLetter(t.getInput())) {
+			//				pexps = reduceValue(a, t.getFrom());
+			//
+			//				for (Map.Entry<String, State> entry : pexps.entrySet()) 
+			//					exps.put(entry.getKey(), entry.getValue());	
+			//				
+			//			} else {
 
-				switch(t.getInput()) {
-				case "+":  
-				case "*":  
-				case "-":  
-				case "/":  
+			switch(t.getInput()) {
+			case "+":  
+			case "*":  
+			case "-":  
+			case "/":  
 
-					pexps = reduceExpression(a, t.getTo());
+				pexps = reduceExpression(a, t.getTo());
 
-					for (Map.Entry<String, State> entry : pexps.entrySet()) 
-						exps.put(t.getInput() + entry.getKey(), entry.getValue());					
+				for (Map.Entry<String, State> entry : pexps.entrySet()) 
+					exps.put(t.getInput() + entry.getKey(), entry.getValue());					
 
-					break;
+				break;
 
 
-				default:
-					pexps = reduceValue(a, t.getFrom());
+			default:
+				pexps = reduceValue(a, t.getFrom());
 
-					for (Map.Entry<String, State> entry : pexps.entrySet()) 
-						exps.put(entry.getKey(), entry.getValue());	
-				}
+				for (Map.Entry<String, State> entry : pexps.entrySet()) 
+					exps.put(entry.getKey(), entry.getValue());	
 			}
-//		}
+		}
+		//		}
 
 		return exps;
 	}
 
 	public HashMap<String, State> reduceValue(Automaton a, State q) {
 		HashMap<String, State> pvals = new HashMap<String, State>();
-		
+
 		for (Transition t : a.getOutgoingTransitionsFrom(q)) {
 			if (isCipher(t.getInput()))
 				pvals.putAll(reduceInteger(a,q));
@@ -167,7 +174,7 @@ public class AbstractParser {
 
 		return ids;
 	}
-	
+
 
 	public HashMap<String, State> reduceIdExpression(Automaton a, State q) {
 		HashMap<String, State> ids = new HashMap<String, State>();
@@ -232,6 +239,78 @@ public class AbstractParser {
 				c.equals("w") ||
 				c.equals("y") ||
 				c.equals("x") ||
-				c.equals("z");
+				c.equals("z") ||
+				c.equals("A") ||
+				c.equals("B") ||
+				c.equals("C") ||
+				c.equals("D") ||
+				c.equals("E") ||
+				c.equals("F") ||
+				c.equals("G") ||
+				c.equals("H") ||
+				c.equals("I") ||
+				c.equals("L") ||
+				c.equals("M") ||
+				c.equals("N") ||
+				c.equals("O") ||
+				c.equals("P") ||
+				c.equals("Q") ||
+				c.equals("R") ||
+				c.equals("S") ||
+				c.equals("T") ||
+				c.equals("U") ||
+				c.equals("V") ||
+				c.equals("Z") ||
+				c.equals("W") ||
+				c.equals("X") ||
+				c.equals("Y") ||
+				c.equals("J") ||
+				c.equals("K");
+	}
+	
+	public Automaton normalizeAutomaton(Automaton a) {
+		return normalizeAutomatonAux(a, 0);
+	}
+	
+	public Automaton normalizeAutomatonAux(Automaton a, int n) {
+
+		HashSet<Triple<HashSet<State>, State, State>> SCCs = a.extendedTarjan();
+		for (Triple<HashSet<State>, State, State> scc : SCCs) {
+		
+			HashSet<State> exits = a.exitStates(scc.getLeft());
+			
+			exits.remove(scc.getRight()); // Remove real exit node
+			exits.remove(scc.getMiddle()); // Remove entry node
+
+			if (exits.size() > 0) {
+				for (State o : exits) {
+					HashSet<Transition> outgoing = a.getOutgoingTransitionsFrom(o);
+					HashSet<Transition> toRemove = new HashSet<Transition>();
+
+					for (Transition out : outgoing) {
+						if (scc.getLeft().contains(out.getTo())) 
+							continue;
+						
+						State qf = new State("s" + n++, o.isInitialState(), o.isFinalState());
+						
+						a.addState(qf);
+						a.addTransition(qf, out.getTo(), out.getInput());
+						
+						for (Transition in : a.getIncomingTransitionsTo(o)) {
+							a.addTransition(in.getFrom(), qf, in.getInput());
+						}
+
+						toRemove.add(out);
+						
+					}
+					a.removeTransitions(toRemove);
+				}
+				
+				return normalizeAutomatonAux(new Automaton(a.getDelta(), a.getStates()), n);
+			}
+		}
+
+		return a;
+
 	}
 }

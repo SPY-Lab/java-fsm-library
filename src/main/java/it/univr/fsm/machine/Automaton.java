@@ -3,6 +3,7 @@ package it.univr.fsm.machine;
 import it.univr.fsm.equations.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.IRFactory;
 
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Finite-state automaton class.
@@ -46,7 +48,28 @@ import java.util.*;
  */
 public class Automaton {
 
-	public HashSet<HashSet<State>> extendedTarjan() {
+
+	public void addTransition(State from, State to, String input) {
+		delta.add(new Transition(from, to, input));
+	}
+
+
+
+
+	public HashSet<State> exitStates(HashSet<State> scc) {
+
+		HashSet<State> exits = new HashSet<State>();
+
+		for (State s : scc) 
+			for (Transition t : getOutgoingTransitionsFrom(s))
+				if (!scc.contains(t.getTo()))
+					exits.add(s);
+
+		return exits;
+
+	}
+
+	public HashSet<Triple<HashSet<State>, State, State>> extendedTarjan() {
 		HashMap<State, Integer> indexes = new HashMap<State, Integer>();
 		HashMap<State, Integer> lowlink = new HashMap<State, Integer>();
 		HashMap<State, Boolean> onStack = new HashMap<State, Boolean>();
@@ -58,43 +81,50 @@ public class Automaton {
 
 		int index = 0;
 
-		HashSet<HashSet<State>> result = new HashSet<HashSet<State>>();
+		HashSet<Triple<HashSet<State>, State, State>> result = new HashSet<Triple<HashSet<State>, State, State>>();
 
 		for (State v : getStates()) {
 			if (!indexes.containsKey(v)) {
-				HashSet<HashSet<State>> scc = strongConnect(v, indexes, lowlink, onStack, stack, index);
-				for (HashSet<State> r : scc)
-					if (!r.isEmpty())
+				HashSet<Triple<HashSet<State>, State, State>> scc = strongConnect(v, indexes, lowlink, onStack, stack, index);
+				for (Triple<HashSet<State>, State, State> r : scc)
+					if (!(r.getLeft().isEmpty()))
 						result.add(r);    
 			}                
 		}
 
-		for (HashSet<State> scc :result) {
+		HashSet<Triple<HashSet<State>, State, State>> toRemove = new HashSet<Triple<HashSet<State>, State, State>>();
+
+		for (Triple<HashSet<State>, State, State> scc : result) {
 
 			boolean isSCC = false;
-			if (scc.size() == 1) {
+			if (scc.getLeft().size() == 1) {
 
-				for (State v : scc)
+				for (State v : scc.getLeft())
 					for (Transition t : getOutgoingTransitionsFrom(v))
-						if (t.getTo().equals(v))
+						if (t.getTo().equals(v)) {
 							isSCC = true;
-
+							break;
+						}
+				
 				if (!isSCC)
-					result.remove(scc);
+					toRemove.add(scc);
 			}
 
 		}
+
+		result.removeAll(toRemove);
 		return result;
 	}
 
 
-	private HashSet<HashSet<State>> strongConnect(State v,
+	private HashSet<Triple<HashSet<State>, State, State>> strongConnect(State v,
 			HashMap<State, Integer> indexes,
 			HashMap<State, Integer> lowlink,
 			HashMap<State, Boolean> onStack,
 			Stack<State> stack,
 			int index) {
-		HashSet<HashSet<State>> result = new HashSet<HashSet<State>>();
+
+		HashSet<Triple<HashSet<State>, State, State>> result = new HashSet<Triple<HashSet<State>, State, State>>();
 
 		// Set the depth index for v to the smallest unused index
 		indexes.put(v, index);
@@ -111,9 +141,9 @@ public class Automaton {
 
 			if (!indexes.containsKey(w)) {
 				// Successor w has not yet visit, recurse on it
-				HashSet<HashSet<State>> r = strongConnect(w, indexes, lowlink, onStack, stack, index);
+				HashSet<Triple<HashSet<State>, State, State>> r = strongConnect(w, indexes, lowlink, onStack, stack, index);
 
-				for (HashSet<State> s : r)
+				for (Triple<HashSet<State>, State, State> s : r)
 					result.add(s);
 
 				lowlink.put(v, Math.min(lowlink.get(v), lowlink.get(w)));        
@@ -127,19 +157,30 @@ public class Automaton {
 		}
 
 		HashSet<State> scc = new HashSet<State>();
-
+		State exit = null;
+		
+		int i = 0;
+		
 		if (lowlink.get(v) == indexes.get(v)) {
+			
 			// Start a new strongly connected component
 			State w = null;
+			
 			do {
+				
+				
 				w = stack.pop();
 				onStack.put(w, false);
 				scc.add(w);
-
+				
+				if (i++ == 0)
+					exit = w;
+				
 			} while (!(w.equals(v)));
 		}
+		i = 0;
 
-		result.add(scc);
+		result.add(Triple.of(scc, v, exit));
 		return result;
 	}
 
@@ -154,8 +195,6 @@ public class Automaton {
 
 		a = Automaton.star(Automaton.makeAutomaton("x=1;"));
 		System.out.println(a.automatonPrint());
-		for (HashSet<State> b : a.extendedTarjan())
-			System.err.println(b);
 
 		//        Automaton a= Automaton.star(Automaton.union(Automaton.makeAutomaton(“x=2;y=0;“), Automaton.makeAutomaton(“x=1;y=0;“)));
 		Automaton result = a.stmSyn();
@@ -453,6 +492,10 @@ public class Automaton {
 
 	}
 
+	public static Automaton concat(String s1, String s2){
+		return Automaton.concat(Automaton.makeRealAutomaton(s1), Automaton.makeRealAutomaton(s2));
+
+	}
 
 	/**
 	 * Performs the automata complement operation
@@ -1093,10 +1136,20 @@ public class Automaton {
 
 		return result;
 	}
+	
+	public boolean removeTransition(Transition t) {
+		if (delta.contains(t)) {
+			delta.remove(t);
+			return true;
+		}
 
-	public void removeTransition(Transition t) {
-		this.delta.remove(t);
+		return false;
 	}
+	
+	public void removeTransitions(HashSet<Transition> ts) {
+		delta.removeAll(ts);
+	}
+
 
 	/**
 	 * Renames the states of the automaton.
@@ -1208,6 +1261,7 @@ public class Automaton {
 
 	}
 
+
 	public void setAdjacencyListOutgoing(HashMap<State, HashSet<Transition>> adjacencyListOutgoing) {
 		this.adjacencyListOutgoing = adjacencyListOutgoing;
 	}
@@ -1295,6 +1349,10 @@ public class Automaton {
 	}
 
 
+	public static Automaton union(String s1, String s2) {
+		return Automaton.union(Automaton.makeRealAutomaton(s1), Automaton.makeRealAutomaton(s2));
+	}
+
 	public static Automaton star(Automaton a) {
 		Automaton result =  a.isSingleString() ? Automaton.makeRealAutomaton(a.getSingleString()) : a.clone();
 
@@ -1306,6 +1364,10 @@ public class Automaton {
 
 		result.minimize();
 		return result;
+	}
+
+	public static Automaton star(String s) {
+		return Automaton.star(Automaton.makeRealAutomaton(s));
 	}
 
 	public static Automaton union(Automaton... automata) {
@@ -1788,7 +1850,7 @@ public class Automaton {
 		//this.adjacencyList = this.computeAdjacencyList();
 	}*/
 
-	private HashSet<Transition> getIncomingTransitionsTo(State s) {
+	public HashSet<Transition> getIncomingTransitionsTo(State s) {
 		HashSet<Transition> result = new HashSet<Transition>();
 
 		for (Transition t : this.delta)
@@ -2977,6 +3039,10 @@ public class Automaton {
 		return result;
 	}
 
+	public void addState(State s) {
+		states.add(s);
+	}
+	
 	@Override
 	public String toString() {
 		return this.prettyPrint();
