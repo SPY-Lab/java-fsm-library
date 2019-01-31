@@ -146,8 +146,7 @@ public class Comp extends RegularExpression {
 			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
 		}
 
-
-
+		
 		// Comp with an only term isn't a Comp, but a GroundCoeff
 		if(second instanceof GroundCoeff && ((GroundCoeff) second).getString().equals("")){
 			return first.simplify();

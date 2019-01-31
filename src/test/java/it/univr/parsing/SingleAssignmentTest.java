@@ -285,4 +285,50 @@ public class SingleAssignmentTest {
 		
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+	
+	@Test
+	public void singleAssignmentTest013() {
+		
+		Automaton a = Automaton.concat(Automaton.concat(Automaton.makeRealAutomaton("x=5"), Automaton.star("5")), Automaton.makeRealAutomaton(";"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+	
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = 5(5)*;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+	@Test
+	public void singleAssignmentTest014() {
+		
+		Automaton a = Automaton.concat(Automaton.concat(Automaton.makeRealAutomaton("x=5"), Automaton.union(Automaton.star("4"), Automaton.star("7"))), Automaton.makeRealAutomaton(";"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+	
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = 54(4)*;"));
+		delta.add(new Transition(q0, q1, "x = 57(7)*;"));
+		delta.add(new Transition(q0, q1, "x = 5;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }

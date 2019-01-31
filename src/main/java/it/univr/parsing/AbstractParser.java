@@ -12,11 +12,119 @@ import it.univr.fsm.machine.Transition;
 
 public class AbstractParser {
 
+	public static void main(String[] args) {
+		AbstractParser parser = new AbstractParser();
+
+		Automaton a = Automaton.concat(Automaton.makeRealAutomaton("x=5"), Automaton.star("56"));
+		a = Automaton.concat(a, Automaton.makeRealAutomaton(";"));
+
+		System.out.println(parser.reduceCycles(a));
+	}
+
+
+	public String buildRestrictedRegex(Automaton a, Triple<HashSet<State>, State, State> scc) {
+
+		State entry = scc.getMiddle();
+		State exit = scc.getRight();
+
+		Automaton r = a.clone();
+
+		for (State s : r.getStates()) {
+
+			if (s.equals(entry))
+				s.setInitialState(true);
+
+			if (s.equals(exit))
+				s.setFinalState(true);
+
+			if (!s.equals(exit) && !s.equals(entry))   {
+				s.setFinalState(false);
+				s.setInitialState(false);
+			}
+		}
+
+		r.removeUnreachableStates();
+
+		HashSet<Transition> toRemove = new HashSet<Transition>();
+
+		for (Transition t : r.getDelta())
+			if (!scc.getLeft().contains(t.getFrom()) || !scc.getLeft().contains(t.getTo())) 
+				toRemove.add(t);
+
+
+		r.removeTransitions(toRemove);
+
+		r.minimizeHopcroft();
+
+
+		if (entry.equals(exit))
+			return buildSCCRegex(r);
+		else {
+			String starRegex = buildSCCRegex(r);
+			for (Transition t : r.getOutgoingTransitionsFrom(exit))
+				r.removeTransition(t);
+
+			return starRegex + "" + buildPlainRegex(r);
+		}
+	}
+
+	public Automaton reduceCycles(Automaton a) {
+		int n = 0;
+
+		Automaton r = normalizeAutomaton(a);
+
+		for (Triple<HashSet<State>, State, State> scc : r.extendedTarjan()) {
+			String regex = buildRestrictedRegex(r, scc);
+
+			State entry = scc.getMiddle();
+			State exit = scc.getRight();
+			HashSet<State> sccc = scc.getLeft();
+
+			Transition newTransition = new Transition(entry, exit, regex);
+
+			if (entry.equals(exit)) {
+				State fresh = new State("w" + n, entry.isInitialState(), entry.isFinalState());
+
+				r.addState(fresh);
+
+				for (Transition t : r.getOutgoingTransitionsFrom(entry)) {
+					if (!sccc.contains(t.getTo())) {
+						r.addTransition(fresh, t.getTo(), t.getInput());
+						r.removeTransition(t);
+					}
+				}
+
+				newTransition = new Transition(entry, fresh, regex);
+				r.addTransition(newTransition);	
+			} else {
+				newTransition = new Transition(entry, exit, regex);
+				r.addTransition(newTransition);
+
+				for (Transition t : r.getOutgoingTransitionsFrom(entry))
+					r.addTransition(new Transition(exit, t.getTo(), t.getInput()));
+			}
+
+
+			HashSet<Transition> ts = new HashSet<Transition>();
+
+			for (Transition t : r.getDelta())
+				if (sccc.contains(t.getTo()) && sccc.contains(t.getFrom()) && !t.equals(newTransition)) {
+					ts.add(t);
+				}
+
+			r.removeTransitions(ts);
+
+		}
+
+		r.minimize();	
+
+		return r;
+	}
 
 	public Automaton reduceProgram(Automaton a) {
-		
+
 		// Normalize automaton cycles
-		normalizeAutomaton(a);
+		a = reduceCycles(a);
 		
 		HashSet<State> states = new HashSet<State>();
 		HashSet<Transition> delta = new HashSet<Transition>();
@@ -201,84 +309,24 @@ public class AbstractParser {
 	}
 
 	private boolean isCipher(String n) {
-		return n.equals("0") ||
-				n.equals("1") ||
-				n.equals("2") ||
-				n.equals("3") ||
-				n.equals("4") ||
-				n.equals("5") ||
-				n.equals("6") ||
-				n.equals("7") ||
-				n.equals("8") ||
-				n.equals("9");
+		return 	n.matches("\\d")||n.matches("\\(\\d\\)") || n.matches("\\(\\d\\)\\*\\d?");
 	}
 
 	private boolean isIdLetter(String c) {
-		return c.equals("a") ||
-				c.equals("b") ||
-				c.equals("c") ||
-				c.equals("d") ||
-				c.equals("e") ||
-				c.equals("f") ||
-				c.equals("g") ||
-				c.equals("h") ||
-				c.equals("i") ||
-				c.equals("j") ||
-				c.equals("k") ||
-				c.equals("l") ||
-				c.equals("m") ||
-				c.equals("n") ||
-				c.equals("o") ||
-				c.equals("p") ||
-				c.equals("q") ||
-				c.equals("r") ||
-				c.equals("s") ||
-				c.equals("t") ||
-				c.equals("u") ||
-				c.equals("v") ||
-				c.equals("w") ||
-				c.equals("y") ||
-				c.equals("x") ||
-				c.equals("z") ||
-				c.equals("A") ||
-				c.equals("B") ||
-				c.equals("C") ||
-				c.equals("D") ||
-				c.equals("E") ||
-				c.equals("F") ||
-				c.equals("G") ||
-				c.equals("H") ||
-				c.equals("I") ||
-				c.equals("L") ||
-				c.equals("M") ||
-				c.equals("N") ||
-				c.equals("O") ||
-				c.equals("P") ||
-				c.equals("Q") ||
-				c.equals("R") ||
-				c.equals("S") ||
-				c.equals("T") ||
-				c.equals("U") ||
-				c.equals("V") ||
-				c.equals("Z") ||
-				c.equals("W") ||
-				c.equals("X") ||
-				c.equals("Y") ||
-				c.equals("J") ||
-				c.equals("K");
+		return c.matches("[a-z]|[A-Z]");
 	}
-	
+
 	public Automaton normalizeAutomaton(Automaton a) {
 		return normalizeAutomatonAux(a, 0);
 	}
-	
+
 	public Automaton normalizeAutomatonAux(Automaton a, int n) {
 
 		HashSet<Triple<HashSet<State>, State, State>> SCCs = a.extendedTarjan();
 		for (Triple<HashSet<State>, State, State> scc : SCCs) {
-		
+
 			HashSet<State> exits = a.exitStates(scc.getLeft());
-			
+
 			exits.remove(scc.getRight()); // Remove real exit node
 			exits.remove(scc.getMiddle()); // Remove entry node
 
@@ -290,27 +338,65 @@ public class AbstractParser {
 					for (Transition out : outgoing) {
 						if (scc.getLeft().contains(out.getTo())) 
 							continue;
-						
+
 						State qf = new State("s" + n++, o.isInitialState(), o.isFinalState());
-						
+
 						a.addState(qf);
 						a.addTransition(qf, out.getTo(), out.getInput());
-						
+
 						for (Transition in : a.getIncomingTransitionsTo(o)) {
 							a.addTransition(in.getFrom(), qf, in.getInput());
 						}
 
 						toRemove.add(out);
-						
+
 					}
 					a.removeTransitions(toRemove);
 				}
-				
+
 				return normalizeAutomatonAux(new Automaton(a.getDelta(), a.getStates()), n);
 			}
 		}
 
 		return a;
 
+	}
+
+	private String buildSCCRegex(Automaton a) {
+
+		String result = "";
+		State curr = a.getInitialState();
+		HashSet<State> marked = new HashSet<State>();
+
+		while (!marked.contains(curr)) {
+
+			marked.add(curr);
+
+			for (Transition t : a.getOutgoingTransitionsFrom(curr)) {
+				result += t.getInput();
+				curr = t.getTo();
+			}
+		}
+
+		return "(" + result + ")*";
+	}
+
+	private String buildPlainRegex(Automaton a) {
+
+		String result = "";
+		State curr = a.getInitialState();
+		HashSet<State> marked = new HashSet<State>();
+
+		while (!marked.contains(curr)) {
+
+			marked.add(curr);
+
+			for (Transition t : a.getOutgoingTransitionsFrom(curr)) {
+				result += t.getInput();
+				curr = t.getTo();
+			}
+		}
+
+		return result;
 	}
 }

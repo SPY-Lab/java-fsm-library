@@ -53,7 +53,9 @@ public class Automaton {
 		delta.add(new Transition(from, to, input));
 	}
 
-
+	public void addTransition(Transition t) {
+		delta.add(t);
+	}
 
 
 	public HashSet<State> exitStates(HashSet<State> scc) {
@@ -1597,7 +1599,7 @@ public class Automaton {
 				temp = epsilonClosure(moveNFA(T, alphabet));
 
 				if(!statesName.containsKey(temp))
-					statesName.put(temp,new State("q" + String.valueOf(num++) ,false,isPartitionFinalState(temp)));
+					statesName.put(temp,new State("q" + num++, false, isPartitionFinalState(temp)));
 
 				newStates.add(statesName.get(temp));
 
@@ -1682,24 +1684,6 @@ public class Automaton {
 
 	}
 
-	//	/**
-	//	 * Returns the set of strings readable from the state s.
-	//	 * 
-	//	 * @param s state of this automaton.
-	//	 */
-	//	private HashSet<String> readableCharFromState(State s) {
-	//
-	//		HashSet<String> result = new HashSet<String>();
-	//
-	//		for (Transition t : this.getOutgoingTransitionsFrom(s)) {
-	//			if (!t.getInput().equals(""))
-	//				result.add(t.getInput());
-	//		}
-	//
-	//		return result;
-	//
-	//	}
-
 	/**
 	 * Removes the unreachable states of an automaton.
 	 */
@@ -1713,9 +1697,7 @@ public class Automaton {
 		do {
 			HashSet<State> temp = new HashSet<State>();
 			for (State s : newStates) {
-				//				for (String alphabet : this.readableCharFromState(s))
 				for (Transition t : this.getOutgoingTransitionsFrom(s))
-					//						if (t.getFrom().equals(s)/* && t.getInput().equals(alphabet)*/)
 					temp.add(t.getTo());
 			}
 
@@ -1725,17 +1707,6 @@ public class Automaton {
 			reachableStates.addAll(newStates);
 
 		} while (!newStates.isEmpty());
-
-
-		//		int oldSize;
-		//		do {
-		//			oldSize = newStates.size();
-		//
-		//			for (State s : newStates) 
-		//				for (Transition t : this.getOutgoingTransitionsFrom(s))
-		//					newStates.add(t.getTo());
-		//
-		//		} while (newStates.size() != oldSize);
 
 		states.removeIf(s -> !reachableStates.contains(s));
 		delta.removeIf(t -> !reachableStates.contains(t.getFrom()));
@@ -1762,8 +1733,7 @@ public class Automaton {
 		this.states = a.states;
 		this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
 
-
-		//				this.minimizeHopcroft();
+		//				
 		//		
 		//				Automaton a = this.deMerge(++initChar); 
 		//				this.initialState = a.initialState;
@@ -1802,7 +1772,6 @@ public class Automaton {
 		HashSet<String> alphabet = new HashSet<String>();
 
 		for (Transition t : a.delta)
-			//			if (!alphabet.contains(t.getInput()))
 			alphabet.add(t.getInput());
 
 		return alphabet;
@@ -1853,7 +1822,7 @@ public class Automaton {
 	public HashSet<Transition> getIncomingTransitionsTo(State s) {
 		HashSet<Transition> result = new HashSet<Transition>();
 
-		for (Transition t : this.delta)
+		for (Transition t : delta)
 			if (t.getTo().equals(s))
 				result.add(t);
 
@@ -2029,8 +1998,6 @@ public class Automaton {
 
 	}
 
-
-
 	public void minimizeHopcroft(){
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
@@ -2038,7 +2005,6 @@ public class Automaton {
 			this.delta = a.delta;
 			this.states = a.states;
 			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-			//			this.adjacencyListIncoming = a.getAdjacencyListIncoming();
 		}
 
 		this.removeUnreachableStates();
@@ -2972,6 +2938,7 @@ public class Automaton {
 			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput()));
 
 		}
+		
 		return new Automaton(newDelta, newStates);
 	}
 
@@ -3069,7 +3036,6 @@ public class Automaton {
 
 		Automaton result = new Automaton();
 
-		//		result.setInitialState(getInitialState());
 		result.setDelta(newDelta);
 		result.setStates(newStates);
 
