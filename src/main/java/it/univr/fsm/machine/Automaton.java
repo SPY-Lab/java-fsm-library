@@ -258,7 +258,7 @@ public class Automaton {
 	public Automaton() {}
 
 
-	private void computeAdjacencyList() {	
+	public void computeAdjacencyList() {	
 		adjacencyListOutgoing = new HashMap<State, HashSet<Transition>>();
 
 		for (Transition t : getDelta()) {

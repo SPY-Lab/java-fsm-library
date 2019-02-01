@@ -15,9 +15,10 @@ public class AbstractParser {
 	public static void main(String[] args) {
 		AbstractParser parser = new AbstractParser();
 
-		Automaton a = Automaton.concat(Automaton.makeRealAutomaton("x=5"), Automaton.star("56"));
-		a = Automaton.concat(a, Automaton.makeRealAutomaton(";"));
-
+		
+		Automaton a = Automaton.concat(Automaton.concat(Automaton.makeRealAutomaton("x=5"), Automaton.star("5")), Automaton.makeRealAutomaton(";"));
+		a = Automaton.concat(a, Automaton.concat(Automaton.concat(Automaton.makeRealAutomaton("y=6"), Automaton.star("6")), Automaton.makeRealAutomaton(";")));
+		
 		System.out.println(parser.reduceCycles(a));
 	}
 
@@ -72,10 +73,10 @@ public class AbstractParser {
 		int n = 0;
 
 		Automaton r = normalizeAutomaton(a);
-
+		
 		for (Triple<HashSet<State>, State, State> scc : r.extendedTarjan()) {
 			String regex = buildRestrictedRegex(r, scc);
-
+			
 			State entry = scc.getMiddle();
 			State exit = scc.getRight();
 			HashSet<State> sccc = scc.getLeft();
@@ -83,7 +84,7 @@ public class AbstractParser {
 			Transition newTransition = new Transition(entry, exit, regex);
 
 			if (entry.equals(exit)) {
-				State fresh = new State("w" + n, entry.isInitialState(), entry.isFinalState());
+				State fresh = new State("w" + n++, entry.isInitialState(), entry.isFinalState());
 
 				r.addState(fresh);
 
@@ -117,7 +118,7 @@ public class AbstractParser {
 		}
 
 		r.minimize();	
-
+	
 		return r;
 	}
 
