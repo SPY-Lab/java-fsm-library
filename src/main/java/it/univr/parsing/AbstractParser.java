@@ -162,6 +162,7 @@ public class AbstractParser {
 
 		} while (!W.isEmpty());
 
+
 		Automaton result = new Automaton(delta, states);
 		return result;
 	}
@@ -178,33 +179,114 @@ public class AbstractParser {
 				HashMap<String, State> startingBodyStates = reduceBooleanGuard(a, reachedState, 1);
 
 				HashSet<Triple<State, String, State>> triplesToAdd = new HashSet<Triple<State, String, State>>();
-				
+
 				for (Map.Entry<String, State> b : startingBodyStates.entrySet()) {
+
 					HashSet<Triple<State, String, State>> pbodies = reduceStatement(a, b.getValue());
+
+					HashSet<State> entryPoints = new HashSet<State>();
+					HashSet<State> exitPoints = new HashSet<State>();
+					HashSet<State> W = new HashSet<State>();
+
+
+					for (Triple<State, String, State> tr : pbodies) 
+						W.add(tr.getRight());
+
+					while (!W.isEmpty()) {
+
+						State curr = null;
+						for (State w : W) {
+							curr = w; break;
+						}
+
+						HashSet<Triple<State, String, State>> exitBodies = reduceStatement(a, curr);
+						pbodies.addAll(exitBodies);
+
+						for (Triple<State, String, State> tr : exitBodies) 
+							W.add(tr.getRight());
+
+
+
+						W.remove(curr);
+
+					}
+
+
+					exitPoints = new HashSet<State>();
+					entryPoints = new HashSet<State>();
+
+					boolean remove = false;
+
 					
-					State freshState = new State("f" + freshInt++, false, false);
-					
-					for (Triple<State, String, State> body : pbodies) {						
+					for (Triple<State, String, State> tr : pbodies) {
+						remove = false;
+						for (Triple<State, String, State> tr1 : pbodies) {
+							if (tr.getLeft().equals(tr1.getRight()))
+								remove = true;
+						}
+						if (!remove)
+							entryPoints.add(tr.getLeft());
+					}
+
+
+					remove = false;
+
+					for (Triple<State, String, State> tr : pbodies) {
+						remove = false;
+						for (Triple<State, String, State> tr1 : pbodies) {
+							if (tr.getRight().equals(tr1.getLeft()))
+								remove = true;
+						}
+						if(!remove)
+							exitPoints.add(tr.getRight());
+					}
+
+					System.err.println(pbodies);
+					System.out.println(entryPoints + " " + exitPoints);
+					State freshEntryState = new State("f" + freshInt++, false, false);
+
+					HashMap<State, State> mapping = new HashMap<State, State>();
+
+					for (Triple<State, String, State> body : pbodies) {	
 						State freshExitLoop = new State("f" + freshInt++, false, false);
 
-						stmts.add(Triple.of(q.equals(body.getRight()) ? freshExitLoop : q , "", freshState));
-						stmts.add(Triple.of(freshState, "(" + b.getKey(), b.getValue().equals(body.getRight()) ? freshExitLoop : b.getValue()));
-						stmts.add(Triple.of(freshExitLoop, "", freshState));
+						if (mapping.get(body.getLeft()) != null)
+							freshExitLoop = mapping.get(body.getLeft()); 
+						else {
+							mapping.put(body.getLeft(), freshExitLoop);
+						}					
 
+						if (entryPoints.contains(body.getLeft())) {
+
+							stmts.add(Triple.of(q.equals(body.getRight()) ? freshExitLoop : q , "", freshEntryState));
+							stmts.add(Triple.of(freshEntryState, "(" + b.getKey(), b.getValue().equals(body.getRight()) ? freshExitLoop : b.getValue()));
+							stmts.add(Triple.of(freshExitLoop, "", freshEntryState));
+
+							for (Triple<State, String, State> tr : pbodies) {
+								Triple<State, String, State> trToAdd = tr;
+
+								if (exitPoints.contains(tr.getLeft()))
+									trToAdd = Triple.of(freshExitLoop, tr.getMiddle(), tr.getRight());
+
+								if (exitPoints.contains(tr.getRight()))
+									trToAdd = Triple.of(tr.getLeft(), tr.getMiddle(), freshExitLoop);
+
+								triplesToAdd.add(trToAdd);
+
+							}	
+						}
+
+//						for (Transition t: a.getOutgoingTransitionsFrom(body.getRight()))
+//							if (exitPoints.contains(body.getRight()))
+//								stmts.add(Triple.of(freshEntryState, "!(" + b.getKey(), t.getTo().equals(body.getRight()) ? freshExitLoop : t.getTo()));					
 
 						for (Transition t: a.getOutgoingTransitionsFrom(body.getRight()))
-							stmts.add(Triple.of(freshState, "!(" + b.getKey(), t.getTo().equals(body.getRight()) ? freshExitLoop : t.getTo()));					
-					
-						for (Triple<State, String, State> tr : pbodies) {
-							Triple<State, String, State> trToAdd = tr;
-							if (tr.getLeft().equals(body.getRight()))
-								trToAdd = Triple.of(freshExitLoop, tr.getMiddle(), tr.getLeft());
-							if (tr.getRight().equals(body.getRight()))
-								trToAdd = Triple.of(tr.getLeft(), tr.getMiddle(), freshExitLoop);
-							
-							triplesToAdd.add(trToAdd);
-						}		
+							if (exitPoints.contains(body.getRight()))
+								stmts.add(Triple.of(freshEntryState, "!(" + b.getKey(), t.getTo().equals(body.getRight()) ? freshExitLoop : t.getTo()));					
+
+
 					}
+
 				}
 
 				stmts.addAll(triplesToAdd);
@@ -363,7 +445,8 @@ public class AbstractParser {
 			HashMap<String, State> values = reduceExpression(a, t.getValue(), opcl);
 
 			for (Map.Entry<String, State> p : values.entrySet()) {
-				asg.add(Triple.of(q, t.getKey() + " = " + p.getKey() + ";", p.getValue()));
+				if (!t.getKey().isEmpty())
+					asg.add(Triple.of(q, t.getKey() + " = " + p.getKey() + ";", p.getValue()));
 			}
 
 		}
@@ -404,7 +487,7 @@ public class AbstractParser {
 		HashMap<String, State> ids = new HashMap<String, State>();
 
 		for (Transition t : a.getOutgoingTransitionsFrom(q)) {
-			if (!(t.getInput().equals("="))) {
+			if (isIdLetter(t.getInput())) {
 				HashMap<String, State> pids = reduceIds(a, t.getTo());
 
 				for (Map.Entry<String, State> pid : pids.entrySet()) {
@@ -412,7 +495,6 @@ public class AbstractParser {
 				}
 			} else {
 				ids.put("", t.getTo());
-
 			}
 		}
 
