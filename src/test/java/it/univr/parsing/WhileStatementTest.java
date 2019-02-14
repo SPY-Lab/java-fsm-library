@@ -534,4 +534,39 @@ public class WhileStatementTest {
 		
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+	
+	@Test
+	public void whileStatementTest017() {
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("while(x<5){x=1;y=2;}"), Automaton.makeRealAutomaton("whilea=2;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, false);
+		State q3 = new State("q3", false, false);
+		State q4 = new State("q4", false, false);		
+		State q5 = new State("q5", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		states.add(q2);
+		states.add(q3);
+		states.add(q4);
+		states.add(q5);
+
+		delta.add(new Transition(q0, q1, ""));
+		delta.add(new Transition(q1, q2, "(x<5)"));
+		delta.add(new Transition(q2, q3, "x = 1;"));
+		delta.add(new Transition(q3, q4, "y = 2;"));
+		delta.add(new Transition(q4, q1, ""));
+		delta.add(new Transition(q1, q5, "!(x<5)"));
+		delta.add(new Transition(q0, q5, "whilea = 2;"));
+
+
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }

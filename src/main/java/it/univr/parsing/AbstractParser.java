@@ -244,10 +244,7 @@ public class AbstractParser {
 									fakeExitStates.add(exit);
 									
 					exitPoints.removeAll(fakeExitStates);
-					
-					System.err.println(pbodies);
-					System.out.println(entryPoints + " " + exitPoints);
-					
+										
 					State freshEntryState = new State("f" + freshInt++, false, false);
 
 //					HashMap<State, State> mapping = new HashMap<State, State>();
