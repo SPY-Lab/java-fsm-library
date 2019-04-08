@@ -3622,7 +3622,7 @@ public class Automaton {
 					auxTrimLeft(delta, t.getTo());
 				}
 			}else{
-				delta.add(new Transition(this.getInitialState(), t.getTo(), t.getInput()));
+				delta.add(new Transition(this.getInitialState(), t.getFrom(), ""));
 			}
 		}
 	}
@@ -3949,6 +3949,7 @@ public class Automaton {
 			//and the other automaton are equals, if they are it means the strings are contained
 			boolean equalsOther = Automaton.intersection(factors, other).equals(other);
 
+			
 			if (equalsOther) {
 				return TRUE;
 			}
