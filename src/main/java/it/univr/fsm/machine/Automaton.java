@@ -46,6 +46,10 @@ import java.util.*;
  */
 public class Automaton {
 
+    private static final int TRUE = 1;
+    private static final int FALSE = 0;
+    private static final int TOPBOOL = -1;
+
 	public static void main(String[] args) {
 
 		Automaton a = Automaton.makeRealAutomaton("panda");
@@ -3746,12 +3750,12 @@ public class Automaton {
             return Automaton.makeEmptyString();
         }
 
-        if(a.hasCycle() && (start < 0 || end < 0)) {
-            return Automaton.makeTopLanguage();
-        }
-
         if (start >= 0 && end >= 0 && start < end) {
             return Automaton.substring(a, start, end);
+        }
+
+        if(a.hasCycle()) {
+            return Automaton.factors(a);
         }
 
         return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
@@ -3818,7 +3822,7 @@ public class Automaton {
 	 *         false (0) if none of the strings cointain strings of other
 	 *         topbool (-1) otherwise
 	 */
-	public static int includes(Automaton a, Automaton other){
+	public static int includes2(Automaton a, Automaton other){
 
         if (a.isSingleString())
             a = Automaton.makeRealAutomaton(a.getSingleString());
@@ -3829,19 +3833,86 @@ public class Automaton {
 		a.minimize();
 
 		if(other.hasCycle() || a.hasCycle()){
-			return -1;
+			return TOPBOOL;
 		}
 
 		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
 		if (Automaton.isEmptyLanguageAccepted(intersection))
-			return 0;
+			return FALSE;
 
 		if (other.equals(Automaton.makeEmptyString())){
-			return 1;
+			return TRUE;
 		}
 
 		return a.auxIncludes(other,new HashSet<Transition>(), a.getInitialState());
 	}
+
+    /**
+     * Checks whether an automaton includes another one.
+     * @param other Automaton on which we set the search
+     * @param a Automaton
+     * @return true (1) if all the strings in automaton contains the strings in other,
+     *         false (0) if none of the strings cointain strings of other
+     *         topbool (-1) otherwise
+     */
+    public static int includes(Automaton a, Automaton other){
+
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
+
+        if (other.isSingleString())
+            other = Automaton.makeRealAutomaton(other.getSingleString());
+
+        a.minimize();
+
+        if (other.equals(Automaton.makeEmptyString())){
+            return TRUE;
+        }
+
+        if(other.hasCycle() || a.hasCycle()){
+            return TOPBOOL;
+        }
+
+        Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
+        if (Automaton.isEmptyLanguageAccepted(intersection))
+            return FALSE;
+
+        for(String s: a.getLanguage()){
+            intersection = Automaton.intersection(Automaton.factors(Automaton.makeAutomaton(s)), other);
+            if(!intersection.equals(other)){
+                return TOPBOOL;
+            }
+        }
+
+        return TRUE;
+
+    }
+
+
+
+	public HashSet<String> getLanguage(){
+
+	    return extractStrings(this, new HashSet<String>(), "", new HashSet<Transition>(), this.getInitialState(), null);
+
+    }
+
+    private static HashSet<String> extractStrings(Automaton a, HashSet<String> set, String partialString, HashSet<Transition> delta, State currentState, Transition prevT){
+        if(prevT != null){
+            partialString += prevT.getInput();
+            if(currentState.isFinalState()) {
+                set.add(partialString);
+            }
+        }
+
+        for(Transition t : a.getOutgoingTransitionsFrom(currentState)){
+            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+            clone.add(t);
+            extractStrings(a, set, new String(partialString), clone, t.getTo(), t);
+        }
+
+        return set;
+    }
+
 
 
 	/**
@@ -3879,11 +3950,11 @@ public class Automaton {
 			boolean equalsOther = Automaton.intersection(factors, other).equals(other);
 
 			if (equalsOther) {
-				return 1;
+				return TRUE;
 			}
 
 			if (currentState.isFinalState())
-				return -1;
+				return TOPBOOL;
 		}
 
 		//for each path we check if the string is contained or not
@@ -3891,7 +3962,7 @@ public class Automaton {
 			HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
 			clone.add(t);
 			if(auxIncludes(other, clone, t.getTo()) == -1){
-				return -1;
+				return TOPBOOL;
 			}
 		}
 		return 1;
@@ -3933,17 +4004,17 @@ public class Automaton {
 		a.minimize();
 		
 		if(other.hasCycle() || a.hasCycle()) {
-			return -1;
+			return TOPBOOL;
 		}
 
 		if (other.equals(Automaton.makeEmptyString())) {
-			return 1;
+			return TRUE;
 		}
 
 		Automaton intersection = Automaton.intersection(Automaton.prefix(a), other);
 
 		if(Automaton.isEmptyLanguageAccepted(intersection)) {
-			return 0;
+			return FALSE;
 		}
 
 		if(other.hasOnlyOnePath()) {
@@ -3953,12 +4024,11 @@ public class Automaton {
 			B.minimize();
 
 			if (B.equals(C)) {
-				return 1;
+				return TRUE;
 			}
-
 		}
 
-		return -1;
+		return TOPBOOL;
 	}
 
 	/**
@@ -4213,6 +4283,8 @@ public class Automaton {
                 temp = this.auxMakeReplacement(intersection, replaceWith, delta);
             }else {
                 temp = searchIn.auxMakeReplacement(intersection, replaceWith, delta);
+                Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
+                temp = Automaton.concat(temp, remainingAutomaton);
             }
 
             //we remove the strings we have already found
@@ -4221,10 +4293,10 @@ public class Automaton {
             //if the intersection is not epsilon we need to add to the first part of the result, which is resultOfRep
             //containing the automaton till the replacement, the rest of the original automaton
 
-           if(!intersection.equals(Automaton.makeEmptyString())) {
+           /*if(!intersection.equals(Automaton.makeEmptyString())) {
                Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
                temp = Automaton.concat(temp, remainingAutomaton);
-            }
+            }*/
 
             resultOfRep = Automaton.union(resultOfRep, temp);
 

@@ -22,6 +22,7 @@ public class EndsWithTest {
         Assert.assertEquals(Automaton.endsWith(a, search), TRUE);
     }
 
+
     @Test
     public void endsWithTest002() {
 
@@ -333,5 +334,18 @@ public class EndsWithTest {
         search = Automaton.union(search, Automaton.makeAutomaton("panda"));
 
         Assert.assertEquals(Automaton.endsWith(a, search), TRUE);
+    }
+
+    @Test
+    public void endsWithTest0027() {
+
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("panda"));
+        set.add(Automaton.makeAutomaton("land"));
+        set.add(Automaton.makeAutomaton("and"));
+
+        Automaton a = Automaton.union(set);
+
+        visualizeAutomaton.show(a, "a");
     }
 }
