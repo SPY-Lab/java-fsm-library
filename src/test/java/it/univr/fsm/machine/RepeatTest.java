@@ -90,7 +90,7 @@ public class RepeatTest {
 
         HashSet<State> statesR = new HashSet<>();
         HashSet<Transition> deltaR = new HashSet<>();
-        State q0 = new State("q0", true, false);
+        State q0 = new State("q0", true, true);
         State q1 = new State("q1", false, false);
         State q2 = new State("q2", false, false);
         State q3 = new State("q3", false, false);
@@ -157,7 +157,7 @@ public class RepeatTest {
 
         HashSet<State> statesR = new HashSet<>();
         HashSet<Transition> deltaR = new HashSet<>();
-        State q0 = new State("q0", true, false);
+        State q0 = new State("q0", true, true);
         State q1 = new State("q1", false, false);
         State q2 = new State("q2", false, true);
         State q3 = new State("q3", false, false);
@@ -381,7 +381,6 @@ public class RepeatTest {
         HashSet<Automaton> r = new HashSet<>();
         r.add(Automaton.makeAutomaton("bugbug"));
         r.add(Automaton.makeAutomaton("catcat"));
-        r.add(Automaton.makeEmptyString());
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.repeat(a, 2);
