@@ -355,4 +355,25 @@ public class SingleAssignmentTest {
 		
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+	
+	@Test
+	public void singleAssignmentTest016() {
+		
+		Automaton a = Automaton.makeRealAutomaton("x=true;");
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = true;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }

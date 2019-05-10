@@ -81,8 +81,5 @@ public class SubstringTest {
 		Automaton expectedResult = Automaton.union(automata);
 		
 		assertTrue(result.equals(expectedResult));
-		
-		
-		
 	}
 }

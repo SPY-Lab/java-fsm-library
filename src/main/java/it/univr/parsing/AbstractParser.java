@@ -14,13 +14,6 @@ public class AbstractParser {
 
 	public int freshInt = 0; 
 
-	public static void main(String[] args) {
-		AbstractParser parser = new AbstractParser();
-		Automaton a = Automaton.makeRealAutomaton("while(x<5){x=x+1;}");		
-		System.err.println(parser.reduceProgram(a).automatonPrint());
-	}
-
-
 	public String buildRestrictedRegex(Automaton a, Triple<HashSet<State>, State, State> scc) {
 
 		State entry = scc.getMiddle();
@@ -177,11 +170,9 @@ public class AbstractParser {
 			for(State reachedState : mayWhile) {
 
 				HashMap<String, State> startingBodyStates = reduceBooleanGuard(a, reachedState, 1);
-
 				HashSet<Triple<State, String, State>> triplesToAdd = new HashSet<Triple<State, String, State>>();
 
 				for (Map.Entry<String, State> b : startingBodyStates.entrySet()) {
-
 					HashSet<Triple<State, String, State>> pbodies = reduceStatement(a, b.getValue());
 
 					HashSet<State> entryPoints = new HashSet<State>();
@@ -205,12 +196,8 @@ public class AbstractParser {
 						for (Triple<State, String, State> tr : exitBodies) 
 							W.add(tr.getRight());
 
-
-
 						W.remove(curr);
-
 					}
-
 
 					exitPoints = new HashSet<State>();
 					entryPoints = new HashSet<State>();
@@ -221,6 +208,7 @@ public class AbstractParser {
 					for (Triple<State, String, State> tr : pbodies) {
 						notAnEntryPoint = false;
 						notAnExitPoint = false;
+						
 						for (Triple<State, String, State> tr1 : pbodies) {
 							if (tr.getLeft().equals(tr1.getRight()))
 								notAnEntryPoint = true;
@@ -245,12 +233,13 @@ public class AbstractParser {
 									
 					exitPoints.removeAll(fakeExitStates);
 										
-					State freshEntryState = new State("f" + freshInt++, false, false);
+					State freshEntryState = new State("i" + freshInt++, false, false);
+					State freshBodyEntryState = new State("i" + freshInt++, false, false);
 
-//					HashMap<State, State> mapping = new HashMap<State, State>();
+					//HashMap<State, State> mapping = new HashMap<State, State>();
 
 					for (Triple<State, String, State> body : pbodies) {	
-						State freshExitLoop = new State("f" + freshInt++, false, false);
+						State freshExitLoop = new State("o" + freshInt++, false, false);
 
 //						if (mapping.get(body.getLeft()) != null)
 //							freshExitLoop = mapping.get(body.getLeft()); 
@@ -261,19 +250,24 @@ public class AbstractParser {
 						if (entryPoints.contains(body.getLeft())) {
 
 							stmts.add(Triple.of(q.equals(body.getRight()) ? freshExitLoop : q , "", freshEntryState));
-							stmts.add(Triple.of(freshEntryState, "(" + b.getKey(), b.getValue().equals(body.getRight()) ? freshExitLoop : b.getValue()));
+							stmts.add(Triple.of(freshEntryState, "(" + b.getKey(), freshBodyEntryState));
 							stmts.add(Triple.of(freshExitLoop, "", freshEntryState));
 
 							for (Triple<State, String, State> tr : pbodies) {
 								Triple<State, String, State> trToAdd = tr;
 
-								if (exitPoints.contains(tr.getLeft()))
-									trToAdd = Triple.of(freshExitLoop, tr.getMiddle(), tr.getRight());
+								
+								if (exitPoints.contains(trToAdd.getLeft()))
+									trToAdd = Triple.of(freshExitLoop, trToAdd.getMiddle(), trToAdd.getRight());
 
-								if (exitPoints.contains(tr.getRight()))
-									trToAdd = Triple.of(tr.getLeft(), tr.getMiddle(), freshExitLoop);
-
+								if (exitPoints.contains(trToAdd.getRight()))
+									trToAdd = Triple.of(trToAdd.getLeft(), trToAdd.getMiddle(), freshExitLoop);
+								
+								if (entryPoints.contains(trToAdd.getLeft()))
+									trToAdd = Triple.of(freshBodyEntryState, trToAdd.getMiddle(), trToAdd.getRight());
+					
 								triplesToAdd.add(trToAdd);
+
 
 							}	
 						}

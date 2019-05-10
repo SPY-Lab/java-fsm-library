@@ -569,4 +569,54 @@ public class WhileStatementTest {
 
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+	
+	@Test
+	public void whileStatementTest018() {
+		
+		Automaton five = Automaton.concat(Automaton.star("5"), Automaton.makeRealAutomaton(";"));
+		Automaton a = Automaton.concat(Automaton.makeRealAutomaton("x=5"), five);
+
+		Automaton first = Automaton.concat(Automaton.concat(Automaton.makeRealAutomaton("while(x<5){"), a), Automaton.makeRealAutomaton("}"));
+		Automaton second = Automaton.concat(Automaton.concat(Automaton.makeRealAutomaton("while(y<5){"), a), Automaton.makeRealAutomaton("}"));
+		
+		Automaton input = Automaton.union(first, second);
+		
+		Automaton realResult = parser.reduceProgram(input);
+
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, false);
+		State q3 = new State("q3", false, true);
+		State q4 = new State("q4", false, false);		
+		State q5 = new State("q5", false, false);
+		State q6 = new State("q6", false, false);
+		State q7 = new State("q7", false, false);
+
+		states.add(q0);
+		states.add(q1);
+		states.add(q2);
+		states.add(q3);
+		states.add(q4);
+		states.add(q5);
+		states.add(q6);
+		states.add(q7);
+
+		delta.add(new Transition(q0, q1, ""));
+		delta.add(new Transition(q0, q2, ""));
+		delta.add(new Transition(q1, q3, "!(y<5)"));
+		delta.add(new Transition(q1, q4, "(y<5)"));
+		delta.add(new Transition(q4, q5, "x = 5(5)*;"));
+		delta.add(new Transition(q5, q1, ""));
+		delta.add(new Transition(q2, q3, "!(x<5)"));
+		delta.add(new Transition(q2, q7, "(x<5)"));
+		delta.add(new Transition(q7, q6, "x = 5(5)*;"));
+		delta.add(new Transition(q6, q2, ""));
+
+
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }
