@@ -60,6 +60,7 @@ public class TrimRightTest {
         delta.add(new Transition(q1, q1, " "));
 
         Automaton  a = new Automaton(delta, states);
+        System.out.println(Automaton.reverse(a));
 
         HashSet<State> statesR = new HashSet<>();
         HashSet<Transition> deltaR = new HashSet<>();

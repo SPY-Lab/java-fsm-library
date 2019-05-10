@@ -3610,8 +3610,33 @@ public class Automaton {
 		result.minimize();
 
 		return result;*/
-		return new Automaton();
+        Automaton result = a.clone();
 
+        boolean todoagain = true;
+        System.out.println("in trimleft");
+        printDetails(a);
+
+        while (todoagain) {
+
+            for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
+                if (t.getInput().equals(" "))
+                    t.setInput("");
+            }
+
+            result.minimize();
+
+            boolean b = false;
+            for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
+                if (t.getInput().equals(" "))
+                    b = true;
+            }
+
+            if (b == false)
+                break;
+        }
+
+
+        return result;
 	}
 
 	private void auxTrimLeft(HashSet<Transition> delta, State currentState){
@@ -3650,7 +3675,9 @@ public class Automaton {
 	public static Automaton trimRight(Automaton a){
 
 		Automaton r = Automaton.reverse(a);
-		r.minimize();
+        System.out.println("reverse 1 " + r);
+        printDetails(r);
+        System.out.println(trimLeft(r));
 		r = Automaton.reverse(Automaton.trimLeft(r));
 		r.minimize();
 
@@ -4407,6 +4434,8 @@ public class Automaton {
         for (Transition t: a.getDelta()){
             str += t + "\n";
         }
+
+        System.out.println(str);
     }
 
     private static Automaton copy(Automaton a, State currentState, HashSet<Transition> delta){

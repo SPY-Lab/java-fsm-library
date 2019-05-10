@@ -13,21 +13,17 @@ public class TrimLeftTest {
     public void trimTest001(){
 
         HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("panda"));
-        set.add(Automaton.makeAutomaton("abbbb"));
+        set.add(Automaton.makeAutomaton("  panda"));
         Automaton a = Automaton.union(set);
+        //Automaton.printDetails(a);
 
-
-        Automaton result = Automaton.leftQuotient(a, Automaton.makeAutomaton("a"));
-        System.out.println(result);
-
-        /*HashSet<Automaton> r = new HashSet<>();
+        HashSet<Automaton> r = new HashSet<>();
         r.add(Automaton.makeAutomaton("panda"));
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.trimLeft(a);
 
-        Assert.assertEquals(resultR, result);*/
+        Assert.assertEquals(resultR, result);
 
 
     }
@@ -374,6 +370,38 @@ public class TrimLeftTest {
 
         Assert.assertEquals(a, resultR);
     }
+
+    @Test
+    public void trimTest019(){
+        HashSet<State> states = new HashSet<>();
+        State q0 = new State("q0", true, false);
+        State q1 = new State("q1", false, true);
+        states.add(q0);
+        states.add(q1);
+
+        HashSet<Transition> delta = new HashSet<>();
+        delta.add(new Transition(q0, q1, "a"));
+        delta.add(new Transition(q0, q0, " "));
+
+        Automaton  a = new Automaton(delta, states);
+
+        HashSet<State> statesR = new HashSet<>();
+        HashSet<Transition> deltaR = new HashSet<>();
+
+        State q00 = new State("q0", true, false);
+        State q01 = new State("q1", false, true);
+
+        statesR.add(q00);
+        statesR.add(q01);
+
+        deltaR.add(new Transition(q0, q1, "a"));
+
+        Automaton r = new Automaton(deltaR, statesR);
+        Automaton resultR = Automaton.trimLeft(a);
+
+        Assert.assertEquals(resultR, r);
+    }
+
 
 
 }
