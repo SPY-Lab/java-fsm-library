@@ -13,16 +13,23 @@ public class TrimLeftTest {
     public void trimTest001(){
 
         HashSet<Automaton> set = new HashSet<>();
-        set.add(Automaton.makeAutomaton("    panda"));
+        set.add(Automaton.makeAutomaton("panda"));
+        set.add(Automaton.makeAutomaton("abbbb"));
         Automaton a = Automaton.union(set);
 
-        HashSet<Automaton> r = new HashSet<>();
+
+        Automaton result = Automaton.leftQuotient(a, Automaton.makeAutomaton("a"));
+        System.out.println(result);
+
+        /*HashSet<Automaton> r = new HashSet<>();
         r.add(Automaton.makeAutomaton("panda"));
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.trimLeft(a);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(resultR, result);*/
+
+
     }
 
     @Test

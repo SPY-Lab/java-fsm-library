@@ -3585,7 +3585,7 @@ public class Automaton {
 	}
 
 	public static Automaton trimLeft(Automaton a){
-		boolean notSpace = false;
+		/*boolean notSpace = false;
 
 		a.minimize();
 		if (a.isSingleString()){
@@ -3609,7 +3609,9 @@ public class Automaton {
 		Automaton result = new Automaton(delta, clone.getStates());
 		result.minimize();
 
-		return result;
+		return result;*/
+		return new Automaton();
+
 	}
 
 	private void auxTrimLeft(HashSet<Transition> delta, State currentState){
@@ -4008,20 +4010,22 @@ public class Automaton {
 
 		other.minimize();
 		a.minimize();
-		
+
+        if (other.equals(Automaton.makeEmptyString())) {
+            return TRUE;
+        }
+
+        Automaton prefix = Automaton.prefix(a);
+        Automaton intersection = Automaton.intersection(prefix, other);
+
+        if(Automaton.isEmptyLanguageAccepted(intersection)) {
+            return FALSE;
+        }
+
 		if(other.hasCycle() || a.hasCycle()) {
 			return TOPBOOL;
 		}
 
-		if (other.equals(Automaton.makeEmptyString())) {
-			return TRUE;
-		}
-
-		Automaton intersection = Automaton.intersection(Automaton.prefix(a), other);
-
-		if(Automaton.isEmptyLanguageAccepted(intersection)) {
-			return FALSE;
-		}
 
 		if(other.hasOnlyOnePath()) {
 
