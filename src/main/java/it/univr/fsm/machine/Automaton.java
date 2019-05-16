@@ -47,9 +47,9 @@ import java.util.*;
  */
 public class Automaton {
 
-    private static final int TRUE = 1;
-    private static final int FALSE = 0;
-    private static final int TOPBOOL = -1;
+	private static final int TRUE = 1;
+	private static final int FALSE = 0;
+	private static final int TOPBOOL = -1;
 
 	public static void main(String[] args) {
 
@@ -1575,12 +1575,12 @@ public class Automaton {
 	 */
 	public void minimize() {
 
-				if (!isDeterministic(this)) {
-					Automaton a = this.determinize();
-					this.delta = a.delta;
-					this.states = a.states;
-					this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
-				}
+		if (!isDeterministic(this)) {
+			Automaton a = this.determinize();
+			this.delta = a.delta;
+			this.states = a.states;
+			this.adjacencyListOutgoing = a.getAdjacencyListOutgoing();
+		}
 
 		Automaton a = Automaton.reverse(this).determinize();
 		a.removeUnreachableStates();
@@ -2067,20 +2067,20 @@ public class Automaton {
 				newDelta.add(new Transition(newInitialState, newState, ""));
 			} else
 
-			if (s.isFinalState()) {
-				newState.setFinalState(false);
-				newDelta.add(new Transition(newInitialState, newState, ""));
-			} else if (s.isInitialState()) {
-				newState.setFinalState(true);
-				newState.setInitialState(false);
-			}
+				if (s.isFinalState()) {
+					newState.setFinalState(false);
+					newDelta.add(new Transition(newInitialState, newState, ""));
+				} else if (s.isInitialState()) {
+					newState.setFinalState(true);
+					newState.setInitialState(false);
+				}
 
 			mapping.put(s, newState);
 			newStates.add(newState);
 		}
 
 		for (Transition t : a.getDelta())
-				newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput()));
+			newDelta.add(new Transition(mapping.get(t.getTo()) , mapping.get(t.getFrom()), t.getInput()));
 
 		Automaton r =  new Automaton(newDelta, newStates);
 		return r;
@@ -2963,6 +2963,9 @@ public class Automaton {
 	 */
 	public boolean hasCycle() {
 
+		if (isSingleString())
+			return false;
+
 		Set<State> whiteSet = new HashSet<>();
 		Set<State> graySet = new HashSet<>();
 		Set<State> blackSet = new HashSet<>();
@@ -3168,7 +3171,7 @@ public class Automaton {
 	public static Automaton su(Automaton a, long n){
 
 		int i = 0;
-        a = Automaton.explodeAutomaton(a);
+		a = Automaton.explodeAutomaton(a);
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
@@ -3294,8 +3297,8 @@ public class Automaton {
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
-//		System.out.println("a: " + a);
-//		System.out.println("i: " + i);
+		//		System.out.println("a: " + a);
+		//		System.out.println("i: " + i);
 		int initIndex = (int) (i < 0 ? 0 : i);
 
 		if (a.isSingleString()) {
@@ -3586,58 +3589,32 @@ public class Automaton {
 	}
 
 	public static Automaton trimLeft(Automaton a){
-		/*boolean notSpace = false;
 
-		a.minimize();
-		if (a.isSingleString()){
-			a = Automaton.makeRealAutomaton(a.getSingleString());
+		Automaton result = a.clone();
+
+		boolean todoagain = true;
+
+		while (todoagain) {
+
+			for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
+				if (t.getInput().equals(" "))
+					t.setInput("");
+			}
+
+			result.minimize();
+
+			boolean b = false;
+			for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
+				if (t.getInput().equals(" "))
+					b = true;
+			}
+
+			if (b == false)
+				break;
 		}
 
-        for(Transition t : a.getDelta()){
-            if(!t.getInput().equals(" ")){
-                notSpace = true;
-            }
-        }
 
-        if (notSpace == false){
-            return makeEmptyString();
-        }
-
-        Automaton clone = a.clone();
-
-		HashSet<Transition> delta = (HashSet<Transition>)clone.getDelta().clone();
-		a.auxTrimLeft(delta, clone.getInitialState());
-		Automaton result = new Automaton(delta, clone.getStates());
-		result.minimize();
-
-		return result;*/
-        Automaton result = a.clone();
-
-        boolean todoagain = true;
-        System.out.println("in trimleft");
-        printDetails(a);
-
-        while (todoagain) {
-
-            for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
-                if (t.getInput().equals(" "))
-                    t.setInput("");
-            }
-
-            result.minimize();
-
-            boolean b = false;
-            for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
-                if (t.getInput().equals(" "))
-                    b = true;
-            }
-
-            if (b == false)
-                break;
-        }
-
-
-        return result;
+		return result;
 	}
 
 	private void auxTrimLeft(HashSet<Transition> delta, State currentState){
@@ -3675,53 +3652,42 @@ public class Automaton {
 
 	public static Automaton trimRight(Automaton a){
 
-		Automaton r = Automaton.reverse(a);
-        System.out.println("reverse 1 " + r);
-        printDetails(r);
-        System.out.println(trimLeft(r));
-		r = Automaton.reverse(Automaton.trimLeft(r));
-		r.minimize();
 
-		return  r;
+		Automaton result = a.clone();
 
+		boolean todoagain = true;
 
-		//        if (a.isSingleString()){
-		//            a = Automaton.makeRealAutomaton(a.getSingleString());
-		//        }
-		//
-		//        for(Transition t : a.getDelta()){
-		//            if(!t.getInput().equals(" ")){
-		//                notSpace = true;
-		//            }
-		//        }
-		//
-		//        if (notSpace == false){
-		//            return makeEmptyString();
-		//        }
-		//
-		//		HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
-		//		for(State finalState: a.getFinalStates()) {
-		//			a.auxTrimRight(delta, finalState, finalState);
-		//		}
-		//
-		//		Automaton result = new Automaton(delta, a.getStates());
-		//		result.minimize();
-		//		return result;
-	}
+		while (todoagain) {
 
-	private void auxTrimRight(HashSet<Transition> delta, State currentState, State finalState){
-		for(Transition t: getIncomingTransitionsTo(currentState)){
-			if(t.getInput().equals(" ")){
-				delta.remove(t);
-				//it was not a selftransition
-				if (!t.getFrom().equals(finalState)) {
-					auxTrimRight(delta, t.getFrom(), finalState);
+			for (State qf : result.getFinalStates()) {
+				for (Transition t : result.getIncomingTransitionsTo(qf)){
+					if (t.getInput().equals(" "))
+						t.setInput("");
 				}
-			}else{
-				delta.add(new Transition(t.getFrom(), finalState, t.getInput()));
 			}
+
+			result.minimize();
+
+			boolean b = false;
+			for (State qf : result.getFinalStates()) {
+
+				for (Transition t : result.getIncomingTransitionsTo(qf)){
+					if (t.getInput().equals(" "))
+						b = true;
+				}
+			}
+
+			if (b == false)
+				break;
 		}
+
+
+		return result;
+
+
+		
 	}
+
 
 	public static Automaton trim(Automaton a){
 		return Automaton.trimRight(Automaton.trimLeft(a));
@@ -3776,175 +3742,177 @@ public class Automaton {
 	 */
 	public static Automaton slice(Automaton a, long start, long end){
 
-        if(start == end){
-            return Automaton.makeEmptyString();
-        }
+		if(start == end){
+			return Automaton.makeEmptyString();
+		}
 
-        if (start >= 0 && end >= 0 && start < end) {
-            return Automaton.substring(a, start, end);
-        }
+		if (start >= 0 && end >= 0 && start < end) {
+			return Automaton.substring(a, start, end);
+		}
 
-        if(a.hasCycle()) {
-            return Automaton.factors(a);
-        }
+		if(a.hasCycle()) {
+			return Automaton.factors(a);
+		}
 
-        return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
+		return a.cutter(start, end, a.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
 
-    }
+	}
 
-    /**
-     * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
-     * in the given indexes.
-     * @param start starting index, negative value possible
-     * @param end ending index, negative value possible
-     * @param currentState state we are currently searching
-     * @param delta set of all the transitions
-     * @param result result automaton
-     * @return
-     */
-    private Automaton cutter(long start, long end, State currentState, HashSet<Transition> delta, Automaton result){
-        if(currentState.isFinalState()) {
+	/**
+	 * Recursive auxiliary function that, for each possible path, returns the substring of the automaton
+	 * in the given indexes.
+	 * @param start starting index, negative value possible
+	 * @param end ending index, negative value possible
+	 * @param currentState state we are currently searching
+	 * @param delta set of all the transitions
+	 * @param result result automaton
+	 * @return
+	 */
+	private Automaton cutter(long start, long end, State currentState, HashSet<Transition> delta, Automaton result){
+		if(currentState.isFinalState()) {
 
-            Automaton partial = Automaton.copy(this, currentState, delta);
-            //printDetails(partial);
+			Automaton partial = Automaton.copy(this, currentState, delta);
+			//printDetails(partial);
 
-            long s = start;
-            long e = end;
+			long s = start;
+			long e = end;
 
-            int length = Automaton.length(partial);
+			int length = Automaton.length(partial);
 
-            if (s < 0) {
-                s = s + length;
-                if (s < 0) {
-                    s = 0;
-                }
-            }
+			if (s < 0) {
+				s = s + length;
+				if (s < 0) {
+					s = 0;
+				}
+			}
 
-            if (e < 0) {
-                e = e + length;
-                if (e < 0) {
-                    e = 0;
-                }
-            }
+			if (e < 0) {
+				e = e + length;
+				if (e < 0) {
+					e = 0;
+				}
+			}
 
-            //if the start index is greater than end epsilon is returned
-            if (s >= e) {
-                result = Automaton.union(result, Automaton.makeEmptyString());
-            } else {
-                result = Automaton.union(result, Automaton.substring(partial, s, e));
-            }
-        }
+			//if the start index is greater than end epsilon is returned
+			if (s >= e) {
+				result = Automaton.union(result, Automaton.makeEmptyString());
+			} else {
+				result = Automaton.union(result, Automaton.substring(partial, s, e));
+			}
+		}
 
-        for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
-            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-            clone.add(t);
-            result = Automaton.union(result, cutter(start, end, t.getTo(), clone, result));
-        }
+		for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
+			HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+			clone.add(t);
+			result = Automaton.union(result, cutter(start, end, t.getTo(), clone, result));
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-//
-//	public static int includes(Automaton a, Automaton other){
-//
-//        if (a.isSingleString())
-//            a = Automaton.makeRealAutomaton(a.getSingleString());
-//
-//        if (other.isSingleString())
-//            other = Automaton.makeRealAutomaton(other.getSingleString());
-//
-//		a.minimize();
-//
-//		if(other.hasCycle() || a.hasCycle()){
-//			return TOPBOOL;
-//		}
-//
-//		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
-//		if (Automaton.isEmptyLanguageAccepted(intersection))
-//			return FALSE;
-//
-//		if (other.equals(Automaton.makeEmptyString())){
-//			return TRUE;
-//		}
-//
-//		return a.auxIncludes(other,new HashSet<Transition>(), a.getInitialState());
-//	}
+	//
+	//	public static int includes(Automaton a, Automaton other){
+	//
+	//        if (a.isSingleString())
+	//            a = Automaton.makeRealAutomaton(a.getSingleString());
+	//
+	//        if (other.isSingleString())
+	//            other = Automaton.makeRealAutomaton(other.getSingleString());
+	//
+	//		a.minimize();
+	//
+	//		if(other.hasCycle() || a.hasCycle()){
+	//			return TOPBOOL;
+	//		}
+	//
+	//		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
+	//		if (Automaton.isEmptyLanguageAccepted(intersection))
+	//			return FALSE;
+	//
+	//		if (other.equals(Automaton.makeEmptyString())){
+	//			return TRUE;
+	//		}
+	//
+	//		return a.auxIncludes(other,new HashSet<Transition>(), a.getInitialState());
+	//	}
 
 
-    /**
-     * Checks whether an automaton includes another one.
-     * @param other Automaton on which we set the search
-     * @param a Automaton
-     * @return true (1) if all the strings in automaton contains the strings in other,
-     *         false (0) if none of the strings cointain strings of other
-     *         topbool (-1) otherwise
-     */
-    public static int includes(Automaton a, Automaton other){
+	/**
+	 * Checks whether an automaton includes another one.
+	 * @param other Automaton on which we set the search
+	 * @param a Automaton
+	 * @return true (1) if all the strings in automaton contains the strings in other,
+	 *         false (0) if none of the strings cointain strings of other
+	 *         topbool (-1) otherwise
+	 */
+	public static int includes(Automaton a, Automaton other){
 
-        if (a.isSingleString())
-            a = Automaton.makeRealAutomaton(a.getSingleString());
+		if (a.isSingleString())
+			a = Automaton.makeRealAutomaton(a.getSingleString());
 
-        if (other.isSingleString())
-            other = Automaton.makeRealAutomaton(other.getSingleString());
+		if (other.isSingleString())
+			other = Automaton.makeRealAutomaton(other.getSingleString());
 
-        a.minimize();
+		a.minimize();
 
-        if (other.equals(Automaton.makeEmptyString())){
-            return TRUE;
-        }
+		if (other.equals(Automaton.makeEmptyString())){
+			return TRUE;
+		}
 
-        if(other.hasCycle() || a.hasCycle()){
-            return TOPBOOL;
-        }
+		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
+		if (Automaton.isEmptyLanguageAccepted(intersection))
+			return FALSE;
+		
+		if(other.hasCycle() || a.hasCycle()){
+			return TOPBOOL;
+		}
 
-        Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
-        if (Automaton.isEmptyLanguageAccepted(intersection))
-            return FALSE;
 
-        for(String s: a.getLanguage()){
-            intersection = Automaton.intersection(Automaton.factors(Automaton.makeAutomaton(s)), other);
-            if(!intersection.equals(other)){
-                return TOPBOOL;
-            }
-        }
 
-        return TRUE;
+		for(String s: a.getLanguage()){
+			intersection = Automaton.intersection(Automaton.factors(Automaton.makeAutomaton(s)), other);
+			if(!intersection.equals(other)){
+				return TOPBOOL;
+			}
+		}
 
-    }
+		return TRUE;
 
-    /**
-     * Method that returns an Hashset of all the strings recognized by the automaton (must be not cyclic).
-     * @return Hashset of strings
-     */
+	}
+
+	/**
+	 * Method that returns an Hashset of all the strings recognized by the automaton (must be not cyclic).
+	 * @return Hashset of strings
+	 */
 	public HashSet<String> getLanguage(){
-	    return this.extractStrings(new HashSet<String>(), "", this.getInitialState(), null);
+		return this.extractStrings(new HashSet<String>(), "", this.getInitialState(), null);
 
-    }
+	}
 
-    /**
-     * Recursive function to extract all the strings recognized by a not cyclic automaton
-     * @param set Hashset of strings
-     * @param partialString
-     * @param currentState
-     * @param prevT
-     * @return
-     */
-    private HashSet<String> extractStrings(HashSet<String> set, String partialString, State currentState, Transition prevT){
-        if(prevT != null){
-            partialString += prevT.getInput();
-            if(currentState.isFinalState()) {
-                set.add(partialString);
-            }
-        }else if(currentState.isInitialState() && currentState.isFinalState()){
-            set.add("");
-        }
+	/**
+	 * Recursive function to extract all the strings recognized by a not cyclic automaton
+	 * @param set Hashset of strings
+	 * @param partialString
+	 * @param currentState
+	 * @param prevT
+	 * @return
+	 */
+	private HashSet<String> extractStrings(HashSet<String> set, String partialString, State currentState, Transition prevT){
+		if(prevT != null){
+			partialString += prevT.getInput();
+			if(currentState.isFinalState()) {
+				set.add(partialString);
+			}
+		}else if(currentState.isInitialState() && currentState.isFinalState()){
+			set.add("");
+		}
 
-        for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
-            extractStrings(set, new String(partialString), t.getTo(), t);
-        }
+		for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
+			extractStrings(set, new String(partialString), t.getTo(), t);
+		}
 
-        return set;
-    }
+		return set;
+	}
 
 
 
@@ -3962,46 +3930,46 @@ public class Automaton {
 
 	}
 
-//	/**
-//	 * Auxiliary function for includes() that checks whether automaton contains all the strings in
-//	 * Automaton other or just some of them. The method is recursive.
-//	 * @param other Automaton on which the search is set on
-//	 * @param delta set of transitions that lead to current state
-//	 * @param currentState state from which we start to explore the automaton
-//	 * @return
-//	 *
-//     */
-//	private int auxIncludes(Automaton other, HashSet<Transition> delta, State currentState){
-//		int outgoingTrans = this.getOutgoingTransitionsFrom(currentState).size();
-//
-//		//we enter in this body only if a state has more than one outgoing transaction and
-//		//it is not the initial state of the automaton
-//		//or if we arrived at a final state
-//		if(( outgoingTrans > 1 && !(currentState.equals(this.getInitialState()))) || currentState.isFinalState()) {
-//			Automaton factors = Automaton.factors(new Automaton(delta, this.getStates()));
-//			//check if the intersection between the factorization on the automaton visited so far
-//			//and the other automaton are equals, if they are it means the strings are contained
-//			boolean equalsOther = Automaton.intersection(factors, other).equals(other);
-//
-//
-//			if (equalsOther) {
-//				return TRUE;
-//			}
-//
-//			if (currentState.isFinalState())
-//				return TOPBOOL;
-//		}
-//
-//		//for each path we check if the string is contained or not
-//		for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
-//			HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-//			clone.add(t);
-//			if(auxIncludes(other, clone, t.getTo()) == -1){
-//				return TOPBOOL;
-//			}
-//		}
-//		return 1;
-//	}
+	//	/**
+	//	 * Auxiliary function for includes() that checks whether automaton contains all the strings in
+	//	 * Automaton other or just some of them. The method is recursive.
+	//	 * @param other Automaton on which the search is set on
+	//	 * @param delta set of transitions that lead to current state
+	//	 * @param currentState state from which we start to explore the automaton
+	//	 * @return
+	//	 *
+	//     */
+	//	private int auxIncludes(Automaton other, HashSet<Transition> delta, State currentState){
+	//		int outgoingTrans = this.getOutgoingTransitionsFrom(currentState).size();
+	//
+	//		//we enter in this body only if a state has more than one outgoing transaction and
+	//		//it is not the initial state of the automaton
+	//		//or if we arrived at a final state
+	//		if(( outgoingTrans > 1 && !(currentState.equals(this.getInitialState()))) || currentState.isFinalState()) {
+	//			Automaton factors = Automaton.factors(new Automaton(delta, this.getStates()));
+	//			//check if the intersection between the factorization on the automaton visited so far
+	//			//and the other automaton are equals, if they are it means the strings are contained
+	//			boolean equalsOther = Automaton.intersection(factors, other).equals(other);
+	//
+	//
+	//			if (equalsOther) {
+	//				return TRUE;
+	//			}
+	//
+	//			if (currentState.isFinalState())
+	//				return TOPBOOL;
+	//		}
+	//
+	//		//for each path we check if the string is contained or not
+	//		for(Transition t : this.getOutgoingTransitionsFrom(currentState)){
+	//			HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+	//			clone.add(t);
+	//			if(auxIncludes(other, clone, t.getTo()) == -1){
+	//				return TOPBOOL;
+	//			}
+	//		}
+	//		return 1;
+	//	}
 
 
 
@@ -4013,7 +3981,7 @@ public class Automaton {
 	 */
 	public static int startsWith(Automaton a, Automaton other, long i){
 
-        System.out.println(Automaton.su(a, i));
+		System.out.println(Automaton.su(a, i));
 		return Automaton.startsWith(Automaton.singleParameterSubstring(a, i), other);
 	}
 
@@ -4039,16 +4007,16 @@ public class Automaton {
 		other.minimize();
 		a.minimize();
 
-        if (other.equals(Automaton.makeEmptyString())) {
-            return TRUE;
-        }
+		if (other.equals(Automaton.makeEmptyString())) {
+			return TRUE;
+		}
 
-        Automaton prefix = Automaton.prefix(a);
-        Automaton intersection = Automaton.intersection(prefix, other);
+		Automaton prefix = Automaton.prefix(a);
+		Automaton intersection = Automaton.intersection(prefix, other);
 
-        if(Automaton.isEmptyLanguageAccepted(intersection)) {
-            return FALSE;
-        }
+		if(Automaton.isEmptyLanguageAccepted(intersection)) {
+			return FALSE;
+		}
 
 		if(other.hasCycle() || a.hasCycle()) {
 			return TOPBOOL;
@@ -4138,356 +4106,356 @@ public class Automaton {
 		return Automaton.makeRealAutomaton(s);
 	}
 
-    public static Automaton repeat(Automaton a, long i){
+	public static Automaton repeat(Automaton a, long i){
 
-        if(i < 0){
-            //todo should return OUT OF RANGE EXCEPTION
-            return Automaton.makeEmptyLanguage();
-        }
+		if(i < 0){
+			//todo should return OUT OF RANGE EXCEPTION
+			return Automaton.makeEmptyLanguage();
+		}
 
-        if(i == 0){
-            return Automaton.makeEmptyString();
-        }
+		if(i == 0){
+			return Automaton.makeEmptyString();
+		}
 
-        if(a.hasCycle() || a.equals(Automaton.makeEmptyString()) || a.equals(Automaton.makeEmptyLanguage())){
-            return a;
-        }
+		if(a.hasCycle() || a.equals(Automaton.makeEmptyString()) || a.equals(Automaton.makeEmptyLanguage())){
+			return a;
+		}
 
-        Automaton result = Automaton.makeEmptyLanguage();
+		Automaton result = Automaton.makeEmptyLanguage();
 
-        for(String s: a.getLanguage()){
+		for(String s: a.getLanguage()){
 
-            Automaton temp = Automaton.makeRealAutomaton(s);
-            Automaton tempResult = temp.clone();
+			Automaton temp = Automaton.makeRealAutomaton(s);
+			Automaton tempResult = temp.clone();
 
-            if(i == Integer.MAX_VALUE){
-                tempResult = Automaton.makeCyclic(temp);
-            }else {
-                for (int k = 1; k < i; k++) {
-                    tempResult = Automaton.concat(tempResult, temp);
-                }
-            }
+			if(i == Integer.MAX_VALUE){
+				tempResult = Automaton.makeCyclic(temp);
+			}else {
+				for (int k = 1; k < i; k++) {
+					tempResult = Automaton.concat(tempResult, temp);
+				}
+			}
 
-            result = Automaton.union(result, tempResult);
-        }
+			result = Automaton.union(result, tempResult);
+		}
 
-        return result;
+		return result;
 
-    }
+	}
 
-//    public static Automaton repeat(Automaton a, long i){
-//
-//        if(i < 0){
-//            //todo should return OUT OF RANGE EXCEPTION
-//            return Automaton.makeEmptyLanguage();
-//        }
-//
-//        if(i == 0){
-//            return Automaton.makeEmptyString();
-//        }
-//
-//        if(a.hasCycle() || a.equals(Automaton.makeEmptyString()) || a.equals(Automaton.makeEmptyLanguage())){
-//            return a;
-//        }
-//
-//        return a.auxRepeat(i, a.getInitialState(), new HashSet<Transition>(), makeEmptyLanguage());
-//    }
-//
-//    public Automaton auxRepeat(long i, State currentState, HashSet<Transition> delta, Automaton result){
-//
-//        if(currentState.isFinalState()){
-//
-//            Automaton temp = copy(this, currentState, delta);
-//            Automaton tempResult = temp.clone();
-//
-//            if(i == Integer.MAX_VALUE){
-//                tempResult = Automaton.minus(Automaton.makeCyclic(temp), Automaton.makeEmptyString());
-//            }else {
-//                for (int k = 1; k < i; k++) {
-//                    tempResult = Automaton.concat(tempResult, temp);
-//                }
-//            }
-//
-//            result = Automaton.union(result, tempResult);
-//
-//        }
-//
-//        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
-//            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-//            clone.add(t);
-//            result = Automaton.union(auxRepeat(i, t.getTo(), clone, result), result);
-//        }
-//
-//        return result;
-//
-//    }
+	//    public static Automaton repeat(Automaton a, long i){
+	//
+	//        if(i < 0){
+	//            //todo should return OUT OF RANGE EXCEPTION
+	//            return Automaton.makeEmptyLanguage();
+	//        }
+	//
+	//        if(i == 0){
+	//            return Automaton.makeEmptyString();
+	//        }
+	//
+	//        if(a.hasCycle() || a.equals(Automaton.makeEmptyString()) || a.equals(Automaton.makeEmptyLanguage())){
+	//            return a;
+	//        }
+	//
+	//        return a.auxRepeat(i, a.getInitialState(), new HashSet<Transition>(), makeEmptyLanguage());
+	//    }
+	//
+	//    public Automaton auxRepeat(long i, State currentState, HashSet<Transition> delta, Automaton result){
+	//
+	//        if(currentState.isFinalState()){
+	//
+	//            Automaton temp = copy(this, currentState, delta);
+	//            Automaton tempResult = temp.clone();
+	//
+	//            if(i == Integer.MAX_VALUE){
+	//                tempResult = Automaton.minus(Automaton.makeCyclic(temp), Automaton.makeEmptyString());
+	//            }else {
+	//                for (int k = 1; k < i; k++) {
+	//                    tempResult = Automaton.concat(tempResult, temp);
+	//                }
+	//            }
+	//
+	//            result = Automaton.union(result, tempResult);
+	//
+	//        }
+	//
+	//        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
+	//            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+	//            clone.add(t);
+	//            result = Automaton.union(auxRepeat(i, t.getTo(), clone, result), result);
+	//        }
+	//
+	//        return result;
+	//
+	//    }
 
-    /**
-     * Method that creates a cyclic automaton from a given one, the automaton must recognize only one string s
-     * @return a new automaton that recognizes (s)*
-     */
-    public static Automaton makeCyclic(Automaton a){
+	/**
+	 * Method that creates a cyclic automaton from a given one, the automaton must recognize only one string s
+	 * @return a new automaton that recognizes (s)*
+	 */
+	public static Automaton makeCyclic(Automaton a){
 
-        HashSet<State> newStates = new HashSet<>();
-        HashSet<Transition> newDelta = new HashSet<>();
-        Transition finalT = null;
+		HashSet<State> newStates = new HashSet<>();
+		HashSet<Transition> newDelta = new HashSet<>();
+		Transition finalT = null;
 
-        for(State s: a.getStates()){
-            newStates.add(s);
-        }
+		for(State s: a.getStates()){
+			newStates.add(s);
+		}
 
-        for(State s: a.getFinalStates()){
-            newStates.remove(s);
-        }
+		for(State s: a.getFinalStates()){
+			newStates.remove(s);
+		}
 
-        a.getInitialState().setFinalState(true);
+		a.getInitialState().setFinalState(true);
 
-        for(Transition t: a.getDelta()){
-            if(!t.getTo().isFinalState()){
-                newDelta.add(t);
-            }else{
-                finalT = t;
-            }
-        }
+		for(Transition t: a.getDelta()){
+			if(!t.getTo().isFinalState()){
+				newDelta.add(t);
+			}else{
+				finalT = t;
+			}
+		}
 
-        newDelta.add(new Transition(finalT.getFrom(), a.getInitialState(), finalT.getInput()));
+		newDelta.add(new Transition(finalT.getFrom(), a.getInitialState(), finalT.getInput()));
 
-        return new Automaton(newDelta, newStates);
-    }
+		return new Automaton(newDelta, newStates);
+	}
 
-//    /**
-//     * Method that replaces the automaton searchFor in the current automaton with replaceWith
-//     * @param searchFor FA to search for in the current FA
-//     * @param replaceWith FA that replaces the first occurrence of searchFor
-//     * @return
-//     */
-//    public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
-//        //if the current automaton or the one we are searching have cycles the top language is returned
-//        if(a.hasCycle() || searchFor.hasCycle()) {
-//            return Automaton.makeTopLanguage();
-//        }
-//
-//        //if the intersection between the factorization of this and searchFor is empty then the current Automaton is returned
-//        Automaton intersection = Automaton.intersection(Automaton.factors(a), searchFor);
-//        if (Automaton.isEmptyLanguageAccepted(intersection)){
-//            return a;
-//        }
-//
-//        //the intersection indicates how many strings of searchFor I find in the current Automaton, if all the strings are
-//        //present, we just return the Automaton with all the substitutions, if there is at least a string not found then we
-//        //return the substitution plus the current Automaton
-//        if(intersection.equals(searchFor)){
-//            return a.DFSReplace(intersection, replaceWith, a.getInitialState(), new HashSet<Transition>(),
-//                    Automaton.makeEmptyLanguage());
-//        }
-//
-//        return Automaton.union(a, a.DFSReplace(intersection, replaceWith, a.getInitialState(), new HashSet<Transition>(),
-//                Automaton.makeEmptyLanguage()));
-//    }
-//
+	//    /**
+	//     * Method that replaces the automaton searchFor in the current automaton with replaceWith
+	//     * @param searchFor FA to search for in the current FA
+	//     * @param replaceWith FA that replaces the first occurrence of searchFor
+	//     * @return
+	//     */
+	//    public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
+	//        //if the current automaton or the one we are searching have cycles the top language is returned
+	//        if(a.hasCycle() || searchFor.hasCycle()) {
+	//            return Automaton.makeTopLanguage();
+	//        }
+	//
+	//        //if the intersection between the factorization of this and searchFor is empty then the current Automaton is returned
+	//        Automaton intersection = Automaton.intersection(Automaton.factors(a), searchFor);
+	//        if (Automaton.isEmptyLanguageAccepted(intersection)){
+	//            return a;
+	//        }
+	//
+	//        //the intersection indicates how many strings of searchFor I find in the current Automaton, if all the strings are
+	//        //present, we just return the Automaton with all the substitutions, if there is at least a string not found then we
+	//        //return the substitution plus the current Automaton
+	//        if(intersection.equals(searchFor)){
+	//            return a.DFSReplace(intersection, replaceWith, a.getInitialState(), new HashSet<Transition>(),
+	//                    Automaton.makeEmptyLanguage());
+	//        }
+	//
+	//        return Automaton.union(a, a.DFSReplace(intersection, replaceWith, a.getInitialState(), new HashSet<Transition>(),
+	//                Automaton.makeEmptyLanguage()));
+	//    }
+	//
 
-//    /**
-//     * For each path in the FA, finds which strings in searchFor are present to make the replacement
-//     * @param searchFor FA to search for
-//     * @param replaceWith FA with whom replace the first occurrence of searchFor
-//     * @param currentState state on which we arrived in the search
-//     * @param delta set of transitions, includes all of the transitions collected from the initial state to currentState
-//     *              in a single path
-//     * @param result
-//     * @return
-//     */
-//    private Automaton DFSReplace(Automaton searchFor, Automaton replaceWith, State currentState, HashSet<Transition> delta, Automaton result){
-//
-//        if(currentState.isFinalState()) {
-//            //searchIn is the automaton that recognizes a single recognized string in the current Automaton
-//            Automaton searchIn = new Automaton(delta, (HashSet<State>) this.getStates().clone());
-//            searchIn = searchIn.clone();
-//            Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
-//
-//            //if the intersection is empty and there are no other transitions from the current state,
-//            //we return searchIn
-//            if (Automaton.isEmptyLanguageAccepted(intersection) && this.getOutgoingTransitionsFrom(currentState).size() == 0) {
-//                return searchIn;
-//
-//            }else if(!Automaton.isEmptyLanguageAccepted(intersection)){
-//                Automaton mr = searchIn.makeReplacement(intersection, replaceWith, this.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
-//                result = Automaton.union(result, mr);
-//
-//                //if the intersection is not empty but is not equal to searchFor it means that there is at least a
-//                //string of searchFor that is not included in this path(i.e. the string on which we are running the search)
-//                //so, besides the string with the replacement we also return the original string
-//                if(!intersection.equals(searchFor)) {
-//                    result = Automaton.union(result, searchIn);
-//                }
-//            }
-//        }
-//
-//        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
-//            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
-//            clone.add(t);
-//            result = Automaton.union(result, DFSReplace(searchFor.clone(), replaceWith, t.getTo(), clone, result));
-//        }
-//
-//        return result;
-//    }
+	//    /**
+	//     * For each path in the FA, finds which strings in searchFor are present to make the replacement
+	//     * @param searchFor FA to search for
+	//     * @param replaceWith FA with whom replace the first occurrence of searchFor
+	//     * @param currentState state on which we arrived in the search
+	//     * @param delta set of transitions, includes all of the transitions collected from the initial state to currentState
+	//     *              in a single path
+	//     * @param result
+	//     * @return
+	//     */
+	//    private Automaton DFSReplace(Automaton searchFor, Automaton replaceWith, State currentState, HashSet<Transition> delta, Automaton result){
+	//
+	//        if(currentState.isFinalState()) {
+	//            //searchIn is the automaton that recognizes a single recognized string in the current Automaton
+	//            Automaton searchIn = new Automaton(delta, (HashSet<State>) this.getStates().clone());
+	//            searchIn = searchIn.clone();
+	//            Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
+	//
+	//            //if the intersection is empty and there are no other transitions from the current state,
+	//            //we return searchIn
+	//            if (Automaton.isEmptyLanguageAccepted(intersection) && this.getOutgoingTransitionsFrom(currentState).size() == 0) {
+	//                return searchIn;
+	//
+	//            }else if(!Automaton.isEmptyLanguageAccepted(intersection)){
+	//                Automaton mr = searchIn.makeReplacement(intersection, replaceWith, this.getInitialState(), new HashSet<Transition>(), Automaton.makeEmptyLanguage());
+	//                result = Automaton.union(result, mr);
+	//
+	//                //if the intersection is not empty but is not equal to searchFor it means that there is at least a
+	//                //string of searchFor that is not included in this path(i.e. the string on which we are running the search)
+	//                //so, besides the string with the replacement we also return the original string
+	//                if(!intersection.equals(searchFor)) {
+	//                    result = Automaton.union(result, searchIn);
+	//                }
+	//            }
+	//        }
+	//
+	//        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
+	//            HashSet<Transition> clone = (HashSet<Transition>)delta.clone();
+	//            clone.add(t);
+	//            result = Automaton.union(result, DFSReplace(searchFor.clone(), replaceWith, t.getTo(), clone, result));
+	//        }
+	//
+	//        return result;
+	//    }
 
-//    /**
-//     * makes the replacement and returns a result automaton. The general idea is to start from the empty automaton and then
-//     * add the transitions of the this.getAutomaton() one by one until we have build the automaton that recognizes each string
-//     * in searchFor. We thus know that the build automaton finishes with the string we are looking for.
-//     * Each time we find a string of searchFor we remove it from searchFor and find the other strings until we find them all.
-//     * @param searchFor Automaton of the strings we are searching for. All the strings have at least one occurrence in this.getAutomaton()
-//     * @param replaceWith Automaton with whom we replace the occurrence of searchFor
-//     * @param currentState current state in the search
-//     * @param delta set of transitions from the initial state to currentState
-//     * @param resultOfRep partial result of the replacement
-//     * @return result of the replacement
-//     */
-//    private Automaton makeReplacement(Automaton searchFor, Automaton replaceWith, State currentState, HashSet<Transition> delta, Automaton resultOfRep){
-//
-//        Automaton searchIn = copy(this, currentState, delta);
-//
-//        Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
-//
-//        if (!intersection.equals(Automaton.makeEmptyLanguage())) {
-//            Automaton temp = null;
-//
-//            //if the intersection is epsilon, it means that searchFor contains epsilon therefore replaceWith will be
-//            //added at the start of the string
-//            if(intersection.equals(Automaton.makeEmptyString())){
-//                temp = this.auxMakeReplacement(intersection, replaceWith, delta);
-//            }else {
-//                temp = searchIn.auxMakeReplacement(intersection, replaceWith, delta);
-//                Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
-//                temp = Automaton.concat(temp, remainingAutomaton);
-//            }
-//
-//            //we remove the strings we have already found
-//            searchFor = Automaton.minus(searchFor, intersection);
-//
-//            //if the intersection is not epsilon we need to add to the first part of the result, which is resultOfRep
-//            //containing the automaton till the replacement, the rest of the original automaton
-//
-//           /*if(!intersection.equals(Automaton.makeEmptyString())) {
-//               Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
-//               temp = Automaton.concat(temp, remainingAutomaton);
-//            }*/
-//
-//            resultOfRep = Automaton.union(resultOfRep, temp);
-//
-//            if(searchFor.equals(Automaton.makeEmptyLanguage())){
-//                return resultOfRep;
-//            }
-//        }
-//
-//        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
-//            delta.add(t);
-//            return makeReplacement(searchFor, replaceWith, t.getTo(), delta, resultOfRep);
-//        }
-//
-//        return resultOfRep;
-//
-//    }
+	//    /**
+	//     * makes the replacement and returns a result automaton. The general idea is to start from the empty automaton and then
+	//     * add the transitions of the this.getAutomaton() one by one until we have build the automaton that recognizes each string
+	//     * in searchFor. We thus know that the build automaton finishes with the string we are looking for.
+	//     * Each time we find a string of searchFor we remove it from searchFor and find the other strings until we find them all.
+	//     * @param searchFor Automaton of the strings we are searching for. All the strings have at least one occurrence in this.getAutomaton()
+	//     * @param replaceWith Automaton with whom we replace the occurrence of searchFor
+	//     * @param currentState current state in the search
+	//     * @param delta set of transitions from the initial state to currentState
+	//     * @param resultOfRep partial result of the replacement
+	//     * @return result of the replacement
+	//     */
+	//    private Automaton makeReplacement(Automaton searchFor, Automaton replaceWith, State currentState, HashSet<Transition> delta, Automaton resultOfRep){
+	//
+	//        Automaton searchIn = copy(this, currentState, delta);
+	//
+	//        Automaton intersection = Automaton.intersection(Automaton.factors(searchIn), searchFor);
+	//
+	//        if (!intersection.equals(Automaton.makeEmptyLanguage())) {
+	//            Automaton temp = null;
+	//
+	//            //if the intersection is epsilon, it means that searchFor contains epsilon therefore replaceWith will be
+	//            //added at the start of the string
+	//            if(intersection.equals(Automaton.makeEmptyString())){
+	//                temp = this.auxMakeReplacement(intersection, replaceWith, delta);
+	//            }else {
+	//                temp = searchIn.auxMakeReplacement(intersection, replaceWith, delta);
+	//                Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
+	//                temp = Automaton.concat(temp, remainingAutomaton);
+	//            }
+	//
+	//            //we remove the strings we have already found
+	//            searchFor = Automaton.minus(searchFor, intersection);
+	//
+	//            //if the intersection is not epsilon we need to add to the first part of the result, which is resultOfRep
+	//            //containing the automaton till the replacement, the rest of the original automaton
+	//
+	//           /*if(!intersection.equals(Automaton.makeEmptyString())) {
+	//               Automaton remainingAutomaton = Automaton.singleParameterSubstring(this, searchIn.maxLengthString());
+	//               temp = Automaton.concat(temp, remainingAutomaton);
+	//            }*/
+	//
+	//            resultOfRep = Automaton.union(resultOfRep, temp);
+	//
+	//            if(searchFor.equals(Automaton.makeEmptyLanguage())){
+	//                return resultOfRep;
+	//            }
+	//        }
+	//
+	//        for(Transition t: this.getOutgoingTransitionsFrom(currentState)){
+	//            delta.add(t);
+	//            return makeReplacement(searchFor, replaceWith, t.getTo(), delta, resultOfRep);
+	//        }
+	//
+	//        return resultOfRep;
+	//
+	//    }
 
-//    /**
-//     * Method that finds the initial point of the string to search for and makes the replacement.
-//     * Uses the methods length and substring of FA
-//     * @param searchFor
-//     * @param replaceWith
-//     * @param delta
-//     * @return
-//     */
-//    private Automaton auxMakeReplacement(Automaton searchFor, Automaton replaceWith, HashSet<Transition> delta){
-//
-//        if(searchFor.equals(Automaton.makeEmptyString())){
-//            return Automaton.concat(replaceWith, this);
-//        }
-//
-//        this.minimize();
-//        //int length = Automaton.length(this);
-//        //int start = Automaton.length(searchFor);
-//        int length = this.getDelta().size();
-//        int start = searchFor.getDelta().size();
-//
-//        Automaton prefix = Automaton.substring(this,0, length - start);
-//
-//        return Automaton.concat(prefix, replaceWith);
-//    }
+	//    /**
+	//     * Method that finds the initial point of the string to search for and makes the replacement.
+	//     * Uses the methods length and substring of FA
+	//     * @param searchFor
+	//     * @param replaceWith
+	//     * @param delta
+	//     * @return
+	//     */
+	//    private Automaton auxMakeReplacement(Automaton searchFor, Automaton replaceWith, HashSet<Transition> delta){
+	//
+	//        if(searchFor.equals(Automaton.makeEmptyString())){
+	//            return Automaton.concat(replaceWith, this);
+	//        }
+	//
+	//        this.minimize();
+	//        //int length = Automaton.length(this);
+	//        //int start = Automaton.length(searchFor);
+	//        int length = this.getDelta().size();
+	//        int start = searchFor.getDelta().size();
+	//
+	//        Automaton prefix = Automaton.substring(this,0, length - start);
+	//
+	//        return Automaton.concat(prefix, replaceWith);
+	//    }
 
-    /**
-     * Method that prints all the states of automaton with relative status and transitions
-     * @param a
-     */
-    public static void printDetails(Automaton a){
-        String str = "States:\n";
-        for (State s: a.states){
-            str += s.toString();
-            if(s.isInitialState()){
-                str += ": initial";
-            }
-            if(s.isFinalState()){
-                str += ", final";
-            }
-            str += "\n";
-        }
+	/**
+	 * Method that prints all the states of automaton with relative status and transitions
+	 * @param a
+	 */
+	public static void printDetails(Automaton a){
+		String str = "States:\n";
+		for (State s: a.states){
+			str += s.toString();
+			if(s.isInitialState()){
+				str += ": initial";
+			}
+			if(s.isFinalState()){
+				str += ", final";
+			}
+			str += "\n";
+		}
 
-        str += "Transitions:\n";
-        for (Transition t: a.getDelta()){
-            str += t + "\n";
-        }
+		str += "Transitions:\n";
+		for (Transition t: a.getDelta()){
+			str += t + "\n";
+		}
 
-        System.out.println(str);
-    }
+		System.out.println(str);
+	}
 
-    private static Automaton copy(Automaton a, State currentState, HashSet<Transition> delta){
+	private static Automaton copy(Automaton a, State currentState, HashSet<Transition> delta){
 
-        HashMap<State, State> mapping = new HashMap<>();
-        HashSet<Transition> newDelta = new HashSet<>();
-        HashSet<State> newStates = new HashSet<>();
+		HashMap<State, State> mapping = new HashMap<>();
+		HashSet<Transition> newDelta = new HashSet<>();
+		HashSet<State> newStates = new HashSet<>();
 
-        for(State s: a.getStates()){
-            State newState = (State)s.clone();
-            newStates.add(newState);
-            mapping.put(s, newState);
-        }
-        if(!currentState.isInitialState()){
-            mapping.get(currentState).setFinalState(true);
-        }
+		for(State s: a.getStates()){
+			State newState = (State)s.clone();
+			newStates.add(newState);
+			mapping.put(s, newState);
+		}
+		if(!currentState.isInitialState()){
+			mapping.get(currentState).setFinalState(true);
+		}
 
-        for(State s: a.getFinalStates()){
-            if(!s.equals(currentState)){
-                mapping.get(s).setFinalState(false);
-            }
-        }
+		for(State s: a.getFinalStates()){
+			if(!s.equals(currentState)){
+				mapping.get(s).setFinalState(false);
+			}
+		}
 
-        for (Transition t: delta){
-            newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput()));
-        }
+		for (Transition t: delta){
+			newDelta.add(new Transition(mapping.get(t.getFrom()), mapping.get(t.getTo()), t.getInput()));
+		}
 
-        Automaton result = new Automaton(newDelta, newStates);
-        result.minimize();
+		Automaton result = new Automaton(newDelta, newStates);
+		result.minimize();
 
-        return result;
-    }
+		return result;
+	}
 
-    /**
-     * Checks if an automaton ends with another automaton.
-     * @param a
-     * @param other
-     * @return
-     */
-    public static int endsWith(Automaton a, Automaton other){
-        return Automaton.startsWith(Automaton.reverse(a), Automaton.reverse(other));
+	/**
+	 * Checks if an automaton ends with another automaton.
+	 * @param a
+	 * @param other
+	 * @return
+	 */
+	public static int endsWith(Automaton a, Automaton other){
+		return Automaton.startsWith(Automaton.reverse(a), Automaton.reverse(other));
 
-    }
+	}
 
-    /**
-     * Method that replaces the automaton searchFor in the current automaton with replaceWith
-     * @param searchFor FA to search for in the current FA
-     * @param replaceWith FA that replaces the first occurrence of searchFor
-     * @return
-     */
-    /*public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
+	/**
+	 * Method that replaces the automaton searchFor in the current automaton with replaceWith
+	 * @param searchFor FA to search for in the current FA
+	 * @param replaceWith FA that replaces the first occurrence of searchFor
+	 * @return
+	 */
+	/*public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
         //if the current automaton or the one we are searching have cycles
         // the top language is returned
         if(a.hasCycle() || searchFor.hasCycle()) {
@@ -4536,21 +4504,21 @@ public class Automaton {
     }*/
 
 
-    public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
-        //if the current automaton or the one we are searching have cycles the top language is returned
-        if(a.hasCycle() || searchFor.hasCycle()) {
-            return Automaton.makeTopLanguage();
-        }
+	public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
+		//if the current automaton or the one we are searching have cycles the top language is returned
+		if(a.hasCycle() || searchFor.hasCycle()) {
+			return Automaton.makeTopLanguage();
+		}
 
-        //if the intersection between the factorization of this and searchFor is empty then the current Automaton is returned
-        Automaton intersection = Automaton.intersection(Automaton.factors(a), searchFor);
-        if (Automaton.isEmptyLanguageAccepted(intersection)){
-            return a;
-        }
+		//if the intersection between the factorization of this and searchFor is empty then the current Automaton is returned
+		Automaton intersection = Automaton.intersection(Automaton.factors(a), searchFor);
+		if (Automaton.isEmptyLanguageAccepted(intersection)){
+			return a;
+		}
 
-        Automaton top = Automaton.makeTopLanguage();
+		Automaton top = Automaton.makeTopLanguage();
 
-        /*for (String toSearch : searchFor.getLanguage()) {
+		/*for (String toSearch : searchFor.getLanguage()) {
             for (String toReplace : replaceWith.getLanguage()) {
                 Automaton replacedResult = Automaton.concat(Automaton.concat(Automaton.rightQuotient(a, Automaton.concat(Automaton.makeAutomaton(toSearch), Automaton.suffix(a))), Automaton.makeAutomaton(toReplace)), Automaton.leftQuotient(a, Automaton.concat(Automaton.prefix(a), Automaton.makeAutomaton(toSearch))));
                 Automaton toRemove = Automaton.concat(top, Automaton.concat(Automaton.makeAutomaton(toSearch), top));
@@ -4560,152 +4528,115 @@ public class Automaton {
             }
         }*/
 
-        HashSet<Automaton> partialResult = new HashSet<>();
+		HashSet<Automaton> partialResult = new HashSet<>();
 
-        for(String s: a.getLanguage()){
-            Automaton searchIn = Automaton.makeRealAutomaton(s);
-            Automaton in = Automaton.intersection(Automaton.factors(searchIn), intersection);
-            partialResult.addAll(searchIn.makeReplacement(in, replaceWith));
-            if(!in.equals(intersection)){
-                partialResult.add(searchIn);
-            }
-        }
+		for(String s: a.getLanguage()){
+			Automaton searchIn = Automaton.makeRealAutomaton(s);
+			Automaton in = Automaton.intersection(Automaton.factors(searchIn), intersection);
+			partialResult.addAll(searchIn.makeReplacement(in, replaceWith));
+			if(!in.equals(intersection)){
+				partialResult.add(searchIn);
+			}
+		}
 
-        Automaton result = Automaton.union(partialResult);
+		Automaton result = Automaton.union(partialResult);
 
-        if(intersection.equals(searchFor)){
-            return result;
-        }
+		if(intersection.equals(searchFor)){
+			return result;
+		}
 
-        return Automaton.union(result, a);
-    }
+		return Automaton.union(result, a);
+	}
 
-    /**
-     *
-     * @param searchFor
-     * @param replaceWith
-     * @return
-     */
-    private HashSet<Automaton> makeReplacement(Automaton searchFor, Automaton replaceWith){
-        HashSet<Automaton> partialResult = new HashSet<>();
-        Automaton temp;
-        int length;
+	/**
+	 *
+	 * @param searchFor
+	 * @param replaceWith
+	 * @return
+	 */
+	private HashSet<Automaton> makeReplacement(Automaton searchFor, Automaton replaceWith){
+		HashSet<Automaton> partialResult = new HashSet<>();
+		Automaton temp;
+		int length;
 
-        for(String s: searchFor.getLanguage()){
-            Automaton search = makeRealAutomaton(s);
-            //System.out.println("replace: " + this + " " + search + " " + Automaton.indexOf(this, search));
+		for(String s: searchFor.getLanguage()){
+			Automaton search = makeRealAutomaton(s);
+			//System.out.println("replace: " + this + " " + search + " " + Automaton.indexOf(this, search));
 
-            if(search.equals(Automaton.makeEmptyString())){
-                temp = search;
-            }else {
-                temp = Automaton.rightQuotient(this, Automaton.concat(search, Automaton.suffix(this)));
-                while (!Automaton.intersection(search, Automaton.factors(temp)).equals(Automaton.makeEmptyLanguage())) {
+			if(search.equals(Automaton.makeEmptyString())){
+				temp = search;
+			}else {
+				temp = Automaton.rightQuotient(this, Automaton.concat(search, Automaton.suffix(this)));
+				while (!Automaton.intersection(search, Automaton.factors(temp)).equals(Automaton.makeEmptyLanguage())) {
 
-                    temp = Automaton.rightQuotient(temp, Automaton.concat(search, Automaton.suffix(temp)));
-                }
-            }
+					temp = Automaton.rightQuotient(temp, Automaton.concat(search, Automaton.suffix(temp)));
+				}
+			}
 
-            length = Automaton.length(temp) + Automaton.length(search);
-            temp = Automaton.concat(temp, replaceWith);
-            //System.out.println("prefix + replace " + temp);
-            temp = Automaton.concat(temp, Automaton.singleParameterSubstring(this, length));
-            //System.out.println("partial result " + temp);
-            partialResult.add(temp);
-        }
+			length = Automaton.length(temp) + Automaton.length(search);
+			temp = Automaton.concat(temp, replaceWith);
+			//System.out.println("prefix + replace " + temp);
+			temp = Automaton.concat(temp, Automaton.singleParameterSubstring(this, length));
+			//System.out.println("partial result " + temp);
+			partialResult.add(temp);
+		}
 
-        return partialResult;
-    }
-
-
-//    public static int indexOf(Automaton a, Automaton other) {
-//
-//        if(a.hasCycle() || other.hasCycle()) {
-//            return Integer.MAX_VALUE;
-//        }
-//
-//        Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
-//        if(Automaton.isEmptyLanguageAccepted(intersection)){
-//            return -1;
-//        }
-//
-//        Automaton build = a.clone();
-//
-//        int index = -2;
-//        int temp;
-//        boolean found = false;
-//
-//        for (State s : build.getStates()) {
-//            if (s.isInitialState()) {
-//                s.setInitialState(false);
-//            }
-//            s.setFinalState(true);
-//        }
-//
-//        for (State q : build.getStates()) {
-//            q.setInitialState(true);
-//
-//            if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(build, other))) {
-//                temp = a.minimumDijkstra(q).size() - 1;
-//                if (!found) {
-//                    index = temp;
-//                    found = true;
-//                }else if(found && index != temp){
-//                    return Integer.MAX_VALUE;
-//                }
-//            }else{
-//                if(!found) {
-//                    index = -1;
-//                }
-//            }
-//
-//            q.setInitialState(false);
-//        }
-//
-//        return index;
-//    }
+		return partialResult;
+	}
 
 
-    public static int indexOf(Automaton a, Automaton other) {
+	public static int indexOf(Automaton a, Automaton other) {
 
-        if (a.hasCycle() || other.hasCycle()) {
-            return Integer.MAX_VALUE;
-        }
+		if(other.equals(Automaton.makeEmptyString())){
+			return 0;
+		}
 
-        Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
-        if (Automaton.isEmptyLanguageAccepted(intersection)) {
-            return -1;
-        }
+		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
+		if (Automaton.isEmptyLanguageAccepted(intersection)) {
+			return -1;
+		}
 
-        if(other.equals(Automaton.makeEmptyString())){
-            return 0;
-        }
+		if (a.hasCycle() || other.hasCycle()) {
+			return Integer.MAX_VALUE;
+		}
 
-        Automaton build = a.clone();
 
-        for (State s : build.getStates()) {
-            if (s.isInitialState()) {
-                s.setInitialState(false);
-            }
-            s.setFinalState(true);
-        }
+		Automaton build;
 
-        int index = Integer.MAX_VALUE;
-        int temp;
+		if (a.isSingleString()) {
+			build = Automaton.makeRealAutomaton(a.getSingleString());
+			a = Automaton.makeRealAutomaton(a.getSingleString());
+		}
+			else
+		
+			build = a.clone();
 
-        for (State q : build.getStates()) {
-            q.setInitialState(true);
+		for (State s : build.getStates()) {
+			if (s.isInitialState()) {
+				s.setInitialState(false);
+			}
+			s.setFinalState(true);
+		}
 
-            if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(build, other))) {
-                temp = a.minimumDijkstra(q).size() - 1;
-                if(temp < index){
-                    index = temp;
-                }
-            }
+		int index = Integer.MAX_VALUE;
+		int temp;
 
-            q.setInitialState(false);
-        }
-        return index;
-    }
+	
+		
+		for (State q : build.getStates()) {
+			q.setInitialState(true);
+
+			if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(build, other))) {
+				temp = a.minimumDijkstra(q).size() - 1;
+				if(temp < index){
+					index = temp;
+				}
+			}
+
+			q.setInitialState(false);
+		}
+		return index;
+	}
 
 
 }
