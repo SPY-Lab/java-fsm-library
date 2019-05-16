@@ -331,7 +331,7 @@ public class ReplaceTest {
         Automaton result = Automaton.union(r);
 
         Automaton resultR = Automaton.replace(a, searchFor, replaceWith);
-        //Assert.assertEquals(result, resultR);
+        Assert.assertEquals(result, resultR);
 
     }
 

@@ -2,6 +2,7 @@ package it.univr.fsm.machine;
 
 import it.univr.fsm.equations.*;
 
+import org.apache.commons.lang3.AnnotationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.IRFactory;
@@ -4486,7 +4487,7 @@ public class Automaton {
      * @param replaceWith FA that replaces the first occurrence of searchFor
      * @return
      */
-    public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
+    /*public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
         //if the current automaton or the one we are searching have cycles
         // the top language is returned
         if(a.hasCycle() || searchFor.hasCycle()) {
@@ -4532,6 +4533,51 @@ public class Automaton {
         }
 
         return Automaton.union(result, a);
+    }*/
+
+
+    public static Automaton replace(Automaton a, Automaton searchFor, Automaton replaceWith){
+        //if the current automaton or the one we are searching have cycles the top language is returned
+        if(a.hasCycle() || searchFor.hasCycle()) {
+            return Automaton.makeTopLanguage();
+        }
+
+        //if the intersection between the factorization of this and searchFor is empty then the current Automaton is returned
+        Automaton intersection = Automaton.intersection(Automaton.factors(a), searchFor);
+        if (Automaton.isEmptyLanguageAccepted(intersection)){
+            return a;
+        }
+
+        Automaton top = Automaton.makeTopLanguage();
+
+        /*for (String toSearch : searchFor.getLanguage()) {
+            for (String toReplace : replaceWith.getLanguage()) {
+                Automaton replacedResult = Automaton.concat(Automaton.concat(Automaton.rightQuotient(a, Automaton.concat(Automaton.makeAutomaton(toSearch), Automaton.suffix(a))), Automaton.makeAutomaton(toReplace)), Automaton.leftQuotient(a, Automaton.concat(Automaton.prefix(a), Automaton.makeAutomaton(toSearch))));
+                Automaton toRemove = Automaton.concat(top, Automaton.concat(Automaton.makeAutomaton(toSearch), top));
+                Automaton notReplaced = Automaton.minus(a, toRemove);
+
+                result = Automaton.union(result, Automaton.union(replacedResult, notReplaced));
+            }
+        }*/
+
+        HashSet<Automaton> partialResult = new HashSet<>();
+
+        for(String s: a.getLanguage()){
+            Automaton searchIn = Automaton.makeRealAutomaton(s);
+            Automaton in = Automaton.intersection(Automaton.factors(searchIn), intersection);
+            partialResult.addAll(searchIn.makeReplacement(in, replaceWith));
+            if(!in.equals(intersection)){
+                partialResult.add(searchIn);
+            }
+        }
+
+        Automaton result = Automaton.union(partialResult);
+
+        if(intersection.equals(searchFor)){
+            return result;
+        }
+
+        return Automaton.union(result, a);
     }
 
     /**
@@ -4548,10 +4594,22 @@ public class Automaton {
         for(String s: searchFor.getLanguage()){
             Automaton search = makeRealAutomaton(s);
             //System.out.println("replace: " + this + " " + search + " " + Automaton.indexOf(this, search));
-            temp = Automaton.substring(this,0, Automaton.indexOf(this, search));
+
+            if(search.equals(Automaton.makeEmptyString())){
+                temp = search;
+            }else {
+                temp = Automaton.rightQuotient(this, Automaton.concat(search, Automaton.suffix(this)));
+                while (!Automaton.intersection(search, Automaton.factors(temp)).equals(Automaton.makeEmptyLanguage())) {
+
+                    temp = Automaton.rightQuotient(temp, Automaton.concat(search, Automaton.suffix(temp)));
+                }
+            }
+
             length = Automaton.length(temp) + Automaton.length(search);
             temp = Automaton.concat(temp, replaceWith);
+            //System.out.println("prefix + replace " + temp);
             temp = Automaton.concat(temp, Automaton.singleParameterSubstring(this, length));
+            //System.out.println("partial result " + temp);
             partialResult.add(temp);
         }
 
