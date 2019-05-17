@@ -345,7 +345,5 @@ public class EndsWithTest {
         set.add(Automaton.makeAutomaton("and"));
 
         Automaton a = Automaton.union(set);
-
-        visualizeAutomaton.show(a, "a");
     }
 }
