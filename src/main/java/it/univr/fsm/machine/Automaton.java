@@ -4528,7 +4528,6 @@ public class Automaton {
             }
         }*/
 
-		HashSet<Automaton> partialResult = new HashSet<>();
         HashSet<Automaton> partialResult = new HashSet<>();
 
 		for(String s: a.getLanguage()){
@@ -4549,11 +4548,6 @@ public class Automaton {
         }
 
 		Automaton result = Automaton.union(partialResult);
-
-		if(intersection.equals(searchFor)){
-			return result;
-		}
-        Automaton result = Automaton.union(partialResult);
         return result;
 
         /*if(intersection.equals(searchFor)){
