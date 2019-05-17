@@ -4018,7 +4018,7 @@ public class Automaton {
 			return FALSE;
 		}
 
-		if(other.hasCycle() || a.hasCycle()) {
+		if(other.hasCycle()) {
 			return TOPBOOL;
 		}
 

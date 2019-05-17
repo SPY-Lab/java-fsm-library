@@ -349,5 +349,127 @@ public class StartsWithTest {
         Assert.assertEquals(Automaton.startsWith(a, sub), TRUE);
     }
 
+    @Test
+    public void startsWithTest027(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("aaa"), Automaton.star(Automaton.makeAutomaton("a")));
+        Automaton sub = Automaton.makeAutomaton("a");
 
+        Assert.assertEquals(Automaton.startsWith(a, sub), TRUE);
+    }
+
+
+    @Test
+    public void startsWithTest028(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("n"), Automaton.star(Automaton.makeAutomaton("a")));
+        Automaton sub = Automaton.makeAutomaton("a");
+
+        Assert.assertEquals(Automaton.startsWith(a, sub), FALSE);
+    }
+    
+    @Test
+    public void startsWithTest029(){
+        Automaton a = Automaton.star(Automaton.makeRealAutomaton("a"));
+        Automaton sub = Automaton.makeAutomaton("a");
+
+        Assert.assertEquals(Automaton.startsWith(a, sub), TOPBOOL);
+    }
+
+    @Test
+    public void startsWithTest030(){
+        Automaton a = Automaton.star(Automaton.makeRealAutomaton("a"));
+        Automaton sub = Automaton.makeAutomaton("b");
+
+        Assert.assertEquals(Automaton.startsWith(a, sub), FALSE);
+    }
+    
+    @Test
+    public void startsWithTest031(){
+        Automaton a = Automaton.star(Automaton.makeRealAutomaton("a"));
+        Automaton b = Automaton.star(Automaton.makeRealAutomaton("b"));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.makeAutomaton("b");
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TOPBOOL);
+    }
+    
+
+    @Test
+    public void startsWithTest032(){
+        Automaton a = Automaton.concat(Automaton.star(Automaton.makeRealAutomaton("a")),Automaton.makeAutomaton("a"));
+        Automaton b = Automaton.concat(Automaton.star(Automaton.makeRealAutomaton("b")),Automaton.makeAutomaton("b"));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.makeAutomaton("b");
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TOPBOOL);
+    }
+    
+
+    @Test
+    public void startsWithTest033(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("a"), Automaton.star(Automaton.makeRealAutomaton("a")));
+        Automaton b = Automaton.concat(Automaton.makeAutomaton("b"), Automaton.star(Automaton.makeRealAutomaton("b")));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.makeAutomaton("b");
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TOPBOOL);
+    }
+    
+    @Test
+    public void startsWithTest034(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("aa"), Automaton.star(Automaton.makeRealAutomaton("a")));
+        Automaton b = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("b")));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.makeAutomaton("a");
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TRUE);
+    }
+    
+    @Test
+    public void startsWithTest035(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("aa"), Automaton.star(Automaton.makeRealAutomaton("a")));
+        Automaton b = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("b")));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.makeAutomaton("b");
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), FALSE);
+    }
+    
+    @Test
+    public void startsWithTest036(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("a")));
+        Automaton b = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("b")));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.makeAutomaton("ab");
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TRUE);
+    }
+    
+    @Test
+    public void startsWithTest037(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("a")));
+        Automaton b = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("b")));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("ab"), Automaton.makeAutomaton("a"));
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TRUE);
+    }
+    
+
+    @Test
+    public void startsWithTest038(){
+        Automaton a = Automaton.concat(Automaton.makeAutomaton("ab"), Automaton.star(Automaton.makeRealAutomaton("a")));
+        Automaton b = Automaton.concat(Automaton.makeAutomaton("aa"), Automaton.star(Automaton.makeRealAutomaton("b")));
+        
+        Automaton c = Automaton.union(a, b);
+        Automaton sub = Automaton.union(Automaton.makeAutomaton("ab"), Automaton.makeAutomaton("aa"));
+
+        Assert.assertEquals(Automaton.startsWith(c, sub), TOPBOOL);
+    }
 }

@@ -6,8 +6,6 @@ import it.univr.fsm.machine.Transition;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashSet;
 
 public class RepeatTest {
