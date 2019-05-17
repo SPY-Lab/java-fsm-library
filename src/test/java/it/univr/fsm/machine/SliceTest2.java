@@ -483,7 +483,7 @@ public class SliceTest2 {
         long end = -4;
 
         Automaton resultR = Automaton.slice(a, start, end);
-        Assert.assertEquals(Automaton.makeTopLanguage(), resultR);
+        Assert.assertEquals(Automaton.factors(a), resultR);
 
     }
 

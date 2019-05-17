@@ -4550,34 +4550,25 @@ public class Automaton {
 
         Automaton top = Automaton.makeTopLanguage();
 
-        /*for (String toSearch : searchFor.getLanguage()) {
-            for (String toReplace : replaceWith.getLanguage()) {
-                Automaton replacedResult = Automaton.concat(Automaton.concat(Automaton.rightQuotient(a, Automaton.concat(Automaton.makeAutomaton(toSearch), Automaton.suffix(a))), Automaton.makeAutomaton(toReplace)), Automaton.leftQuotient(a, Automaton.concat(Automaton.prefix(a), Automaton.makeAutomaton(toSearch))));
-                Automaton toRemove = Automaton.concat(top, Automaton.concat(Automaton.makeAutomaton(toSearch), top));
-                Automaton notReplaced = Automaton.minus(a, toRemove);
-
-                result = Automaton.union(result, Automaton.union(replacedResult, notReplaced));
-            }
-        }*/
-
         HashSet<Automaton> partialResult = new HashSet<>();
 
         for(String s: a.getLanguage()){
             Automaton searchIn = Automaton.makeRealAutomaton(s);
             Automaton in = Automaton.intersection(Automaton.factors(searchIn), intersection);
             partialResult.addAll(searchIn.makeReplacement(in, replaceWith));
-            if(!in.equals(intersection)){
+            if(!in.equals(searchFor)){
                 partialResult.add(searchIn);
             }
         }
 
         Automaton result = Automaton.union(partialResult);
+        return result;
 
-        if(intersection.equals(searchFor)){
+        /*if(intersection.equals(searchFor)){
             return result;
         }
 
-        return Automaton.union(result, a);
+        return Automaton.union(result, a);*/
     }
 
     /**
@@ -4593,7 +4584,6 @@ public class Automaton {
 
         for(String s: searchFor.getLanguage()){
             Automaton search = makeRealAutomaton(s);
-            //System.out.println("replace: " + this + " " + search + " " + Automaton.indexOf(this, search));
 
             if(search.equals(Automaton.makeEmptyString())){
                 temp = search;
@@ -4666,6 +4656,12 @@ public class Automaton {
 
 
     public static int indexOf(Automaton a, Automaton other) {
+
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
+
+        if (other.isSingleString())
+            other = Automaton.makeRealAutomaton(other.getSingleString());
 
         if (a.hasCycle() || other.hasCycle()) {
             return Integer.MAX_VALUE;

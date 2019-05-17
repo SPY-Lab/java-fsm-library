@@ -375,7 +375,6 @@ public class RepeatTest {
         HashSet<Automaton> set = new HashSet<>();
         set.add(Automaton.makeAutomaton("cat"));
         set.add(Automaton.makeAutomaton("bug"));
-        set.add(Automaton.makeEmptyString());
         Automaton a = Automaton.union(set);
 
         HashSet<Automaton> r = new HashSet<>();
@@ -417,5 +416,4 @@ public class RepeatTest {
         Automaton resultR = Automaton.repeat(a, 2);
         Assert.assertEquals(resultR, result);
     }
-
 }
