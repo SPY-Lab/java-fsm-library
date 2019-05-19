@@ -12,7 +12,6 @@ public class Var extends RegularExpression {
 		this.variable = s;
 	}
 
-
 	public State getVariable() {
 		return variable;
 	}
@@ -44,11 +43,6 @@ public class Var extends RegularExpression {
 	public int hashCode() {
 		return variable.getState().hashCode();
 	}
-
-	/*@Override
-	public RegularExpression replace(RegularExpression e, RegularExpression with) {
-		return this;
-	}*/
 
 	@Override
 	public RegularExpression remove(RegularExpression e) {
@@ -123,11 +117,5 @@ public class Var extends RegularExpression {
 	@Override
 	public RegularExpression simplify() {
 		return this;
-	}
-
-
-	@Override
-	public String getProgram() {
-		return "";
 	}
 }

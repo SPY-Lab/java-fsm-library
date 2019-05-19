@@ -1,58 +1,0 @@
-/**
- * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = false;
-  LOOKAHEAD = 10;
-  FORCE_LA_CHECK=true;
-}PARSER_BEGIN(DImpMinus)
-package it.univr.dimpminus;
-import java.util.HashMap;
-
-public class DImpMinus {	public static int clines = 0;
-}PARSER_END(DImpMinus)SKIP :
-{
-  " "
-| "\r"
-| "\t"
-| "\n"
-}
-
-TOKEN:
-{
-	< TK_IF : "if" >
-| 	< TK_WHILE : "while" >
-| 	< TK_ELSE  : "else">
-| 	< TK_RAND : "rand" > 
-| 	< TK_SEMICOLON : ";" >
-| 	< TK_LGPAR : "{" >
-| 	< TK_RGPAR : "}" >
-| 	< TK_LPAR : "(" >
-| 	< TK_RPAR : ")" >
-| 	< TK_FUNCTION : "function" >
-| 	< ID: ["a"-"z","A"-"Z","_"] ( ["a"-"z","A"-"Z","_","0"-"9"] )* >
-
-}
-
-TOKEN:
-{
- < ANY: "(" (~["\n","\r"])* ")"   >
-}
-
-
-String DImp() :
-{
-  Token t;
-}
-{
-    < TK_SEMICOLON >  { return ";"; }
-| 	< TK_ELSE > < TK_LGPAR > { return ";"; }
-|  	< TK_LGPAR > { return "{"; }
-| 	< TK_RGPAR > { return "}"; }
-|  	< TK_LPAR > { return "("; }
-| 	< TK_RPAR > { return ")"; }
-| 	(t = < ANY >) < TK_RGPAR > { return t.image; }
-|	< TK_IF > < TK_LPAR > { return ";"; }
-| 	< TK_WHILE > < TK_LPAR > { return ";"; }
-| 	< TK_FUNCTION > < ID > (t = < ANY >) < TK_LGPAR > { return "{"; }
-}
-
-

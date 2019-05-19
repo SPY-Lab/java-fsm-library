@@ -12,14 +12,6 @@ public class GroundCoeff extends RegularExpression {
 		this.string = s;
 	}
 
-	/*@Override
-	public RegularExpression replace(RegularExpression e, RegularExpression with) {
-		if(string.equals(with.toString())){
-			string = with.toString();
-		}
-		return this;
-	}*/
-
 	@Override
 	public RegularExpression remove(RegularExpression e) {
 		if(this.equals(e)){
@@ -107,10 +99,5 @@ public class GroundCoeff extends RegularExpression {
 	@Override
 	public RegularExpression simplify() {
 		return this;
-	}
-
-	@Override
-	public String getProgram() {
-		return string;
 	}
 }

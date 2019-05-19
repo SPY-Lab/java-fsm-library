@@ -184,11 +184,4 @@ public class Comp extends RegularExpression {
 
 		return new Comp(first.simplify(),second.simplify());
 	}
-
-	@Override
-	public String getProgram() {
-		StringBuilder a = new StringBuilder(first.getProgram());
-		StringBuilder b = new StringBuilder(second.getProgram());
-		return a.append(b).toString();
-	}
 }

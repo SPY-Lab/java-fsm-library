@@ -2,8 +2,6 @@ package it.univr.fsm.equations;
 
 import java.util.Vector;
 
-import it.univr.fsm.config.Config;
-import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
 
 public class Star extends RegularExpression {
@@ -111,13 +109,6 @@ public class Star extends RegularExpression {
 		return this.equals(e) ? this : null;
 	}
 
-	/*
-        @Override
-        public RegularExpression replace(RegularExpression e, RegularExpression with) {
-
-            return new Star(op.replace(e,with));
-        }
-    */
 	@Override
 	public RegularExpression simplify() {
 		if(op.toString().equals(""))
@@ -125,12 +116,5 @@ public class Star extends RegularExpression {
 
 		return new Star(this.op.simplify());
 	}
-	@Override
-	public String getProgram() {
-		int curr = Config.GEN;
-		Config.GEN++;		
-		String program = op.getProgram();
-		
-		return "var g" + curr + " = Math.random(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(program) ? program : ";" ) + " g" + curr + "=rand(); }";
-	}
+	
 }
