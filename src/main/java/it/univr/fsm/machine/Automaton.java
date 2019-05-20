@@ -1918,8 +1918,6 @@ public class Automaton {
 
 			this.states.add(mergedMacroState);
 
-			//			if(isInitialState)
-			//				this.initialState = mergedMacroState;
 
 			for(State s : macroState)
 				automatonStateBinding.put(s, mergedMacroState);
@@ -1991,65 +1989,6 @@ public class Automaton {
 		Automaton r =  new Automaton(newDelta, newStates);
 		return r;
 	}
-
-
-
-	/**
-	 * Returns the regular expressions associated to this automaton
-	 * using the Brzozowski algebraic method.
-	 */
-
-	/*public RegularExpression toRegex() {
-		Vector<Equation> equations = new Vector<Equation>();
-		for (State s : this.getStates()) {
-			RegularExpression result = null;
-			HashSet<Transition> out = this.getOutgoingTransitionsFrom(s);
-			if (out.size() > 0) {
-				for (Transition t : out) {
-					if (result == null)
-						result = new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo()));
-					else
-						result = new Or(result, new Comp(new GroundCoeff(t.getInput()), new Var(t.getTo())));
-				}
-				equations.add(new Equation(s, result));
-			} else
-				equations.add(new Equation(s, new GroundCoeff("")));
-		}
-		int indexOfInitialState = 0;
-		for (int i = 0; i < equations.size(); ++i) {
-			if (equations.get(i).getLeftSide().isInitialState()) {
-				indexOfInitialState = i;
-				break;
-			}
-			equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
-			if (!equations.get(i).isIndipendent()) {
-				equations.set(i, equations.get(i).syntetize());
-				equations.set(i, new Equation(equations.get(i).getLeftSide(), equations.get(i).getE().simplify()));
-			}
-		}
-		// Fix-point
-		while (!equations.get(indexOfInitialState).getE().isGround()) {
-			for (int i = 0; i < equations.size(); ++i) {
-				for (int j = 0; j < equations.size(); ++j) {
-					if (i == j)
-						continue;
-					// Synthetize the indipendent equations
-					if (!equations.get(j).isIndipendent()) {
-						equations.set(j, equations.get(j).syntetize());
-						equations.set(j, new Equation(equations.get(j).getLeftSide(), equations.get(j).getE().simplify()));
-					}
-					for (int k = 0; k < equations.size(); ++k) 
-						equations.set(k, new Equation(equations.get(k).getLeftSide(), equations.get(k).getE().simplify()));
-					if (!equations.get(j).getE().isGround()) {
-						equations.set(j, new Equation(equations.get(j).getLeftSide(), equations.get(j).getE().replace(equations.get(i).getLeftSide(), equations.get(i).getE())));
-						equations.set(j, equations.get(j).syntetize());
-					}
-				}
-			}
-		}
-		return equations.get(indexOfInitialState).getE().simplify();
-	}*/
-
 
 	/**
 	 * Returns the regular expressions associated to this automaton
@@ -3820,14 +3759,16 @@ public class Automaton {
 
 	public static int indexOf(Automaton a, Automaton other) {
 
+		if (a.isSingleString())
+			a = Automaton.makeRealAutomaton(a.getSingleString());
+	
+		if (other.isSingleString())
+			other = Automaton.makeRealAutomaton(other.getSingleString());
+
+		
 		if(other.equals(Automaton.makeEmptyString())){
 			return 0;
 		}
-		if (a.isSingleString())
-			a = Automaton.makeRealAutomaton(a.getSingleString());
-
-		if (other.isSingleString())
-			other = Automaton.makeRealAutomaton(other.getSingleString());
 
 		if (a.hasCycle() || other.hasCycle()) {
 			return Integer.MAX_VALUE;
@@ -3848,9 +3789,7 @@ public class Automaton {
 		if (a.isSingleString()) {
 			build = Automaton.makeRealAutomaton(a.getSingleString());
 			a = Automaton.makeRealAutomaton(a.getSingleString());
-		}
-		else
-
+		} else
 			build = a.clone();
 
 		for (State s : build.getStates()) {
@@ -3864,12 +3803,11 @@ public class Automaton {
 		int temp;
 
 
-
 		for (State q : build.getStates()) {
 			q.setInitialState(true);
 
 			if (!Automaton.isEmptyLanguageAccepted(Automaton.intersection(build, other))) {
-				temp = a.minimumDijkstra(q).size() - 1;
+				temp = a.maximumDijkstra(q).size() - 1;
 				if(temp < index){
 					index = temp;
 				}
