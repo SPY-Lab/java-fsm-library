@@ -1997,8 +1997,6 @@ public class Automaton {
 
 	public RegularExpression toRegex() {
 
-
-
 		Vector<Equation> equations = new Vector<Equation>();
 
 		HashMap<State, Equation> toSubstitute = new HashMap<>();
@@ -3838,5 +3836,23 @@ public class Automaton {
 		return aut;
 	}
 
+	public static Automaton makeArrayIndexAutomaton() {
 
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+		
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+		
+		states.add(q0);
+		states.add(q1);
+		
+		for (char c = '0'; c < '9'; c++) { 
+			delta.add(new Transition(q0, q1, String.valueOf(c)));
+			delta.add(new Transition(q1, q1, String.valueOf(c)));
+		}
+		
+		return new Automaton(delta, states);
+	}
 }
