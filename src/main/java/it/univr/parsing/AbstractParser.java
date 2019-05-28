@@ -94,15 +94,14 @@ public class AbstractParser {
 				}
 
 				newTransition = new Transition(entry, fresh, regex);
-				r.addTransition(newTransition);	
 			} else {
 				newTransition = new Transition(entry, exit, regex);
-				r.addTransition(newTransition);
 
-				for (Transition t : r.getOutgoingTransitionsFrom(entry))
+				for (Transition t : r.getOutgoingTransitionsFrom(entry)) 
 					r.addTransition(new Transition(exit, t.getTo(), t.getInput()));
 			}
 
+			r.addTransition(newTransition);
 
 			HashSet<Transition> ts = new HashSet<Transition>();
 
@@ -227,36 +226,36 @@ public class AbstractParser {
 							if (tr.getRight().equals(tr1.getLeft()))
 								notAnExitPoint = true;
 						}
-						
+
 						if (!notAnEntryPoint)
 							entryPoints.add(tr.getLeft());
-						
+
 						if (!notAnExitPoint)
 							exitPoints.add(tr.getRight());
 					}
 
 					HashSet<State> fakeExitStates = new HashSet<State>();
-					
+
 					for (State exit : exitPoints)
 						for (State exitP : exitPoints)
 							for (Transition t : a.getIncomingTransitionsTo(exitP))
 								if (t.getFrom().equals(exit))
 									fakeExitStates.add(exit);
-									
+
 					exitPoints.removeAll(fakeExitStates);
-										
+
 					State freshEntryState = new State("f" + freshInt++, false, false);
 
-//					HashMap<State, State> mapping = new HashMap<State, State>();
+					//					HashMap<State, State> mapping = new HashMap<State, State>();
 
 					for (Triple<State, String, State> body : pbodies) {	
 						State freshExitLoop = new State("f" + freshInt++, false, false);
 
-//						if (mapping.get(body.getLeft()) != null)
-//							freshExitLoop = mapping.get(body.getLeft()); 
-//						else {
-//							mapping.put(body.getLeft(), freshExitLoop);
-//						}					
+						//						if (mapping.get(body.getLeft()) != null)
+						//							freshExitLoop = mapping.get(body.getLeft()); 
+						//						else {
+						//							mapping.put(body.getLeft(), freshExitLoop);
+						//						}					
 
 						if (entryPoints.contains(body.getLeft())) {
 

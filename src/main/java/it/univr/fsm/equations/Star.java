@@ -131,6 +131,6 @@ public class Star extends RegularExpression {
 		Config.GEN++;		
 		String program = op.getProgram();
 		
-		return "var g" + curr + " = Math.random(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(program) ? program : ";" ) + " g" + curr + "=rand(); }";
+		return "var g" + curr + " = Math.random(); while (g" + curr  + " == 1) {" + (Automaton.isJSExecutable(program) ? program : ";" ) + " g" + curr + "=Math.random(); }";
 	}
 }

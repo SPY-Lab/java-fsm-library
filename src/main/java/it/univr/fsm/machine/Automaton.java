@@ -3,6 +3,7 @@ package it.univr.fsm.machine;
 import it.univr.fsm.equations.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.tuple.Triple;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.IRFactory;
@@ -107,7 +108,7 @@ public class Automaton {
 							isSCC = true;
 							break;
 						}
-				
+
 				if (!isSCC)
 					toRemove.add(scc);
 			}
@@ -160,24 +161,24 @@ public class Automaton {
 
 		HashSet<State> scc = new HashSet<State>();
 		State exit = null;
-		
+
 		int i = 0;
-		
+
 		if (lowlink.get(v) == indexes.get(v)) {
-			
+
 			// Start a new strongly connected component
 			State w = null;
-			
+
 			do {
-				
-				
+
+
 				w = stack.pop();
 				onStack.put(w, false);
 				scc.add(w);
-				
+
 				if (i++ == 0)
 					exit = w;
-				
+
 			} while (!(w.equals(v)));
 		}
 		i = 0;
@@ -190,18 +191,13 @@ public class Automaton {
 	public static void main(String[] args) {
 
 
-		Automaton a = Automaton.concat(Automaton.makeRealAutomaton("x=57"), Automaton.star(Automaton.makeRealAutomaton("57")));
+		Automaton a = Automaton.star("x=");
+		a = Automaton.concat(a, Automaton.star("5"));
 		a = Automaton.concat(a, Automaton.makeRealAutomaton(";"));
 
-		a.minimize();
 
-		a = Automaton.star(Automaton.makeAutomaton("x=1;"));
-		System.out.println(a.automatonPrint());
 
-		//        Automaton a= Automaton.star(Automaton.union(Automaton.makeAutomaton(“x=2;y=0;“), Automaton.makeAutomaton(“x=1;y=0;“)));
-		Automaton result = a.stmSyn();
-		result.minimize();
-		//        System.out.println(result.automatonPrint());
+		System.err.println(a.stmSyn().automatonPrint());
 	}
 
 	/**
@@ -276,14 +272,18 @@ public class Automaton {
 	 * @return a boolean
 	 */
 	public static boolean isDeterministic(Automaton a){
-		for(State s: a.states){
+
+		for(State s: a.getStates()){
 			HashSet<Transition> outgoingTranisitions = a.getOutgoingTransitionsFrom(s);
 			for(Transition t: outgoingTranisitions){
 				if (t.getInput().isEmpty()) return false;
 
 				for(Transition t2: outgoingTranisitions) {
-					if (t2.getInput().isEmpty()) return false;
-					if(!t.getTo().equals(t2.getTo()) && t.getInput().equals(t2.getInput())) return false; 
+					if (t2.getInput().isEmpty()) 
+						return false;
+
+					if (!t.getTo().equals(t2.getTo()) && t.getInput().equals(t2.getInput())) 
+						return false; 
 				}
 			}
 		}
@@ -1138,7 +1138,7 @@ public class Automaton {
 
 		return result;
 	}
-	
+
 	public boolean removeTransition(Transition t) {
 		if (delta.contains(t)) {
 			delta.remove(t);
@@ -1147,7 +1147,7 @@ public class Automaton {
 
 		return false;
 	}
-	
+
 	public void removeTransitions(HashSet<Transition> ts) {
 		delta.removeAll(ts);
 	}
@@ -2507,7 +2507,16 @@ public class Automaton {
 
 	public HashMultimap<String, State> build(State q) {
 		HashMultimap<String, State> Iq = HashMultimap.create();
-		build_tr(q, "", new HashSet<Transition>(), Iq);
+
+		MutableBoolean notExe = new MutableBoolean(false);
+
+		build_tr(q, "", new HashSet<Transition>(), Iq, notExe);
+
+		if (notExe.booleanValue()) {
+			Iq = HashMultimap.create();
+			Iq.put("Error", new State("error", false, false));
+		}
+
 		return Iq;
 	}
 
@@ -2592,7 +2601,7 @@ public class Automaton {
 	//		}
 	//	}
 
-	private void build_tr(State q, String stm, HashSet<Transition> mark, HashMultimap<String, State> Iq) {
+	private void build_tr(State q, String stm, HashSet<Transition> mark, HashMultimap<String, State> Iq, MutableBoolean notExe) {
 
 		HashMultimap<String, State> delta_q = HashMultimap.create();
 
@@ -2624,7 +2633,7 @@ public class Automaton {
 					HashSet<Transition> markTemp = (HashSet<Transition>) mark.clone();
 					markTemp.add(new Transition(q, p, sigma));
 
-					build_tr(p, stm + sigma, markTemp, Iq);
+					build_tr(p, stm + sigma, markTemp, Iq, notExe);
 				} 
 
 				if (isPuntaction(sigma)) 
@@ -2633,7 +2642,9 @@ public class Automaton {
 				if (p.isFinalState() && isJS(stm + sigma)) 
 					Iq.put(stm + sigma, p);
 
-			}		
+			} else {
+				notExe.setTrue();
+			}
 		}
 	}
 
@@ -2654,17 +2665,17 @@ public class Automaton {
 		HashSet<State> visited = new HashSet<State>();
 		visited.add(q0);
 
-		stmSyn_tr(q0, Q_first, F_first, delta, visited);
-
-
-		Automaton a = new Automaton(delta, Q_first);
-
+		Automaton a;
+		if(stmSyn_tr(q0, Q_first, F_first, delta, visited))
+			a = new Automaton(delta, Q_first);
+		else
+			a = Automaton.makeEmptyLanguage();
+		
 		return a; 
 	}
 
 
-	private void stmSyn_tr(State q, HashSet<State> q_first, HashSet<State> f_first, HashSet<Transition> delta, HashSet<State> visited) {
-
+	private boolean stmSyn_tr(State q, HashSet<State> q_first, HashSet<State> f_first, HashSet<Transition> delta, HashSet<State> visited) {
 		/*State next = null;
 		if (q.isInitialState()) {
 			for (Transition t : this.getOutgoingTransitionsFrom(q))
@@ -2673,6 +2684,9 @@ public class Automaton {
 			next = q;*/
 
 		HashMultimap<String, State> B = build(q);
+
+		if (B.containsEntry("Error", new State("error", false, false)))
+			return false;
 
 		visited.add(q);
 		HashSet<State> W = new HashSet<State>();
@@ -2692,10 +2706,13 @@ public class Automaton {
 		W.removeAll(visited);
 
 		for (State p : W) 
-			stmSyn_tr(p, q_first, f_first, delta, visited);
+			if (!stmSyn_tr(p, q_first, f_first, delta, visited))
+				return false;
+
+		return true;
 	}
 
-	private boolean dfs(State current, Set<State> whiteSet, Set<State> graySet, Set<State> blackSet ) {
+	private boolean dfs(State current, Set<State> whiteSet, Set<State> graySet, Set<State> blackSet) {
 		//move current to gray set from white set and then explore it.
 		moveVertex(current, whiteSet, graySet);
 		for(Transition t : getOutgoingTransitionsFrom(current)) {
@@ -2938,7 +2955,7 @@ public class Automaton {
 			newDelta.add(new Transition(mapping.get(fromPartition), mapping.get(toPartition), t.getInput()));
 
 		}
-		
+
 		return new Automaton(newDelta, newStates);
 	}
 
@@ -3009,7 +3026,7 @@ public class Automaton {
 	public void addState(State s) {
 		states.add(s);
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.prettyPrint();
@@ -3761,6 +3778,8 @@ public class Automaton {
 	}
 
 	public static Automaton trimLeft(Automaton a){
+		
+		
 		boolean notSpace = false;
 
 		a.minimize();
