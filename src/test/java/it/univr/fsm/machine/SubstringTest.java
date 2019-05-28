@@ -81,8 +81,34 @@ public class SubstringTest {
 		Automaton expectedResult = Automaton.union(automata);
 		
 		assertTrue(result.equals(expectedResult));
+	}
+	
+	@Test
+	public void substringTest6() {
+
+		Automaton a = Automaton.makeAutomaton("a");
+		Automaton b = Automaton.makeAutomaton("b");
+		Automaton c = Automaton.makeAutomaton("c");
 		
+		Automaton d = Automaton.star(Automaton.union(a,b,c));
 		
+		Automaton automata = Automaton.concat(Automaton.union(a,b,c),d);
 		
+		HashSet<Automaton> aut = new HashSet<>();
+		aut.add(Automaton.makeAutomaton("aa"));
+		aut.add(Automaton.makeAutomaton("bb"));		
+		aut.add(Automaton.makeAutomaton("cc"));		
+		aut.add(Automaton.makeAutomaton("ab"));		
+		aut.add(Automaton.makeAutomaton("ac"));		
+		aut.add(Automaton.makeAutomaton("bc"));		
+		aut.add(Automaton.makeAutomaton("ba"));		
+		aut.add(Automaton.makeAutomaton("ca"));		
+		aut.add(Automaton.makeAutomaton("cb"));		
+		aut.add(Automaton.makeAutomaton("a"));		
+		aut.add(Automaton.makeAutomaton("b"));		
+		aut.add(Automaton.makeAutomaton("c"));
+		
+		Automaton expectedResult = Automaton.union(aut);	
+		assertTrue(Automaton.substring(automata, 0, 2).equals(expectedResult));
 	}
 }

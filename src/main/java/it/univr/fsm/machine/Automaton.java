@@ -2504,7 +2504,7 @@ public class Automaton {
 				if (isPuntaction(sigma)) 
 					Iq.put(stm + sigma, p);
 
-				if (p.isFinalState() && isJS(stm + sigma)) 
+				if (p.isFinalState()) 
 					Iq.put(stm + sigma, p);
 
 			}		
@@ -3073,6 +3073,7 @@ public class Automaton {
 
 	public static boolean isJSExecutable(String js) {
 
+		
 		try {
 			CompilerEnvirons env = new CompilerEnvirons();
 			env.setRecoverFromErrors(true);
@@ -3337,9 +3338,9 @@ public class Automaton {
 	}
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-		//			Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-		//			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
-		return Automaton.su(automaton, i);
+					Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+					return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
+		//return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
