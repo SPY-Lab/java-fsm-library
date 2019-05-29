@@ -48,14 +48,15 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.makeRealAutomaton("panda");
+		Automaton a = Automaton.star(Automaton.makeRealAutomaton("a"));
+
+
 
 		Automaton b = Automaton.reverse(a);
 		b.minimize();
 
-		System.out.println(b.automatonPrint());
 
-		System.out.println(Automaton.star(a));
+		System.out.println(Automaton.singleSubstring(a, 0));
 	}
 
 	/**
@@ -220,6 +221,9 @@ public class Automaton {
 		return a;
 	}
 
+	public boolean isEmptyString() {
+		return equals(Automaton.makeEmptyString());
+	}
 
 
 	/**
@@ -1586,6 +1590,9 @@ public class Automaton {
 	 */
 	public void minimize() {
 
+		if (isSingleString())
+			return;
+		
 		if (!isDeterministic(this)) {
 			Automaton a = this.determinize();
 			this.delta = a.delta;
@@ -2969,6 +2976,21 @@ public class Automaton {
 			Automaton a = isSingleString() ? Automaton.makeRealAutomaton(getSingleString()) : clone();
 			Automaton b =  ((Automaton) other).isSingleString() ? Automaton.makeRealAutomaton(((Automaton) other).getSingleString()) : ((Automaton) other).clone();
 
+			a.minimize();
+			b.minimize();
+			
+			if (a.hasCycle() && !b.hasCycle() || !a.hasCycle() && b.hasCycle())
+				return false;
+			
+			if (!a.hasCycle() && !b.hasCycle()) {
+				HashSet<String> aL = a.getLanguage();
+				HashSet<String> bL = b.getLanguage();
+
+				return aL.equals(bL);
+			}
+		
+			
+			
 			Automaton first = Automaton.intersection(a, Automaton.complement(b));
 
 			first.removeUnreachableStates();
@@ -3073,7 +3095,7 @@ public class Automaton {
 
 	public static boolean isJSExecutable(String js) {
 
-		
+
 		try {
 			CompilerEnvirons env = new CompilerEnvirons();
 			env.setRecoverFromErrors(true);
@@ -3338,8 +3360,8 @@ public class Automaton {
 	}
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-					Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-					return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
+		Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
 		//return Automaton.su(automaton, i);
 	}
 
@@ -3355,6 +3377,27 @@ public class Automaton {
 		}
 
 		return Automaton.suffixesAt(initIndex, a);
+	}
+
+	public static Automaton singleSubstring(Automaton a, long i) {	
+
+		long initPoint = i < 0 ? 0 : i ;
+
+		if (a.isSingleString()) {
+			String s = a.getSingleString();
+
+			if (initPoint >= s.length())
+				if (initPoint >= s.length())
+					return Automaton.makeEmptyString();
+
+			return Automaton.makeAutomaton(s.substring((int) initPoint));
+
+		}
+
+
+		Automaton left = Automaton.suffixesAt(initPoint, a);	
+
+		return Automaton.rightQuotient(left,  Automaton.makeRealAutomaton(""));
 	}
 
 
