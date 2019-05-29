@@ -3172,6 +3172,8 @@ public class Automaton {
 
 		int i = 0;
 		a = Automaton.explodeAutomaton(a);
+        //visualizeAutomaton.show(a, "exp");
+
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
@@ -3204,12 +3206,30 @@ public class Automaton {
 		return result;
 	}
 
+    /**
+     * Method that expands self-transitions
+     * ex. states : s0, initial and final state
+     *     transitions: s0, s0, a
+     * @param a
+     * @return states: s0, initial and final state
+     *                 s1 final state
+     *         transitions: s0, s1, a
+     *                      s1, s1, a
+     */
 	public static Automaton explodeAutomaton(Automaton a){
-		HashMap<State, String> selfT = new HashMap<>();
+		HashMap<State, ArrayList<String>>selfT = new HashMap<>();
 
 		for(Transition t : a.getDelta()){
 			if(t.getTo() == t.getFrom()){
-				selfT.put(t.getFrom(), t.getInput());
+			    if(selfT.containsKey(t.getTo())){
+			        selfT.get(t.getTo()).add(t.getInput());
+                }
+			    else{
+			        ArrayList<String> list = new ArrayList<>();
+			        list.add(t.getInput());
+                    selfT.put(t.getFrom(), list);
+                }
+
 			}
 		}
 
@@ -3238,8 +3258,12 @@ public class Automaton {
 					}
 				}
 
-				delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
-				delta.add(new Transition(s, s, selfT.get(s)));
+				//aggiunge gli autoanelli e i duplicati degli autoanelli da s a s'
+                for(String input: selfT.get(s)) {
+                    delta.add(new Transition(doubleState.get(s), s, input));
+                    delta.add(new Transition(s, s, input));
+                }
+
 			}
 
 			HashSet<State> states = (HashSet<State>)a.getStates().clone();
@@ -4018,7 +4042,7 @@ public class Automaton {
 			return FALSE;
 		}
 
-		if(other.hasCycle() || a.hasCycle()) {
+		if(other.hasCycle()) {
 			return TOPBOOL;
 		}
 
@@ -4106,7 +4130,7 @@ public class Automaton {
 		return Automaton.makeRealAutomaton(s);
 	}
 
-	public static Automaton repeat(Automaton a, long i){
+	public static Automaton repeat(Automaton a, long i) {
 
 		if(i < 0){
 			//todo should return OUT OF RANGE EXCEPTION
@@ -4128,7 +4152,7 @@ public class Automaton {
 			Automaton temp = Automaton.makeRealAutomaton(s);
 			Automaton tempResult = temp.clone();
 
-			if(i == Integer.MAX_VALUE){
+			if (i == Integer.MAX_VALUE){
 				tempResult = Automaton.makeCyclic(temp);
 			}else {
 				for (int k = 1; k < i; k++) {
@@ -4528,7 +4552,7 @@ public class Automaton {
             }
         }*/
 
-        HashSet<Automaton> partialResult = new HashSet<>();
+		HashSet<Automaton> partialResult = new HashSet<>();
 
 		for(String s: a.getLanguage()){
 			Automaton searchIn = Automaton.makeRealAutomaton(s);
@@ -4538,18 +4562,26 @@ public class Automaton {
 				partialResult.add(searchIn);
 			}
 		}
+		for(String s: a.getLanguage()){
+			Automaton searchIn = Automaton.makeRealAutomaton(s);
+			Automaton in = Automaton.intersection(Automaton.factors(searchIn), intersection);
+			partialResult.addAll(searchIn.makeReplacement(in, replaceWith));
+			if(!in.equals(searchFor)){
+				partialResult.add(searchIn);
+			}
+		}
 
 		Automaton result = Automaton.union(partialResult);
-        return result;
+		return result;
 
-        /*if(intersection.equals(searchFor)){
+		/*if(intersection.equals(searchFor)){
             return result;
         }
 
 		return Automaton.union(result, a);
 	}
         return Automaton.union(result, a);*/
-    }
+	}
 
 	/**
 	 *
@@ -4563,8 +4595,8 @@ public class Automaton {
 		int length;
 
 
-        for(String s: searchFor.getLanguage()){
-            Automaton search = makeRealAutomaton(s);
+		for(String s: searchFor.getLanguage()){
+			Automaton search = makeRealAutomaton(s);
 
 			if(search.equals(Automaton.makeEmptyString())){
 				temp = search;
@@ -4593,15 +4625,15 @@ public class Automaton {
 		if(other.equals(Automaton.makeEmptyString())){
 			return 0;
 		}
-        if (a.isSingleString())
-            a = Automaton.makeRealAutomaton(a.getSingleString());
+		if (a.isSingleString())
+			a = Automaton.makeRealAutomaton(a.getSingleString());
 
-        if (other.isSingleString())
-            other = Automaton.makeRealAutomaton(other.getSingleString());
+		if (other.isSingleString())
+			other = Automaton.makeRealAutomaton(other.getSingleString());
 
-        if (a.hasCycle() || other.hasCycle()) {
-            return Integer.MAX_VALUE;
-        }
+		if (a.hasCycle() || other.hasCycle()) {
+			return Integer.MAX_VALUE;
+		}
 
 		Automaton intersection = Automaton.intersection(Automaton.factors(a), other);
 		if (Automaton.isEmptyLanguageAccepted(intersection)) {
@@ -4619,7 +4651,7 @@ public class Automaton {
 			build = Automaton.makeRealAutomaton(a.getSingleString());
 			a = Automaton.makeRealAutomaton(a.getSingleString());
 		}
-			else
+		else
 
 			build = a.clone();
 
@@ -4648,6 +4680,26 @@ public class Automaton {
 			q.setInitialState(false);
 		}
 		return index;
+	}
+
+	public static Automaton chars(Automaton a) {
+		a.minimize();
+
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State qf = new State("qf", false, true);
+
+		states.add(q0);
+		states.add(qf);
+
+		for (Transition t : a.getDelta())
+			delta.add(new Transition(q0, qf, t.getInput()));
+
+		Automaton aut = new Automaton(delta, states);
+		aut.minimize();
+		return aut;
 	}
 
 
