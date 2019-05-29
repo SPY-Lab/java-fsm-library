@@ -4538,14 +4538,6 @@ public class Automaton {
 				partialResult.add(searchIn);
 			}
 		}
-        for(String s: a.getLanguage()){
-            Automaton searchIn = Automaton.makeRealAutomaton(s);
-            Automaton in = Automaton.intersection(Automaton.factors(searchIn), intersection);
-            partialResult.addAll(searchIn.makeReplacement(in, replaceWith));
-            if(!in.equals(searchFor)){
-                partialResult.add(searchIn);
-            }
-        }
 
 		Automaton result = Automaton.union(partialResult);
         return result;
