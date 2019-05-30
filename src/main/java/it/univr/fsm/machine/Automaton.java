@@ -28,6 +28,9 @@ import com.google.common.collect.HashMultimap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -54,8 +57,6 @@ public class Automaton {
 
 		Automaton b = Automaton.reverse(a);
 		b.minimize();
-
-
 		System.out.println(Automaton.singleSubstring(a, 0));
 	}
 
@@ -200,6 +201,10 @@ public class Automaton {
 	 */
 	public static boolean isEmptyLanguageAccepted(Automaton automaton) {
 		automaton.minimize();
+		
+		if (automaton.isSingleString())
+			return false;
+		
 		return automaton.getFinalStates().isEmpty(); //&& !automaton.states.isEmpty();
 	}
 
@@ -438,6 +443,12 @@ public class Automaton {
 				return Automaton.makeEmptyLanguage();
 
 		}
+		
+		if (first.isSingleString())
+			return second.run(first.getSingleString()) ? first : Automaton.makeEmptyLanguage();
+		
+		if (second.isSingleString())
+			return first.run(second.getSingleString()) ? second : Automaton.makeEmptyLanguage();
 
 		// !(!(first) u !(second))
 		Automaton notFirst = Automaton.complement(first);
@@ -2681,6 +2692,9 @@ public class Automaton {
 	 * @return an HashSet of final states.
 	 */
 	public HashSet<State> getFinalStates() {
+		
+		assertTrue(!isSingleString());
+		
 		HashSet<State> result = new HashSet<State>();
 
 		for (State s : this.states) 
@@ -3719,65 +3733,32 @@ public class Automaton {
 	}
 
 	public static Automaton trimLeft(Automaton a){
-		boolean notSpace = false;
+		Automaton result = a.clone();
 
-		if (a.isSingleString()){
-			a = Automaton.makeRealAutomaton(a.getSingleString());
-		}
-		a.minimize();
+		boolean todoagain = true;
 
-		for(Transition t : a.getDelta()){
-			if(!t.getInput().equals(" ")){
-				notSpace = true;
+		while (todoagain) {
+
+			for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
+				if (t.getInput().equals(" "))
+					t.setInput("");
 			}
+
+			result.minimize();
+
+			boolean b = false;
+			for (Transition t : result.getOutgoingTransitionsFrom(result.getInitialState())){
+				if (t.getInput().equals(" "))
+					b = true;
+			}
+
+			if (b == false)
+				break;
 		}
 
-		if (notSpace == false){
-			return makeEmptyString();
-		}
-
-		Automaton clone = a.clone();
-
-		HashSet<Transition> delta = (HashSet<Transition>)clone.getDelta().clone();
-		a.auxTrimLeft(delta, clone.getInitialState());
-		Automaton result = new Automaton(delta, clone.getStates());
-		result.minimize();
 
 		return result;
 	}
-
-	private void auxTrimLeft(HashSet<Transition> delta, State currentState){
-
-		for(Transition t: getOutgoingTransitionsFrom(currentState)){
-			if(t.getInput().equals(" ")){
-				delta.remove(t);
-				//if it is not a selftransition
-				if (!t.getTo().equals(currentState)) {
-					auxTrimLeft(delta, t.getTo());
-				}
-			}else{
-				delta.add(new Transition(this.getInitialState(), t.getFrom(), ""));
-			}
-		}
-	}
-
-	/*public static Automaton trimRight(Automaton a){
-	    Automaton b = new Automaton((HashSet<Transition>)a.getDelta().clone(), (HashSet<State>)a.getStates().clone());
-	    b.reverse();
-	    b.determinize();
-	    b.minimize();
-        //visualizeAutomaton.show(b, "reverse");
-	    Automaton result = Automaton.trimLeft(b);
-        System.out.println("trimleft -> " + result);
-        visualizeAutomaton.show(result, "result");
-	    result.reverse();
-        visualizeAutomaton.show(result, "reverse");
-	    //result.determinize();
-        //visualizeAutomaton.show(result, "determinize");
-
-	    return result;
-
-    }*/
 
 	public static Automaton trimRight(Automaton a){
 
