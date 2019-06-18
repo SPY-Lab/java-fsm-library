@@ -460,15 +460,9 @@ public class AbstractParser {
 
 									stmts.add(Triple.of(freshTrueEntryState , "!(" + b.getKey(), freshFalseBodyEntryState));
 
-									//									stmts.add(Triple.of(q.equals(falseBody.getRight()) ? freshExitIf : q , "", freshFalseEntryState));
-									//									stmts.add(Triple.of(q, "!(" + b.getKey(), freshFalseBodyEntryState));
-
 
 									for (Triple<State, String, State> tr : pFalseBodies) {
 										Triple<State, String, State> trToAdd = tr;
-
-										//										if (pfalseExitPoints.contains(trToAdd.getLeft()))
-										//											trToAdd = Triple.of(freshExitIf, trToAdd.getMiddle(), trToAdd.getRight());
 
 										if (pfalseExitPoints.contains(trToAdd.getRight()))
 											trToAdd = Triple.of(trToAdd.getLeft(), trToAdd.getMiddle(), freshExitIf);
@@ -479,6 +473,7 @@ public class AbstractParser {
 										triplesToAdd.add(trToAdd);
 
 									}
+									
 									for (Transition t: a.getOutgoingTransitionsFrom(falseBody.getRight()))
 										if (pfalseExitPoints.contains(falseBody.getRight()))
 											stmts.add(Triple.of(freshExitIf, "", t.getTo().equals(falseBody.getRight()) ? freshExitIf : t.getTo()));					

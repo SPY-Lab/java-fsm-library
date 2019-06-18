@@ -3418,11 +3418,19 @@ public class Automaton {
 	}
 
 	public static Automaton explodeAutomaton(Automaton a){
-		HashMap<State, String> selfT = new HashMap<>();
+		HashMap<State, ArrayList<String>>selfT = new HashMap<>();
 
 		for(Transition t : a.getDelta()){
 			if(t.getTo() == t.getFrom()){
-				selfT.put(t.getFrom(), t.getInput());
+			    if(selfT.containsKey(t.getTo())){
+			        selfT.get(t.getTo()).add(t.getInput());
+                }
+			    else{
+			        ArrayList<String> list = new ArrayList<>();
+			        list.add(t.getInput());
+                    selfT.put(t.getFrom(), list);
+                }
+
 			}
 		}
 
@@ -3451,8 +3459,12 @@ public class Automaton {
 					}
 				}
 
-				delta.add(new Transition(doubleState.get(s), s, selfT.get(s)));
-				delta.add(new Transition(s, s, selfT.get(s)));
+				//aggiunge gli autoanelli e i duplicati degli autoanelli da s a s'
+                for(String input: selfT.get(s)) {
+                    delta.add(new Transition(doubleState.get(s), s, input));
+                    delta.add(new Transition(s, s, input));
+                }
+
 			}
 
 			HashSet<State> states = (HashSet<State>)a.getStates().clone();

@@ -1,5 +1,6 @@
 package it.univr.fsm.machine;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -109,6 +110,6 @@ public class SubstringTest {
 		aut.add(Automaton.makeAutomaton("c"));
 		
 		Automaton expectedResult = Automaton.union(aut);	
-		assertTrue(Automaton.substring(automata, 0, 2).equals(expectedResult));
+		assertEquals(Automaton.substring(automata, 0, 2), (expectedResult));
 	}
 }
