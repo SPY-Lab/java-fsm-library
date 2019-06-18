@@ -447,6 +447,7 @@ public class SliceTest2 {
         State q01 = new State("q1", false, false);
         State q02 = new State("q2", false, true);
         State q03 = new State("q3", false, true);
+        
         statesR.add(q00);
         statesR.add(q01);
         statesR.add(q02);
