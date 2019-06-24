@@ -14,6 +14,54 @@ public class AbstractParser {
 
 	public int freshInt = 0; 
 
+	
+	public static void main(String[] args) {
+		AbstractParser parser = new AbstractParser();
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=5;"), Automaton.makeRealAutomaton("x=1;"));
+
+		Automaton psfa = parser.reduceProgram(a);
+		Automaton sfa = parser.toASFA(psfa);
+		
+		System.err.println(sfa);
+	}
+	
+	public Automaton toASFA(Automaton aut) {
+		
+		Automaton result = aut.clone();
+		
+		OmegaPredicate omega = new OmegaPredicate();
+		omega.add(new OmegaAssignmentPredicate("x", "+"));
+		omega.add(new OmegaAssignmentPredicate("x", "-"));
+		
+		HashSet<Transition> modified = new HashSet<Transition>();
+		
+		for (Transition t : aut.getDelta())
+			for (SingleOmegaPredicate o : omega) {
+				
+				if (Automaton.isContained(parseRegex(t.getInput()), o.evaluate()) && !modified.contains(t)) {
+					modified.add(t);
+					t.setInput(o.toString());
+				}
+		
+			}
+		
+		return result;
+	}
+	
+	private Automaton parseRegex(String regex) {
+		
+		Automaton result = null;
+		
+		if (regex.contains("*")) {
+			//TODO
+		} else {
+			result = Automaton.makeRealAutomaton(regex.replace(" ", ""));
+		}
+		
+		return result;
+	}
+	
+	
 	public String buildRestrictedRegex(Automaton a, Triple<HashSet<State>, State, State> scc) {
 
 		State entry = scc.getMiddle();
@@ -613,9 +661,10 @@ public class AbstractParser {
 			case "+":  
 			case "*":  
 			case "-":  
-			case "/": 
 			case "<":
 			case ">":
+			case "&":
+			case "|":
 
 				pexps = reduceExpression(a, t.getTo(), opcl);
 
