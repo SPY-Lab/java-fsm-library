@@ -143,7 +143,18 @@ public class Comp extends RegularExpression {
 		 * This fixes the "unsoundness problem"
 		 */
 		if (this.second instanceof Or) {
-			return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
+
+			if (this.second.simplify() instanceof Or)
+				return new Or(new Comp(this.first, ((Or)this.second.simplify()).first), new Comp(this.first, ((Or)this.second.simplify()).second));
+		
+			if (this.first instanceof GroundCoeff && this.second instanceof Or &&
+					((Or) this.second).first instanceof GroundCoeff && ((Or) this.second).second instanceof GroundCoeff )
+				
+				return new Or(new GroundCoeff(this.first.toString() + ((Or) this.second).first.toString()), 
+						new GroundCoeff(this.first.toString() + ((Or) this.second).second.toString()));
+			else
+				return new Comp(first.simplify(),second.simplify());
+			
 		}
 
 		

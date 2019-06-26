@@ -355,4 +355,156 @@ public class SingleAssignmentTest {
 		
 		assertEquals(new Automaton(delta,states), realResult); 
 	}
+
+	@Test
+	public void singleAssignmentTest016() {
+		
+		Automaton a = Automaton.makeRealAutomaton("x=true;");
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = true;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+	@Test
+	public void singleAssignmentTest017() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=true;"), Automaton.makeRealAutomaton("x=false;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = true;"));
+		delta.add(new Transition(q0, q1, "x = false;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+
+	@Test
+	public void singleAssignmentTest018() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=true;"), Automaton.makeRealAutomaton("y=false;"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = true;"));
+		delta.add(new Transition(q0, q1, "y = false;"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+
+	@Test
+	public void singleAssignmentTest019() {
+		
+		Automaton a = Automaton.makeRealAutomaton("x=\"a\";");
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = \"a\";"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+	@Test
+	public void singleAssignmentTest020() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=\"a\";"), Automaton.makeRealAutomaton("x=\"b\";"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = \"a\";"));
+		delta.add(new Transition(q0, q1, "x = \"b\";"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+	@Test
+	public void singleAssignmentTest021() {
+		
+		Automaton a = Automaton.union(Automaton.makeRealAutomaton("x=\"a\";"), Automaton.makeRealAutomaton("y=\"b\";"));
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = \"a\";"));
+		delta.add(new Transition(q0, q1, "y = \"b\";"));
+		
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
+	
+
+	@Test
+	public void singleAssignmentTest022() {
+		
+		Automaton a = Automaton.makeRealAutomaton("x=\"a\"+\"b\";");
+		
+		Automaton realResult = parser.reduceProgram(a);
+		
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, true);
+
+		states.add(q0);
+		states.add(q1);
+		
+		delta.add(new Transition(q0, q1, "x = \"a\"+\"b\";"));
+				
+		assertEquals(new Automaton(delta,states), realResult); 
+	}
 }
