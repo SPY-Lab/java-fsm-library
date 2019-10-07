@@ -5,6 +5,8 @@ import org.apache.commons.lang3.tuple.*;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
@@ -14,29 +16,31 @@ public class AbstractParser {
 
 	public int freshInt = 0; 
 
-	
+
 	public static void main(String[] args) {
 		AbstractParser parser = new AbstractParser();
-		Automaton a =  Automaton.makeRealAutomaton("if(x<5){x=-1;}else{x=1;}");
+		Automaton five = Automaton.concat(Automaton.star("5"), Automaton.makeRealAutomaton(";"));
+		Automaton a = Automaton.concat(Automaton.makeRealAutomaton("x=5"), five);
 
+		a = Automaton.concat(Automaton.makeRealAutomaton("if(x<5){"), a);
+		a = Automaton.concat(a, Automaton.makeRealAutomaton("}else{x=1;}"));
 		Automaton psfa = parser.reduceProgram(a);
 		Automaton sfa = parser.toASFA(psfa);
-		
+
 		System.err.println(sfa);
 	}
-	
+
 	public Automaton toASFA(Automaton aut) {
-		
+
 		Automaton result = aut.clone();
-		
+
 		OmegaPredicate omega = new OmegaPredicate();
 		omega.add(new OmegaAssignmentPredicate("x", "+"));
-		omega.add(new OmegaAssignmentPredicate("x", "-"));
 		omega.add(new OmegaGuardPredicate("x", "<", "5"));
 		omega.add(new OmegaNegatedGuardPredicate("x", "<", "5"));
-		
+
 		HashSet<Transition> modified = new HashSet<Transition>();
-		
+
 		for (Transition t : aut.getDelta())
 			for (SingleOmegaPredicate o : omega) {
 
@@ -44,26 +48,36 @@ public class AbstractParser {
 					modified.add(t);
 					t.setInput(o.toString());
 				}
-		
 			}
-		
+
 		return result;
 	}
-	
+
 	private Automaton parseRegex(String regex) {
-		
+
 		Automaton result = null;
-		
+
 		if (regex.contains("*")) {
-			//TODO
+			Pattern p = Pattern.compile("(\\w)=([-,+]?)(\\d)\\(\\d\\)\\*;");
+			Matcher matcher = p.matcher(regex.replace(" ", ""));
+			
+			matcher.find();
+			
+			if (matcher.group(2).isEmpty() || matcher.group(2).equals("+")) {
+				Automaton a = Automaton.concat(Automaton.star(matcher.group(3)), Automaton.makeAutomaton(";"));
+				a = Automaton.concat(Automaton.makeAutomaton(matcher.group(3)), a);
+				a = Automaton.concat(Automaton.makeAutomaton(matcher.group(1)+ "="), a);
+				result = a;
+			}
+			
 		} else {
 			result = Automaton.makeRealAutomaton(regex.replace(" ", ""));
 		}
-		
+
 		return result;
 	}
-	
-	
+
+
 	public String buildRestrictedRegex(Automaton a, Triple<HashSet<State>, State, State> scc) {
 
 		State entry = scc.getMiddle();
@@ -174,6 +188,8 @@ public class AbstractParser {
 		W.add(a.getInitialState());
 
 		HashSet<State> visited = new HashSet<State>();
+		
+		visited.add(a.getInitialState());
 		do {
 			State q = null;
 
@@ -347,7 +363,6 @@ public class AbstractParser {
 
 				HashMap<String, State> startingTrueBodyState = reduceBooleanGuard(a, reachedState, 1);
 				HashSet<Triple<State, String, State>> triplesToAdd = new HashSet<Triple<State, String, State>>();
-
 				for (Map.Entry<String, State> b : startingTrueBodyState.entrySet()) {
 					HashSet<Triple<State, String, State>> pTrueBodies = reduceStatement(a, b.getValue());
 
@@ -436,9 +451,10 @@ public class AbstractParser {
 
 								triplesToAdd.add(trToAdd);
 
+							}
 
-							}	
 						} 
+
 
 						// False branch
 						if (falseExitPoints.contains(trueBody.getRight())) {
@@ -523,7 +539,7 @@ public class AbstractParser {
 										triplesToAdd.add(trToAdd);
 
 									}
-									
+
 									for (Transition t: a.getOutgoingTransitionsFrom(falseBody.getRight()))
 										if (pfalseExitPoints.contains(falseBody.getRight()))
 											stmts.add(Triple.of(freshExitIf, "", t.getTo().equals(falseBody.getRight()) ? freshExitIf : t.getTo()));					
@@ -545,6 +561,7 @@ public class AbstractParser {
 				stmts.addAll(reduceStatement(a_copy, q));
 
 			}
+
 			return stmts;
 		}
 
