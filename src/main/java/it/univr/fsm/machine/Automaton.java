@@ -51,13 +51,27 @@ public class Automaton {
 
 	public static void main(String[] args) {
 
-		Automaton a = Automaton.star(Automaton.makeRealAutomaton("a"));
-
-
-
-		Automaton b = Automaton.reverse(a);
-		b.minimize();
-		System.out.println(Automaton.singleSubstring(a, 0));
+		HashSet<State> states = new HashSet<State>();
+		HashSet<Transition> delta = new HashSet<Transition>();
+		
+		State q0 = new State("q0", true, false);
+		State q1 = new State("q1", false, false);
+		State q2 = new State("q2", false, false);
+		State q3 = new State("q3", false, true);
+		
+		states.add(q0);		
+		states.add(q1);
+		states.add(q2);
+		states.add(q3);
+		
+		delta.add(new Transition(q0, q0, "a"));
+		delta.add(new Transition(q0, q1, "c"));
+		delta.add(new Transition(q1, q2, "c"));
+		delta.add(new Transition(q2, q3, "c"));
+		
+		// a^*cccb^*
+		Automaton a = new Automaton(delta, states);
+		System.err.println(Automaton.substring(a, 2, 4));
 	}
 
 	/**
@@ -3035,7 +3049,7 @@ public class Automaton {
 			if (v.size() > max)
 				max = v.size();
 
-		return max; //- 2; // removes ''
+		return max; 
 	}
 
 
@@ -3150,7 +3164,6 @@ public class Automaton {
 
 	public static Automaton leftQuotient(Automaton L1, Automaton L2) {
 
-
 		Automaton result = L1.clone();
 		Automaton L1copy = L1.clone();
 
@@ -3255,6 +3268,7 @@ public class Automaton {
 
 		int i = 0;
 		a = Automaton.explodeAutomaton(a);
+
 		State currentState = a.getInitialState();
 		Automaton result = Automaton.makeEmptyLanguage();
 		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
@@ -3386,9 +3400,14 @@ public class Automaton {
 	}
 
 	public static Automaton suffixesAt(long i, Automaton automaton) {
-//		Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
-//		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;	
-		return Automaton.su(automaton, i);
+		Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+
+		if (automaton.getInitialState().isFinalState())
+			return Automaton.union(result, Automaton.makeEmptyString());
+		else 
+			return result;
+//		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
+//		return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {
@@ -3490,6 +3509,11 @@ public class Automaton {
 	}
 
 	public static Automaton substringWithUnknownEndPoint(Automaton a, long i, long j) {	 
+		Automaton first = Automaton.suffixesAt(i,a);
+		Automaton second = Automaton.suffix(Automaton.suffixesAt(j, a));
+		
+		if (Automaton.isEmptyLanguageAccepted(second))
+			return first;
 		return Automaton.rightQuotient(Automaton.suffixesAt(i,a),  Automaton.suffix(Automaton.suffixesAt(j, a)));
 	}
 
