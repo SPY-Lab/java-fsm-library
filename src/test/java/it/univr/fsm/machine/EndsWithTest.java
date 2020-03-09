@@ -1,6 +1,5 @@
 package it.univr.fsm.machine;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.univr.fsm.machine.Automaton;
 import it.univr.fsm.machine.State;
 import it.univr.fsm.machine.Transition;

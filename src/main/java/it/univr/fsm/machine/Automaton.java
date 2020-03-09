@@ -3405,8 +3405,8 @@ public class Automaton {
 		if (automaton.getInitialState().isFinalState())
 			return Automaton.union(result, Automaton.makeEmptyString());
 		else 
-			return result;
-//		return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
+			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
+//		return 
 //		return Automaton.su(automaton, i);
 	}
 
