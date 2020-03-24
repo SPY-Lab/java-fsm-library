@@ -38,6 +38,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+//import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -3172,7 +3173,6 @@ public class Automaton {
 			if (q.isInitialState())
 				q.setInitialState(false);
 
-
 		// Remove the initial state
 		for (State q : L1copy.getStates())
 			if (q.isFinalState())
@@ -3264,150 +3264,178 @@ public class Automaton {
 		return Automaton.intersection(Automaton.suffix(automaton), Automaton.exactLengthAutomaton(i));
 	}
 
-	public static Automaton su(Automaton a, long n){
+    public static Automaton su(Automaton a, long n){
 
-		int i = 0;
-		a = Automaton.explodeAutomaton(a);
+        if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());
 
-		State currentState = a.getInitialState();
-		Automaton result = Automaton.makeEmptyLanguage();
-		Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
-		//Automaton partial = a.clone();
-		HashSet<Transition> delta = (HashSet<Transition>)partial.getDelta().clone();
+        int i = 0;
+        int value = 10;
+        Automaton result = Automaton.makeEmptyLanguage();
 
-		while(i!=n){
-			partial = Automaton.explodeAutomaton(partial);
-			delta = (HashSet<Transition>)partial.getDelta().clone();
+        Automaton partial = Automaton.deleteCycle((Automaton)a.clone());
 
-			for(Transition removeT: partial.getOutgoingTransitionsFrom(currentState)){
-				HashSet<Transition> to = partial.getOutgoingTransitionsFrom(removeT.getTo());
-				if(to.size() == 0 || removeT.getTo().isFinalState()){
-					result = Automaton.makeEmptyString();
-				}
+        //visualizeAutomaton.show(partial, "partial");
+        HashSet<Transition> delta = (HashSet<Transition>)a.getDelta().clone();
 
-				for(Transition addT: to){
-					delta.add(new Transition(currentState, addT.getTo(), addT.getInput()));
-				}
+        while(i!=n){
+            value++;
+            partial = Automaton.explodeAutomaton(partial, value);
+            State currentState = partial.getInitialState();
 
-				delta.remove(removeT);
-				partial = new Automaton(delta, partial.getStates());
-			}
+            delta = (HashSet<Transition>)partial.getDelta().clone();
+            HashMap<Transition, Boolean> deleteT = new HashMap<>();
 
-			i++;
-		}
 
-		result = Automaton.union(result, new Automaton(delta, partial.getStates()));
-		result.minimize();
-		return result;
-	}
-
-	public static Automaton explodeAutomaton(Automaton a){
-		HashMap<State, ArrayList<String>>selfT = new HashMap<>();
-
-		for(Transition t : a.getDelta()){
-			if(t.getTo() == t.getFrom()){
-			    if(selfT.containsKey(t.getTo())){
-			        selfT.get(t.getTo()).add(t.getInput());
+            for(Transition removeT: partial.getOutgoingTransitionsFrom(currentState)){
+                if(!deleteT.containsKey(removeT)){
+                    deleteT.put(removeT, true);
                 }
-			    else{
-			        ArrayList<String> list = new ArrayList<>();
-			        list.add(t.getInput());
+
+                HashSet<Transition> to = partial.getOutgoingTransitionsFrom(removeT.getTo());
+                if(to.size() == 0 || removeT.getTo().isFinalState()){
+                    result = Automaton.makeEmptyString();
+                }
+
+                for(Transition addT: to){
+                    Transition newT = new Transition(currentState, addT.getTo(), addT.getInput());
+                    if(!delta.add(newT)){
+                        if(!deleteT.containsKey(newT)){
+                            deleteT.put(newT, false);
+                        }else{
+                            deleteT.replace(newT, false);
+                        }
+                    }
+                }
+
+                for(Transition t : deleteT.keySet()){
+                    if(deleteT.get(t)){
+                        delta.remove(t);
+                    }
+                }
+
+                partial = new Automaton(delta, partial.getStates());
+            }
+
+            i++;
+
+        }
+
+        result = Automaton.union(result, new Automaton(delta, partial.getStates()));
+        result.minimize();
+        return result;
+    }
+
+
+    public static Automaton explodeAutomaton(Automaton a, int value){
+        HashMap<State, ArrayList<String>>selfT = new HashMap<>();
+        //System.out.println("all'interno di expl " + a.automatonPrint());
+
+        for(Transition t : a.getDelta()){
+            if(t.getTo() == t.getFrom()){
+                if(selfT.containsKey(t.getTo())){
+                    selfT.get(t.getTo()).add(t.getInput());
+                }
+                else{
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(t.getInput());
                     selfT.put(t.getFrom(), list);
                 }
 
-			}
-		}
+            }
+        }
 
-		if(selfT.size() > 0){
-			HashMap<State, State> doubleState = new HashMap<>();
-			for (State s : selfT.keySet()){
-				doubleState.put(s, new State(s.getState() + "b", s.isInitialState(), s.isFinalState()));
-			}
+        if(selfT.size() > 0){
+            HashMap<State, State> doubleState = new HashMap<>();
+            for (State s : selfT.keySet()){
+                doubleState.put(s, new State(s.getState() + Integer.toString(value), s.isInitialState(), s.isFinalState()));
+            }
 
-			HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
+            HashSet<Transition> delta = (HashSet<Transition>) a.getDelta().clone();
 
-			for(State s: doubleState.keySet()){
-				//tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
-				//a parte l'autoanello
-				for (Transition t: a.getIncomingTransitionsTo(s)){
-					if (!t.getFrom().equals(s)) {
-						delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
-						delta.remove(t);
-					}
-				}
-				//lo stato doppione ha tutte le transizioni in uscita dello stato originale
-				//a parte l'autoanello
-				for(Transition t: a.getOutgoingTransitionsFrom(s)) {
-					if (!t.getTo().equals(s)) {
-						delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
-					}
-				}
+            for(State s: doubleState.keySet()){
+                //tutte le transizioni allo stato vengono dirottate sul nuovo stato doppione
+                //a parte l'autoanello
+                for (Transition t: a.getIncomingTransitionsTo(s)){
+                    if (!t.getFrom().equals(s)) {
+                        delta.add(new Transition(t.getFrom(), doubleState.get(s), t.getInput()));
+                        delta.remove(t);
+                    }
+                }
+                //lo stato doppione ha tutte le transizioni in uscita dello stato originale
+                //a parte l'autoanello
+                for(Transition t: a.getOutgoingTransitionsFrom(s)) {
+                    if (!t.getTo().equals(s)) {
+                        delta.add(new Transition(doubleState.get(s), t.getTo(), t.getInput()));
+                    }
+                }
 
-				//aggiunge gli autoanelli e i duplicati degli autoanelli da s a s'
+                //aggiunge gli autoanelli e i duplicati degli autoanelli da s a s'
                 for(String input: selfT.get(s)) {
                     delta.add(new Transition(doubleState.get(s), s, input));
                     delta.add(new Transition(s, s, input));
                 }
 
-			}
+            }
 
-			HashSet<State> states = (HashSet<State>)a.getStates().clone();
-			for (State s: doubleState.values()){
-				states.add(s);
-			}
+            HashSet<State> states = (HashSet<State>)a.getStates().clone();
+            for(State s: selfT.keySet()){
+                s.setInitialState(false);
+            }
+            for (State s: doubleState.values()){
+                states.add(s);
+            }
 
-			return new Automaton(delta, states);
-		}
+            return new Automaton(delta, states);
+        }
 
-		return a;
-	}
+        return a;
+    }
 
-	/**
-	 * The method deletes the cycles that run through the initial state
-	 * @param a
-	 * @return
-	 */
-	public static Automaton deleteCycle(Automaton a){
-		boolean cycleOnStart = false;
-		for(Transition t: a.getDelta()){
-			if(t.getTo().equals(a.getInitialState())){
-				cycleOnStart = true;
-			}
-		}
+    public static Automaton deleteCycle(Automaton a){
 
-		if(!cycleOnStart){
-			return a;
-		}
+        /*if (a.isSingleString())
+            a = Automaton.makeRealAutomaton(a.getSingleString());*/
 
-		HashSet<Transition> delta = new HashSet<>();
-		State q0Clone = new State("q0b", false, a.getInitialState().isFinalState());
-		for(Transition t: a.getDelta()){
-			if(!t.getTo().equals(a.getInitialState())) {
-				delta.add(t);
-			}else{
-				delta.add(new Transition(t.getFrom(), q0Clone, t.getInput()));
-			}
+        boolean cycleOnStart = false;
+        for(Transition t: a.getDelta()){
+            if(t.getTo().equals(a.getInitialState())){
+                cycleOnStart = true;
+            }
+        }
 
-			if(t.getFrom().equals(a.getInitialState())){
-				delta.add(new Transition(q0Clone, t.getTo(), t.getInput()));
-			}
-		}
+        if(!cycleOnStart){
+            return a;
+        }
 
-		HashSet<State> states = (HashSet<State>) a.getStates().clone();
-		states.add(q0Clone);
-		return new Automaton(delta, states);
+        HashSet<Transition> delta = new HashSet<>();
+        State q0Clone = new State("q0b", false, a.getInitialState().isFinalState());
+        for(Transition t: a.getDelta()){
+            if(!t.getTo().equals(a.getInitialState())) {
+                delta.add(t);
+            }else{
+                delta.add(new Transition(t.getFrom(), q0Clone, t.getInput()));
+            }
 
-	}
+            if(t.getFrom().equals(a.getInitialState())){
+                delta.add(new Transition(q0Clone, t.getTo(), t.getInput()));
+            }
+        }
 
-	public static Automaton suffixesAt(long i, Automaton automaton) {
-		Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));	
+        HashSet<State> states = (HashSet<State>) a.getStates().clone();
+        states.add(q0Clone);
+        return new Automaton(delta, states);
+
+    }
+
+    public static Automaton suffixesAt(long i, Automaton automaton) {
+		/*Automaton result = Automaton.leftQuotient(automaton, Automaton.prefixAtMost(i, automaton));
 
 		if (automaton.getInitialState().isFinalState())
 			return Automaton.union(result, Automaton.makeEmptyString());
 		else 
-			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;
-//		return 
-//		return Automaton.su(automaton, i);
+			return Automaton.isEmptyLanguageAccepted(result) ? Automaton.makeEmptyString() : result;*/
+		return Automaton.su(automaton, i);
 	}
 
 	public static Automaton singleParameterSubstring(Automaton a, long i) {

@@ -5,7 +5,11 @@ import it.univr.fsm.machine.State;
 import it.univr.fsm.machine.Transition;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public class SuffixTest{
 
@@ -24,7 +28,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 1);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -42,7 +46,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 1);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -61,7 +65,7 @@ public class SuffixTest{
         Automaton resultR = Automaton.su(a, 3);
         System.out.println("Result --> " + resultR);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -77,7 +81,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 6);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -95,7 +99,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 6);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -112,7 +116,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 100);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -149,7 +153,7 @@ public class SuffixTest{
     	
     	Automaton r = new Automaton(deltaR, statesR);
 
-    	Automaton exp = Automaton.explodeAutomaton(a);
+    	Automaton exp = Automaton.explodeAutomaton(a, 1);
 
         Automaton resultR = Automaton.su(a, 1);
 
@@ -173,7 +177,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 1);
 
-        Assert.assertEquals(resultR, result);
+        Assert.assertEquals(result, resultR);
     }
 
     @Test
@@ -528,7 +532,7 @@ public class SuffixTest{
 
         Automaton resultR = Automaton.su(a, 1);
 
-        Assert.assertEquals(resultR, r);
+        Assert.assertEquals(r, resultR);
 
     }
 
@@ -571,35 +575,27 @@ public class SuffixTest{
 
     @Test
     public void SuffixTest018(){
-        HashSet<State> states = new HashSet<>();
-        State q0 = new State("q0", true, true);
-        states.add(q0);
+        Automaton  a = Automaton.makeAutomaton("hello");
 
-        HashSet<Transition> delta = new HashSet<>();
-        delta.add(new Transition(q0, q0, "a"));
+        List<String> ss =  new ArrayList<>(Arrays.asList("hello", "ello", "llo", "lo", "o"));
 
-        Automaton  a = new Automaton(delta, states);
+        HashSet<Automaton> automata = new HashSet<>();
+        HashSet<Automaton> resultH = new HashSet<>();
+        for (String s : ss)
+            automata.add(Automaton.makeAutomaton(s));
+
+        automata.add(Automaton.makeEmptyString());
+        Automaton result = Automaton.union(automata);
+
+        for(int i = 0; i < 6; i++){
+            resultH.add(Automaton.su(a, i));
+        }
+
+        Automaton resultR = Automaton.union(resultH);
+
+        Assert.assertEquals(result, resultR);
+
 
     }
-
-    @Test
-    public void SuffixTest019(){
-        HashSet<State> states = new HashSet<>();
-        State q0 = new State("q0", true, true);
-        State q1 = new State("q1", false, false);
-        states.add(q0);
-        states.add(q1);
-
-        HashSet<Transition> delta = new HashSet<>();
-        delta.add(new Transition(q0, q1, "a"));
-        delta.add(new Transition(q1, q0, "c"));
-
-        Automaton  a = new Automaton(delta, states);
-
-    }
-
-
-
-
 
 }

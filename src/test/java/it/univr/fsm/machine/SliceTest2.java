@@ -530,5 +530,24 @@ public class SliceTest2 {
         Assert.assertEquals(resultR, result);
     }
 
+    @Test
+    public void sliceTest023() {
 
+        HashSet<Automaton> set = new HashSet<>();
+        set.add(Automaton.makeAutomaton("panda"));
+        set.add(Automaton.makeAutomaton("pandemonium"));
+        Automaton a = Automaton.union(set);
+
+        long start = 6;
+        long end = 12;
+
+        HashSet<Automaton> r = new HashSet<>();
+        r.add(Automaton.makeEmptyString());
+        r.add(Automaton.makeAutomaton("onium"));
+        Automaton result = Automaton.union(r);
+
+        Automaton resultR = Automaton.slice(a, start, end);
+
+        Assert.assertEquals(result, resultR);
+    }
 }
