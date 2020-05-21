@@ -1,8 +1,5 @@
 package it.univr.fsm.machine;
 
-import it.univr.fsm.machine.Automaton;
-import it.univr.fsm.machine.State;
-import it.univr.fsm.machine.Transition;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.HashSet;
